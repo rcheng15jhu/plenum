@@ -22,6 +22,8 @@ public class DBPersistenceTest {
 
         String sql = "DROP TABLE IF EXISTS Authors";
         st.execute(sql);
+        String sq2 = "DROP TABLE IF EXISTS Books";
+        st.execute(sq2);
     }
 
     @Before

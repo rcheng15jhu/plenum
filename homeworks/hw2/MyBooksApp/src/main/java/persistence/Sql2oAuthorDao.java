@@ -42,8 +42,6 @@ public class Sql2oAuthorDao implements AuthorDao {
             con.createQuery(query).executeUpdate();
             con.commit();
             return true;
-        } catch (DaoException e) {
-            throw e;
         }
     }
 

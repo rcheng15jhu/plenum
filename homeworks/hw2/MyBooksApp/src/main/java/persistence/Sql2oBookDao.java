@@ -41,13 +41,11 @@ public class Sql2oBookDao implements BookDao {
             con.createQuery(query).executeUpdate();
             con.commit();
             return true;
-        } catch (DaoException e) {
-            throw e;
         }
     }
 
     @Override
-    public boolean update(Book book) {
+    public boolean update(Book book) throws DaoException {
         try (Connection con = sql2o.beginTransaction()) {
             String query = "UPDATE FROM BOOKS" +
             "SET title=" + book.getTitle() + ", publisher=" + book.getPublisher() +
