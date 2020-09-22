@@ -8,6 +8,10 @@ persistence/AuthorDao.java
  persistence.AuthorDao
 persistence/Sql2oAuthorDao.java
  persistence.Sql2oAuthorDao
+persistence/Sql2oBookDao.java
+ persistence.Sql2oBookDao
+persistence/BookDao.java
+ persistence.BookDao
 persistence/Persister.java
  persistence.Persister
 model/Book.java

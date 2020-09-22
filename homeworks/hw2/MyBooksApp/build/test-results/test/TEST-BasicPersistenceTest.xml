@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="BasicPersistenceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-09-22T17:48:10" hostname="328071b43efb" time="0.092">
+<testsuite name="BasicPersistenceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-09-22T18:38:30" hostname="328071b43efb" time="0.075">
   <properties/>
-  <testcase name="testAuthorPersistence" classname="BasicPersistenceTest" time="0.004"/>
-  <testcase name="testGsonAuthorPersistence" classname="BasicPersistenceTest" time="0.078"/>
+  <testcase name="testAuthorPersistence" classname="BasicPersistenceTest" time="0.003"/>
+  <testcase name="testGsonAuthorPersistence" classname="BasicPersistenceTest" time="0.063"/>
   <testcase name="testPropertyAuthorPersistence" classname="BasicPersistenceTest" time="0.009"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

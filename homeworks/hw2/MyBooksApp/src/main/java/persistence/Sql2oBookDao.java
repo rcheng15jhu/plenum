@@ -12,7 +12,6 @@ public class Sql2oBookDao implements BookDao {
     public Sql2oBookDao(Sql2o sql2o) {
         this.sql2o = sql2o;
     }
-// String title, String isbn, String publisher, int year, Author author
 
     @Override
     public int add(Book book) throws DaoException {
@@ -49,7 +48,14 @@ public class Sql2oBookDao implements BookDao {
 
     @Override
     public boolean update(Book book) {
-        return false;
+        try (Connection con = sql2o.beginTransaction()) {
+            String query = "UPDATE FROM BOOKS" +
+            "SET title=" + book.getTitle() + ", publisher=" + book.getPublisher() +
+            ", year=" + book.getYear() + ", author=" + book.getAuthor() +
+            "WHERE isbn=" + book.getIsbn();            con.createQuery(query).executeUpdate();
+            con.commit();
+            return true;
+        }
     }
-
 }
+
