@@ -33,4 +33,13 @@ public class DBPersistenceTest {
                 " numOfBooks INTEGER, nationality VARCHAR(30));";
         st.execute(sql);
     }
+
+    @Test
+    public void testUpdateAuthor() throws SQLException {
+
+        auth = Author('Emily St. John Mandel', 5, 'Canadian');
+        add(auth);
+        auth1 = Author('Emily St. John Mandel', 7, 'American');
+        assertTrue(update(auth1));
+    }
 }
