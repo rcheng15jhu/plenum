@@ -35,5 +35,22 @@ public class Sql2oAuthorDao implements AuthorDao {
         }
     }
 
+    @Override
+    public boolean delete(Author author) throws DaoException {
+        try (Connection con = sql2o.beginTransaction()) {
+            String query = "DELETE FROM Authors WHERE name=" + author.getName();
+            con.createQuery(query).executeUpdate();
+            con.commit();
+            return true;
+        } catch (DaoException e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean update(Author author) {
+        return false;
+    }
+
 
 }

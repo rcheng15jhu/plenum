@@ -1,0 +1,20 @@
+exception/DaoException.java
+ exception.DaoException
+persistence/AuthorPersister.java
+ persistence.AuthorPersister
+Main.java
+ Main
+persistence/AuthorDao.java
+ persistence.AuthorDao
+persistence/Sql2oAuthorDao.java
+ persistence.Sql2oAuthorDao
+persistence/Persister.java
+ persistence.Persister
+model/Book.java
+ model.Book
+persistence/GsonAuthorPersister.java
+ persistence.GsonAuthorPersister
+model/Author.java
+ model.Author
+persistence/PropertyAuthorPersister.java
+ persistence.PropertyAuthorPersister

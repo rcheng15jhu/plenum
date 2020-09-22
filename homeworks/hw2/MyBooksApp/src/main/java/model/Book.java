@@ -8,6 +8,7 @@ public class Book {
     private String publisher;
     private int year;
     private Author author;
+    private int id;
 
     public Book(String title, String isbn, String publisher, int year, Author author) {
         this.title = title;
@@ -15,6 +16,10 @@ public class Book {
         this.publisher = publisher;
         this.year = year;
         this.author = author;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
