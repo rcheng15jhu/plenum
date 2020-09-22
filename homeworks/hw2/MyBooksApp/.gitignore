@@ -1,4 +1,6 @@
 *.gradle/
+*.devcontainer/
+*.vscode/
 *bin/
 *build/
 *MyBooksApp.db

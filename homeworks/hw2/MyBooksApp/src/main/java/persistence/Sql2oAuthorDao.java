@@ -57,5 +57,3 @@ public class Sql2oAuthorDao implements AuthorDao {
         }
     }
 }
-
-// test 
