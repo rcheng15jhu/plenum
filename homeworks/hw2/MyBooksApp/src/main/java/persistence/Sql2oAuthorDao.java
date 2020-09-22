@@ -48,9 +48,12 @@ public class Sql2oAuthorDao implements AuthorDao {
     }
 
     @Override
-    public boolean update(Author author) {
-        return false;
+    public boolean update(Author author) throws DaoException {
+        try (Connection con = sql2o.beginTransaction()) {
+            String query = "UPDATE Authors" + "SET numOfBooks = " + author.getNumOfBooks() + ", nationality = " + author.getNationality() + "WHERE name = " + author.getName();
+            con.createQuery(query).executeUpdate();
+            con.commit();
+            return true;
+        }
     }
-
-
 }
