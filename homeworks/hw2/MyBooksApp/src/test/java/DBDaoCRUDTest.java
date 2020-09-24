@@ -105,14 +105,14 @@ public class DBDaoCRUDTest {
       assertEquals(b1, result.get(0));
     }
 
-/*
+    @Test
     public void testUpdateAuthor() {
         authorDao.add(a1);
         assertTrue(authorDao.update(a2));
         List<Author> list;
         try(Connection conn = sql2o.open()) {
-            String sql = "Select * FROM Authors WHERE name = Emily St. John Mandel";
-            list = conn.createQuery(sql).executeAndFetch(Author.class);
+            String sql = "Select * FROM Authors WHERE name = :name";
+            list = conn.createQuery(sql).bind(a1).executeAndFetch(Author.class);
         }
         assertEquals(a2, list.get(0));
     }
