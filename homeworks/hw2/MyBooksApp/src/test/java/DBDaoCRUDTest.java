@@ -106,35 +106,6 @@ public class DBDaoCRUDTest {
     }
 
     @Test
-    public void testDeleteAuthor() {
-      authorDao.add(a1);
-      assertTrue(authorDao.delete(a1));
-      List<Author> list;
-      try(Connection conn = sql2o.open()) {
-        String sql = "Select * FROM Authors WHERE name = :name";
-        list = conn.createQuery(sql)
-                .bind(a1)
-                .executeAndFetch(Author.class);
-      }
-      assertEquals(0, list.size());
-    }
-
-    @Test
-    public void testDeleteBook() {
-      authorDao.add(a3);
-      bookDao.add(b1);
-      assertTrue(bookDao.delete(b1));
-      List<Book> list;
-      try(Connection conn = sql2o.open()) {
-        String sql = "Select * FROM Books WHERE isbn = :isbn";
-        list = conn.createQuery(sql)
-                .bind(b1)
-                .executeAndFetch(Book.class);
-      }
-      assertEquals(0, list.size());
-    }
-
-    @Test
     public void testUpdateAuthor() {
         authorDao.add(a1);
         a1.setNumOfBooks(7);
