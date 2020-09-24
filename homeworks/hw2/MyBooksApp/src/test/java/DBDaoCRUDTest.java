@@ -41,9 +41,11 @@ public class DBDaoCRUDTest {
 
         a1 = new Author("Emily St. John Mandel", 5, "Canadian");
         a2 = new Author("Emily St. John Mandel", 7, "American");
+        a3 = new Author("J. R. R. Tolkien", 23, "American");
+        a4 = new Author("George. R. R. Martin", 5, "American");
 
-        b1 = new Book("The Hobbit", "9780547928227", "George Allen and Unwin", 1937, "J. R. R. Tolkien")
-        b2 = new Book("Song of Ice and Fire", "9780547928227", "Bantam Books", 1996, "George. R. R. Martin")
+        b1 = new Book("The Hobbit", "9780547928227", "George Allen and Unwin", 1937, a3);
+        b2 = new Book("Song of Ice and Fire", "9780547928227", "Bantam Books", 1996, a4);
 
         try (Connection conn = sql2o.open()) {
           String sq1 = "CREATE TABLE IF NOT EXISTS Authors (" +
