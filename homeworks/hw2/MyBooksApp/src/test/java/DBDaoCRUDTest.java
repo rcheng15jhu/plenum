@@ -37,19 +37,35 @@ public class DBDaoCRUDTest {
 
     @Before
     public void beforeEachTest() throws SQLException {
-
         bookDao = new Sql2oBookDao();
         authorDao = new Sql2oAuthorDao();
 
-        String sql = "CREATE TABLE IF NOT EXISTS Authors (id INTEGER PRIMARY KEY, name VARCHAR(100) NOT NULL UNIQUE," +
-                " numOfBooks INTEGER, nationality VARCHAR(30));";
-        st.execute(sql);
+        a1 = new Author("Emily St. John Mandel", 5, "Canadian");
+        a2 = new Author("Emily St. John Mandel", 7, "American");
 
-        a1 = Author('Emily St. John Mandel', 5, 'Canadian');
-        a2 = Author('Emily St. John Mandel', 7, 'American');
+        String sql = "CREATE TABLE IF NOT EXISTS Authors (" +
+                " id            INTEGER PRIMARY KEY," +
+                " name          VARCHAR(100) NOT NULL UNIQUE," +
+                " numOfBooks    INTEGER," +
+                " nationality   VARCHAR(30));";
+        st.execute(sql);
+        String sq2 = "CREATE TABLE IF NOT EXISTS Books (" +
+                " id        INTEGER PRIMARY KEY," +
+                " title     VARCHAR(100) NOT NULL," +
+                " isbn      VARCHAR(100) NOT NULL UNIQUE," +
+                " publisher VARCHAR(100)," +
+                " year      INTEGER," +
+                " authorId  INTEGER NOT NULL," +
+                " FOREIGN KEY(authorId)" +
+                " REFERENCES Authors (id)" +
+                "   ON UPDATE CASCADE" +
+                "   ON DELETE CASCADE);";
+        st.execute(sq2);
+
+//        (title, isbn, publisher, year, author)" +
     }
 
-    @Test
+/*    @Test
     public void testUpdateAuthor() throws SQLException {
 
         auth = Author('Emily St. John Mandel', 5, 'Canadian');
@@ -69,4 +85,5 @@ public class DBDaoCRUDTest {
             System.out.println("Exception thrown for deleting author");
         }
     }
+    }*/
 }
