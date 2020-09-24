@@ -1,5 +1,6 @@
 import model.Author;
 import model.Book;
+import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import persistence.Sql2oAuthorDao;
@@ -7,8 +8,9 @@ import persistence.Sql2oBookDao;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import static org.junit.Assert.*;
 
-import java.sql.SQLException;
+import java.util.List;
 
 
 public class DBDaoCRUDTest {
@@ -24,9 +26,9 @@ public class DBDaoCRUDTest {
     private static Book b2;
 
     @BeforeClass
-    public static void beforeClassTests() throws SQLException {
+    public static void beforeClassTests() {
         String URI = "jdbc:sqlite:./MyBooksApp.db";
-        Sql2o sql2o = new Sql2o(URI, "sa", "");
+        sql2o = new Sql2o(URI, "", "");
         try (Connection conn = sql2o.open()) {
           String sq1 = "DROP TABLE IF EXISTS Authors";
           conn.createQuery(sq1).executeUpdate();
@@ -71,8 +73,18 @@ public class DBDaoCRUDTest {
                   ");";
           conn.createQuery(sq2).executeUpdate();
         }
+    }
 
-//        (title, isbn, publisher, year, author)" +
+    @Test
+    public void addAuthorTest() {
+      authorDao.add(a1);
+      List<Integer> result;
+      try(Connection conn = sql2o.open()) {
+        String sq1 = "Select * FROM Authors WHERE name = " + a1.getName();
+        result = conn.createQuery(sq1).executeAndFetch(Integer.class);
+      }
+      assertEquals(1, result.size());
+      assertEquals(a1.getNumOfBooks(), (int) result.get(0));
     }
 
 /*    @Test
