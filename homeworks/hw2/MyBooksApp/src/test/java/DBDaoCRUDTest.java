@@ -1,21 +1,19 @@
 import model.Author;
+import model.Book;
+import org.sql2o.Connection;
+import org.sql2o.Sql2o;
 import persistence.Sql2oAuthorDao;
 import persistence.Sql2oBookDao;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
-import java.sql.*;
-
-import static org.junit.Assert.*;
+import java.sql.SQLException;
 
 
 public class DBDaoCRUDTest {
 
-    private static String URI;
-    private static Connection conn;
-    private static Statement st;
+    private static Sql2o sql2o;
     private static Sql2oAuthorDao authorDao;
     private static Sql2oBookDao bookDao;
     private static Author a1;
@@ -25,42 +23,47 @@ public class DBDaoCRUDTest {
 
     @BeforeClass
     public static void beforeClassTests() throws SQLException {
-        URI = "jdbc:sqlite:./MyBooksApp.db";
-        conn = DriverManager.getConnection(URI);
-        st = conn.createStatement();
+        String URI = "jdbc:sqlite:./MyBooksApp.db";
+        Sql2o sql2o = new Sql2o(URI, "sa", "");
+        try (Connection conn = sql2o.open()) {
+          String sq1 = "DROP TABLE IF EXISTS Authors";
+          conn.createQuery(sq1).executeUpdate();
+          String sq2 = "DROP TABLE IF EXISTS Books";
+          conn.createQuery(sq2).executeUpdate();
+        }
+        authorDao = new Sql2oAuthorDao(sql2o);
+        bookDao = new Sql2oBookDao(sql2o, authorDao);
 
-        String sql = "DROP TABLE IF EXISTS Authors";
-        st.execute(sql);
-        String sq2 = "DROP TABLE IF EXISTS Books";
-        st.execute(sq2);
     }
 
     @Before
-    public void beforeEachTest() throws SQLException {
-        bookDao = new Sql2oBookDao();
-        authorDao = new Sql2oAuthorDao();
+    public void beforeEachTest() {
 
         a1 = new Author("Emily St. John Mandel", 5, "Canadian");
         a2 = new Author("Emily St. John Mandel", 7, "American");
 
-        String sql = "CREATE TABLE IF NOT EXISTS Authors (" +
-                " id            INTEGER PRIMARY KEY," +
-                " name          VARCHAR(100) NOT NULL UNIQUE," +
-                " numOfBooks    INTEGER," +
-                " nationality   VARCHAR(30));";
-        st.execute(sql);
-        String sq2 = "CREATE TABLE IF NOT EXISTS Books (" +
-                " id        INTEGER PRIMARY KEY," +
-                " title     VARCHAR(100) NOT NULL," +
-                " isbn      VARCHAR(100) NOT NULL UNIQUE," +
-                " publisher VARCHAR(100)," +
-                " year      INTEGER," +
-                " authorId  INTEGER NOT NULL," +
-                " FOREIGN KEY(authorId)" +
-                " REFERENCES Authors (id)" +
-                "   ON UPDATE CASCADE" +
-                "   ON DELETE CASCADE);";
-        st.execute(sq2);
+        try (Connection conn = sql2o.open()) {
+          String sq1 = "CREATE TABLE IF NOT EXISTS Authors (" +
+                  " id            INTEGER PRIMARY KEY," +
+                  " name          VARCHAR(100) NOT NULL UNIQUE," +
+                  " numOfBooks    INTEGER," +
+                  " nationality   VARCHAR(30)" +
+                  ");";
+          conn.createQuery(sq1).executeUpdate();
+          String sq2 = "CREATE TABLE IF NOT EXISTS Books (" +
+                  " id        INTEGER PRIMARY KEY," +
+                  " title     VARCHAR(100) NOT NULL," +
+                  " isbn      VARCHAR(100) NOT NULL UNIQUE," +
+                  " publisher VARCHAR(100)," +
+                  " year      INTEGER," +
+                  " authorId  INTEGER NOT NULL," +
+                  " FOREIGN KEY(authorId)" +
+                  " REFERENCES Authors (id)" +
+                  "   ON UPDATE CASCADE" +
+                  "   ON DELETE CASCADE" +
+                  ");";
+          conn.createQuery(sq2).executeUpdate();
+        }
 
 //        (title, isbn, publisher, year, author)" +
     }
