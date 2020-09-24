@@ -24,17 +24,20 @@ public class Sql2oBookDao implements BookDao {
 
             //check if author id exists
             String sql = "SELECT id FROM Authors" +
-                    "WHERE id=" + au.getId();
-            List<Integer> result = con.createQuery(sql).executeAndFetch(Integer.class);
+                    "WHERE id = :id";
+            List<Integer> result = con.createQuery(sql)
+                    .bind(au)
+                    .executeAndFetch(Integer.class);
             if (result == null || result.size() == 0) {
                 throw new DaoException();
             }
 
             //add book to table if author id exists
-            String query2 = "INSERT INTO Books (title, isbn, publisher, year, author)" +
-                    "VALUES (:title, :isbn, :publisher, :year, :author)";
+            String query2 = "INSERT INTO Books (title, isbn, publisher, year, authorId)" +
+                    "VALUES (:title, :isbn, :publisher, :year, :authorId)";
             int id = (int) con.createQuery(query2, true)
                     .bind(book)
+                    .addParameter("authorId", result.get(0))
                     .executeUpdate().getKey();
             book.setId(id);
 
@@ -57,8 +60,10 @@ public class Sql2oBookDao implements BookDao {
     @Override
     public boolean delete(Book book) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String query = "DELETE FROM Books WHERE isbn=" + book.getIsbn();
-            con.createQuery(query).executeUpdate();
+            String query = "DELETE FROM Books WHERE isbn = :isbn";
+            con.createQuery(query)
+                    .bind(book)
+                    .executeUpdate();
             return true;
         }
     }
@@ -67,8 +72,8 @@ public class Sql2oBookDao implements BookDao {
     public boolean update(Book book) throws DaoException {
         try (Connection con = sql2o.open()) {
             String query = "UPDATE FROM BOOKS" +
-                    "SET title=" + book.getTitle() + ", publisher=" + book.getPublisher() +
-                    ", year=" + book.getYear() + ", author=" + book.getAuthor() +
+                    "SET title = :title, publisher = :publisher" +
+                    ", year = " + book.getYear() + ", author=" + book.getAuthor() +
                     "WHERE isbn=" + book.getIsbn();
             con.createQuery(query).executeUpdate();
             return true;

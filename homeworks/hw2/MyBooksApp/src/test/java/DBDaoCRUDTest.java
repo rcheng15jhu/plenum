@@ -82,7 +82,8 @@ public class DBDaoCRUDTest {
       try(Connection conn = sql2o.open()) {
         String sq1 = "Select * FROM Authors WHERE name = :name";
         result = conn.createQuery(sq1)
-                .addParameter("name", a1.getName())
+                .bind(a1)
+                //.addParameter("name", a1.getName())
                 .executeAndFetch(Author.class);
       }
       assertEquals(1, result.size());
@@ -90,6 +91,21 @@ public class DBDaoCRUDTest {
     }
 
     @Test
+    public void addBookTest() {
+      authorDao.add(a3);
+      bookDao.add(b1);
+      List<Book> result;
+      try (Connection conn = sql2o.open()) {
+        String sq1 = "Select * FROM Books WHERE isbn = :isbn";
+        result = conn.createQuery(sq1)
+                .bind(b1)
+                .executeAndFetch(Book.class);
+      }
+      assertEquals(1, result.size());
+      assertEquals(b1, result.get(0));
+    }
+
+/*    @Test
     public void testUpdateAuthor() throws SQLException {
         authorDao.add(a1);
         assertTrue(update(a2));
@@ -115,7 +131,7 @@ public class DBDaoCRUDTest {
         assertTrue(list.get(0).getYear == 1996);
         assertTrue(list.get(0).getAuthor.equals(a4);
         assertTrue(list.get(0).getPublisher.equals("Bantam Books");
-    }
+    }*/
 
 
 /*    public void testDeleteAuthor() throws SQLException {
