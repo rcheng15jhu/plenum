@@ -42,6 +42,9 @@ public class DBDaoCRUDTest {
         a1 = new Author("Emily St. John Mandel", 5, "Canadian");
         a2 = new Author("Emily St. John Mandel", 7, "American");
 
+        b1 = new Book("The Hobbit", "9780547928227", "George Allen and Unwin", 1937, "J. R. R. Tolkien")
+        b2 = new Book("Song of Ice and Fire", "9780547928227", "Bantam Books", 1996, "George. R. R. Martin")
+
         try (Connection conn = sql2o.open()) {
           String sq1 = "CREATE TABLE IF NOT EXISTS Authors (" +
                   " id            INTEGER PRIMARY KEY," +
@@ -70,12 +73,18 @@ public class DBDaoCRUDTest {
 
 /*    @Test
     public void testUpdateAuthor() throws SQLException {
+        st.add(a1);
+        assertTrue(update(a2));
+        String sql = "Select * numOfBooks FROM Authors WHERE name = Emily St. John Mandel";
 
-        auth = Author('Emily St. John Mandel', 5, 'Canadian');
-        add(auth);
-        auth1 = Author('Emily St. John Mandel', 7, 'American');
-        assertTrue(update(auth1));
     }
+
+    @Test
+    public void testUpdateBook() throws SQLException {
+        st.add(b1);
+        assertTrue(update(b2));
+    }
+
 
     public void testDeleteAuthor() throws SQLException {
         st.add(a1);
