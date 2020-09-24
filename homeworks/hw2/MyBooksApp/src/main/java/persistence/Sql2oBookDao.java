@@ -72,10 +72,14 @@ public class Sql2oBookDao implements BookDao {
     public boolean update(Book book) throws DaoException {
         try (Connection con = sql2o.open()) {
             String query = "UPDATE FROM BOOKS" +
-                    "SET title = :title, publisher = :publisher" +
-                    ", year = " + book.getYear() + ", author=" + book.getAuthor() +
-                    "WHERE isbn=" + book.getIsbn();
-            con.createQuery(query).executeUpdate();
+                    "SET title = :title" +
+                    ", publisher = :publisher" +
+                    ", year = :year" +
+                    ", author = :author" +
+                    "WHERE isbn = :isbn";
+            con.createQuery(query)
+                    .bind(book)
+                    .executeUpdate();
             return true;
         }
     }
