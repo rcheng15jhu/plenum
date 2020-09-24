@@ -46,6 +46,18 @@ public class Book {
         this.title = title;
     }
 
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
     @Override
     public String toString() {
         return "Book{" +

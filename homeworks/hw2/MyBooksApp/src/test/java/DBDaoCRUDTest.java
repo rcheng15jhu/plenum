@@ -126,13 +126,17 @@ public class DBDaoCRUDTest {
         authorDao.add(a3);
         authorDao.add(a4);
         bookDao.add(b1);
-        assertTrue(bookDao.update(b2));
+        b1.setAuthor(a4);
+        b1.setYear(1996);
+        b1.setTitle("Song of Ice and Fire");
+        b1.setPublisher("Bantam Books");
+        assertTrue(bookDao.update(b1));
         List<Book> list;
         try(Connection conn = sql2o.open()) {
             String sql = "Select * FROM Books WHERE isbn = 9780547928227";
             list = conn.createQuery(sql).executeAndFetch(Book.class);
         }
-        assertEquals(b2, list.get(1));
+        assertEquals(b1, list.get(0));
     }
 
 }
