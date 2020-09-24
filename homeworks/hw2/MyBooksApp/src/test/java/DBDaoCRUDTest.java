@@ -119,6 +119,8 @@ public class DBDaoCRUDTest {
 
     @Test
     public void testUpdateBook() {
+        authorDao.add(a3);
+        authorDao.add(a4);
         bookDao.add(b1);
         assertTrue(bookDao.update(b2));
         List<Book> list;
