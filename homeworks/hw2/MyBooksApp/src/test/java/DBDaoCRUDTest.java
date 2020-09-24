@@ -1,3 +1,4 @@
+import exception.DaoException;
 import model.Author;
 import model.Book;
 import org.junit.Test;
@@ -115,6 +116,11 @@ public class DBDaoCRUDTest {
 
         //Author has to exist for the book to be added
         assertEquals(b1.getAuthor().getName(), authors.get(0).getName());
+    }
+
+    @Test (expected = DaoException.class)
+    public void testExceptionOnNoAuthorBook() {
+      bookDao.add(b1);
     }
 
     @Test
