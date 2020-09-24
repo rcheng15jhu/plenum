@@ -26,7 +26,7 @@ public class Sql2oBookDao implements BookDao {
             String sql = "SELECT id FROM Authors" +
                     "WHERE id=" + au.getId();
             List<Integer> result = con.createQuery(sql).executeAndFetch(Integer.class);
-            if (result == null) {
+            if (result == null || result.size() == 0) {
                 throw new DaoException();
             }
 
