@@ -105,16 +105,49 @@ public class DBDaoCRUDTest {
       assertEquals(b1, result.get(0));
     }
 
-/*
+    @Test
+    public void testDeleteAuthor() {
+      authorDao.add(a1);
+      assertTrue(authorDao.delete(a1));
+      List<Author> list;
+      try(Connection conn = sql2o.open()) {
+        String sql = "Select * FROM Authors WHERE name = :name";
+        list = conn.createQuery(sql)
+                .bind(a1)
+                .executeAndFetch(Author.class);
+      }
+      assertEquals(0, list.size());
+    }
+
+    @Test
+    public void testDeleteBook() {
+      authorDao.add(a3);
+      bookDao.add(b1);
+      assertTrue(bookDao.delete(b1));
+      List<Book> list;
+      try(Connection conn = sql2o.open()) {
+        String sql = "Select * FROM Books WHERE isbn = :isbn";
+        list = conn.createQuery(sql)
+                .bind(b1)
+                .executeAndFetch(Book.class);
+      }
+      assertEquals(0, list.size());
+    }
+
+    @Test
     public void testUpdateAuthor() {
         authorDao.add(a1);
-        assertTrue(authorDao.update(a2));
+        a1.setNumOfBooks(7);
+        a1.setNationality("Hi");
+        assertTrue(authorDao.update(a1));
         List<Author> list;
         try(Connection conn = sql2o.open()) {
-            String sql = "Select * FROM Authors WHERE name = Emily St. John Mandel";
-            list = conn.createQuery(sql).executeAndFetch(Author.class);
+            String sql = "Select * FROM Authors WHERE name = :name";
+            list = conn.createQuery(sql)
+                    .bind(a1)
+                    .executeAndFetch(Author.class);
         }
-        assertEquals(a2, list.get(0));
+        assertEquals(a1, list.get(0));
     }
 
     @Test
@@ -128,20 +161,7 @@ public class DBDaoCRUDTest {
             String sql = "Select * FROM Books WHERE isbn = 9780547928227";
             list = conn.createQuery(sql).executeAndFetch(Book.class);
         }
-        assertEquals(b2, list.get(0));
+        assertEquals(b2, list.get(1));
     }
 
-
-    public void testDeleteAuthor() throws SQLException {
-        st.add(a1);
-
-        try {
-            authorDao.delete(a1);
-            ResultSet rs = st.executeQuery(<Some SQL Statement>)
-            assertFalse(rs.next())
-        } catch(DaoException e) {
-            System.out.println("Exception thrown for deleting author");
-        }
-    }
-    }*/
 }

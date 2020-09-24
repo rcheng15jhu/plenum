@@ -24,7 +24,7 @@ public class Sql2oBookDao implements BookDao {
 
             //check if author id exists
             String sql = "SELECT id FROM Authors" +
-                    "WHERE id = :id";
+                    "WHERE name = :name";
             List<Integer> result = con.createQuery(sql)
                     .bind(au)
                     .executeAndFetch(Integer.class);
