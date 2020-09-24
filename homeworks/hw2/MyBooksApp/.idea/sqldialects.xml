@@ -2,6 +2,10 @@
 <project version="4">
   <component name="SqlDialectMappings">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    <file url="file://$PROJECT_DIR$/src/test/java/DBDaoCRUDTest.java" dialect="SQLite" />
+>>>>>>> Stashed changes
 =======
     <file url="file://$PROJECT_DIR$/src/test/java/DBDaoCRUDTest.java" dialect="SQLite" />
 >>>>>>> Stashed changes

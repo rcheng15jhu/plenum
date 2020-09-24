@@ -11,7 +11,7 @@ import java.sql.*;
 import static org.junit.Assert.*;
 
 
-public class DBPersistenceTest {
+public class DBDaoCRUDTest {
 
     private static String URI;
     private static Connection conn;
