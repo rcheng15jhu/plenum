@@ -23,7 +23,7 @@ public class Sql2oBookDao implements BookDao {
             Author au = book.getAuthor();
 
             //check if author id exists
-            String sql = "SELECT id FROM Authors" +
+            String sql = "SELECT id FROM Authors " +
                     "WHERE name = :name";
             List<Integer> result = con.createQuery(sql)
                     .bind(au)
@@ -71,14 +71,25 @@ public class Sql2oBookDao implements BookDao {
     @Override
     public boolean update(Book book) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String query = "UPDATE FROM BOOKS" +
-                    "SET title = :title" +
-                    ", publisher = :publisher" +
-                    ", year = :year" +
-                    ", author = :author" +
+
+            String sql = "SELECT id FROM Authors " +
+                    "WHERE name = :name";
+            List<Integer> result = con.createQuery(sql)
+                    .bind(book.getAuthor())
+                    .executeAndFetch(Integer.class);
+            if (result == null || result.size() == 0) {
+                throw new DaoException();
+            }
+
+            String query = "UPDATE Books " +
+                    "SET title = :title, " +
+                    "publisher = :publisher, " +
+                    "year = :year, " +
+                    "authorId = :authorId " +
                     "WHERE isbn = :isbn";
             con.createQuery(query)
                     .bind(book)
+                    .addParameter("authorId", result.get(0))
                     .executeUpdate();
             return true;
         }
