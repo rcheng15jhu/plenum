@@ -114,7 +114,7 @@ public class DBDaoCRUDTest {
         assertEquals(b1, result.get(0));
 
         //Author has to exist for the book to be added
-        assertEqual(b1.getAuthor().getName() == list.get(0).getName());
+        assertEquals(b1.getAuthor().getName(), authors.get(0).getName());
     }
 
     @Test
@@ -151,12 +151,13 @@ public class DBDaoCRUDTest {
         assertEquals(b1, list.get(0));
     }
 
-    public void testDeleteAuthor() throws SQLException {
+    @Test
+    public void testDeleteAuthor()  {
         authorDao.add(a1);
         assertTrue(authorDao.delete(a1));
 
         List<Author> list;
-        List<Books> books;
+        List<Book> books;
 
         try(Connection conn = sql2o.open()) {
             String sq1 = "Select * FROM Authors WHERE name = :name";
@@ -164,8 +165,10 @@ public class DBDaoCRUDTest {
                     .bind(a1)
                     .executeAndFetch(Author.class);
 
-            String sq2 = "Select * FROM Books WHERE author = Emily St. John Mandel";
-            books = conn.createQuery(sq2).executeAndFetch(Book.class);
+            String sq2 = "Select * FROM Books WHERE authorId = :authorId";
+            books = conn.createQuery(sq2)
+                    .addParameter("authorId", a1.getId())
+                    .executeAndFetch(Book.class);
         }
 
         //Check if author is successfully deleted
@@ -175,7 +178,9 @@ public class DBDaoCRUDTest {
         assertEquals(0, books.size());
     }
 
-    public void testDeleteBook() throws SQLException {
+    @Test
+    public void testDeleteBook() {
+        authorDao.add(a3);
         bookDao.add(b1);
         assertTrue(bookDao.delete(b1));
         List<Book> list;
