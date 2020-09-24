@@ -78,13 +78,15 @@ public class DBDaoCRUDTest {
     @Test
     public void addAuthorTest() {
       authorDao.add(a1);
-      List<Integer> result;
+      List<Author> result;
       try(Connection conn = sql2o.open()) {
-        String sq1 = "Select * FROM Authors WHERE name = " + a1.getName();
-        result = conn.createQuery(sq1).executeAndFetch(Integer.class);
+        String sq1 = "Select * FROM Authors WHERE name = :name";
+        result = conn.createQuery(sq1)
+                .addParameter("name", a1.getName())
+                .executeAndFetch(Author.class);
       }
       assertEquals(1, result.size());
-      assertEquals(a1.getNumOfBooks(), (int) result.get(0));
+      assertEquals(a1, result.get(0));
     }
 
 /*    @Test
