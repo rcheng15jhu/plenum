@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="edd0c7d7-7a0b-4424-a08d-55968d277238" name="Default Changelist" comment="" />
+    <list default="true" id="edd0c7d7-7a0b-4424-a08d-55968d277238" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/homeworks/hw2/MyBooksApp/src/main/java/persistence/Sql2oAuthorDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/homeworks/hw2/MyBooksApp/src/main/java/persistence/Sql2oAuthorDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/homeworks/hw2/MyBooksApp/src/main/java/persistence/Sql2oBookDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/homeworks/hw2/MyBooksApp/src/main/java/persistence/Sql2oBookDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/homeworks/hw2/MyBooksApp/src/test/java/DBDaoCRUDTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/homeworks/hw2/MyBooksApp/src/test/java/DBDaoCRUDTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,6 +64,7 @@
       <workItem from="1600796685170" duration="4207000" />
       <workItem from="1600801214384" duration="16000" />
       <workItem from="1600801260418" duration="308000" />
+      <workItem from="1600921377255" duration="2908000" />
     </task>
     <servers />
   </component>
