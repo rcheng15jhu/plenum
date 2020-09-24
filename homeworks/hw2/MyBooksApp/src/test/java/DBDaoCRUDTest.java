@@ -92,17 +92,29 @@ public class DBDaoCRUDTest {
 
     @Test
     public void addBookTest() {
-      authorDao.add(a3);
-      bookDao.add(b1);
-      List<Book> result;
-      try (Connection conn = sql2o.open()) {
-        String sq1 = "Select * FROM Books WHERE isbn = :isbn";
-        result = conn.createQuery(sq1)
-                .bind(b1)
-                .executeAndFetch(Book.class);
-      }
-      assertEquals(1, result.size());
-      assertEquals(b1, result.get(0));
+        authorDao.add(a3);
+        bookDao.add(b1);
+
+        List<Book> result;
+        List<Author> authors;
+        try (Connection conn = sql2o.open()) {
+            String sq1 = "Select * FROM Books WHERE isbn = :isbn";
+            result = conn.createQuery(sq1)
+                    .bind(b1)
+                    .executeAndFetch(Book.class);
+
+            String sq2 = "Select * FROM Authors WHERE name = :name";
+            authors = conn.createQuery(sq2)
+                    .bind(b1.getAuthor())
+                    .executeAndFetch(Author.class);
+        }
+
+        //Check book is added
+        assertEquals(1, result.size());
+        assertEquals(b1, result.get(0));
+
+        //Author has to exist for the book to be added
+        assertEqual(b1.getAuthor().getName() == list.get(0).getName());
     }
 
     @Test
@@ -139,4 +151,40 @@ public class DBDaoCRUDTest {
         assertEquals(b1, list.get(0));
     }
 
+    public void testDeleteAuthor() throws SQLException {
+        authorDao.add(a1);
+        assertTrue(authorDao.delete(a1));
+
+        List<Author> list;
+        List<Books> books;
+
+        try(Connection conn = sql2o.open()) {
+            String sq1 = "Select * FROM Authors WHERE name = :name";
+            list = conn.createQuery(sq1)
+                    .bind(a1)
+                    .executeAndFetch(Author.class);
+
+            String sq2 = "Select * FROM Books WHERE author = Emily St. John Mandel";
+            books = conn.createQuery(sq2).executeAndFetch(Book.class);
+        }
+
+        //Check if author is successfully deleted
+        assertEquals(0, list.size());
+
+        //Deleting an author should delete all books written by the author
+        assertEquals(0, books.size());
+    }
+
+    public void testDeleteBook() throws SQLException {
+        bookDao.add(b1);
+        assertTrue(bookDao.delete(b1));
+        List<Book> list;
+        try(Connection conn = sql2o.open()) {
+            String sql = "Select * FROM Books WHERE isbn = 9780547928227";
+            list = conn.createQuery(sql).executeAndFetch(Book.class);
+        }
+        assertEquals(0, list.size());
+    }
 }
+
+
