@@ -187,19 +187,12 @@ public class DBDaoCRUDTest {
         b2.setAuthorId(a4.getId());
         bookDao.add(b2);
 
-        try(Connection conn = sql2o.open()) {
-            System.out.println(conn.createQuery("Select * FROM Authors").executeAndFetch(Author.class));
-            System.out.println(conn.createQuery("Select * FROM Books").executeAndFetch(Book.class));
-        }
-
         assertTrue(authorDao.delete(a3));
 
         List<Author> list;
         List<Book> books;
 
         try(Connection conn = sql2o.open()) {
-            System.out.println(conn.createQuery("Select * FROM Authors").executeAndFetch(Author.class));
-            System.out.println(conn.createQuery("Select * FROM Books").executeAndFetch(Book.class));
             String sq1 = "Select * FROM Authors WHERE name = :name";
             list = conn.createQuery(sq1)
                     .bind(a3)
