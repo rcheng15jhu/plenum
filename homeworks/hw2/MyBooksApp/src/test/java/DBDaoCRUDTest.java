@@ -18,6 +18,8 @@ public class DBDaoCRUDTest {
     private static Sql2oBookDao bookDao;
     private static Author a1;
     private static Author a2;
+    private static Author a3;
+    private static Author a4;
     private static Book b1;
     private static Book b2;
 
