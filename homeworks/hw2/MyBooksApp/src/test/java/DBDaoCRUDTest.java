@@ -89,12 +89,15 @@ public class DBDaoCRUDTest {
       assertEquals(a1, result.get(0));
     }
 
-/*    @Test
+    @Test
     public void testUpdateAuthor() throws SQLException {
-        conn.add(a1);
+        authorDao.add(a1);
         assertTrue(update(a2));
-        String sql = "Select * FROM Authors WHERE name = Emily St. John Mandel";
-        List<Author> list = conn.createQuery(sql).executeAndFetch(Author.class);
+        List<Author> list;
+        try(Connection conn = sql2o.open()) {
+            String sql = "Select * FROM Authors WHERE name = Emily St. John Mandel";
+            list = conn.createQuery(sql).executeAndFetch(Author.class);
+        }
         assertTrue(list.get(0).getNumOfBooks == 7);
         assertTrue(list.get(0).getNationality.equals("American");
     }
@@ -103,8 +106,11 @@ public class DBDaoCRUDTest {
     public void testUpdateBook() throws SQLException {
         conn.add(b1);
         assertTrue(update(b2));
-        String sql = "Select * FROM Books WHERE isbn = 9780547928227";
-        List<Book> list = conn.createQuery(sql).executeAndFetch(Book.class);
+        List<Book> list;
+        try(Connection conn = sql2o.open()) {
+            String sql = "Select * FROM Books WHERE isbn = 9780547928227";
+            list = conn.createQuery(sql).executeAndFetch(Book.class);
+        }
         assertTrue(list.get(0).getTitle.equals("Song of Ice and Fire");
         assertTrue(list.get(0).getYear == 1996);
         assertTrue(list.get(0).getAuthor.equals(a4);
@@ -112,7 +118,7 @@ public class DBDaoCRUDTest {
     }
 
 
-    public void testDeleteAuthor() throws SQLException {
+/*    public void testDeleteAuthor() throws SQLException {
         st.add(a1);
 
         try {
