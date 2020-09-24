@@ -38,6 +38,9 @@ public class Sql2oAuthorDao implements AuthorDao {
     @Override
     public boolean delete(Author author) throws DaoException {
         try (Connection con = sql2o.open()) {
+            String preQ = "PRAGMA foreign_keys = ON;";
+            con.createQuery(preQ).executeUpdate();
+
             String query = "DELETE FROM Authors WHERE name = :name";
             con.createQuery(query)
                     .bind(author)
@@ -49,6 +52,9 @@ public class Sql2oAuthorDao implements AuthorDao {
     @Override
     public boolean update(Author author) throws DaoException {
         try (Connection con = sql2o.open()) {
+            String preQ = "PRAGMA foreign_keys = ON;";
+            con.createQuery(preQ).executeUpdate();
+
             String query = "UPDATE Authors " +
                     "SET numOfBooks=:numOfBooks, " +
                     "nationality=:nationality " +
