@@ -16,7 +16,7 @@ public class Sql2oBookDao implements BookDao {
     }
 
     @Override
-    public int add(Book book) throws DaoException {
+    public int add(Book book) throws DaoException, Sql2oException {
         try (Connection con = sql2o.open()) {
 
             String preQ = "PRAGMA foreign_keys = ON;";
@@ -63,7 +63,7 @@ public class Sql2oBookDao implements BookDao {
     }
 
     @Override
-    public boolean update(Book book) throws DaoException {
+    public boolean update(Book book) throws DaoException, Sql2oException {
         try (Connection con = sql2o.open()) {
 
             String preQ = "PRAGMA foreign_keys = ON;";
