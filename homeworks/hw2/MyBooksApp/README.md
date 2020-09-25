@@ -1,5 +1,9 @@
 # MyBooksApp
 
-This is a simple application we build during lectures in fall 2020 OOSE class together to practice with various concepts and technologies. This 
-is a web app conforming to Client-Server Architecture where user(s) can store/access their favorite books and authors. The app
-will store data in a database and its backend functionalities are implemented as RESTful API end-points.
+The main functionality of this package is the representation of authors and corresponding books in a way that allows
+persistence through the use of SQL databases and CRUD operations (we use sql2o for our ORM.) In addition to the main
+functionality as mentioned before, this package also includes various tests for the implementations devised. This
+package establishes a basis for setting up client-server architecture in the future.
+
+We make the general assumption that all objects we add to the database have their requisite values (e.g. name, ISBN,
+author, etc.)
