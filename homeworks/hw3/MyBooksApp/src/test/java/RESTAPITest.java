@@ -51,7 +51,7 @@ public class RESTAPITest {
     }
 
     @Test
-    public void testListAuthors() throws IOException {
+    public void testListAuthors() throws IOException { // TODO: should probably check that authors added show up in json...
         Request request = new Request.Builder()
                 .url("http://localhost:7000/authors")
                 .build();
@@ -75,7 +75,7 @@ public class RESTAPITest {
     }
 
     @Test
-    public void testListBooks() throws IOException {
+    public void testListBooks() throws IOException { // TODO: should probably check that books added show up in json...
         Request request = new Request.Builder()
                 .url("http://localhost:7000/books")
                 .build();
