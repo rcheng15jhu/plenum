@@ -5,6 +5,8 @@ import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
 import persistence.Sql2oAuthorDao;
+import persistence.Sql2oBookDao;
+
 import static spark.Spark.*;
 
 public class Server {
@@ -51,6 +53,12 @@ public class Server {
             return new Gson().toJson(a.toString());
         });
 
-        // TODO: add your new endpoints here
+        get("/books", (req, res) -> {
+            Sql2oBookDao sql2oBook = new Sql2oBookDao(getSql2o());
+            String results = new Gson().toJson(sql2oBook.listAll());
+            res.type("application/json");
+            res.status(200);
+            return results;
+        });
     }
 }
