@@ -53,6 +53,7 @@ public class Server {
             return new Gson().toJson(a.toString());
         });
 
+        //bookss route; return list of book as JSON
         get("/books", (req, res) -> {
             Sql2oBookDao sql2oBook = new Sql2oBookDao(getSql2o());
             String results = new Gson().toJson(sql2oBook.listAll());
