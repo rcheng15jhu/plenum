@@ -42,6 +42,15 @@ public class Sql2oBookDao implements BookDao {
             throw new DaoException();
         }
     }
-    // TODO: Add "delete" method from hw2 here; feel free to add more methods
+
+    public boolean delete(Book book) throws DaoException {
+        try (Connection con = sql2o.open()) {
+            String query = "DELETE FROM Books WHERE isbn = :isbn";
+            con.createQuery(query)
+                    .bind(book)
+                    .executeUpdate();
+            return true;
+        }
+    }
 
 }

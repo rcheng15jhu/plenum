@@ -1,11 +1,14 @@
 import com.google.gson.Gson;
 import model.Author;
+import model.Book;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
 import persistence.Sql2oAuthorDao;
 import persistence.Sql2oBookDao;
+
+import java.util.List;
 
 import static spark.Spark.*;
 
@@ -63,7 +66,7 @@ public class Server {
             new Sql2oBookDao(getSql2o()).add(b);
             res.status(201);
             res.type("application/json");
-            return new Gson().toJson(a.toString());
+            return new Gson().toJson(b.toString());
         });
 
         //bookss route; return list of book as JSON
@@ -79,13 +82,14 @@ public class Server {
         post("/delauthor", (req, res) -> {
             String name = req.queryParams("name");
             List<Author> result;
-            try(Connection conn = sql2o.open()) {
+            try(Connection conn = getSql2o().open()) {
                 String sq1 = "Select * FROM Authors WHERE name = :name";
                 result = conn.createQuery(sq1)
                         .addParameter("name", name)
                         .executeAndFetch(Author.class);
             }
-            new Sql2oAuthorDao(getSql2o()).delete(result.get(0));
+            Author a = result.get(0);
+            new Sql2oAuthorDao(getSql2o()).delete(a);
             res.status(200);
             res.type("application/json");
             return new Gson().toJson(a.toString());
@@ -94,17 +98,18 @@ public class Server {
         //delbook route; delete book
         post("/delbook", (req, res) -> {
             String isbn = req.queryParams("isbn");
-            List<Book> result;
-            try (Connection conn = sql2o.open()) {
+            List <Book> result;
+            try (Connection conn = getSql2o().open()) {
                 String sq1 = "Select * FROM Books WHERE isbn = :isbn";
                 result = conn.createQuery(sq1)
                         .addParameter("isbn", isbn)
                         .executeAndFetch(Book.class);
             }
-            new Sql2oBookDao(getSql2o()).delete(result.get(0));
+            Book b = result.get(0);
+            new Sql2oBookDao(getSql2o()).delete(b);
             res.status(200);
             res.type("application/json");
-            return new Gson().toJson(a.toString());
+            return new Gson().toJson(b.toString());
         });
     }
 }
