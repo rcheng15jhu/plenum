@@ -61,5 +61,22 @@ public class Server {
             res.status(200);
             return results;
         });
+
+        //delauthor route; add a new author
+        post("/delauthor", (req, res) -> {
+            String name = req.queryParams("name");
+            List<Author> result;
+            try(Connection conn = sql2o.open()) {
+                String sq1 = "Select * FROM Authors WHERE name = :name";
+                result = conn.createQuery(sq1)
+                        .bind(a1)
+                        //.addParameter("name", a1.getName())
+                        .executeAndFetch(Author.class);
+            }
+            new Sql2oAuthorDao(getSql2o()).delete(result.get(0));
+            res.status(200);
+            res.type("application/json");
+            return new Gson().toJson(a.toString());
+        });
     }
 }
