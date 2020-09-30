@@ -53,6 +53,19 @@ public class Server {
             return new Gson().toJson(a.toString());
         });
 
+        post("/addbook", (req, res) -> {
+            String title = req.queryParams("title");
+            String isbn = req.queryParams("isbn");
+            String publisher = req.queryParams("publisher");
+            int year = Integer.parseInt(req.queryParams("year"));
+            int authorID = Integer.parseInt(req.queryParams("authorID"));
+            Book b = new Book(title, isbn, publisher, year, authorID);
+            new Sql2oBookDao(getSql2o()).add(b);
+            res.status(201);
+            res.type("application/json");
+            return new Gson().toJson(a.toString());
+        });
+
         //bookss route; return list of book as JSON
         get("/books", (req, res) -> {
             Sql2oBookDao sql2oBook = new Sql2oBookDao(getSql2o());
@@ -60,6 +73,38 @@ public class Server {
             res.type("application/json");
             res.status(200);
             return results;
+        });
+
+        //delauthor route; delete author
+        post("/delauthor", (req, res) -> {
+            String name = req.queryParams("name");
+            List<Author> result;
+            try(Connection conn = sql2o.open()) {
+                String sq1 = "Select * FROM Authors WHERE name = :name";
+                result = conn.createQuery(sq1)
+                        .addParameter("name", name)
+                        .executeAndFetch(Author.class);
+            }
+            new Sql2oAuthorDao(getSql2o()).delete(result.get(0));
+            res.status(200);
+            res.type("application/json");
+            return new Gson().toJson(a.toString());
+        });
+
+        //delbook route; delete book
+        post("/delbook", (req, res) -> {
+            String isbn = req.queryParams("isbn");
+            List<Book> result;
+            try (Connection conn = sql2o.open()) {
+                String sq1 = "Select * FROM Books WHERE isbn = :isbn";
+                result = conn.createQuery(sq1)
+                        .addParameter("isbn", isbn)
+                        .executeAndFetch(Book.class);
+            }
+            new Sql2oBookDao(getSql2o()).delete(result.get(0));
+            res.status(200);
+            res.type("application/json");
+            return new Gson().toJson(a.toString());
         });
     }
 }
