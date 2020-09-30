@@ -7,5 +7,22 @@
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\JIN\IdeaProjects\2020-fall-group-fun-fun-fun\homeworks\hw2\MyBooksApp\MyBooksApp.db</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="MyBooksApp [2]" uuid="cd3a70bf-3904-4fcf-b5c9-4238e5aecdd2">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Ricky Cheng\School Archive\!Hopkins\CS\Object-Oriented Software Engineering - Fall 2020\2020-fall-group-fun-fun-fun\homeworks\hw2\MyBooksApp\MyBooksApp.db</jdbc-url>
+      <libraries>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.31.1/license.txt</url>
+        </library>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.31.1/sqlite-jdbc-3.31.1.jar</url>
+        </library>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.31.1/sqlite-jdbc-3.31.1.jar</url>
+        </library>
+      </libraries>
+    </data-source>
   </component>
 </project>
