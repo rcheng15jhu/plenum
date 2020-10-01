@@ -4,11 +4,9 @@ import java.util.Map;
 
 public class User {
 
-  public class UserCred {
-    private String name;
-    private int uniqueId;
-  }
-  private Map<String, Object> connectedAccountAuthentications;
+  private UserCred cred;
+
+  //private Map<String, Object> connectedAccountAuthentications;
   private Map<String, Calendar> storedCalendars;
   private Map<String, Event> events;
 
@@ -20,3 +18,4 @@ public class User {
     events.put(name, event);
   }
 }
+
