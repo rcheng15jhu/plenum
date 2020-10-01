@@ -70,11 +70,11 @@ frontend and a simple framework like Javalin or Sparkjava for the backend.
 
 
 ## User Stories
-List major user stories here
+> List major user stories here
 
 Please refer to the functional requirements above, which are written in user story
 form. This matches the format we had for Homework 1, where functional requirements
-and user stories were combined.
+and user stories were combined. https://piazza.com/class/kd13q8ukge2e1?cid=71_f1
 
 
 ## Wireframes
