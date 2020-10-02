@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import exception.DaoException;
 import model.Author;
 import model.Book;
 import org.sql2o.Connection;
@@ -108,16 +109,13 @@ public class Server {
         //delauthor route; delete author
         post("/delauthor", (req, res) -> {
             String name = req.queryParams("name");
-            List<Author> result;
-            try(Connection conn = getSql2o().open()) {
-                String sq1 = "Select * FROM Authors WHERE name = :name";
-                result = conn.createQuery(sq1)
-                        .addParameter("name", name)
-                        .executeAndFetch(Author.class);
+            Author a = new Author(name, 0, null);
+            try {
+                new Sql2oAuthorDao(getSql2o()).delete(a);
+                res.status(204);
+            } catch (DaoException ex) {
+                res.status(404);
             }
-            Author a = result.get(0);
-            new Sql2oAuthorDao(getSql2o()).delete(a);
-            res.status(200);
             res.type("application/json");
             return new Gson().toJson(a.toString());
         });
@@ -125,16 +123,13 @@ public class Server {
         //delbook route; delete book
         post("/delbook", (req, res) -> {
             String isbn = req.queryParams("isbn");
-            List <Book> result;
-            try (Connection conn = getSql2o().open()) {
-                String sq1 = "Select * FROM Books WHERE isbn = :isbn";
-                result = conn.createQuery(sq1)
-                        .addParameter("isbn", isbn)
-                        .executeAndFetch(Book.class);
+            Book b = new Book(null, isbn, null, 0, 0);
+            try {
+                new Sql2oBookDao(getSql2o()).delete(b);
+                res.status(204);
+            } catch (DaoException ex) {
+                res.status(404);
             }
-            Book b = result.get(0);
-            new Sql2oBookDao(getSql2o()).delete(b);
-            res.status(200);
             res.type("application/json");
             return new Gson().toJson(b.toString());
         });

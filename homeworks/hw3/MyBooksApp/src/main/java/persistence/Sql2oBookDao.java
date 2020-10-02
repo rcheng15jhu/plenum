@@ -51,6 +51,9 @@ public class Sql2oBookDao implements BookDao {
                     .executeUpdate();
             return true;
         }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
     }
 
 }

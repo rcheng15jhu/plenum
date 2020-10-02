@@ -22,20 +22,21 @@ public class RESTAPITest {
         URI = "jdbc:sqlite:./MyBooksApp.db";
         conn = DriverManager.getConnection(URI);
         st = conn.createStatement();
-
-        String sql = "DROP TABLE IF EXISTS Authors";
-        st.execute(sql);
-        String sq2 = "DROP TABLE IF EXISTS Books";
-        st.execute(sq2);
     }
 
     @Before
     public void beforeEachTest() throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS Authors (id INTEGER PRIMARY KEY, name VARCHAR(100) NOT NULL UNIQUE," +
-                " numOfBooks INTEGER, nationality VARCHAR(30));";
+        //Create new tables for each test
+        String sql = "DROP TABLE IF EXISTS Authors";
         st.execute(sql);
+        String sq2 = "DROP TABLE IF EXISTS Books";
+        st.execute(sq2);
 
-        String sq2 = "CREATE TABLE IF NOT EXISTS Books (" +
+        String sql3 = "CREATE TABLE IF NOT EXISTS Authors (id INTEGER PRIMARY KEY, name VARCHAR(100) NOT NULL UNIQUE," +
+                " numOfBooks INTEGER, nationality VARCHAR(30));";
+        st.execute(sql3);
+
+        String sq4 = "CREATE TABLE IF NOT EXISTS Books (" +
         " id        INTEGER PRIMARY KEY," +
         " title     VARCHAR(100) NOT NULL," +
         " isbn      VARCHAR(100) NOT NULL UNIQUE," +
@@ -47,7 +48,7 @@ public class RESTAPITest {
         "   ON UPDATE CASCADE" +
         "   ON DELETE CASCADE" +
         ");";
-        st.execute(sq2);
+        st.execute(sq4);
     }
 
     @Test
@@ -72,6 +73,10 @@ public class RESTAPITest {
                 .build();
         Response response = client.newCall(request).execute();
         assertEquals(201, response.code());
+
+        //adding author again would cause server error
+        Response response2 = client.newCall(request).execute();
+        assertEquals(500, response2.code());
     }
 
     @Test
@@ -81,5 +86,117 @@ public class RESTAPITest {
                 .build();
         Response response = client.newCall(request).execute();
         assertEquals(200, response.code());
+    }
+
+    @Test
+    public void testAddBook() throws IOException {
+        //Add book before Author exists
+        RequestBody postBody = new FormBody.Builder()
+                .add("title", "Old Man and the Sea")
+                .add("isbn", "0684801221")
+                .add("publisher", "Scribner; Later Printing Edition")
+                .add("year", "1995")
+                .add("authorID", "1")
+                .build();
+        Request request1 = new Request.Builder()
+                .url("http://localhost:7000/addbook")
+                .post(postBody)
+                .build();
+        Response response1 = client.newCall(request1).execute();
+        assertEquals(500, response1.code());
+
+        //Add author to Authors table (assumes /addauthor works)
+        RequestBody postBody2 = new FormBody.Builder()
+                .add("name", "Ernest Hemingway")
+                .add("numOfBooks", "12")
+                .add("nationality", "American")
+                .build();
+        Request request2 = new Request.Builder()
+                .url("http://localhost:7000/addauthor")
+                .post(postBody2)
+                .build();
+        client.newCall(request2).execute();
+
+        //Test that addbook works
+        Response response3 = client.newCall(request1).execute();
+        assertEquals(201, response3.code());
+
+        //Adding existing book would cause server error
+        Response response4 = client.newCall(request1).execute();
+        assertEquals(500, response4.code());
+    }
+
+    @Test
+    public void testDeleteAuthor() throws IOException {
+        //add author to authors table
+        RequestBody postBody1 = new FormBody.Builder()
+                .add("name", "Ernest Hemingway")
+                .add("numOfBooks", "12")
+                .add("nationality", "American")
+                .build();
+        Request request1 = new Request.Builder()
+                .url("http://localhost:7000/addauthor")
+                .post(postBody1)
+                .build();
+        client.newCall(request1).execute();
+
+        //delete author just added
+        RequestBody postBody2 = new FormBody.Builder()
+                .add("name", "Ernest Hemingway")
+                .build();
+        Request request2 = new Request.Builder()
+                .url("http://localhost:7000/delauthor")
+                .post(postBody2)
+                .build();
+        Response response2 = client.newCall(request2).execute();
+        assertEquals(204, response2.code());
+
+        //should not have server error (500) if author successfully deleted
+        Response response3 = client.newCall(request1).execute();
+        assertEquals(201, response3.code());
+    }
+
+    @Test
+    public void testDeleteBook() throws IOException {
+        //add author and book(assumes /addauthor and /addbook works)
+        //add author to authors table
+        RequestBody postBody0 = new FormBody.Builder()
+                .add("name", "Ernest Hemingway")
+                .add("numOfBooks", "12")
+                .add("nationality", "American")
+                .build();
+        Request request0 = new Request.Builder()
+                .url("http://localhost:7000/addauthor")
+                .post(postBody0)
+                .build();
+        client.newCall(request0).execute();
+
+        RequestBody postBody = new FormBody.Builder()
+                .add("title", "Old Man and the Sea")
+                .add("isbn", "0684801221")
+                .add("publisher", "Scribner; Later Printing Edition")
+                .add("year", "1995")
+                .add("authorID", "1")
+                .build();
+        Request request1 = new Request.Builder()
+                .url("http://localhost:7000/addbook")
+                .post(postBody)
+                .build();
+        client.newCall(request1).execute();
+
+        //delete author just added
+        RequestBody postBody2 = new FormBody.Builder()
+                .add("isbn", "0684801221")
+                .build();
+        Request request2 = new Request.Builder()
+                .url("http://localhost:7000/delbook")
+                .post(postBody2)
+                .build();
+        Response response2 = client.newCall(request2).execute();
+        assertEquals(204, response2.code());
+
+        //should not have server error (500) if book successfully deleted
+        Response response3 = client.newCall(request1).execute();
+        assertEquals(201, response3.code());
     }
 }
