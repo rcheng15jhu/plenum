@@ -53,6 +53,9 @@ public class Sql2oAuthorDao implements AuthorDao {
                     .executeUpdate();
             return true;
         }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
     }
 
 
