@@ -19,6 +19,9 @@ public class Sql2oBookDao implements BookDao {
     @Override
     public int add(Book book) throws DaoException {
         try (Connection con = sql2o.open()) {
+            String preQ = "PRAGMA foreign_keys = ON;";
+            con.createQuery(preQ).executeUpdate();
+
             String query = "INSERT INTO Books (id, title, isbn, publisher, year, authorId)" +
                     "VALUES (NULL, :title, :isbn, :publisher, :year, :authorId)";
             int id = (int) con.createQuery(query, true)

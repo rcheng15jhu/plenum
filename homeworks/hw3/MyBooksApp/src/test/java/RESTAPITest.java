@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+import model.Author;
 import okhttp3.*;
 
 import org.junit.Before;
@@ -51,38 +53,48 @@ public class RESTAPITest {
         st.execute(sq4);
     }
 
-    @Test
-    public void testListAuthors() throws IOException { // TODO: should probably check that authors added show up in json...
-        Request request = new Request.Builder()
-                .url("http://localhost:7000/authors")
+    public RequestBody getAuthorRequestBody(Author a) {
+        return new FormBody.Builder()
+                .add("name", a.getName())
+                .add("numOfBooks", Integer.toString(a.getNumOfBooks()))
+                .add("nationality", a.getNationality())
                 .build();
-        Response response = client.newCall(request).execute();
-        assertEquals(200, response.code());
     }
 
     @Test
     public void testAddAuthor() throws IOException {
-        RequestBody postBody = new FormBody.Builder()
-                .add("name", "Sadegh Hedayat")
-                .add("numOfBooks", "26")
-                .add("nationality", "Iranian")
-                .build();
+        Author a = new Author("Sadegh Hedayat", 26, "Iranian");
+        RequestBody postBody = getAuthorRequestBody(a);
         Request request = new Request.Builder()
                 .url("http://localhost:7000/addauthor")
                 .post(postBody)
                 .build();
-        Response response = client.newCall(request).execute();
-        assertEquals(201, response.code());
+
+        try(Response response = client.newCall(request).execute()) {
+            assertEquals(201, response.code());
+
+            String expected = new Gson().toJson(a.toString());
+            String expected1 = expected.substring(0, expected.indexOf(',')-1);
+            String expected2 = expected.substring(expected.indexOf(','));
+
+            String actual = response.body().string();
+            String actual1 = actual.substring(0, actual.indexOf(',')-1);
+            String actual2 = actual.substring(actual.indexOf(','));
+
+            assertEquals(expected1, actual1);
+            assertEquals(expected2, actual2);
+        }
 
         //adding author again would cause server error
-        Response response2 = client.newCall(request).execute();
-        assertEquals(500, response2.code());
+        try(Response response2 = client.newCall(request).execute()) {
+            assertEquals(500, response2.code());
+        }
     }
 
     @Test
-    public void testListBooks() throws IOException { // TODO: should probably check that books added show up in json...
+    public void testListAuthors() throws IOException { // TODO: should probably check that authors added show up in json...
         Request request = new Request.Builder()
-                .url("http://localhost:7000/books")
+                .url("http://localhost:7000/authors")
                 .build();
         Response response = client.newCall(request).execute();
         assertEquals(200, response.code());
@@ -124,6 +136,15 @@ public class RESTAPITest {
         //Adding existing book would cause server error
         Response response4 = client.newCall(request1).execute();
         assertEquals(500, response4.code());
+    }
+
+    @Test
+    public void testListBooks() throws IOException { // TODO: should probably check that books added show up in json...
+        Request request = new Request.Builder()
+                .url("http://localhost:7000/books")
+                .build();
+        Response response = client.newCall(request).execute();
+        assertEquals(200, response.code());
     }
 
     @Test
