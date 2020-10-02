@@ -14,17 +14,44 @@ import static spark.Spark.*;
 
 public class Server {
 
+    private static Sql2o sql2o;
+
     private static Sql2o getSql2o() {
-        // set on foreign keys
-        SQLiteConfig config = new SQLiteConfig();
-        config.enforceForeignKeys(true);
-        config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
+        if(sql2o == null) {
+            // set on foreign keys
+            SQLiteConfig config = new SQLiteConfig();
+            config.enforceForeignKeys(true);
+            config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
 
-        // create data source
-        SQLiteDataSource ds = new SQLiteDataSource(config);
-        ds.setUrl("jdbc:sqlite:MyBooksApp.db");
+            // create data source
+            SQLiteDataSource ds = new SQLiteDataSource(config);
+            ds.setUrl("jdbc:sqlite:MyBooksApp.db");
 
-        return new Sql2o(ds);
+            sql2o = new Sql2o(ds);
+            try (Connection conn = sql2o.open()) {
+                String sq1 = "CREATE TABLE IF NOT EXISTS Authors (" +
+                        " id            INTEGER PRIMARY KEY," +
+                        " name          VARCHAR(100) NOT NULL UNIQUE," +
+                        " numOfBooks    INTEGER," +
+                        " nationality   VARCHAR(30)" +
+                        ");";
+                conn.createQuery(sq1).executeUpdate();
+                String sq2 = "CREATE TABLE IF NOT EXISTS Books (" +
+                        " id        INTEGER PRIMARY KEY," +
+                        " title     VARCHAR(100) NOT NULL," +
+                        " isbn      VARCHAR(100) NOT NULL UNIQUE," +
+                        " publisher VARCHAR(100)," +
+                        " year      INTEGER," +
+                        " authorId  INTEGER NOT NULL," +
+                        " FOREIGN KEY(authorId)" +
+                        " REFERENCES Authors (id)" +
+                        "   ON UPDATE CASCADE" +
+                        "   ON DELETE CASCADE" +
+                        ");";
+                conn.createQuery(sq2).executeUpdate();
+            }
+        }
+        return sql2o;
     }
 
     public static void main(String[] args)  {
