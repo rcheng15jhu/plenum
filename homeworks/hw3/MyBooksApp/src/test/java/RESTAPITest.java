@@ -235,55 +235,62 @@ public class RESTAPITest {
                 .url("http://localhost:7000/delauthor")
                 .post(postBody3)
                 .build();
-        Response response3 = client.newCall(request3).execute();
-        assertEquals(204, response3.code());
+        try(Response response3 = client.newCall(request3).execute()) {
+            assertEquals(204, response3.code());
+        }
+
+        //book should have been deleted
+        List<Book> emptyBookList = new ArrayList<>();
+        Request request4 = new Request.Builder()
+                .url("http://localhost:7000/books")
+                .build();
+        try(Response response4 = client.newCall(request4).execute()) {
+            assertEquals(200, response4.code());
+            assertEquals(new Gson().toJson(emptyBookList), response4.body().string());
+        }
 
         //should not have server error (500) if author successfully deleted
-        Response response4 = client.newCall(request1).execute();
-        assertEquals(201, response4.code());
+        try(Response response5 = client.newCall(request1).execute()) {
+            assertEquals(201, response5.code());
+        }
     }
 
     @Test
     public void testDeleteBook() throws IOException {
         //add author and book (assumes /addauthor and /addbook work)
         //add author to Authors table
-        RequestBody postBody0 = new FormBody.Builder()
-                .add("name", "Ernest Hemingway")
-                .add("numOfBooks", "12")
-                .add("nationality", "American")
-                .build();
-        Request request0 = new Request.Builder()
-                .url("http://localhost:7000/addauthor")
-                .post(postBody0)
-                .build();
-        client.newCall(request0).execute();
-
-        RequestBody postBody = new FormBody.Builder()
-                .add("title", "Old Man and the Sea")
-                .add("isbn", "0684801221")
-                .add("publisher", "Scribner; Later Printing Edition")
-                .add("year", "1995")
-                .add("authorID", "1")
-                .build();
+        Author a = new Author("Ernest Hemingway", 12, "American");
+        RequestBody postBody1 = getAuthorRequestBody(a);
         Request request1 = new Request.Builder()
-                .url("http://localhost:7000/addbook")
-                .post(postBody)
+                .url("http://localhost:7000/addauthor")
+                .post(postBody1)
                 .build();
-        client.newCall(request1).execute();
+        client.newCall(request1).execute().close();
 
-        //delete author just added
-        RequestBody postBody2 = new FormBody.Builder()
-                .add("isbn", "0684801221")
-                .build();
+        Book b = new Book("Old Man and the Sea", "0684801221", "Scribner; Later Printing Edition"
+                , 1995, 1);
+        RequestBody postBody2 = getBookRequestBody(b);
         Request request2 = new Request.Builder()
-                .url("http://localhost:7000/delbook")
+                .url("http://localhost:7000/addbook")
                 .post(postBody2)
                 .build();
-        Response response2 = client.newCall(request2).execute();
-        assertEquals(204, response2.code());
+        client.newCall(request2).execute().close();
+
+        //delete author just added
+        RequestBody postBody3 = new FormBody.Builder()
+                .add("isbn", "0684801221")
+                .build();
+        Request request3 = new Request.Builder()
+                .url("http://localhost:7000/delbook")
+                .post(postBody3)
+                .build();
+        try(Response response3 = client.newCall(request3).execute()) {
+            assertEquals(204, response3.code());
+        }
 
         //should not have server error (500) if book successfully deleted
-        Response response3 = client.newCall(request1).execute();
-        assertEquals(201, response3.code());
+        try(Response response4 = client.newCall(request2).execute()) {
+            assertEquals(201, response4.code());
+        }
     }
 }
