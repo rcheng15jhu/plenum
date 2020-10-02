@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 import model.Author;
+import model.Book;
 import okhttp3.*;
 
 import org.junit.Before;
@@ -8,6 +9,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.sql.*;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -73,19 +76,7 @@ public class RESTAPITest {
 
         try(Response response = client.newCall(request).execute()) {
             assertEquals(201, response.code());
-
             assertEquals(new Gson().toJson(a.toString()), response.body().string());
-
-//            String expected = new Gson().toJson(a.toString());
-//            String expected1 = expected.substring(0, expected.indexOf(',')-1);
-//            String expected2 = expected.substring(expected.indexOf(','));
-//
-//            String actual = response.body().string();
-//            String actual1 = actual.substring(0, actual.indexOf(',')-1);
-//            String actual2 = actual.substring(actual.indexOf(','));
-//
-//            assertEquals(expected1, actual1);
-//            assertEquals(expected2, actual2);
         }
 
         //adding author again would cause server error
@@ -95,95 +86,167 @@ public class RESTAPITest {
     }
 
     @Test
-    public void testListAuthors() throws IOException { // TODO: should probably check that authors added show up in json...
+    public void testListAuthors() throws IOException {
+        //adds a few authors to Authors table (assumes /addauthor works)
+        List<Author> authorsToAdd = new ArrayList<>();
+        authorsToAdd.add(new Author("Sadegh Hedayat", 26, "Iranian"));
+        authorsToAdd.add(new Author("Ernest Hemingway", 12, "American"));
+        int id = 1;
+        for(Author a : authorsToAdd) {
+            a.setId(id++);
+            RequestBody postBody = getAuthorRequestBody(a);
+            client.newCall(new Request.Builder()
+                    .url("http://localhost:7000/addauthor")
+                    .post(postBody)
+                    .build()).execute().close();
+        }
+
         Request request = new Request.Builder()
                 .url("http://localhost:7000/authors")
                 .build();
-        Response response = client.newCall(request).execute();
-        assertEquals(200, response.code());
+        try(Response response = client.newCall(request).execute()) {
+            assertEquals(200, response.code());
+
+            assertEquals(new Gson().toJson(authorsToAdd), response.body().string());
+        }
+    }
+
+    public RequestBody getBookRequestBody(Book b) {
+        return new FormBody.Builder()
+                .add("title", b.getTitle())
+                .add("isbn", b.getIsbn())
+                .add("publisher", b.getPublisher())
+                .add("year", Integer.toString(b.getYear()))
+                .add("authorID", Integer.toString(b.getAuthorId()))
+                .build();
     }
 
     @Test
     public void testAddBook() throws IOException {
         //Add book before Author exists
-        RequestBody postBody = new FormBody.Builder()
-                .add("title", "Old Man and the Sea")
-                .add("isbn", "0684801221")
-                .add("publisher", "Scribner; Later Printing Edition")
-                .add("year", "1995")
-                .add("authorID", "1")
-                .build();
+        Book b1 = new Book("Old Man and the Sea", "0684801221", "Scribner; Later Printing Edition"
+                , 1995, 1);
+        RequestBody postBody1 = getBookRequestBody(b1);
         Request request1 = new Request.Builder()
                 .url("http://localhost:7000/addbook")
-                .post(postBody)
+                .post(postBody1)
                 .build();
-        Response response1 = client.newCall(request1).execute();
-        assertEquals(500, response1.code());
+        try(Response response1 = client.newCall(request1).execute()) {
+            assertEquals(500, response1.code());
+        }
 
         //Add author to Authors table (assumes /addauthor works)
-        RequestBody postBody2 = new FormBody.Builder()
-                .add("name", "Ernest Hemingway")
-                .add("numOfBooks", "12")
-                .add("nationality", "American")
-                .build();
+        Author a = new Author("Ernest Hemingway", 12, "American");
+        RequestBody postBody2 = getAuthorRequestBody(a);
         Request request2 = new Request.Builder()
                 .url("http://localhost:7000/addauthor")
                 .post(postBody2)
                 .build();
-        client.newCall(request2).execute();
+        client.newCall(request2).execute().close();
 
         //Test that addbook works
-        Response response3 = client.newCall(request1).execute();
-        assertEquals(201, response3.code());
+        try(Response response3 = client.newCall(request1).execute()) {
+            assertEquals(201, response3.code());
+            assertEquals(new Gson().toJson(b1.toString()), response3.body().string());
+        }
 
         //Adding existing book would cause server error
-        Response response4 = client.newCall(request1).execute();
-        assertEquals(500, response4.code());
+        try(Response response4 = client.newCall(request1).execute()) {
+            assertEquals(500, response4.code());
+        }
+
+        //Adding book with invalid authorId would cause server error
+        Book b2 = new Book("The Hobbit", "9780547928227", "George Allen and Unwin", 1937, 2);
+        RequestBody postBody3 = getBookRequestBody(b2);
+        Request request3 = new Request.Builder()
+                .url("http://localhost:7000/addbook")
+                .post(postBody3)
+                .build();
+        try(Response response5 = client.newCall(request3).execute()) {
+            assertEquals(500, response5.code());
+        }
     }
 
     @Test
-    public void testListBooks() throws IOException { // TODO: should probably check that books added show up in json...
+    public void testListBooks() throws IOException {
+        //adds authors and books to respective tables (assumes /addauthor and /addbook work)
+        List<Author> authorsToAdd = new ArrayList<>();
+        authorsToAdd.add(new Author("J. R. R. Tolkien", 23, "American"));
+        authorsToAdd.add(new Author("Ernest Hemingway", 12, "American"));
+        int id = 1;
+        for(Author a : authorsToAdd) {
+            a.setId(id++);
+            RequestBody postBody = getAuthorRequestBody(a);
+            client.newCall(new Request.Builder()
+                    .url("http://localhost:7000/addauthor")
+                    .post(postBody)
+                    .build()).execute().close();
+        }
+
+        List<Book> booksToAdd = new ArrayList<>();
+        booksToAdd.add(new Book("Old Man and the Sea", "0684801221", "Scribner; Later Printing Edition"
+                , 1995, 2));
+        booksToAdd.add(new Book("The Hobbit", "9780547928227", "George Allen and Unwin", 1937, 1));
+        id = 1;
+        for(Book b : booksToAdd) {
+            b.setId(id++);
+            RequestBody postBody = getBookRequestBody(b);
+            client.newCall(new Request.Builder()
+                    .url("http://localhost:7000/addbook")
+                    .post(postBody)
+                    .build()).execute().close();
+        }
+
         Request request = new Request.Builder()
                 .url("http://localhost:7000/books")
                 .build();
-        Response response = client.newCall(request).execute();
-        assertEquals(200, response.code());
+        try(Response response = client.newCall(request).execute()) {
+            assertEquals(200, response.code());
+            assertEquals(new Gson().toJson(booksToAdd), response.body().string());
+        }
     }
 
     @Test
     public void testDeleteAuthor() throws IOException {
-        //add author to authors table
-        RequestBody postBody1 = new FormBody.Builder()
-                .add("name", "Ernest Hemingway")
-                .add("numOfBooks", "12")
-                .add("nationality", "American")
-                .build();
+        //add author to Authors table (assumes /addauthor works)
+        Author a = new Author("Ernest Hemingway", 12, "American");
+        RequestBody postBody1 = getAuthorRequestBody(a);
         Request request1 = new Request.Builder()
                 .url("http://localhost:7000/addauthor")
                 .post(postBody1)
                 .build();
-        client.newCall(request1).execute();
+        client.newCall(request1).execute().close();
 
-        //delete author just added
-        RequestBody postBody2 = new FormBody.Builder()
-                .add("name", "Ernest Hemingway")
-                .build();
+        //add book written by author
+        Book b = new Book("Old Man and the Sea", "0684801221", "Scribner; Later Printing Edition"
+                , 1995, 1);
+        RequestBody postBody2 = getBookRequestBody(b);
         Request request2 = new Request.Builder()
-                .url("http://localhost:7000/delauthor")
+                .url("http://localhost:7000/addbook")
                 .post(postBody2)
                 .build();
-        Response response2 = client.newCall(request2).execute();
-        assertEquals(204, response2.code());
+        client.newCall(request2).execute().close();
+
+        //delete author just added
+        RequestBody postBody3 = new FormBody.Builder()
+                .add("name", "Ernest Hemingway")
+                .build();
+        Request request3 = new Request.Builder()
+                .url("http://localhost:7000/delauthor")
+                .post(postBody3)
+                .build();
+        Response response3 = client.newCall(request3).execute();
+        assertEquals(204, response3.code());
 
         //should not have server error (500) if author successfully deleted
-        Response response3 = client.newCall(request1).execute();
-        assertEquals(201, response3.code());
+        Response response4 = client.newCall(request1).execute();
+        assertEquals(201, response4.code());
     }
 
     @Test
     public void testDeleteBook() throws IOException {
-        //add author and book(assumes /addauthor and /addbook works)
-        //add author to authors table
+        //add author and book (assumes /addauthor and /addbook work)
+        //add author to Authors table
         RequestBody postBody0 = new FormBody.Builder()
                 .add("name", "Ernest Hemingway")
                 .add("numOfBooks", "12")
