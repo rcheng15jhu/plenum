@@ -79,4 +79,6 @@ and user stories were combined.
 
 ## Wireframes
 
-### TODO
+![Availability Entry](Availability_Entry.png "Availability Entry")
+![Event Creation](Event_Creation.png "Event Creation")
+![Template Management](Template_Management.png "Template Management")
