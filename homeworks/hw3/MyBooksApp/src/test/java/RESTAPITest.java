@@ -239,7 +239,7 @@ public class RESTAPITest {
             assertEquals(204, response3.code());
         }
 
-        //book should have been deleted
+        //associated book should have been deleted
         List<Book> emptyBookList = new ArrayList<>();
         Request request4 = new Request.Builder()
                 .url("http://localhost:7000/books")
