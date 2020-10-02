@@ -64,6 +64,7 @@ public class RESTAPITest {
     @Test
     public void testAddAuthor() throws IOException {
         Author a = new Author("Sadegh Hedayat", 26, "Iranian");
+        a.setId(1);
         RequestBody postBody = getAuthorRequestBody(a);
         Request request = new Request.Builder()
                 .url("http://localhost:7000/addauthor")
@@ -73,16 +74,18 @@ public class RESTAPITest {
         try(Response response = client.newCall(request).execute()) {
             assertEquals(201, response.code());
 
-            String expected = new Gson().toJson(a.toString());
-            String expected1 = expected.substring(0, expected.indexOf(',')-1);
-            String expected2 = expected.substring(expected.indexOf(','));
+            assertEquals(new Gson().toJson(a.toString()), response.body().string());
 
-            String actual = response.body().string();
-            String actual1 = actual.substring(0, actual.indexOf(',')-1);
-            String actual2 = actual.substring(actual.indexOf(','));
-
-            assertEquals(expected1, actual1);
-            assertEquals(expected2, actual2);
+//            String expected = new Gson().toJson(a.toString());
+//            String expected1 = expected.substring(0, expected.indexOf(',')-1);
+//            String expected2 = expected.substring(expected.indexOf(','));
+//
+//            String actual = response.body().string();
+//            String actual1 = actual.substring(0, actual.indexOf(',')-1);
+//            String actual2 = actual.substring(actual.indexOf(','));
+//
+//            assertEquals(expected1, actual1);
+//            assertEquals(expected2, actual2);
         }
 
         //adding author again would cause server error
