@@ -72,12 +72,21 @@ public class Server {
         get("/", (req, res) -> "Welcome to Quorum");
 
         // authors route; return list of authors as JSON
-        get("/calendars", (req, res) -> {
+        get("/calendarsAll", (req, res) -> {
             Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
             String results = new Gson().toJson(sql2oCalendar.listAll());
             res.type("application/json");
             res.status(200);
             return results;
+        });
+
+        get("/calendar", (req, res) -> {
+            int id = Integer.parseInt(req.queryParams("calendar id"));
+            String result = new Gson().toJson(sql2oCalendar.listCal(id));
+            new Sql2oCalendarDao(getSql2o()).get(result);
+            res.type("application/json");
+            res.status(200);
+            return result;
         });
 
         //addauthor route; add a new author
