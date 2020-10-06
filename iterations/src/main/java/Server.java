@@ -38,20 +38,19 @@ public class Server {
             try (Connection conn = sql2o.open()) {
                 String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
                         " id            INTEGER PRIMARY KEY," +
-                        " name          VARCHAR(100) NOT NULL UNIQUE," +
+                        " name          VARCHAR(100) NOT NULL UNIQUE" +
                         ");";
                 conn.createQuery(sq1).executeUpdate();
-                String sq2 = "CREATE TABLE IF NOT EXISTS Event (" +
+                String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
                         " id            INTEGER PRIMARY KEY," +
-                        " title         VARCHAR(100) NOT NULL," +
-                        " calId  INTEGER NOT NULL," +
+                        " title         VARCHAR(100) NOT NULL" +
                         ");";
                 conn.createQuery(sq2 ).executeUpdate();
                 String sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
                         " id            INTEGER PRIMARY KEY," +
                         " title         VARCHAR(100) NOT NULL," +
-                        " userId  INTEGER NOT NULL," +
-                        " eventId  INTEGER NOT NULL," +
+                        " userId        INTEGER NOT NULL," +
+                        " eventId       INTEGER NOT NULL," +
                         " FOREIGN KEY(userId)" +
                         " REFERENCES Users (id)" +
                         "   ON UPDATE CASCADE" +
@@ -77,8 +76,8 @@ public class Server {
         // root route; show a simple message!
         get("/", (req, res) -> "Welcome to Quorum");
 
-        // authors route; return list of authors as JSON
-        get("/calendarsAll", (req, res) -> {
+        // calendars route; return list of calendars as JSON
+        get("/calendars", (req, res) -> {
             Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
             String results = new Gson().toJson(sql2oCalendar.listAll());
             res.type("application/json");
@@ -86,8 +85,9 @@ public class Server {
             return results;
         });
 
+        //calendar route; returns a single calendar
         get("/calendar", (req, res) -> {
-            int id = Integer.parseInt(req.queryParams("calendar id"));
+            int id = Integer.parseInt(req.queryParams("id"));
             Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
             String result = new Gson().toJson(sql2oCalendar.getCal(id));
             res.type("application/json");
@@ -95,25 +95,22 @@ public class Server {
             return result;
         });
 
-        //addauthor route; add a new author
+        //addcalendar route; add a new calendar
         post("/addcalendar", (req, res) -> {
-/*            String name = req.queryParams("name");
-            int numOfBooks = Integer.parseInt(req.queryParams("numOfBooks"));
-            String nationality = req.queryParams("nationality");
-            Author a = new Author(name, numOfBooks, nationality);
- */
-            Calendar c = new Calendar();
+            String title = req.queryParams("title");
+            int userId = Integer.parseInt(req.queryParams("userId"));
+            int eventId = Integer.parseInt(req.queryParams("eventId"));
+            Calendar c = new Calendar(title, userId);
             new Sql2oCalendarDao(getSql2o()).add(c);
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(c.toString());
         });
 
-        //delauthor route; delete author
+        //delcalendar route; delete calendar
         post("/delcalendar", (req, res) -> {
- //           String name = req.queryParams("name");
- //           Author a = new Author(name, 0, null);
-            Calendar c = new Calendar();
+            int id = Integer.parseInt(req.queryParams("id"));
+            Calendar c = new Calendar(id);
             try {
                 new Sql2oCalendarDao(getSql2o()).delete(c);
                 res.status(204);
@@ -122,6 +119,66 @@ public class Server {
             }
             res.type("application/json");
             return new Gson().toJson(c.toString());
+        });
+
+        get("/events", (req, res) -> {
+            Sql2oEventDao sql2oEventDao = new Sql2oEventDao(getSql2o());
+            String results = new Gson().toJson(sql2oEventDao.listAll());
+            res.type("application/json");
+            res.status(200);
+            return results;
+        });
+
+        post("/delevent", (req, res) -> {
+            int id = Integer.parseInt(req.queryParams("id"));
+            Event e = new Event(id);
+            try {
+                new Sql2oEventDao(getSql2o()).delete(e);
+                res.status(204);
+            } catch (DaoException ex) {
+                res.status(404);
+            }
+            res.type("application/json");
+            return new Gson().toJson(e.toString());
+        });
+
+        post("/addevent", (req, res) -> {
+            String title = req.queryParams("title");
+            Event e = new Event(title);
+            new Sql2oEventDao(getSql2o()).add(e);
+            res.status(201);
+            res.type("application/json");
+            return new Gson().toJson(e.toString());
+        });
+
+        get("/users", (req, res) -> {
+            Sql2oUserDao sql2oUserDao = new Sql2oUserDao(getSql2o());
+            String results = new Gson().toJson(sql2oUserDao.listAll());
+            res.type("application/json");
+            res.status(200);
+            return results;
+        });
+
+        post("/deluser", (req, res) -> {
+            int id = Integer.parseInt(req.queryParams("id"));
+            User u = new User(id);
+            try {
+                new Sql2oUserDao(getSql2o()).delete(u);
+                res.status(204);
+            } catch (DaoException ex) {
+                res.status(404);
+            }
+            res.type("application/json");
+            return new Gson().toJson(u.toString());
+        });
+
+        post("/adduser", (req, res) -> {
+            String name = req.queryParams("name");
+            User u = new User(name);
+            new Sql2oUserDao(getSql2o()).add(u);
+            res.status(201);
+            res.type("application/json");
+            return new Gson().toJson(u.toString());
         });
     }
 }

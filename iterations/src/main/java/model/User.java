@@ -1,11 +1,22 @@
 package model;
 
-import java.util.Map;
-
 public class User {
 
-    private UserCred cred;
     private int id;
+    private String name;
+
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public User(int id) {
+        this.id = id;
+    }
+
+    public User(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;
@@ -13,17 +24,5 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    //private Map<String, Object> connectedAccountAuthentications;
-    private Map<String, Calendar> storedCalendars;
-    private Map<String, Event> events;
-
-    public void storeCalender(String name, Calendar calendar) {
-        storedCalendars.put(name, calendar);
-    }
-
-    public void addEvent(String name, Event event) {
-        events.put(name, event);
     }
 }
