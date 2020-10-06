@@ -86,10 +86,10 @@ public class Server {
             return results;
         });
 
-        get("/calendar/:id", (req, res) -> {
+        get("/calendar", (req, res) -> {
             int id = Integer.parseInt(req.queryParams("calendar id"));
-            Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o()).get(result);
-            String result = new Gson().toJson(sql2oCalendar.listCal(id));
+            Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
+            String result = new Gson().toJson(sql2oCalendar.getCal(id));
             res.type("application/json");
             res.status(200);
             return result;

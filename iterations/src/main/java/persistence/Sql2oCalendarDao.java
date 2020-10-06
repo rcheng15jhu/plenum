@@ -24,6 +24,11 @@ public class Sql2oCalendarDao implements CalendarDao {
     }
 
     @Override
+    public Calendar getCal(int id) throws DaoException {
+        return null;
+    }
+
+    @Override
     public boolean delete(Calendar cal) throws DaoException {
         return false;
     }
