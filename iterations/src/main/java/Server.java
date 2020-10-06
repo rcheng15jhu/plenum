@@ -10,9 +10,9 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
-import persistence.sql2oCalendarDao;
-import persistence.sql2oEventDao;
-import persistence.sql2oUserDao;
+import persistence.Sql2oCalendarDao;
+import persistence.Sql2oEventDao;
+import persistence.Sql2oUserDao;
 
 import java.util.List;
 
@@ -35,30 +35,36 @@ public class Server {
 
             sql2o = new Sql2o(ds);
             // Need to change this to fit our database
-/*            try (Connection conn = sql2o.open()) {
-                String sq1 = "CREATE TABLE IF NOT EXISTS Authors (" +
+            try (Connection conn = sql2o.open()) {
+                String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
                         " id            INTEGER PRIMARY KEY," +
                         " name          VARCHAR(100) NOT NULL UNIQUE," +
-                        " numOfBooks    INTEGER," +
-                        " nationality   VARCHAR(30)" +
                         ");";
                 conn.createQuery(sq1).executeUpdate();
-                String sq2 = "CREATE TABLE IF NOT EXISTS Books (" +
-                        " id        INTEGER PRIMARY KEY," +
-                        " title     VARCHAR(100) NOT NULL," +
-                        " isbn      VARCHAR(100) NOT NULL UNIQUE," +
-                        " publisher VARCHAR(100)," +
-                        " year      INTEGER," +
-                        " authorId  INTEGER NOT NULL," +
-                        " FOREIGN KEY(authorId)" +
-                        " REFERENCES Authors (id)" +
+                String sq2 = "CREATE TABLE IF NOT EXISTS Event (" +
+                        " id            INTEGER PRIMARY KEY," +
+                        " title         VARCHAR(100) NOT NULL," +
+                        " calId  INTEGER NOT NULL," +
+                        ");";
+                conn.createQuery(sq2 ).executeUpdate();
+                String sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
+                        " id            INTEGER PRIMARY KEY," +
+                        " title         VARCHAR(100) NOT NULL," +
+                        " userId  INTEGER NOT NULL," +
+                        " eventId  INTEGER NOT NULL," +
+                        " FOREIGN KEY(userId)" +
+                        " REFERENCES Users (id)" +
+                        "   ON UPDATE CASCADE" +
+                        "   ON DELETE CASCADE" +
+                        " FOREIGN KEY(eventId)" +
+                        " REFERENCES Events (id)" +
                         "   ON UPDATE CASCADE" +
                         "   ON DELETE CASCADE" +
                         ");";
-                conn.createQuery(sq2).executeUpdate();
+                conn.createQuery(sq3).executeUpdate();
             }
 
- */
+
         }
         return sql2o;
     }
@@ -80,10 +86,10 @@ public class Server {
             return results;
         });
 
-        get("/calendar", (req, res) -> {
+        get("/calendar/:id", (req, res) -> {
             int id = Integer.parseInt(req.queryParams("calendar id"));
+            Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o()).get(result);
             String result = new Gson().toJson(sql2oCalendar.listCal(id));
-            new Sql2oCalendarDao(getSql2o()).get(result);
             res.type("application/json");
             res.status(200);
             return result;
