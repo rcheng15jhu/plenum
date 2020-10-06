@@ -5,6 +5,15 @@ import java.util.Map;
 public class User {
 
     private UserCred cred;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     //private Map<String, Object> connectedAccountAuthentications;
     private Map<String, Calendar> storedCalendars;

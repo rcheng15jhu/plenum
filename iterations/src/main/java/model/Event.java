@@ -6,7 +6,16 @@ import java.util.List;
 public class Event {
     private UserCred host;
     private String name;
-    private int uniqueId;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
     private Range validTimeRange;
     private List<Calendar> participantCalendars;
 

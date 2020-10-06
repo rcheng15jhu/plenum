@@ -4,6 +4,16 @@ import java.util.Date;
 import java.util.Map;
 
 public class Calendar {
+    private int id;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     private UserCred user;
     private int startOffset;
     private Map<Date, boolean[]> dateRanges;
