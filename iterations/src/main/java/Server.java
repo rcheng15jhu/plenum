@@ -26,8 +26,8 @@ public class Server {
         if(sql2o == null) {
             // set on foreign keys
             SQLiteConfig config = new SQLiteConfig();
-            config.enforceForeignKeys(true);
-            config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
+            //config.enforceForeignKeys(true);
+            //config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
 
             // create data source
             SQLiteDataSource ds = new SQLiteDataSource(config);
@@ -48,9 +48,10 @@ public class Server {
                 conn.createQuery(sq2 ).executeUpdate();
                 String sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
                         " id            INTEGER PRIMARY KEY," +
-                        " title         VARCHAR(100) NOT NULL," +
+                        " name          VARCHAR(100) NOT NULL," +
                         " userId        INTEGER NOT NULL," +
                         " eventId       INTEGER NOT NULL," +
+                        " blob          BLOB," +
                         " FOREIGN KEY(userId)" +
                         " REFERENCES Users (id)" +
                         "   ON UPDATE CASCADE" +
@@ -87,22 +88,34 @@ public class Server {
             return results;
         });
 
-        //calendar route; returns a single calendar
+        //calendar route; returns a single calendar or list of calendars, depending on presence of query param
         get("/calendar", (req, res) -> {
-            int id = Integer.parseInt(req.queryParams("id"));
             Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
-            String result = new Gson().toJson(sql2oCalendar.getCal(id));
+            String results;
+            String idParam = req.queryParams("id");
+            if(idParam != null) {
+                int id = Integer.parseInt(idParam);
+                results = sql2oCalendar.getCal(id).getBlob();
+            } else {
+                results = new Gson().toJson(sql2oCalendar.listAll());
+            }
             res.type("application/json");
             res.status(200);
-            return result;
+            return results;
         });
 
         //addcalendar route; add a new calendar
         post("/addcalendar", (req, res) -> {
             String title = req.queryParams("title");
+            //System.out.println(title);
             int userId = Integer.parseInt(req.queryParams("userId"));
+            //System.out.println(userId);
             int eventId = Integer.parseInt(req.queryParams("eventId"));
-            Calendar c = new Calendar(title, userId);
+            //System.out.println(eventId);
+            String blob = req.body();
+            Calendar c = new Calendar(title, userId, eventId);
+            c.setBlob(blob);
+            //System.out.println(c);
             new Sql2oCalendarDao(getSql2o()).add(c);
             res.status(201);
             res.type("application/json");

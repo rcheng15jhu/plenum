@@ -29,6 +29,14 @@ public class Event {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "title='" + title + '\'' +
+                ", id=" + id +
+                '}';
+    }
+
 //    public void addCalendar(Calendar calendar) {
 //        participantCalendars.add(calendar);
 //    }

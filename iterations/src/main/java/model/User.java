@@ -14,6 +14,14 @@ public class User {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public User(String name) {
         this.name = name;
     }
