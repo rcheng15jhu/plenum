@@ -6,11 +6,8 @@ let sampleTemplate = {
 }
 
 const Calendar = (props) => {
-  let template = []
-  if (props.file !== "") {
-    template = JSON.parse(props.file).dates
-  }
-  
+  let template = props.file
+
   let calendar = new Array(12)
 
   for (let i = 0; i < calendar.length; i++) {
@@ -79,21 +76,21 @@ const Cell = (props) => {
 
 const App = () => {
 
-  const [files, setFiles] = useState("")
+  const [data, setData] = useState([])
 
   const handleChange = e => {
     const fileReader = new FileReader()
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = e => {
       console.log("e.target.result", e.target.result);
-      setFiles(e.target.result);
+      setData(data.concat(JSON.parse(e.target.result).dates));
     }
   }
 
   return (
   <div>
     <input type='file' onChange={handleChange}></input>
-    <Calendar file={files}/>
+    <Calendar file={data}/>
   </div>
   )
 }
