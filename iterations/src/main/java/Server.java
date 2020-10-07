@@ -77,7 +77,7 @@ public class Server {
         staticFiles.location("/public");
 
         // root route; show a simple message!
-        get("/", (req, res) -> "Welcome to Quorum");
+        get("/", (req, res) -> "index.html");
 
         // calendars route; return list of calendars as JSON
         get("/calendars", (req, res) -> {
