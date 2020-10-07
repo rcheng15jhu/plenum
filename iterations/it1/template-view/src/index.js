@@ -2,20 +2,15 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 let sampleTemplate = {
-  "dates": [
-    {
-      "date": 1,
-      "times": [0, 1, 2, 3]
-    },
-    {
-      "date": 4,
-      "times": [5, 7, 8, 10]
-    }
-  ]
+  "dates":[{"date":1,"times":[6,7,8]},{"date":5,"times":[4]},{"date":6,"times":[5]}]
 }
 
-const Calendar = () => {
-  let template = sampleTemplate.dates
+const Calendar = (props) => {
+  let template = []
+  if (props.file !== "") {
+    template = JSON.parse(props.file).dates
+  }
+  
   let calendar = new Array(12)
 
   for (let i = 0; i < calendar.length; i++) {
@@ -35,7 +30,7 @@ const Calendar = () => {
   }
 
   const time = (val) => {
-    if (val === 0) {
+    if (val === 0 || val === 6) {
       return 12
     }
     return (val * 2) % 12
@@ -60,7 +55,7 @@ const Calendar = () => {
         {
           calendar.map((keyList, i) => (
             <tr key={i}>
-              <td>{time(i)}</td>
+              <td style={{textAlign:'right'}}>{time(i)}</td>
               {
                 keyList.map((key, j) =>
                   <Cell key={j} unavailable={key} />
@@ -80,7 +75,28 @@ const Cell = (props) => {
     styles.backgroundColor = 'red'
   }
   return <td key={props.key} style={styles}></td>
-
 }
 
-ReactDOM.render(<Calendar />, document.getElementById('root'))
+const App = () => {
+
+  const [files, setFiles] = useState("")
+
+  const handleChange = e => {
+    const fileReader = new FileReader()
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = e => {
+      console.log("e.target.result", e.target.result);
+      setFiles(e.target.result);
+    }
+  }
+
+  return (
+  <div>
+    <input type='file' onChange={handleChange}></input>
+    <Calendar file={files}/>
+  </div>
+  )
+}
+
+
+ReactDOM.render(<App />, document.getElementById('root'))
