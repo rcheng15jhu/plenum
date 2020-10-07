@@ -2,14 +2,56 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb6994fc-7f49-4f55-982b-b2dd9dabf6b3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Quorum.db" beforeDir="false" afterPath="$PROJECT_DIR$/Quorum.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Calendar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Calendar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/persistence/Sql2oCalendarDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/persistence/Sql2oCalendarDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/output.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/js/output.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/templates/test_checkbox.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/templates/test_checkbox.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Quorum.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/it1/.idea/it1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/it1/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/it1/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/it1/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/it1/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Server.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/exception/DaoException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/AggregateCalendar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Calendar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Event.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Range.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/UserCred.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/AggregateCalendarDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/CalendarDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/EventDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/RangeDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/Sql2oCalendarDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/Sql2oEventDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/Sql2oUserDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/UserCredDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/UserDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/public/js/output.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/public/templates/test_checkbox.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/DBPersistenceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/RESTAPITest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/2020-fall-group-fun-fun-fun.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/2020-fall-group-fun-fun-fun.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,29 +69,25 @@
     <option name="HIDDEN_KINDS">
       <set />
     </option>
-    <expand>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="Quorum" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="Quorum" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="Quorum" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
-      </path>
-    </expand>
+    <expand />
     <select />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FindBugs-IDEA-Workspace">
     <toolWindowEditorPreview>false</toolWindowEditorPreview>
@@ -114,11 +152,6 @@
                 <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
                 <item name="root:Quorum" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               </path>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="root:Quorum" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="com.intellij.database.console.session.MessageBusSession@1481f5a3" type="9fbbdea:ServiceModel$ServiceNode" />
-              </path>
             </expand>
             <select />
           </treeState>
@@ -138,7 +171,7 @@
       <updated>1602016279390</updated>
       <workItem from="1602016282143" duration="64000" />
       <workItem from="1602016368599" duration="1759000" />
-      <workItem from="1602027726945" duration="10512000" />
+      <workItem from="1602027726945" duration="10774000" />
     </task>
     <servers />
   </component>
