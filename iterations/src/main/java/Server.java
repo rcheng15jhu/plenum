@@ -73,6 +73,8 @@ public class Server {
         final int PORT_NUM = 7000;
         port(PORT_NUM);
 
+        staticFiles.location("/public");
+
         // root route; show a simple message!
         get("/", (req, res) -> "Welcome to Quorum");
 
@@ -179,6 +181,11 @@ public class Server {
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(u.toString());
+        });
+
+        get("/maketemplate", (req, res) -> {
+            res.redirect("/templates/test_checkbox.html");
+            return null;
         });
     }
 }
