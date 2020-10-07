@@ -21,7 +21,11 @@ public class Sql2oCalendarDao implements CalendarDao {
             String query = "INSERT INTO Calendars (name, userId, eventId, blob)" +
                     "VALUES (:name, :userId, :eventId, :blob)";
             int id = (int) con.createQuery(query, true)
-                    .bind(cal)
+                    .addParameter("name", cal.getName())
+                    .addParameter("userId", cal.getUserId())
+                    .addParameter("eventId", cal.getEventId())
+                    .addParameter("blob", cal.getBlob())
+                    //.bind(cal)
                     .executeUpdate().getKey();
             cal.setId(id);
             return id;

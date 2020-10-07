@@ -115,7 +115,7 @@ public class Server {
             String blob = req.body();
             Calendar c = new Calendar(title, userId, eventId);
             c.setBlob(blob);
-            //System.out.println(c);
+            System.out.println(c);
             new Sql2oCalendarDao(getSql2o()).add(c);
             res.status(201);
             res.type("application/json");
