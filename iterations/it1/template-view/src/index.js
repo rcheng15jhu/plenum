@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-let sampleTemplate = {
-  "dates":[{"date":1,"times":[6,7,8]},{"date":5,"times":[4]},{"date":6,"times":[5]}]
-}
-
 const Calendar = (props) => {
   let template = props.file
 
