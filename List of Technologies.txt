@@ -1,0 +1,10 @@
+List of Technlogies:
+SQLite
+Sql2o JDBC API Wrapper
+Spark Java
+Gson
+RESTful APIs
+Postman
+OkHttp
+Apache Velocity
+ReactJS
