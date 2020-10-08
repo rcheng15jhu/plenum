@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e50d4b5b-aaec-49e7-b433-eb92328d2044" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Quorum.db" beforeDir="false" afterPath="$PROJECT_DIR$/Quorum.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +67,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../homeworks/hw4" />
   </component>
   <component name="RunManager" selected="Application.Server">
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -141,6 +139,7 @@
       <workItem from="1602016368599" duration="1759000" />
       <workItem from="1602027726945" duration="10774000" />
       <workItem from="1602179017133" duration="2384000" />
+      <workItem from="1602190207142" duration="332000" />
     </task>
     <servers />
   </component>
@@ -164,6 +163,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="118" y="8" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1602039464822" />
+    <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1602190538508">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1602190538508" />
     <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1602183167971">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -184,10 +187,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="189" height="457" key="HiddenNamespacesPopup/0.0.1536.824@0.0.1536.824" timestamp="1602037069307" />
-    <state x="465" y="238" key="com.intellij.ide.util.TipDialog" timestamp="1602179016730">
+    <state x="465" y="238" key="com.intellij.ide.util.TipDialog" timestamp="1602190207722">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="238" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1602179016730" />
+    <state x="465" y="238" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1602190207722" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1602032113299">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
