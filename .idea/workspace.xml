@@ -19,12 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="edd0c7d7-7a0b-4424-a08d-55968d277238" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/homeworks/hw4/src/main/resources/public/templates/books.vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/2020-fall-group-fun-fun-fun.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/2020-fall-group-fun-fun-fun.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/homeworks/hw4/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/homeworks/hw4/src/main/java/Server.java" afterDir="false" />
-    </list>
+    <list default="true" id="edd0c7d7-7a0b-4424-a08d-55968d277238" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

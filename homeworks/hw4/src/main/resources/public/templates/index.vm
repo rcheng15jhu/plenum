@@ -5,6 +5,7 @@
 <h1>Welcome to MyBooks App $username</h1>
 <div class="divContents indexLinkWrapper">
     <p><a class="content indexLink" href="/authors">Show all authors</a></p>
+    <p><a class="content indexLink" href="/books">Show all books</a></p>
     <p><a class="content indexLink" href="/addauthor">Add author</a></p>
 </div>
 #else
