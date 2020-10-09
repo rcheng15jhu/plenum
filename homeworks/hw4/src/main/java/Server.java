@@ -48,6 +48,14 @@ public class Server {
             return new ModelAndView(model, "public/templates/authors.vm");
         }, new VelocityTemplateEngine());
 
+        get("/books", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            model.put("books", new Sql2oBookDao(sql2o).listAll());
+            res.status(200);
+            res.type("text/html");
+            return new ModelAndView(model, "public/templates/books.vm");
+        }, new VelocityTemplateEngine());
+
         get("/addauthor", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             res.status(200);
