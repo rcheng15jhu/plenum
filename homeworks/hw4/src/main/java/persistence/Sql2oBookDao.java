@@ -25,6 +25,9 @@ public class Sql2oBookDao implements BookDao {
             book.setId(id);
             return id;
         }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
     }
 
     @Override
