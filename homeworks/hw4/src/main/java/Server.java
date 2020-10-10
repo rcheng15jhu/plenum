@@ -120,6 +120,35 @@ public class Server {
             return new VelocityTemplateEngine().render(mdl);
         });
 
+        post("/addbook", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            Sql2oAuthorDao sql2oAuthorDao = new Sql2oAuthorDao(sql2o);
+            String name = req.queryParams("name");
+            int authorId = sql2oAuthorDao.queryId(name);
+            if (authorId == -1) {
+                int numOfBooks = Integer.parseInt(req.queryParams("numOfBooks"));
+                String nationality = req.queryParams("nationality");
+                Author author = new Author(name, numOfBooks, nationality);
+                try {
+                    authorId = new Sql2oAuthorDao(sql2o).add(author);
+                    if (authorId > 0) {
+                        model.put("added", "true");
+                    }
+                    else {
+                        model.put("failedAdd", "true");
+                    }
+                }
+                catch (DaoException ex) {
+                    model.put("failedAdd", "true");
+                }
+            }
+            if (!model.containsKey("failedAdd")) {
+                
+            }
+            ModelAndView mdl = new ModelAndView(model, "public/templates/addauthor.vm");
+            return new VelocityTemplateEngine().render(mdl);
+        });
+
         /* TODO: add your new endpoints here! */
     }
 }
