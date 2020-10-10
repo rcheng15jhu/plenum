@@ -80,6 +80,10 @@ public class Server {
 
         get("/authors", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
+            if (req.cookie("username") == null) {
+                res.redirect("/");
+                return null;
+            }
             model.put("authors", new Sql2oAuthorDao(sql2o).listAll());
             res.status(200);
             res.type("text/html");
@@ -88,6 +92,10 @@ public class Server {
 
         get("/books", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
+            if (req.cookie("username") == null) {
+                res.redirect("/");
+                return null;
+            }
             model.put("books", new Sql2oBookDao(sql2o).listAll());
             res.status(200);
             res.type("text/html");
@@ -96,6 +104,10 @@ public class Server {
 
         get("/addauthor", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
+            if (req.cookie("username") == null) {
+                res.redirect("/");
+                return null;
+            }
             res.status(200);
             res.type("text/html");
             return new ModelAndView(model, "public/templates/addauthor.vm");
@@ -127,6 +139,10 @@ public class Server {
 
         get("/addbook", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
+            if (req.cookie("username") == null) {
+                res.redirect("/");
+                return null;
+            }
             res.status(200);
             res.type("text/html");
             return new ModelAndView(model, "public/templates/addbook.vm");
