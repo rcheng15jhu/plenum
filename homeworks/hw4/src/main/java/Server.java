@@ -154,7 +154,7 @@ public class Server {
                     model.put("failedAdd", "true");
                 }
             }
-            if (!model.containsKey("failedAdd")) {
+            if (authorId > 0) {
                 String title = req.queryParams("title");
                 String isbn = req.queryParams("isbn");
                 String publisher = req.queryParams("publisher");
