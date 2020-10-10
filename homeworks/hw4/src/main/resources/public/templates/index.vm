@@ -1,8 +1,12 @@
 #set( $title = "Welcome Page" )
 #parse("public/templates/top.vm")
 
+#if(!$color)
+    #set($color = "black")
+#end
+
 #if($username)
-<h1>Welcome to MyBooks App $username</h1>
+<h1 style="color: $color">Welcome to MyBooks App $username</h1>
 <div class="divContents indexLinkWrapper">
     <p><a class="content indexLink" href="/authors">Show all authors</a></p>
     <p><a class="content indexLink" href="/books">Show all books</a></p>
