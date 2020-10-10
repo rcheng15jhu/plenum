@@ -125,6 +125,13 @@ public class Server {
             return new VelocityTemplateEngine().render(mdl);
         });
 
+        get("/addbook", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            res.status(200);
+            res.type("text/html");
+            return new ModelAndView(model, "public/templates/addbook.vm");
+        }, new VelocityTemplateEngine());
+
         post("/addbook", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             Sql2oAuthorDao sql2oAuthorDao = new Sql2oAuthorDao(sql2o);
@@ -168,7 +175,7 @@ public class Server {
                     model.remove("added");
                 }
             }
-            ModelAndView mdl = new ModelAndView(model, "public/templates/addauthor.vm");
+            ModelAndView mdl = new ModelAndView(model, "public/templates/addbook.vm");
             return new VelocityTemplateEngine().render(mdl);
         });
 
