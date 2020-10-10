@@ -1,5 +1,6 @@
 import exception.DaoException;
 import model.Author;
+import model.Book;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
@@ -120,6 +121,53 @@ public class Server {
             }
             res.status(201);
             res.type("text/html");
+            ModelAndView mdl = new ModelAndView(model, "public/templates/addauthor.vm");
+            return new VelocityTemplateEngine().render(mdl);
+        });
+
+        post("/addbook", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            Sql2oAuthorDao sql2oAuthorDao = new Sql2oAuthorDao(sql2o);
+            String name = req.queryParams("name");
+            int authorId = sql2oAuthorDao.queryId(name);
+            if (authorId == -1) {
+                int numOfBooks = Integer.parseInt(req.queryParams("numOfBooks"));
+                String nationality = req.queryParams("nationality");
+                Author author = new Author(name, numOfBooks, nationality);
+                try {
+                    authorId = sql2oAuthorDao.add(author);
+                    if (authorId > 0) {
+                        model.put("added", "true");
+                    }
+                    else {
+                        model.put("failedAdd", "true");
+                    }
+                }
+                catch (DaoException ex) {
+                    model.put("failedAdd", "true");
+                }
+            }
+            if (!model.containsKey("failedAdd")) {
+                String title = req.queryParams("title");
+                String isbn = req.queryParams("isbn");
+                String publisher = req.queryParams("publisher");
+                int year = Integer.parseInt(req.queryParams("year"));
+                Book book = new Book(title, isbn, publisher, year, authorId);
+                try {
+                    int id = new Sql2oBookDao(sql2o).add(book);
+                    if (id > 0) {
+                        model.put("added", "true");
+                    }
+                    else {
+                        model.put("failedAdd", "true");
+                        model.remove("added");
+                    }
+                }
+                catch (DaoException ex) {
+                    model.put("failedAdd", "true");
+                    model.remove("added");
+                }
+            }
             ModelAndView mdl = new ModelAndView(model, "public/templates/addauthor.vm");
             return new VelocityTemplateEngine().render(mdl);
         });

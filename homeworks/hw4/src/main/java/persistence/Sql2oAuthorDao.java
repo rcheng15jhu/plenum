@@ -26,6 +26,35 @@ public class Sql2oAuthorDao implements AuthorDao {
             return id;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
+            throw new DaoException();
+        }
+    }
+
+    public int addTransaction(Author author, Connection con) throws DaoException {
+        String query = "INSERT INTO Authors (name, numOfBooks, nationality)" +
+                "VALUES (:name, :numOfBooks, :nationality)";
+        int id = (int) con.createQuery(query, true)
+                .bind(author)
+                .executeUpdate().getKey();
+        author.setId(id);
+        return id;
+    }
+
+    public int queryId(String name) throws DaoException {
+        String query = "Select * FROM Authors WHERE name = :name";
+        try (Connection con = sql2o.open()) {
+            List<Author> authors = con.createQuery(query)
+                    .addParameter("name", name)
+                    .executeAndFetch(Author.class);
+            if(authors.size() == 1) {
+                return authors.get(0).getId();
+            } else {
+                return -1;
+            }
+        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -37,6 +66,7 @@ public class Sql2oAuthorDao implements AuthorDao {
             return con.createQuery(sql).executeAndFetch(Author.class);
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -51,6 +81,7 @@ public class Sql2oAuthorDao implements AuthorDao {
             return true;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -63,6 +94,7 @@ public class Sql2oAuthorDao implements AuthorDao {
             return true;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
