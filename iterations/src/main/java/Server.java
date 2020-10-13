@@ -68,11 +68,19 @@ public class Server {
         }
         return sql2o;
     }
+    
+  final int PORT_NUM = 7000;  
+  private static int getHerokuAssignedPort() {
+    String herokuPort = System.getenv("PORT");
+    if (herokuPort != null) {
+      return Integer.parseInt(herokuPort);
+    }
+    return PORT;
+  }
 
     public static void main(String[] args)  {
         // set port number
-        final int PORT_NUM = 7000;
-        port(PORT_NUM);
+        port(getHerokuAssignedPort());
 
         staticFiles.location("/public");
 
