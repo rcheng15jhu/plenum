@@ -59,7 +59,11 @@ able to set my availability in any time zone of my choosing, and view my availab
 in any time zone of my choosing, so as to be able to more easily communicate with
 people in different time zones.
 
-
+* As a user that wants avoid wasting time on deciding a meeting time once
+the group's availability is known, I would like to be able to suggest meeting
+times within the application itself, which are placed on a ranked list. Individuals
+in the event can upvote/downvote suggested events to come to a consensus about which
+meeting time is most optimal. The application can also suggest meeting times autonomously
 
 
 ## Software Architecture
