@@ -63,7 +63,7 @@ people in different time zones.
 the group's availability is known, I would like to be able to suggest meeting
 times within the application itself, which are placed on a ranked list. Individuals
 in the event can upvote/downvote suggested events to come to a consensus about which
-meeting time is most optimal.
+meeting time is most optimal. The application can also suggest meeting times autonomously
 
 
 ## Software Architecture
