@@ -54,6 +54,25 @@ public class Sql2oAuthorDao implements AuthorDao {
             throw new DaoException();
         }
     }
+
+    public int queryId(String name) throws DaoException {
+        String query = "Select * FROM Authors WHERE name = :name";
+        try (Connection con = sql2o.open()) {
+            List<Author> authors = con.createQuery(query)
+                    .addParameter("name", name)
+                    .executeAndFetch(Author.class);
+            if(authors.size() == 1) {
+                return authors.get(0).getId();
+            } else {
+                return -1;
+            }
+        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
+            throw new DaoException();
+        }
+    }
+
     @Override
     public boolean delete(Author author) throws DaoException {
         String sql = "DELETE FROM Authors WHERE name =:name";
