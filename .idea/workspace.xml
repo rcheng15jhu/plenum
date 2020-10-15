@@ -19,7 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="edd0c7d7-7a0b-4424-a08d-55968d277238" name="Default Changelist" comment="" />
+    <list default="true" id="edd0c7d7-7a0b-4424-a08d-55968d277238" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/iterations/src/main/resources/public/templates/bottom.vm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iterations/src/main/resources/public/templates/index.vm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iterations/src/main/resources/public/templates/top.vm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iterations/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/iterations/src/main/java/Server.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -106,7 +112,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="external.system.task.project.file.to.start" value="$PROJECT_DIR$" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/homeworks/hw4/src/main/resources/public/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/iterations/src/main/resources/public/templates" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -121,6 +127,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\JIN\IdeaProjects\2020-fall-group-fun-fun-fun\iterations\src\main\resources\public\templates" />
+      <recent name="C:\Users\JIN\IdeaProjects\2020-fall-group-fun-fun-fun\homeworks\hw5\src\main\resources\public\js" />
+      <recent name="C:\Users\JIN\IdeaProjects\2020-fall-group-fun-fun-fun\homeworks\hw5\src\main\resources\public\templates" />
       <recent name="C:\Users\JIN\IdeaProjects\2020-fall-group-fun-fun-fun\homeworks\hw4\src\main\resources\public\templates" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
