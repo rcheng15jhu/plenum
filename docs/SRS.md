@@ -34,14 +34,28 @@ efficient and less tedious.
 > List the (functional) requirements that software needs to have in order to solve the problem stated above. It is useful to write the requirements in form of **User Stories** and group them into those that are essential (must have), and those which are non-essential (but nice to have).
 
 ### Must have
+* As someone who needs to share my availability with other people, I need this
+application to include a way to have me enter, save, and submit my availability,
+so that I can coordinate with others more efficiently.
+
 * As someone who needs to be able to coordinate scheduling between multiple people,
-I need this application to include a way to have multiple people enter, save, and
-submit their availabilities, and a way to view aggregate availabilities, so that I
+I need this application to have a way to view aggregate availabilities, so that I
 can coordinate events more efficiently.
+
+* As someone who frequently has to schedule multiple distinct events with other people,
+I need to be able to log in and log out of this application to securly store information
+related to my availability.
 
 * As someone who frequently has to schedule multiple distinct events with other people,
 I need this application to include a way to include a default availability schedule
 so that I can submit my availability more conveniently.
+
+* As someone who frequently has to schedule multiple distinct events with other people,
+I need this application to store many different calendars for me, so that I can submit
+my availability differently for events that I have different amount of
+commitments to. For example, for my job I may want to list more availability, but for a
+school club, I may want to list less availability, and I would like both calendars to
+be stored for quick use.
 
 * As someone who frequently uses my calendar to schedule events throughout my life,
 I need to be able to import my schedule from my calendar application, so that I can
@@ -55,15 +69,28 @@ semester (through sis integration) so as to make my scheduling quick and easy to
 carry out.
 
 * As a student who works with people in other time zones, I would like to easily be
-able to set my availability in any time zone of my choosing, and view my availability
-in any time zone of my choosing, so as to be able to more easily communicate with
-people in different time zones.
+able to set and view my availability in any time zone of my choosing, so as to be able
+to more easily communicate with people in different time zones.
 
-* As a user that wants avoid wasting time on deciding a meeting time once
+* As a student who works with people in other time zones, I would like to easily view
+my availability by reshaping the calendar so that each distinct day in my local time
+zone is displayed on a different column.
+
+* As a user that wants to avoid wasting time on deciding a meeting time once
 the group's availability is known, I would like to be able to suggest meeting
 times within the application itself, which are placed on a ranked list. Individuals
 in the event can upvote/downvote suggested events to come to a consensus about which
-meeting time is most optimal. The application can also suggest meeting times autonomously
+meeting time is most optimal. 
+
+* As a user that wants to avoid wasting time on deciding a meeting time once
+the group's availability is known, I would like the application to suggest meeting times
+autonomously for the group, based on the avaliability, so as to more easily finalize
+a meeting time once avaliabilities are known.
+
+* As someone who frequently has to schedule multiple distinct events with other people
+on different days of the week, I would like to store calendars specifically for certain
+days of the week, so as to allow me to plan my availability in different chunks for different
+times of the week.
 
 
 ## Software Architecture
