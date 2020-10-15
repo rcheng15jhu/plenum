@@ -91,6 +91,15 @@ public class Server {
             return new Gson().toJson(a.toString());
         });
 
+        post("/delbook", (req, res) -> {
+            String title = req.queryParams("title");
+            Book b = new Book(title, "", "", 0, 0);
+            new Sql2oBookDao(getSql2o()).delete(b);
+            res.status(200);
+            res.type("application/json");
+            return new Gson().toJson(b.toString());
+        });
+
 
     }
 }
