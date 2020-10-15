@@ -85,7 +85,23 @@ public class Server {
         staticFiles.location("/public");
 
         // root route; show a simple message!
-        get("/", (req, res) -> "index.html");
+
+        post("/", (req, res) -> {
+            String username = req.queryParams("username");
+            res.cookie("username", username);
+            res.redirect("/");
+            return null;
+        });
+
+        get("/", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            if (req.cookie("username") != null)
+                model.put("username", req.cookie("username"));
+            res.status(200);
+            res.type("text/html");
+            return new ModelAndView(model, "public/templates/index.vm");
+        }, new VelocityTemplateEngine());
+
 
         // calendars route; return list of calendars as JSON
         get("/calendars", (req, res) -> {
