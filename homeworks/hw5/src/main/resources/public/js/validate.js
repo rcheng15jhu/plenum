@@ -10,7 +10,7 @@ function validateUsername() {
 
 function validateAuthorName() {
     const name = document.getElementById("authorName");
-    const re = /([-'a-z]* )( *[-'a-z]*)*/;
+    const re = /^([-'A-Za-z]+) +([-'A-Za-z]+)[- 'A-Za-z]*$/;
     if (re.test(name)) {
         return true
     }
@@ -20,7 +20,7 @@ function validateAuthorName() {
 
 function validateISBN() {
     const isbn = document.getElementById("isbn");
-    const re = /([0-9]{10,10})|([0-9]{3,3}-[0-9]{10,10})/;
+    const re = /(^[0-9]{10,10}$)|(^[0-9]{3,3}-[0-9]{10,10}$)/;
     if (re.test(isbn)) {
         return true;
     }
