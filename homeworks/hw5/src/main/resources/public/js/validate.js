@@ -8,3 +8,31 @@ function validateUsername() {
     }
 }
 
+function validateAuthorName() {
+    const name = document.getElementById("authorName");
+    const re = /^([-'A-Za-z]+) +([-'A-Za-z]+)[- 'A-Za-z]*$/;
+    if (re.test(name)) {
+        return true
+    }
+    alert("Invalid name")
+    return false
+}
+
+function validateISBN() {
+    const isbn = document.getElementById("isbn");
+    const re = /(^[0-9]{10,10}$)|(^[0-9]{3,3}-[0-9]{10,10}$)/;
+    if (re.test(isbn)) {
+        return true;
+    }
+    alert("Invalid ISBN")
+    return false;
+}
+
+function validateTitle() {
+    if (document.getElementById("title").value.length > 0) {
+        return true
+    }
+    alert("Title cannot be empty")
+    return false;
+}
+

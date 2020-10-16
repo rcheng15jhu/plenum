@@ -1,4 +1,4 @@
-package model;
+package exception;
 
 import java.util.Date;
 import java.util.List;

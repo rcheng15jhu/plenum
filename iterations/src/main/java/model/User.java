@@ -4,6 +4,7 @@ public class User {
 
     private int id;
     private String name;
+    private String password; //Should this be byte[]? Need to look into proper authentication
 
     public User(int id, String name) {
         this.id = id;
