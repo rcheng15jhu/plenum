@@ -10,7 +10,7 @@ function validateUsername() {
 
 function validateAuthorName() {
     const name = document.getElementById("authorName");
-    const re = /^([-'A-Za-z]+) +([-'A-Za-z]+)[- 'A-Za-z]*$/;
+    const re = /^([A-Za-z]+) +([A-Za-z]+)[ A-Za-z]*$/;
     if (re.test(name)) {
         return true
     }
