@@ -1,0 +1,30 @@
+h1 {
+    font-family: sans-serif;
+    font-size: 30px;
+    font-style: italic;
+}
+
+p {
+    font-family: sans-serif;
+    font-size: 15px;
+}
+
+form label {
+    padding-right: 5%;
+    text-align: right;
+    width: 200px;
+    font-family: Verdana, sans-serif;
+    font-size: 16px;
+    color: #db7242;
+}
+
+input[type=text] {
+    transition: width 0.5s ease-in-out;
+    width: 20%;
+}
+
+input[type=text]:focus {
+    background-color:lightblue;
+    color:black;
+    border: 3px #273746;
+}

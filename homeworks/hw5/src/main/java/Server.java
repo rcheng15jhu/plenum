@@ -5,14 +5,15 @@ import model.Book;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
-import org.sqlite.SQLiteDataSource;
 import persistence.Sql2oAuthorDao;
 import persistence.Sql2oBookDao;
 import spark.ModelAndView;
+import spark.template.velocity.VelocityTemplateEngine;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import static spark.Spark.*;
-import spark.template.velocity.VelocityTemplateEngine;
 
 public class Server {
 

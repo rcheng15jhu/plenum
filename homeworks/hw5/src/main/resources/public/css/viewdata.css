@@ -1,0 +1,54 @@
+h1 {
+    font-family: sans-serif;
+    font-size: 30px;
+    font-style: italic;
+}
+
+ol li {
+    font-family: sans-serif;
+    font-size: 15px;
+}
+
+form {
+    text-align: center;
+    background: #3a4755;
+    width: max-content;
+    padding: 5px 25px 25px;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+form label {
+    font-family: sans-serif;
+    font-size: 15px;
+    color: white;
+}
+
+input[type=text] {
+    transition: width 0.5s ease-in-out;
+    height: 20px;
+    width: 10%;
+}
+
+input[type=text]:focus {
+    height: 20px;
+    width: 20%;
+    background-color:lightblue;
+    color:black;
+    border: 3px #273746;
+}
+
+input[type=number]:focus {
+    background-color:lightblue;
+    color:black;
+    border: 3px #273746;
+}
+
+.green-check {
+    background: white;
+    color: green;
+    border-radius: 25%;
+    font-weight: bold;
+    border: 2px solid green;
+    font-size: 20px;
+}
