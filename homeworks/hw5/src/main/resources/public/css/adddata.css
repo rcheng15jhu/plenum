@@ -34,7 +34,7 @@ form label {
     font-size: 16px;
 }
 
-form input {
+form input:not([type=submit]) {
     width: 200px;
     font-size: 16px;
     padding: 5px;
