@@ -3,8 +3,9 @@ package model;
 import java.util.List;
 
 public class Event {
-    private String title;
     private int id;
+    private String title;
+    private Range validTimeRange;
     //private List<Calendar> participantCalendars;
 
     public Event(int id) {

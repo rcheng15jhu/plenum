@@ -1,11 +1,8 @@
 import com.google.gson.Gson;
 import exception.DaoException;
-import model.AggregateCalendar;
 import model.Calendar;
 import model.Event;
-import model.Range;
 import model.User;
-import model.UserCred;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
@@ -19,8 +16,6 @@ import spark.template.velocity.VelocityTemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static spark.Spark.*;
 
 public class Server {
 
