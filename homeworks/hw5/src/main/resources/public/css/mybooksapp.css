@@ -62,3 +62,17 @@ ol li button{
     border: 2px solid red;
 }
 
+.green-check {
+    background: white;
+    color: green;
+    border-radius: 50%;
+    font-weight: bold;
+    border: 2px solid green;
+    font-size: 30px;
+}
+
+#list-form{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+

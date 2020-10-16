@@ -6,6 +6,8 @@
 <div class="divContents indexLinkWrapper">
     <p><a class="content indexLink" href="/authors">Show all authors</a></p>
     <p><a class="content indexLink" href="/addauthor">Add author</a></p>
+    <p><a class="content indexLink" href="/books">Show all books</a></p>
+    <p><a class="content indexLink" href="/addbook">Add book</a></p>
 </div>
 #else
 <h1>Please login first!</h1>
