@@ -9,17 +9,18 @@ function validateUsername() {
 }
 
 function validateAuthorName() {
-    const name = document.getElementById("authorName");
+    const name = document.getElementById("name").value;
     const re = /^([A-Za-z]+) +([A-Za-z]+)[ A-Za-z]*$/;
     if (re.test(name)) {
         return true
     }
     alert("Invalid name")
     return false
+
 }
 
 function validateISBN() {
-    const isbn = document.getElementById("isbn");
+    const isbn = document.getElementById("isbn").value;
     const re = /(^[0-9]{10,10}$)|(^[0-9]{3,3}-[0-9]{10,10}$)/;
     if (re.test(isbn)) {
         return true;

@@ -11,7 +11,7 @@
         #end
         </p>
     </ol>
-    <form action="/addbook" method="post" class="content" id="list-form">
+    <form action="/addbook" method="post" class="content" id="list-form" onsubmit="return validateISBN() && validateTitle();">
         <label for="title">Title: </label>
         <input type="text" name="title" placeholder="title" id="title" required>
         <label for="isbn">ISBN: </label>
@@ -33,5 +33,6 @@
 </div>
 #end
 <script src="js/delbook.js"></script>
+<script src="js/validate.js"></script>
 
 #parse("public/templates/bottom.vm")
