@@ -13,8 +13,12 @@ import org.sqlite.SQLiteDataSource;
 import persistence.Sql2oCalendarDao;
 import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
+import static spark.Spark.*;
+import spark.ModelAndView;
+import spark.template.velocity.VelocityTemplateEngine;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static spark.Spark.*;
 
@@ -69,13 +73,13 @@ public class Server {
         return sql2o;
     }
     
-  final int PORT_NUM = 7000;  
+  final static int PORT_NUM = 7000;
   private static int getHerokuAssignedPort() {
     String herokuPort = System.getenv("PORT");
     if (herokuPort != null) {
       return Integer.parseInt(herokuPort);
     }
-    return PORT;
+    return PORT_NUM;
   }
 
     public static void main(String[] args)  {
