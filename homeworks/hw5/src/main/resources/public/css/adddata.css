@@ -1,7 +1,7 @@
 form {
     text-align: center;
     background: #3a4755;
-    width: 400px;
+    width: max-content;
     padding: 5px 25px 25px;
     margin: 0 auto;
     border-radius: 10px;
