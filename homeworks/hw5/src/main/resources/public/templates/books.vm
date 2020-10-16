@@ -7,7 +7,7 @@
     <ol>
     <p>
         #foreach($book in $books )
-            <li class="content book"><i>$book.title</i> (isbn: $book.isbn) was published in $book.year by $book.publisher. <button class="$book.title">X</button></li>
+            <li class="content book"><i>$book.title</i> (isbn: $book.isbn) was published in $book.year by $book.publisher. <button class="$book.isbn">X</button></li>
         #end
         </p>
     </ol>
