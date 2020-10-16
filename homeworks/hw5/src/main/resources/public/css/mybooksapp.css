@@ -55,6 +55,15 @@ form input[type=text], input[type=number] {
     border-radius: 6px;
 }
 
+.list-form > label{
+    margin: 0;
+    padding: 0;
+}
+
+.list-form > input {
+    margin: 0;
+}
+
 ol li button{
     color: red;
     border-radius: 50%;
@@ -69,10 +78,5 @@ ol li button{
     font-weight: bold;
     border: 2px solid green;
     font-size: 30px;
-}
-
-#list-form{
-    margin-left: 0px;
-    padding-left: 0px;
 }
 

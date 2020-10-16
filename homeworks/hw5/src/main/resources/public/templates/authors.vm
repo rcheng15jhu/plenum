@@ -11,7 +11,7 @@
             #end
         </p>
     </ol>
-    <form action="/addauthor" method="post" class="content" onsubmit="return validateAuthorName();">
+    <form action="/addauthor" method="post" class="content list-form" onsubmit="return validateAuthorName();">
         <label for="name">Name: </label>
         <input type="text" name="name" placeholder="name" id="name" required>
         <label for="nationality">Nationality: </label>
@@ -23,7 +23,7 @@
 </div>
 #end
 <script src="js/delauthor.js"></script>
+##<script src="js/validate.js"></script>
 <script src="js/addauthor.js"></script>
-<script src="js/validate.js"></script>
 
 #parse("public/templates/bottom.vm")

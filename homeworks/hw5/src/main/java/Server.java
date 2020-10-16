@@ -200,7 +200,7 @@ public class Server {
                     model.remove("added");
                 }
             }
-            ModelAndView mdl = new ModelAndView(model, "public/templates/addbook.vm");
+            ModelAndView mdl = new ModelAndView(model, "public/templates/books.vm");
             return new VelocityTemplateEngine().render(mdl);
         });
     }
