@@ -1,11 +1,8 @@
 import com.google.gson.Gson;
 import exception.DaoException;
-import model.AggregateCalendar;
 import model.Calendar;
 import model.Event;
-import model.Range;
 import model.User;
-import model.UserCred;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
@@ -13,10 +10,12 @@ import org.sqlite.SQLiteDataSource;
 import persistence.Sql2oCalendarDao;
 import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
-
-import java.util.List;
-
 import static spark.Spark.*;
+import spark.ModelAndView;
+import spark.template.velocity.VelocityTemplateEngine;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Server {
 
@@ -69,13 +68,13 @@ public class Server {
         return sql2o;
     }
     
-  final int PORT_NUM = 7000;  
+  final static int PORT_NUM = 7000;
   private static int getHerokuAssignedPort() {
     String herokuPort = System.getenv("PORT");
     if (herokuPort != null) {
       return Integer.parseInt(herokuPort);
     }
-    return PORT;
+    return PORT_NUM;
   }
 
     public static void main(String[] args)  {

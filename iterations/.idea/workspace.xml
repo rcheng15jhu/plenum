@@ -3,6 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="e50d4b5b-aaec-49e7-b433-eb92328d2044" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/exception/AggregateCalendar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/exception/AggregateCalendar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Availability.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Availability.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Calendar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Calendar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Connections.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Connections.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +57,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="FindBugs-IDEA-Workspace">
     <toolWindowEditorPreview>false</toolWindowEditorPreview>
   </component>
@@ -67,7 +81,12 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../homeworks/hw4" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="exception" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.Server">
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -140,6 +159,8 @@
       <workItem from="1602027726945" duration="10774000" />
       <workItem from="1602179017133" duration="2384000" />
       <workItem from="1602190207142" duration="332000" />
+      <workItem from="1602811476125" duration="510000" />
+      <workItem from="1602812205653" duration="3809000" />
     </task>
     <servers />
   </component>
@@ -151,22 +172,34 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="361" y="72" key="#Inspections/0.0.1536.824@0.0.1536.824" timestamp="1602028297619" />
-    <state x="538" y="114" key="#com.intellij.ide.util.MemberChooser" timestamp="1602037813855">
+    <state x="538" y="114" key="#com.intellij.ide.util.MemberChooser" timestamp="1602815980347">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="538" y="114" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1602037813855" />
+    <state x="538" y="114" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1602815980347" />
+    <state x="499" y="194" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1602814893162">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="194" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1602814893162" />
     <state x="618" y="302" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1602027866181">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="618" y="302" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1536.824@0.0.1536.824" timestamp="1602027866181" />
+    <state x="566" y="273" width="403" height="287" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1602814894982">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="566" y="273" width="403" height="287" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1602814894982" />
+    <state x="499" y="160" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1602815833514">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="160" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1602815833514" />
     <state x="118" y="8" key="CommitChangelistDialog2" timestamp="1602039464822">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="118" y="8" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1602039464822" />
-    <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1602190538508">
+    <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1602817501839">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1602190538508" />
+    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1602817501839" />
     <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1602183167971">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

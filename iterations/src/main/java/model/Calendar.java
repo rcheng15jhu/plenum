@@ -6,11 +6,8 @@ import java.util.Map;
 
 public class Calendar {
     private int id;
-
     private String name;
     private int userId;
-    private int eventId;
-    private String blob;
 
     @Override
     public String toString() {
@@ -18,23 +15,18 @@ public class Calendar {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", userId=" + userId +
-                ", eventId=" + eventId +
-                ", blob='" + blob + '\'' +
                 '}';
     }
 
-    public Calendar(int id, String name, int userId, int eventId, String blob) {
+    public Calendar(int id, String name, int userId) {
         this.id = id;
         this.name = name;
         this.userId = userId;
-        this.eventId = eventId;
-        this.blob = blob;
     }
 
-    public Calendar(String name, int userId, int eventId) {
+    public Calendar(String name, int userId) {
         this.name = name;
         this.userId = userId;
-        this.eventId = eventId;
     }
 
     public Calendar(int id) {
@@ -58,14 +50,6 @@ public class Calendar {
         this.name = name;
     }
 
-    public void setBlob(String blob) {
-        this.blob = blob;
-    }
-
-    public String getBlob() {
-        return this.blob;
-    }
-
 
 
     public int getUserId() {
@@ -74,13 +58,5 @@ public class Calendar {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
     }
 }
