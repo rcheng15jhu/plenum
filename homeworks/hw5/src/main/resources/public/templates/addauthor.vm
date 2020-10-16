@@ -14,18 +14,27 @@
 
 <h2>Add a new author</h2>
 <form action="/addauthor" method="post" class="content">
-    <label for="name">Name: </label>
-    <input type="text" name="name" placeholder="name" id="name" required>
-    <br />
-    <label for="nationality">Nationality: </label>
-    <input type="text" name="nationality" placeholder="nationality" id="nationality" />
-    <br />
-    <label for="numOfBooks">Number of books: </label>
-    <input type="number" name="numOfBooks" placeholder="1" id="numOfBooks" min="1" max="200"/>
+    <h3>Author Information</h3>
+    <div class="center">
+        <div class="row">
+            <label for="name">Name: </label>
+            <input type="text" name="name" placeholder="name" id="name" required>
+        </div>
+        <div class="row">
+            <label for="nationality">Nationality: </label>
+            <input type="text" name="nationality" placeholder="nationality" id="nationality" />
+        </div>
+        <div class="row">
+            <label for="numOfBooks">Number of books: </label>
+            <input type="number" name="numOfBooks" placeholder="1" id="numOfBooks" min="1" max="200"/>
+        </div>
+    </div>
     <br />
     <div id="divSubmit">
         <input type="submit" value="Add" class="submit" />
     </div>
 </form>
+
+<p><a class="content indexLink" href="/">Back to home</a></p>
 
 #parse("public/templates/bottom.vm")
