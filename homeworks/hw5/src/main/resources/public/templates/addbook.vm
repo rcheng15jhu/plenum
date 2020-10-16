@@ -1,4 +1,5 @@
 #set( $title = "Add Book" )
+#set( $stylesheet = "css/adddata.css")
 #parse("public/templates/top.vm")
 
 #if($added)
