@@ -14,14 +14,27 @@
     </ol>
 </div>
 #end
+
 <form action="/addauthor" method="post" class="content list-form" onsubmit="return validateAuthorName();">
-    <label for="name">Name: </label>
-    <input type="text" name="name" placeholder="name" id="name" required>
-    <label for="nationality">Nationality: </label>
-    <input type="text" name="nationality" placeholder="nationality" id="nationality" />
-    <label for="numOfBooks">Number of books: </label>
-    <input type="number" name="numOfBooks" placeholder="1" id="numOfBooks" min="1" max="200"/>
-    <input type="submit" value="&#10004" class="green-check" />
+    <h3>Add Authors</h3>
+    <div class = "center">
+        <div class="row">
+            <label for="name">Name: </label>
+            <input type="text" name="name" placeholder="name" id="name" required>
+        </div>
+        <div class = "row">
+            <label for="nationality">Nationality: </label>
+            <input type="text" name="nationality" placeholder="nationality" id="nationality" />
+        </div>
+        <div class = "row">
+            <label for="numOfBooks">Number of books: </label>
+            <input type="number" name="numOfBooks" placeholder="1" id="numOfBooks" min="1" max="200"/>
+        </div>
+        <br />
+    </div>
+    <div id = "divSubmit">
+        <input type="submit" value="&#10004" class="green-check" />
+    </div>
 </form>
 
 <script src="js/delauthor.js"></script>
