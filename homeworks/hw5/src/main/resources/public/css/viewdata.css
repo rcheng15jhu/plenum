@@ -10,6 +10,13 @@ h3 {
     color: white;
 }
 
+.divContents {
+    background: linear-gradient(90deg, rgba(230,251,255,1) 0%, rgba(0,212,255,1) 100%);
+    width: max-content;
+    padding: 5px 10px 5px;
+    border-radius: 5px;
+}
+
 ol li {
     font-family: sans-serif;
     font-size: 15px;
@@ -24,10 +31,17 @@ form {
     border-radius: 10px;
 }
 
+form label, form input {
+    display: table-cell;
+}
+
 form label {
     font-family: sans-serif;
     font-size: 15px;
     color: white;
+    text-align: right;
+    width: 100px;
+    padding-right: 5%;
 }
 
 form div.center {
@@ -43,6 +57,14 @@ input[type=text] {
     transition: width 0.5s ease-in-out;
     height: 20px;
     width: 30%;
+}
+
+ol li button{
+    color: red;
+    border-radius: 25%;
+    font-weight: bold;
+    font-style: italic;
+    border: 2px solid red;
 }
 
 input[type=text]:focus {

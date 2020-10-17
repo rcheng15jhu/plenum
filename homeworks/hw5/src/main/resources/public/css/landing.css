@@ -9,22 +9,15 @@ p {
     font-size: 15px;
 }
 
-form label {
-    padding-right: 5%;
-    text-align: right;
-    width: 200px;
-    font-family: Verdana, sans-serif;
-    font-size: 16px;
-    color: #db7242;
+a:hover {
+    background: cyan;
+    color: darkblue;
 }
 
-input[type=text] {
-    transition: width 0.5s ease-in-out;
+div {
     width: 20%;
-}
-
-input[type=text]:focus {
-    background-color:lightblue;
-    color:black;
-    border: 3px #273746;
+    border-radius: 5px;
+    padding: 5px 10px 5px;
+    text-align: center;
+    background: linear-gradient(90deg, rgba(230,251,255,1) 0%, rgba(0,212,255,1) 100%);
 }
