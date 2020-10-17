@@ -19,9 +19,11 @@ public class Sql2oEventDao implements EventDao{
     @Override
     public int add(Event event) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String query = "INSERT INTO Events (title, calId)" +
-                            "VALUES (:title, :calId)";
+            String query = "INSERT INTO Events (title, validTimeRange)" +
+                            "VALUES (:title, :validTimeRange)";
             int id = (int) con.createQuery(query, true)
+                    .addParameter("title", event.getTitle())
+                    .addParameter("validTimeRange", event.getValidTimeRange())
                     .bind(event)
                     .executeUpdate().getKey();
             event.setId(id);

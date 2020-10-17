@@ -6,7 +6,6 @@ public class Event {
     private int id;
     private String title;
     private Range validTimeRange;
-    //private List<Calendar> participantCalendars;
 
     public Event(int id) {
         this.id = id;
@@ -18,8 +17,9 @@ public class Event {
         this.id = id;
     }
 
-    public Event(String title) {
+    public Event(String title, Range validTimeRange) {
         this.title = title;
+        this.validTimeRange = validTimeRange;
     }
 
     public int getId() {
@@ -30,6 +30,22 @@ public class Event {
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Range getValidTimeRange() {
+        return validTimeRange;
+    }
+
+    public void setValidTimeRange(Range validTimeRange) {
+        this.validTimeRange = validTimeRange;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -37,17 +53,4 @@ public class Event {
                 ", id=" + id +
                 '}';
     }
-
-//    public void addCalendar(Calendar calendar) {
-//        participantCalendars.add(calendar);
-//    }
-
-  /*public List<Calendar> getCalendars() {
-    return Collections.unmodifiableList(participantCalendars);
-  }*/
-
-  /*public AggregateCalendar getAggregateCalendar(UserCred user) {
-    //Make a aggregateCalendar with everyone except the user passed in
-    return null;
-  }*/
 }

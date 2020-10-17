@@ -1,30 +1,33 @@
 package persistence;
 
 import exception.DaoException;
-import model.Event;
-import model.User;
+import model.Availability;
+import model.Calendar;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.util.List;
 
-public class Sql2oUserDao implements UserDao{
+public class Sql2oAvailabilityDao implements AvailabilityDao {
     private final Sql2o sql2o;
 
-    public Sql2oUserDao(Sql2o sql2o) {
+    public Sql2oAvailabilityDao(Sql2o sql2o) {
         this.sql2o = sql2o;
     }
 
     @Override
-    public int add(User user) throws DaoException {
+    public int add(Availability a) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String query = "INSERT INTO Users (name, password)" +
-                    "VALUES (:name, :password)";
+            String query = "INSERT INTO Events (calendarId, date, qAvail)" +
+                    "VALUES (:calendarId, :qAvail)";
             int id = (int) con.createQuery(query, true)
-                    .bind(user)
+                    .addParameter("calendarId", a.getCalendarId())
+                    .addParameter("date", a.getDate())
+                    .addParameter("qAvail", a.getqAvail())
+                    .bind(a)
                     .executeUpdate().getKey();
-            user.setId(id);
+            a.setId(id);
             return id;
         }
         catch (Sql2oException ex) {
@@ -33,10 +36,10 @@ public class Sql2oUserDao implements UserDao{
     }
 
     @Override
-    public List<User> listAll() throws DaoException {
-        String sql = "SELECT * FROM Users";
+    public List<Availability> listAll() throws DaoException {
+        String sql = "SELECT * FROM Availabilities";
         try (Connection con = sql2o.open()) {
-            return con.createQuery(sql).executeAndFetch(User.class);
+            return con.createQuery(sql).executeAndFetch(Availability.class);
         }
         catch (Sql2oException ex) {
             throw new DaoException();
@@ -44,14 +47,14 @@ public class Sql2oUserDao implements UserDao{
     }
 
     @Override
-    public boolean delete(User user) throws DaoException {
+    public boolean delete(Availability a) throws DaoException {
         try (Connection con = sql2o.open()) {
             String preQ = "PRAGMA foreign_keys = ON;";
             con.createQuery(preQ).executeUpdate();
 
-            String query = "DELETE FROM Users WHERE id = :id";
+            String query = "DELETE FROM Availability WHERE id = :id";
             con.createQuery(query)
-                    .bind(user)
+                    .bind(a)
                     .executeUpdate();
             return true;
         }
