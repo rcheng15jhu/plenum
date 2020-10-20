@@ -2,7 +2,7 @@ import React from "react";
 
 import Cell from './Cell'
 
-export const Calendar = (props) => {
+const Calendar = (props) => {
     let template = props.file
 
     let calendar = new Array(12)
@@ -61,6 +61,6 @@ export const Calendar = (props) => {
             </tbody>
         </table>
     )
-}
+};
 
 export default Calendar

@@ -6,6 +6,6 @@ const Cell = (props) => {
         styles.backgroundColor = 'red'
     }
     return <td key={props.key} style={styles}/>
-}
+};
 
 export default Cell
