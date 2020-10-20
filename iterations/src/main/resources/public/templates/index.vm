@@ -27,6 +27,11 @@
         <input type="submit" value="Sign in" class="submit" />
     </div>
 </form>
+<form action="/signup" method="post" class="content" onsubmit="return validateUsername();">
+    <div id="divSubmit">
+        <input type="submit" value="Sign Up" class="submit" />
+    </div>
+</form>
 #end
 
 #parse("public/templates/bottom.vm")
