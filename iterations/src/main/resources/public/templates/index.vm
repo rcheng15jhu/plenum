@@ -14,7 +14,8 @@
     <p><a class="content indexLink" href="/users">Users</a></p>
     <p><a class="content indexLink" href="/deluser">Delete User</a></p>
     <p><a class="content indexLink" href="/adduser">Add User</a></p>
-    <p><a class="content indexLink" href="/maketemplate">Make Template</a></p>
+    <p><a class="content indexLink" href="/makecalendar">Make Calendar</a></p>
+    <p><a class="content indexLink" href="/viewevent">View Event</a></p>
 </div>
 #else
 <h1>Please login first!</h1>
