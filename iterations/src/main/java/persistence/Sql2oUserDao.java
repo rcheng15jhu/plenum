@@ -19,15 +19,18 @@ public class Sql2oUserDao implements UserDao{
     @Override
     public int add(User user) throws DaoException {
         try (Connection con = sql2o.open()) {
+            System.out.println("Inside add!");
             String query = "INSERT INTO Users (name, password)" +
                     "VALUES (:name, :password)";
             int id = (int) con.createQuery(query, true)
                     .bind(user)
                     .executeUpdate().getKey();
             user.setId(id);
+            System.out.println(id);
             return id;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }

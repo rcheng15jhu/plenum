@@ -23,6 +23,7 @@ public class Server {
 
     private static Sql2o getSql2o() {
         if(sql2o == null) {
+            System.out.println("was null!");
             // set on foreign keys
             SQLiteConfig config = new SQLiteConfig();
             //config.enforceForeignKeys(true);
@@ -38,7 +39,7 @@ public class Server {
                 String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
                         " id            INTEGER PRIMARY KEY," +
                         " name          VARCHAR(100) NOT NULL UNIQUE," +
-                        " password      VARCHAR(100) NOT NULL," +
+                        " password      VARCHAR(100) NOT NULL" +
                         ");";
                 conn.createQuery(sq1).executeUpdate();
                 String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
@@ -131,10 +132,11 @@ public class Server {
         }, new VelocityTemplateEngine());
 
         post("/signup", (req, res) -> {
+            System.out.println("request received!");
             String username = req.queryParams("username");
             String password = req.queryParams("password");
             res.cookie("username", username);
-            User u = new User(username, password)
+            User u = new User(username, password);
             new Sql2oUserDao(getSql2o()).add(u);
             res.redirect("/");
             return null;
@@ -158,34 +160,34 @@ public class Server {
         });
 
         //calendar route; returns a single calendar or list of calendars, depending on presence of query param
-        get("/calendar", (req, res) -> {
-            Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
-            String results;
-            String idParam = req.queryParams("id");
-            if(idParam != null) {
-                int id = Integer.parseInt(idParam);
-                results = sql2oCalendar.getCal(id).getBlob();
-            } else {
-                results = new Gson().toJson(sql2oCalendar.listAll());
-            }
-            res.type("application/json");
-            res.status(200);
-            return results;
-        });
+//        get("/calendar", (req, res) -> {
+//            Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
+//            String results;
+//            String idParam = req.queryParams("id");
+//            if(idParam != null) {
+//                int id = Integer.parseInt(idParam);
+//                results = sql2oCalendar.getCal(id).getBlob();
+//            } else {
+//                results = new Gson().toJson(sql2oCalendar.listAll());
+//            }
+//            res.type("application/json");
+//            res.status(200);
+//            return results;
+//        });
 
         //addcalendar route; add a new calendar
-        post("/addcalendar", (req, res) -> {
-            String name = req.queryParams("name");
-            int userId = Integer.parseInt(req.queryParams("userId"));
-            String blob = req.body();
-            Calendar c = new Calendar(name, userId);
-            c.setBlob(blob);
-            System.out.println(c);
-            new Sql2oCalendarDao(getSql2o()).add(c);
-            res.status(201);
-            res.type("application/json");
-            return new Gson().toJson(c.toString());
-        });
+//        post("/addcalendar", (req, res) -> {
+//            String name = req.queryParams("name");
+//            int userId = Integer.parseInt(req.queryParams("userId"));
+//            String blob = req.body();
+//            Calendar c = new Calendar(name, userId);
+//            c.setBlob(blob);
+//            System.out.println(c);
+//            new Sql2oCalendarDao(getSql2o()).add(c);
+//            res.status(201);
+//            res.type("application/json");
+//            return new Gson().toJson(c.toString());
+//        });
 
         //delcalendar route; delete calendar
         post("/delcalendar", (req, res) -> {
