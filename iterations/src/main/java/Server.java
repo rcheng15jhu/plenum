@@ -11,7 +11,9 @@ import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
 import static spark.Spark.*;
 import spark.ModelAndView;
+import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
+import spark.utils.IOUtils;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -306,8 +308,10 @@ public class Server {
         });
 
         get("/maketemplate", (req, res) -> {
-            res.redirect("/templates/test_checkbox.html");
-            return null;
+            //res.redirect("/templates/test_checkbox.html");
+            res.status(200);
+            res.type("text/html");
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/test_checkbox.html"));
         });
     }
 }
