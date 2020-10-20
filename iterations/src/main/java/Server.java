@@ -11,7 +11,9 @@ import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
 import static spark.Spark.*;
 import spark.ModelAndView;
+import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
+import spark.utils.IOUtils;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ public class Server {
 
     private static Sql2o getSql2o() {
         if(sql2o == null) {
+            System.out.println("was null!");
             // set on foreign keys
             SQLiteConfig config = new SQLiteConfig();
             config.enforceForeignKeys(true);
@@ -36,7 +39,8 @@ public class Server {
             try (Connection conn = sql2o.open()) {
                 String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
                         " id            INTEGER PRIMARY KEY," +
-                        " name          VARCHAR(100) NOT NULL UNIQUE" +
+                        " name          VARCHAR(100) NOT NULL UNIQUE," +
+                        " password      VARCHAR(100) NOT NULL" +
                         ");";
                 conn.createQuery(sq1).executeUpdate();
                 String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
@@ -88,7 +92,7 @@ public class Server {
         }
         return sql2o;
     }
-    
+
     final static int PORT_NUM = 7000;
     private static int getHerokuAssignedPort() {
         String herokuPort = System.getenv("PORT");
@@ -120,6 +124,24 @@ public class Server {
             res.status(200);
             res.type("text/html");
             return new ModelAndView(model, "public/templates/index.vm");
+        }, new VelocityTemplateEngine());
+
+        post("/signup", (req, res) -> {
+            System.out.println("request received!");
+            String username = req.queryParams("username");
+            String password = req.queryParams("password");
+            res.cookie("username", username);
+            User u = new User(username, password);
+            new Sql2oUserDao(getSql2o()).add(u);
+            res.redirect("/");
+            return null;
+        });
+
+        get("/signup", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            res.status(200);
+            res.type("text/html");
+            return new ModelAndView(model, "public/templates/signup.vm");
         }, new VelocityTemplateEngine());
 
 
@@ -277,9 +299,18 @@ public class Server {
             return new Gson().toJson(a.toString());
         });
 
-        get("/maketemplate", (req, res) -> {
-            res.redirect("/templates/test_checkbox.html");
-            return null;
+        //Gets page to make a calendar
+        get("/makecalendar", (req, res) -> {
+            //res.redirect("/templates/test_checkbox.html");
+            res.status(200);
+            res.type("text/html");
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/test_checkbox.html"));
+        });
+
+        get("/viewevent", (req, res) -> {
+            res.status(200);
+            res.type("text/html");
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index1.html"));
         });
     }
 }

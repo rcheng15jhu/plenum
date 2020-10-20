@@ -1,0 +1,19 @@
+#set( $title = "Sign Up" )
+#parse("public/templates/top.vm")
+
+<h1>Enter your username!</h1>
+<form action="/signup" method="post" class="content" onsubmit="return validateUsername();">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" placeholder="username" name="username" id="username" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="text" placeholder="password" name="password" id="password" />
+    </div>
+    <div id="divSubmit">
+        <input type="submit" value="Submit" class="submit" />
+    </div>
+</form>
+
+#parse("public/templates/bottom.vm")

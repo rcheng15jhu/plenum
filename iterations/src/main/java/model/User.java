@@ -11,6 +11,8 @@ public class User {
         this.name = name;
     }
 
+
+
     public User(int id) {
         this.id = id;
     }
@@ -21,6 +23,11 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
 
     public User(String name) {
