@@ -130,6 +130,16 @@ public class Server {
             return new ModelAndView(model, "public/templates/index.vm");
         }, new VelocityTemplateEngine());
 
+        post("/signup", (req, res) -> {
+            String username = req.queryParams("username");
+            String password = req.queryParams("password");
+            res.cookie("username", username);
+            User u = new User(username, password)
+            new Sql2oUserDao(getSql2o()).add(u);
+            res.redirect("/");
+            return null;
+        });
+
 
         // calendars route; return list of calendars as JSON
         get("/calendars", (req, res) -> {
