@@ -37,7 +37,8 @@ public class Server {
             try (Connection conn = sql2o.open()) {
                 String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
                         " id            INTEGER PRIMARY KEY," +
-                        " name          VARCHAR(100) NOT NULL UNIQUE" +
+                        " name          VARCHAR(100) NOT NULL UNIQUE," +
+                        " password      VARCHAR(100) NOT NULL," +
                         ");";
                 conn.createQuery(sq1).executeUpdate();
                 String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
