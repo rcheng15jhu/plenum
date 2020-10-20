@@ -22,4 +22,12 @@ public class Range {
         }
         return new Range(sTime, eTime);
     }
+
+    @Override
+    public String toString() {
+        return "Range{" +
+                "startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 }
