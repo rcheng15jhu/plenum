@@ -140,6 +140,13 @@ public class Server {
             return null;
         });
 
+        get("/signup", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            res.status(200);
+            res.type("text/html");
+            return new ModelAndView(model, "public/templates/signup.vm");
+        }, new VelocityTemplateEngine());
+
 
         // calendars route; return list of calendars as JSON
         get("/calendars", (req, res) -> {
