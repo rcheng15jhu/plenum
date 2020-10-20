@@ -23,46 +23,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e50d4b5b-aaec-49e7-b433-eb92328d2044" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/AvailabilityDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/Sql2oAvailabilityDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../homeworks/hw4/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../homeworks/hw4/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Availability.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Availability.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Calendar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Calendar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Event.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Range.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Range.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/persistence/AvailabilityDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/persistence/AvailabilityDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/persistence/Sql2oAvailabilityDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/persistence/Sql2oAvailabilityDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/persistence/Sql2oCalendarDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/persistence/Sql2oCalendarDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/persistence/Sql2oEventDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/persistence/Sql2oEventDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/persistence/Sql2oUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/persistence/Sql2oUserDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="Quorum" type="feb32156:DbDataSourceImpl" />
-      </path>
-    </expand>
-    <select />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -127,7 +102,7 @@
   <component name="RunManager" selected="Application.Server">
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Server" />
-      <module name="Quorum_main" />
+      <module name="Quorum.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -177,7 +152,8 @@
       <workItem from="1602811476125" duration="510000" />
       <workItem from="1602812205653" duration="3809000" />
       <workItem from="1602817702691" duration="441000" />
-      <workItem from="1602944411393" duration="4255000" />
+      <workItem from="1602944411393" duration="4525000" />
+      <workItem from="1603216119589" duration="6966000" />
     </task>
     <servers />
   </component>
@@ -194,17 +170,23 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="361" y="72" key="#Inspections" timestamp="1602028297619">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="361" y="72" key="#Inspections/0.0.1536.824@0.0.1536.824" timestamp="1602028297619" />
-    <state x="537" y="144" key="#com.intellij.ide.util.MemberChooser" timestamp="1602947820754">
+    <state x="345" y="127" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603222174954">
+      <screen x="48" y="23" width="1392" height="877" />
+    </state>
+    <state x="345" y="127" key="#com.intellij.execution.impl.EditConfigurationsDialog/48.23.1392.877@48.23.1392.877" timestamp="1603222174954" />
+    <state x="347" y="127" key="#com.intellij.execution.impl.EditConfigurationsDialog/50.23.1390.877@50.23.1390.877" timestamp="1603220526517" />
+    <state x="537" y="144" key="#com.intellij.ide.util.MemberChooser" timestamp="1603218746058">
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state x="538" y="114" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1602815980347" />
-    <state x="537" y="144" key="#com.intellij.ide.util.MemberChooser/50.23.1390.877@50.23.1390.877" timestamp="1602947820754" />
+    <state x="537" y="144" key="#com.intellij.ide.util.MemberChooser/50.23.1390.877@50.23.1390.877" timestamp="1603218746058" />
     <state x="499" y="194" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1602814893162">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -230,26 +212,52 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1602818146665" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1602183167971">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1343" height="231" key="GridCell.Tab.0.bottom" timestamp="1603222176457">
+      <screen x="48" y="23" width="1392" height="877" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1602183167971" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1602183167971">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1343" height="231" key="GridCell.Tab.0.bottom/48.23.1392.877@48.23.1392.877" timestamp="1603222176457" />
+    <state width="1343" height="231" key="GridCell.Tab.0.bottom/50.23.1390.877@50.23.1390.877" timestamp="1603220832030" />
+    <state width="1343" height="231" key="GridCell.Tab.0.center" timestamp="1603222176456">
+      <screen x="48" y="23" width="1392" height="877" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1602183167971" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1602183167971">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1343" height="231" key="GridCell.Tab.0.center/48.23.1392.877@48.23.1392.877" timestamp="1603222176456" />
+    <state width="1343" height="231" key="GridCell.Tab.0.center/50.23.1390.877@50.23.1390.877" timestamp="1603220832029" />
+    <state width="1343" height="231" key="GridCell.Tab.0.left" timestamp="1603222176455">
+      <screen x="48" y="23" width="1392" height="877" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1602183167971" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1602183167971">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1343" height="231" key="GridCell.Tab.0.left/48.23.1392.877@48.23.1392.877" timestamp="1603222176455" />
+    <state width="1343" height="231" key="GridCell.Tab.0.left/50.23.1390.877@50.23.1390.877" timestamp="1603220832029" />
+    <state width="1343" height="231" key="GridCell.Tab.0.right" timestamp="1603222176456">
+      <screen x="48" y="23" width="1392" height="877" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1602183167971" />
-    <state width="189" height="457" key="HiddenNamespacesPopup" timestamp="1602037069307">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1343" height="231" key="GridCell.Tab.0.right/48.23.1392.877@48.23.1392.877" timestamp="1603222176456" />
+    <state width="1343" height="231" key="GridCell.Tab.0.right/50.23.1390.877@50.23.1390.877" timestamp="1603220832030" />
+    <state width="1343" height="373" key="GridCell.Tab.1.bottom" timestamp="1603220743085">
+      <screen x="50" y="23" width="1390" height="877" />
+    </state>
+    <state width="1343" height="373" key="GridCell.Tab.1.bottom/50.23.1390.877@50.23.1390.877" timestamp="1603220743085" />
+    <state width="1343" height="373" key="GridCell.Tab.1.center" timestamp="1603220743084">
+      <screen x="50" y="23" width="1390" height="877" />
+    </state>
+    <state width="1343" height="373" key="GridCell.Tab.1.center/50.23.1390.877@50.23.1390.877" timestamp="1603220743084" />
+    <state width="1343" height="373" key="GridCell.Tab.1.left" timestamp="1603220743084">
+      <screen x="50" y="23" width="1390" height="877" />
+    </state>
+    <state width="1343" height="373" key="GridCell.Tab.1.left/50.23.1390.877@50.23.1390.877" timestamp="1603220743084" />
+    <state width="1343" height="373" key="GridCell.Tab.1.right" timestamp="1603220743084">
+      <screen x="50" y="23" width="1390" height="877" />
+    </state>
+    <state width="1343" height="373" key="GridCell.Tab.1.right/50.23.1390.877@50.23.1390.877" timestamp="1603220743084" />
+    <state width="244" height="487" key="HiddenNamespacesPopup" timestamp="1603222113452">
+      <screen x="48" y="23" width="1392" height="877" />
     </state>
     <state width="189" height="457" key="HiddenNamespacesPopup/0.0.1536.824@0.0.1536.824" timestamp="1602037069307" />
+    <state width="244" height="487" key="HiddenNamespacesPopup/48.23.1392.877@48.23.1392.877" timestamp="1603222113452" />
+    <state width="243" height="487" key="HiddenNamespacesPopup/50.23.1390.877@50.23.1390.877" timestamp="1603220579789" />
     <state x="465" y="238" key="com.intellij.ide.util.TipDialog" timestamp="1602818136380">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -262,5 +270,21 @@
       <screen x="50" y="23" width="1390" height="877" />
     </state>
     <state x="412" y="213" width="670" height="676" key="search.everywhere.popup/50.23.1390.877@50.23.1390.877" timestamp="1602948392174" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Server.java</url>
+          <line>141</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Server.java</url>
+          <line>127</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

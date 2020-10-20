@@ -34,6 +34,16 @@ public class Availability {
     this.calendarId = calendarId;
   }
 
+  @Override
+  public String toString() {
+    return "Availability{" +
+            "id=" + id +
+            ", calendarId=" + calendarId +
+            ", date=" + date +
+            ", qAvail=" + qAvail +
+            '}';
+  }
+
   public Date getDate() {
     return date;
   }

@@ -25,15 +25,14 @@ public class Server {
         if(sql2o == null) {
             // set on foreign keys
             SQLiteConfig config = new SQLiteConfig();
-            //config.enforceForeignKeys(true);
-            //config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
+            config.enforceForeignKeys(true);
+            config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
 
             // create data source
-            SQLiteDataSource ds = new SQLiteDataSource(config);
+        SQLiteDataSource d1 s = new SQLiteDataSource(config);
             ds.setUrl("jdbc:sqlite:Quorum.db");
 
             sql2o = new Sql2o(ds);
-
             try (Connection conn = sql2o.open()) {
                 String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
                         " id            INTEGER PRIMARY KEY," +
@@ -44,19 +43,13 @@ public class Server {
                         " id            INTEGER PRIMARY KEY," +
                         " title         VARCHAR(100) NOT NULL" +
                         ");";
-                conn.createQuery(sq2 ).executeUpdate();
+                conn.createQuery(sq2).executeUpdate();
                 String sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
                         " id            INTEGER PRIMARY KEY," +
                         " name          VARCHAR(100) NOT NULL," +
                         " userId        INTEGER NOT NULL," +
-                        " eventId       INTEGER NOT NULL," +
-                        " blob          BLOB," +
                         " FOREIGN KEY(userId)" +
                         " REFERENCES Users (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE" +
-                        " FOREIGN KEY(eventId)" +
-                        " REFERENCES Events (id)" +
                         "   ON UPDATE CASCADE" +
                         "   ON DELETE CASCADE" +
                         ");";
@@ -84,7 +77,7 @@ public class Server {
                         " id            INTEGER PRIMARY KEY," +
                         " calendarId    INTEGER NOT NULL," +
                         " date          DATE," +
-                        " qHour         INTEGER NOT NULL," +
+                        " qAvail        INTEGER NOT NULL," +
                         " FOREIGN KEY(calendarId)" +
                         " REFERENCES Calendars (id)" +
                         "   ON UPDATE CASCADE" +
@@ -141,14 +134,15 @@ public class Server {
 
         //calendar route; returns a single calendar or list of calendars, depending on presence of query param
         get("/calendar", (req, res) -> {
-            Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
+            Sql2oAvailabilityDao sql2oAvailability = new Sql2oAvailabilityDao(getSql2o());
             String results;
             String idParam = req.queryParams("id");
             if(idParam != null) {
                 int id = Integer.parseInt(idParam);
-                results = sql2oCalendar.getCal(id).getBlob();
+                System.out.println(new Gson().toJson(sql2oAvailability.listAllInCal(id)));
+                results = new Gson().toJson(sql2oAvailability.listAllInCal(id));
             } else {
-                results = new Gson().toJson(sql2oCalendar.listAll());
+                results = new Gson().toJson(sql2oAvailability.listAll());
             }
             res.type("application/json");
             res.status(200);
@@ -159,9 +153,7 @@ public class Server {
         post("/addcalendar", (req, res) -> {
             String name = req.queryParams("name");
             int userId = Integer.parseInt(req.queryParams("userId"));
-            String blob = req.body();
             Calendar c = new Calendar(name, userId);
-            c.setBlob(blob);
             System.out.println(c);
             new Sql2oCalendarDao(getSql2o()).add(c);
             res.status(201);
