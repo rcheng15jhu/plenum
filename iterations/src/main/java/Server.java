@@ -307,11 +307,18 @@ public class Server {
             return new Gson().toJson(a.toString());
         });
 
-        get("/maketemplate", (req, res) -> {
+        //Gets page to make a calendar
+        get("/makecalendar", (req, res) -> {
             //res.redirect("/templates/test_checkbox.html");
             res.status(200);
             res.type("text/html");
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/test_checkbox.html"));
+        });
+
+        get("/viewevent", (req, res) -> {
+            res.status(200);
+            res.type("text/html");
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index1.html"));
         });
     }
 }
