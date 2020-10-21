@@ -18,10 +18,12 @@ const Calendar = (props) => {
         }
     }
 
-    if(template !== undefined) {
-        for (let i = 0; i < template.length; i++) {
-            for (let j = 0; j < template[i].times.length; j++) {
-                calendar[template[i].times[j]][template[i].date] = 'U'
+    if(template.dates !== undefined) {
+        console.log("test")
+        let dates = template.dates;
+        for (let i = 0; i < dates.length; i++) {
+            for (let j = 0; j < dates[i].times.length; j++) {
+                calendar[dates[i].times[j]][dates[i].date] = 'U'
             }
         }
     }

@@ -11,6 +11,8 @@ import persistence.Sql2oCalendarDao;
 import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
 import static spark.Spark.*;
+
+import spark.Filter;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
@@ -112,6 +114,11 @@ public class Server {
 
         staticFiles.location("/public");
 
+        after((Filter) (request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "GET");
+        });
+
         // root route; show a simple message!
 
         post("/", (req, res) -> {
@@ -176,6 +183,7 @@ public class Server {
                 results = new Gson().toJson(AvailableDates.createFromAvailability(availabilities));
             } else {
                 results = new Gson().toJson(new Sql2oCalendarDao(getSql2o()).listAll());
+                System.out.println(results);
             }
 //            Sql2oCalendarDao sql2oCalendarDao = new Sql2oCalendarDao(getSql2o());
 //            int id = Integer.parseInt(req.queryParams("id"));
@@ -345,6 +353,12 @@ public class Server {
             res.status(200);
             res.type("text/html");
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index3.html"));
+        });
+
+        get("/viewcalendar", (req, res) -> {
+            res.status(200);
+            res.type("text/html");
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index4.html"));
         });
 
     }
