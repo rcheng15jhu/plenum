@@ -5,10 +5,10 @@ import java.sql.Date;
 public class Availability {
   private int id;
   private int calendarId;
-  private Date date;
+  private int date;
   private int qAvail;
 
-  public Availability(int calendarId, Date date, int qAvail) {
+  public Availability(int calendarId, int date, int qAvail) {
     this.calendarId = calendarId;
     this.date = date;
     this.qAvail = qAvail;
@@ -44,11 +44,11 @@ public class Availability {
             '}';
   }
 
-  public Date getDate() {
+  public int getDate() {
     return date;
   }
 
-  public void setDate(Date date) {
+  public void setDate(int date) {
     this.date = date;
   }
 

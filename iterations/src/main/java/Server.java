@@ -290,7 +290,8 @@ public class Server {
         //addavailability route; inserts a new availability
         post("/addavailability", (req, res) -> {
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
-            Date date = Date.valueOf(req.queryParams("date"));
+            int date = Integer.parseInt(req.queryParams("date"));
+            System.out.println(date);
             int qAvail = Integer.parseInt(req.queryParams("qAvail"));
             Availability a = new Availability(calendarId, date, qAvail);
             new Sql2oAvailabilityDao(getSql2o()).add(a);
