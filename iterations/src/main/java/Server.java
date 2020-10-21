@@ -163,11 +163,17 @@ public class Server {
             String idParam = req.queryParams("id");
             if(idParam != null) {
                 int id = Integer.parseInt(idParam);
-                System.out.println(new Gson().toJson(sql2oAvailability.listAllInCal(id)));
-                results = new Gson().toJson(sql2oAvailability.listAllInCal(id));
+                Calendar c = new Calendar(id);
+                System.out.println(new Gson().toJson(sql2oAvailability.listAllInCal(c)));
+                results = new Gson().toJson(sql2oAvailability.listAllInCal(c));
             } else {
                 results = new Gson().toJson(sql2oAvailability.listAll());
             }
+//            Sql2oCalendarDao sql2oCalendarDao = new Sql2oCalendarDao(getSql2o());
+//            int id = Integer.parseInt(req.queryParams("id"));
+//            Calendar c = sql2oCalendarDao.getCal(id);
+
+
             res.type("application/json");
             res.status(200);
             return results;
@@ -190,6 +196,8 @@ public class Server {
             int id = Integer.parseInt(req.queryParams("id"));
             Calendar c = new Calendar(id);
             try {
+                c = new Sql2oCalendarDao(getSql2o()).getCal(id);
+                System.out.println(c);
                 new Sql2oCalendarDao(getSql2o()).delete(c);
                 res.status(204);
             } catch (DaoException ex) {

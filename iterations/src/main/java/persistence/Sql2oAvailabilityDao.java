@@ -2,6 +2,7 @@ package persistence;
 
 import exception.DaoException;
 import model.Availability;
+import model.Calendar;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
@@ -46,9 +47,8 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
     }
 
     @Override
-    public List<Availability> listAllInCal(int id) throws DaoException {
-        String sql = "SELECT * FROM Availabilities" +
-                "WHERE calendarId=" + id;
+    public List<Availability> listAllInCal(Calendar cal) throws DaoException {
+        String sql = "SELECT * FROM Availabilities WHERE calendarId = :id";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Availability.class);
         }
