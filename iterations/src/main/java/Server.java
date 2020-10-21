@@ -308,10 +308,17 @@ public class Server {
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/test_checkbox.html"));
         });
 
-        get("/viewevent", (req, res) -> {
+        get("/viewstaticcalendar", (req, res) -> {
             res.status(200);
             res.type("text/html");
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index1.html"));
         });
+
+        get("/viewevent", (req, res) -> {
+            res.status(200);
+            res.type("text/html");
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index2.html"));
+        });
+
     }
 }
