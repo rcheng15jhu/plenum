@@ -46,6 +46,18 @@ public class Sql2oUserDao implements UserDao{
         }
     }
 
+    public int getId(String name) throws DaoException {
+        String sql = "SELECT id FROM Users WHERE name = :name";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("name", name)
+                    .executeAndFetch(User.class).get(0).getId();
+        }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
+
     @Override
     public boolean delete(User user) throws DaoException {
         try (Connection con = sql2o.open()) {

@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class AvailableDate {
     private int date;
@@ -28,26 +29,31 @@ public class AvailableDate {
         }
     }
 
-    private void aggregateTimes(AvailableDate d, List<Availability> avails){
+    private void aggregateTimes(List<Availability> avails){
         for(Availability a: avails) {
-            if(d.getDate() == a.getDate()) {
-                d.addTime(a.getqAvail());
+            if(getDate() == a.getDate()) {
+                addTime(a.getqHour());
             }
         }
     }
 
-    public List<AvailableDate> aggregateAvails(List<Availability> avails){
+    public static List<AvailableDate> aggregateAvails(List<Availability> avails){
         List<AvailableDate> dateList = new ArrayList<AvailableDate>();
         HashSet<Integer> dates = new HashSet<Integer>();
         for(Availability a: avails) {
             if(!dates.contains(a.getDate())) {
                 AvailableDate d = new AvailableDate(a.getDate());
-                aggregateTimes(d, avails);
+                d.aggregateTimes(avails);
                 dates.add(a.getDate());
                 dateList.add(d);
             }
         }
 
         return dateList;
+    }
+
+    public Stream<Availability> convertToAvailability(int calendarId) {
+        return times.parallelStream()
+                .map(time -> new Availability(calendarId, date, time));
     }
 }

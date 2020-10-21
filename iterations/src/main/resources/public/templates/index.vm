@@ -5,10 +5,9 @@
 <h1>Welcome to Plenum $username</h1>
 <div class="divContents indexLinkWrapper">
     <p><a class="content indexLink" href="/calendars">Calendars</a></p>
-    <p><a class="content indexLink" href="/calendar">Calendar</a></p>
-    <p><a class="content indexLink" href="/makecalendar">Make Calendar</a></p>
+    <p><a class="content indexLink" href="/makecalendar">Make Calendar (Deprecated)</a></p>
+    <p><a class="content indexLink" href="/makecalendarnew">Make Calendar (New)</a></p>
     <p><a class="content indexLink" href="/events">Events</a></p>
-    <p><a class="content indexLink" href="/addevent">Add Event</a></p>
     <p><a class="content indexLink" href="/viewevent">View Event</a></p>
 </div>
 #else

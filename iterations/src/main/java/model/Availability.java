@@ -1,17 +1,15 @@
 package model;
 
-import java.sql.Date;
-
 public class Availability {
   private int id;
   private int calendarId;
   private int date;
-  private int qAvail;
+  private int qHour;
 
-  public Availability(int calendarId, int date, int qAvail) {
+  public Availability(int calendarId, int date, int qHour) {
     this.calendarId = calendarId;
     this.date = date;
-    this.qAvail = qAvail;
+    this.qHour = qHour;
   }
 
   public Availability(int id) {
@@ -40,7 +38,7 @@ public class Availability {
             "id=" + id +
             ", calendarId=" + calendarId +
             ", date=" + date +
-            ", qAvail=" + qAvail +
+            ", qAvail=" + qHour +
             '}';
   }
 
@@ -52,11 +50,11 @@ public class Availability {
     this.date = date;
   }
 
-  public int getqAvail() {
-    return qAvail;
+  public int getqHour() {
+    return qHour;
   }
 
-  public void setqAvail(int qAvail) {
-    this.qAvail = qAvail;
+  public void setqHour(int qHour) {
+    this.qHour = qHour;
   }
 }

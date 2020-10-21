@@ -20,7 +20,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
     public int add(Availability a) throws DaoException {
         try (Connection con = sql2o.open()) {
             String query = "INSERT INTO Availabilities (calendarId, date, qHour)" +
-                    "VALUES (:calendarId, :date, :qAvail)";
+                    "VALUES (:calendarId, :date, :qHour)";
             int id = (int) con.createQuery(query, true)
                     .bind(a)
                     .executeUpdate().getKey();
@@ -39,6 +39,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
             return con.createQuery(sql).executeAndFetch(Availability.class);
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }

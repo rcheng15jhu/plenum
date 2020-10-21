@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import exception.DaoException;
 import model.*;
 import org.sql2o.Connection;
@@ -15,6 +16,7 @@ import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 import spark.utils.IOUtils;
 
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,16 +167,15 @@ public class Server {
 
         //calendar route; returns availabilities associated with the calendar id
         get("/calendar", (req, res) -> {
-            Sql2oAvailabilityDao sql2oAvailability = new Sql2oAvailabilityDao(getSql2o());
             String results;
             String idParam = req.queryParams("id");
             if(idParam != null) {
                 int id = Integer.parseInt(idParam);
                 Calendar c = new Calendar(id);
-                List<Availability> availabilities = sql2oAvailability.listAllInCal(c);
-                results = new Gson().toJson(new AvailableDates(new AvailableDate().aggregateAvails(availabilities)));
+                List<Availability> availabilities = new Sql2oAvailabilityDao(getSql2o()).listAllInCal(c);
+                results = new Gson().toJson(AvailableDates.createFromAvailability(availabilities));
             } else {
-                results = new Gson().toJson(sql2oAvailability.listAll());
+                results = new Gson().toJson(new Sql2oCalendarDao(getSql2o()).listAll());
             }
 //            Sql2oCalendarDao sql2oCalendarDao = new Sql2oCalendarDao(getSql2o());
 //            int id = Integer.parseInt(req.queryParams("id"));
@@ -189,12 +190,17 @@ public class Server {
         //addcalendar route; add a new calendar
         post("/addcalendar", (req, res) -> {
             String name = req.queryParams("title");
-            int userId = 1; //Integer.parseInt(req.queryParams("userId"));
+            String username = req.cookie("username");
+            int userId = new Sql2oUserDao(getSql2o()).getId(username);
             Calendar c = new Calendar(name, userId);
             System.out.println(c);
             new Sql2oCalendarDao(getSql2o()).add(c);
             String blob = req.body();
             System.out.println(blob);
+            AvailableDates a = new Gson().fromJson(blob, AvailableDates.class);
+            Sql2oAvailabilityDao availabilityDao = new Sql2oAvailabilityDao(getSql2o());
+            a.getAvailabilityStream(c.getId())
+                    .forEachOrdered(availabilityDao::add);
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(c.toString());
