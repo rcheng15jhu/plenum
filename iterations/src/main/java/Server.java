@@ -32,7 +32,7 @@ public class Server {
             config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
 
             // create data source
-        SQLiteDataSource d1 s = new SQLiteDataSource(config);
+            SQLiteDataSource ds = new SQLiteDataSource(config);
             ds.setUrl("jdbc:sqlite:Quorum.db");
 
             sql2o = new Sql2o(ds);
@@ -66,11 +66,11 @@ public class Server {
                         " FOREIGN KEY(eventId)" +
                         " REFERENCES Events (id)" +
                         "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE" +
+                        "   ON DELETE CASCADE," +
                         " FOREIGN KEY(calendarId)" +
-                        " REFERENCES Calendar (id)" +
+                        " REFERENCES Calendars (id)" +
                         "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE" +
+                        "   ON DELETE CASCADE," +
                         " FOREIGN KEY(userId)" +
                         " REFERENCES Users (id)" +
                         "   ON UPDATE CASCADE" +
@@ -254,10 +254,12 @@ public class Server {
             return new Gson().toJson(u.toString());
         });
 
+
         //adduser route; inserts a new user
         post("/adduser", (req, res) -> {
             String name = req.queryParams("name");
-            User u = new User(name);
+            String password = req.queryParams("password");
+            User u = new User(name, password);
             new Sql2oUserDao(getSql2o()).add(u);
             res.status(201);
             res.type("application/json");
@@ -266,8 +268,8 @@ public class Server {
 
         //availabilities route; lists all availabilities
         get("/availabilities", (req, res) -> {
-            Sql2oAvailabilityDao sql2oUserDao = new Sql2oAvailabilityDao(getSql2o());
-            String results = new Gson().toJson(sql2oUserDao.listAll());
+            Sql2oAvailabilityDao sql2oAvailabilityDao = new Sql2oAvailabilityDao(getSql2o());
+            String results = new Gson().toJson(sql2oAvailabilityDao.listAll());
             res.type("application/json");
             res.status(200);
             return results;
