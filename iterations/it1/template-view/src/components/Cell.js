@@ -1,11 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 
 const Cell = (props) => {
+    const [avail, setAvail] = useState(props.unavailable === 'A')
     let styles = {border: '1px solid black', width: '25px', height: '25px', textAlign: 'center'}
-    if (props.unavailable === 'U') {
+
+    function flipState() {
+        setAvail(!avail)
+    }
+
+    if (!avail) {
         styles.backgroundColor = 'red'
     }
-    return <td key={props.key} style={styles}/>
+    return <td onClick={flipState} key={props.key} style={styles}/>
 };
 
 export default Cell
