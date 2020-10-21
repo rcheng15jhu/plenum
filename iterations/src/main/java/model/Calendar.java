@@ -50,8 +50,6 @@ public class Calendar {
         this.name = name;
     }
 
-
-
     public int getUserId() {
         return userId;
     }

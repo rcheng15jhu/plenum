@@ -6,12 +6,7 @@ public class User {
     private String name;
     private String password; //Should this be byte[]? Need to look into proper authentication
 
-    public User(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public User(int id) {
+   public User(int id) {
         this.id = id;
     }
 
@@ -21,6 +16,11 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
 
     public User(String name) {
@@ -33,5 +33,13 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

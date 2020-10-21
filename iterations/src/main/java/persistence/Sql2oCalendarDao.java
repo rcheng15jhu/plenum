@@ -18,14 +18,10 @@ public class Sql2oCalendarDao implements CalendarDao {
     @Override
     public int add(Calendar cal) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String query = "INSERT INTO Calendars (name, userId, eventId, blob)" +
-                    "VALUES (:name, :userId, :eventId, :blob)";
+            String query = "INSERT INTO Calendars (name, userId)" +
+                    "VALUES (:name, :userId)";
             int id = (int) con.createQuery(query, true)
-                    .addParameter("name", cal.getName())
-                    .addParameter("userId", cal.getUserId())
-                    .addParameter("eventId", cal.getEventId())
-                    .addParameter("blob", cal.getBlob())
-                    //.bind(cal)
+                    .bind(cal)
                     .executeUpdate().getKey();
             cal.setId(id);
             return id;
@@ -43,18 +39,34 @@ public class Sql2oCalendarDao implements CalendarDao {
             return con.createQuery(sql).executeAndFetch(Calendar.class);
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
 
     @Override
-    public Calendar getCal(int id) throws DaoException {
-        String sql = "SELECT * FROM Calendars"+
-                     "WHERE id = :id";
+    public Calendar getCal(Calendar cal) throws DaoException {
         try (Connection con = sql2o.open()) {
-            return con.createQuery(sql).executeAndFetch(Calendar.class).get(0);
+            String sql = "SELECT * FROM Calendars"+
+                    "WHERE id = :id";
+            return con.createQuery(sql)
+                    .bind(cal)
+                    .executeAndFetch(Calendar.class).get(0);
         }
-        catch (Sql2oException ex) {
+        catch (Sql2oException e) {
+            throw new DaoException();
+        }
+
+    }
+
+    @Override
+    public Calendar getCal(int id) throws DaoException {
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT * FROM Calendars WHERE id=" + id;
+            return con.createQuery(sql)
+                    .executeAndFetch(Calendar.class).get(0);
+        }
+        catch (Sql2oException e) {
             throw new DaoException();
         }
     }
@@ -65,7 +77,7 @@ public class Sql2oCalendarDao implements CalendarDao {
             String preQ = "PRAGMA foreign_keys = ON;";
             con.createQuery(preQ).executeUpdate();
 
-            String query = "DELETE FROM Calendar WHERE id = :id";
+            String query = "DELETE FROM Calendars WHERE id = :id";
             con.createQuery(query)
                     .bind(cal)
                     .executeUpdate();

@@ -5,8 +5,9 @@ import java.util.List;
 public class Event {
     private int id;
     private String title;
-    private Range validTimeRange;
-    //private List<Calendar> participantCalendars;
+    private int startTime;
+    private int endTime;
+//    private Range validTimeRange;
 
     public Event(int id) {
         this.id = id;
@@ -18,8 +19,10 @@ public class Event {
         this.id = id;
     }
 
-    public Event(String title) {
+    public Event(String title, int startTime, int endTime) {
         this.title = title;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public int getId() {
@@ -30,24 +33,29 @@ public class Event {
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+//    public Range getValidTimeRange() {
+//        return validTimeRange;
+//    }
+//
+//    public void setValidTimeRange(Range validTimeRange) {
+//        this.validTimeRange = validTimeRange;
+//    }
+
     @Override
     public String toString() {
         return "Event{" +
-                "title='" + title + '\'' +
-                ", id=" + id +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 '}';
     }
-
-//    public void addCalendar(Calendar calendar) {
-//        participantCalendars.add(calendar);
-//    }
-
-  /*public List<Calendar> getCalendars() {
-    return Collections.unmodifiableList(participantCalendars);
-  }*/
-
-  /*public AggregateCalendar getAggregateCalendar(UserCred user) {
-    //Make a aggregateCalendar with everyone except the user passed in
-    return null;
-  }*/
 }
