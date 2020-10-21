@@ -15,7 +15,9 @@ function getObjToSave() {
         let times = [];
         buttons.forEach(button => {
             if(button.checked) {
-                times.push(parseInt(button.value));
+                let value = parseInt(button.value);
+                if(value !== -1)
+                times.push(value);
             }
         });
         if(times.length !== 0) {
@@ -33,8 +35,8 @@ function downloadTemplate() {
     console.log("Test");
 }
 
-function upload(name, event, content) {
-    fetch("/addcalendar?title=test&userId=" + name + "&eventId=" + event, {
+function upload(content) {
+    fetch("/addcalendar?title=test", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -46,9 +48,7 @@ function upload(name, event, content) {
 }
 
 function uploadTemplate() {
-    let name = document.getElementById("name").value;
-    let event = document.getElementById("event").value;
-    if (name !== "" && event !== "") {
-        upload(name, event, getObjToSave());
-    }
+        upload(getObjToSave());
 }
+
+export default uploadTemplate

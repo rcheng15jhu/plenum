@@ -38,6 +38,7 @@ public class Sql2oCalendarDao implements CalendarDao {
             return con.createQuery(sql).executeAndFetch(Calendar.class);
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }

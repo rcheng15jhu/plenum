@@ -17,9 +17,11 @@ const Calendar = (props) => {
         }
     }
 
-    for (let i = 0; i < template.length; i++) {
-        for (let j = 0; j < template[i].times.length; j++) {
-            calendar[template[i].times[j]][template[i].date] = 'U'
+    if(template !== undefined) {
+        for (let i = 0; i < template.length; i++) {
+            for (let j = 0; j < template[i].times.length; j++) {
+                calendar[template[i].times[j]][template[i].date] = 'U'
+            }
         }
     }
 
@@ -52,7 +54,7 @@ const Calendar = (props) => {
                         <td style={{textAlign: 'right'}}>{time(i)}</td>
                         {
                             keyList.map((key, j) =>
-                                <Cell key={j} unavailable={key}/>
+                                <Cell key={j} unavailable={key} time={i} day={j}/>
                             )
                         }
                     </tr>
