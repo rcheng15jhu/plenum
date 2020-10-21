@@ -1,6 +1,7 @@
 import React from "react";
 
 import Cell from './Cell'
+import EditableCell from './EditableCell'
 
 const Calendar = (props) => {
     let template = props.file
@@ -52,11 +53,16 @@ const Calendar = (props) => {
                 calendar.map((keyList, i) => (
                     <tr key={i}>
                         <td style={{textAlign: 'right'}}>{time(i)}</td>
-                        {
-                            keyList.map((key, j) =>
-                                <Cell key={j} unavailable={key} time={i} day={j}/>
-                            )
-                        }
+                        {(() => {
+                            if(props.editable !== undefined && props.editable === true)
+                                return keyList.map((key, j) =>
+                                    <EditableCell key={j} unavailable={key} time={i} day={j}/>
+                                )
+                            else
+                                return keyList.map((key, j) =>
+                                    <Cell key={j} unavailable={key} time={i} day={j}/>
+                                )
+                        })()}
                     </tr>
                 ))
             }

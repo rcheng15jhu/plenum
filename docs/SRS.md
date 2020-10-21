@@ -1,4 +1,4 @@
-# Software Requirements Specificatins
+# Software Requirements Specifications
 
 ## Problem Statement 
 
@@ -43,7 +43,7 @@ I need this application to have a way to view aggregate availabilities, so that 
 can coordinate events more efficiently.
 
 * As someone who frequently has to schedule multiple distinct events with other people,
-I need to be able to log in and log out of this application to securly store information
+I need to be able to log in and log out of this application to securely store information
 related to my availability.
 
 * As someone who frequently has to schedule multiple distinct events with other people,
@@ -84,8 +84,8 @@ meeting time is most optimal.
 
 * As a user that wants to avoid wasting time on deciding a meeting time once
 the group's availability is known, I would like the application to suggest meeting times
-autonomously for the group, based on the avaliability, so as to more easily finalize
-a meeting time once avaliabilities are known.
+autonomously for the group, based on the availability, so as to more easily finalize
+a meeting time once availabilities are known.
 
 * As someone who frequently has to schedule multiple distinct events with other people
 on different days of the week, I would like to store calendars specifically for certain
@@ -97,7 +97,7 @@ times of the week.
 > Will this be a Web/desktop/mobile (all, or some other kind of) application? Would it conform to the Client-Server software architecture? 
 
 * This would be a client-server architecture. We may potentially use React for the
-frontend and a simple framework like Javalin or Sparkjava for the backend.
+frontend and a simple framework like Sparkjava for the backend.
 
 
 ## User Stories
@@ -113,3 +113,6 @@ and user stories were combined. https://piazza.com/class/kd13q8ukge2e1?cid=71_f1
 ![Availability Entry](Availability_Entry.png "Availability Entry")
 ![Event Creation](Event_Creation.png "Event Creation")
 ![Template Management](Template_Management.png "Template Management")
+
+
+
