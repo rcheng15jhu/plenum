@@ -45,7 +45,9 @@ public class Server {
                 conn.createQuery(sq1).executeUpdate();
                 String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
                         " id            INTEGER PRIMARY KEY," +
-                        " title         VARCHAR(100) NOT NULL" +
+                        " title         VARCHAR(100) NOT NULL," +
+                        " startTime     INTEGER," +
+                        " endTime       INTEGER" +
                         ");";
                 conn.createQuery(sq2).executeUpdate();
                 String sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
@@ -149,12 +151,17 @@ public class Server {
 
         // calendars route; return list of calendars as JSON
         get("/calendars", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+//            if (req.cookie("username") == null) {
+//                res.redirect("/");
+//                return null;
+//            }
             Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
-            String results = new Gson().toJson(sql2oCalendar.listAll());
-            res.type("application/json");
+            model.put("calendars", sql2oCalendar.listAll());
+            res.type("text/html");
             res.status(200);
-            return results;
-        });
+            return new ModelAndView(model, "public/templates/calendars.vm");
+        }, new VelocityTemplateEngine());
 
         //calendar route; returns availabilities associated with the calendar id
         get("/calendar", (req, res) -> {
@@ -164,7 +171,6 @@ public class Server {
             if(idParam != null) {
                 int id = Integer.parseInt(idParam);
                 Calendar c = new Calendar(id);
-                System.out.println(sql2oAvailability.listAllInCal(c));
                 List<Availability> availabilities = sql2oAvailability.listAllInCal(c);
                 results = new Gson().toJson(new AvailableDates(new AvailableDate().aggregateAvails(availabilities)));
             } else {
@@ -210,12 +216,17 @@ public class Server {
 
         //events route; list all events
         get("/events", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+//        if (req.cookie("username") == null) {
+//            res.redirect("/");
+//            return null;
+//        }
             Sql2oEventDao sql2oEventDao = new Sql2oEventDao(getSql2o());
-            String results = new Gson().toJson(sql2oEventDao.listAll());
-            res.type("application/json");
+            model.put("events", sql2oEventDao.listAll());
+            res.type("text/html");
             res.status(200);
-            return results;
-        });
+            return new ModelAndView(model, "public/templates/events.vm");
+        }, new VelocityTemplateEngine());
 
         //delevent route; deletes event
         post("/delevent", (req, res) -> {
@@ -234,8 +245,9 @@ public class Server {
         //addevent route; inserts a new event
         post("/addevent", (req, res) -> {
             String title = req.queryParams("title");
-            Range validTimeRange = Range.parseRange(req.queryParams("range"));
-            Event e = new Event(title, validTimeRange);
+            int startTime = Integer.parseInt(req.queryParams("startTime"));
+            int endTime = Integer.parseInt(req.queryParams("endTime"));
+            Event e = new Event(title, startTime, endTime);
             new Sql2oEventDao(getSql2o()).add(e);
             res.status(201);
             res.type("application/json");

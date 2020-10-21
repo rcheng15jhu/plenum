@@ -5,7 +5,9 @@ import java.util.List;
 public class Event {
     private int id;
     private String title;
-    private Range validTimeRange;
+    private int startTime;
+    private int endTime;
+//    private Range validTimeRange;
 
     public Event(int id) {
         this.id = id;
@@ -17,9 +19,10 @@ public class Event {
         this.id = id;
     }
 
-    public Event(String title, Range validTimeRange) {
+    public Event(String title, int startTime, int endTime) {
         this.title = title;
-        this.validTimeRange = validTimeRange;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public int getId() {
@@ -38,20 +41,21 @@ public class Event {
         this.title = title;
     }
 
-    public Range getValidTimeRange() {
-        return validTimeRange;
-    }
-
-    public void setValidTimeRange(Range validTimeRange) {
-        this.validTimeRange = validTimeRange;
-    }
+//    public Range getValidTimeRange() {
+//        return validTimeRange;
+//    }
+//
+//    public void setValidTimeRange(Range validTimeRange) {
+//        this.validTimeRange = validTimeRange;
+//    }
 
     @Override
     public String toString() {
         return "Event{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", validTimeRange=" + validTimeRange.toString() +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 '}';
     }
 }
