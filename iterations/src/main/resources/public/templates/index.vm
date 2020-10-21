@@ -24,7 +24,7 @@
         <input type="submit" value="Sign in" class="submit" />
     </div>
 </form>
-<p><a class="content indexLink" href="/signup">Sign Up</a></p>
+<p><a class="content indexLink" href="/adduser">Sign Up</a></p>
 #end
 
 #parse("public/templates/bottom.vm")
