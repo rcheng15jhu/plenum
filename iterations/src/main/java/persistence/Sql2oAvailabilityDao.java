@@ -47,7 +47,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
     public List<Availability> listAllInCal(Calendar cal) throws DaoException {
         String sql = "SELECT * FROM Availabilities WHERE calendarId = :id";
         try (Connection con = sql2o.open()) {
-            return con.createQuery(sql).executeAndFetch(Availability.class);
+            return con.createQuery(sql).bind(cal).executeAndFetch(Availability.class);
         }
         catch (Sql2oException ex) {
             System.err.println(ex);
