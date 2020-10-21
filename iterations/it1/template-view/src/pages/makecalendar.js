@@ -7,6 +7,10 @@ const App = () => {
     return (
         <div>
             <Calendar editable={true}/>
+            <div className="form-example">
+                <label htmlFor="title">Enter your calendar title: </label>
+                <input type="text" name="title" id="title"/>
+            </div>
             <button onClick={uploadTemplate} >Upload template!</button>
         </div>
     )

@@ -35,8 +35,8 @@ function downloadTemplate() {
     console.log("Test");
 }
 
-function upload(content) {
-    fetch("/addcalendar?title=test", {
+function upload(title, content) {
+    fetch("http://localhost:7000/addcalendar?title=" + title, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -48,7 +48,10 @@ function upload(content) {
 }
 
 function uploadTemplate() {
-        upload(getObjToSave());
+    let title = document.getElementById("title").value;
+    if (title !== "") {
+        upload(title, getObjToSave());
+    }
 }
 
 export default uploadTemplate

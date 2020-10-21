@@ -18,7 +18,7 @@ const Calendar = (props) => {
         }
     }
 
-    if(template.dates !== undefined) {
+    if(template !== undefined && template.dates !== undefined) {
         console.log("test")
         let dates = template.dates;
         for (let i = 0; i < dates.length; i++) {
