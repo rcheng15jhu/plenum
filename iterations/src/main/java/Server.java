@@ -182,11 +182,13 @@ public class Server {
 
         //addcalendar route; add a new calendar
         post("/addcalendar", (req, res) -> {
-            String name = req.queryParams("name");
-            int userId = Integer.parseInt(req.queryParams("userId"));
+            String name = req.queryParams("title");
+            int userId = 1; //Integer.parseInt(req.queryParams("userId"));
             Calendar c = new Calendar(name, userId);
             System.out.println(c);
             new Sql2oCalendarDao(getSql2o()).add(c);
+            String blob = req.body();
+            System.out.println(blob);
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(c.toString());
@@ -319,6 +321,12 @@ public class Server {
             res.status(200);
             res.type("text/html");
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index2.html"));
+        });
+
+        get("/makecalendarnew", (req, res) -> {
+            res.status(200);
+            res.type("text/html");
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index3.html"));
         });
 
     }

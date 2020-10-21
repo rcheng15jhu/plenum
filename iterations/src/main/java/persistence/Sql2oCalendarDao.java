@@ -27,6 +27,7 @@ public class Sql2oCalendarDao implements CalendarDao {
             return id;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }

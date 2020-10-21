@@ -12,13 +12,13 @@ function getObjToSave() {
     objToSave.dates = [];
     for (let i = 0; i < 7; i++) {
         const buttons = [...document.getElementsByClassName("day" + i)];
+        console.log(buttons);
         let times = [];
         buttons.forEach(button => {
-            if(button.checked) {
-                let value = parseInt(button.value);
-                if(value !== -1)
-                times.push(value);
-            }
+            let value = parseInt(button.value);
+            console.log(value);
+            if(value !== -1)
+            times.push(value);
         });
         if(times.length !== 0) {
             objToSave.dates.push({
