@@ -126,7 +126,8 @@ public class Server {
             return new ModelAndView(model, "public/templates/index.vm");
         }, new VelocityTemplateEngine());
 
-        post("/signup", (req, res) -> {
+        //adduser route; allows a new user to be added
+        post("/adduser", (req, res) -> {
             System.out.println("request received!");
             String username = req.queryParams("username");
             String password = req.queryParams("password");
@@ -134,10 +135,11 @@ public class Server {
             User u = new User(username, password);
             new Sql2oUserDao(getSql2o()).add(u);
             res.redirect("/");
-            return null;
+            return new Gson().toJson(u.toString());
         });
 
-        get("/signup", (req, res) -> {
+        //displays sign-up view
+        get("/adduser", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             res.status(200);
             res.type("text/html");
@@ -250,18 +252,6 @@ public class Server {
             } catch (DaoException ex) {
                 res.status(404);
             }
-            res.type("application/json");
-            return new Gson().toJson(u.toString());
-        });
-
-
-        //adduser route; inserts a new user
-        post("/adduser", (req, res) -> {
-            String name = req.queryParams("name");
-            String password = req.queryParams("password");
-            User u = new User(name, password);
-            new Sql2oUserDao(getSql2o()).add(u);
-            res.status(201);
             res.type("application/json");
             return new Gson().toJson(u.toString());
         });
