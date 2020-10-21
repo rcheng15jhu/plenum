@@ -17,6 +17,7 @@ import spark.utils.IOUtils;
 
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Server {
@@ -156,7 +157,7 @@ public class Server {
             return results;
         });
 
-        //calendar route; returns a single calendar or list of calendars, depending on presence of query param
+        //calendar route; returns availabilities associated with the calendar id
         get("/calendar", (req, res) -> {
             Sql2oAvailabilityDao sql2oAvailability = new Sql2oAvailabilityDao(getSql2o());
             String results;
@@ -164,8 +165,10 @@ public class Server {
             if(idParam != null) {
                 int id = Integer.parseInt(idParam);
                 Calendar c = new Calendar(id);
-                System.out.println(new Gson().toJson(sql2oAvailability.listAllInCal(c)));
-                results = new Gson().toJson(sql2oAvailability.listAllInCal(c));
+                System.out.println(sql2oAvailability.listAllInCal(c));
+                List<Availability> availabilities = sql2oAvailability.listAllInCal(c);
+                results = new Gson().toJson(new Dates().aggregateAvails(availabilities));
+                System.out.println("results is " + results);
             } else {
                 results = new Gson().toJson(sql2oAvailability.listAll());
             }
