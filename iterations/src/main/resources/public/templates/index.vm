@@ -6,15 +6,11 @@
 <div class="divContents indexLinkWrapper">
     <p><a class="content indexLink" href="/calendars">Calendars</a></p>
     <p><a class="content indexLink" href="/calendar">Calendar</a></p>
-    <p><a class="content indexLink" href="/addcalendar">Add calendar</a></p>
+    <p><a class="content indexLink" href="/makecalendar">Make Calendar</a></p>
     <p><a class="content indexLink" href="/delcalendar">Delete calendar</a></p>
     <p><a class="content indexLink" href="/events">Events</a></p>
     <p><a class="content indexLink" href="/delevent">Delete Event</a></p>
     <p><a class="content indexLink" href="/addevent">Add Event</a></p>
-    <p><a class="content indexLink" href="/users">Users</a></p>
-    <p><a class="content indexLink" href="/deluser">Delete User</a></p>
-    <p><a class="content indexLink" href="/adduser">Add User</a></p>
-    <p><a class="content indexLink" href="/makecalendar">Make Calendar</a></p>
     <p><a class="content indexLink" href="/viewevent">View Event</a></p>
 </div>
 #else
@@ -28,7 +24,7 @@
         <input type="submit" value="Sign in" class="submit" />
     </div>
 </form>
-<p><a class="content indexLink" href="/signup">Sign Up</a></p>
+<p><a class="content indexLink" href="/adduser">Sign Up</a></p>
 #end
 
 #parse("public/templates/bottom.vm")
