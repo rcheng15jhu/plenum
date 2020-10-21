@@ -15,7 +15,6 @@ import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 import spark.utils.IOUtils;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,8 +166,7 @@ public class Server {
                 Calendar c = new Calendar(id);
                 System.out.println(sql2oAvailability.listAllInCal(c));
                 List<Availability> availabilities = sql2oAvailability.listAllInCal(c);
-                results = new Gson().toJson(new Dates().aggregateAvails(availabilities));
-                System.out.println("results is " + results);
+                results = new Gson().toJson(new AvailableDates(new AvailableDate().aggregateAvails(availabilities)));
             } else {
                 results = new Gson().toJson(sql2oAvailability.listAll());
             }
@@ -311,10 +309,17 @@ public class Server {
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/test_checkbox.html"));
         });
 
-        get("/viewevent", (req, res) -> {
+        get("/viewstaticcalendar", (req, res) -> {
             res.status(200);
             res.type("text/html");
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index1.html"));
         });
+
+        get("/viewevent", (req, res) -> {
+            res.status(200);
+            res.type("text/html");
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index2.html"));
+        });
+
     }
 }
