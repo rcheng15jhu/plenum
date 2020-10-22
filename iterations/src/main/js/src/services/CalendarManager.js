@@ -36,7 +36,7 @@ function downloadTemplate() {
 }
 
 function upload(title, content) {
-    fetch("http://localhost:7000/addcalendar?title=" + title, {
+    fetch("/addcalendar?title=" + title, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -13,7 +13,7 @@ const App = () => {
     const [file, setFile] = useState({})
 
     useEffect(() => {
-        fetch('http://localhost:7000/calendar', {
+        fetch('/calendar', {
                 method: 'GET',
                 mode: 'cors'
             }
@@ -27,7 +27,7 @@ const App = () => {
 
     useEffect(() => {
         if(id > 0) {
-            fetch('http://localhost:7000/calendar?id=' + id, {
+            fetch('/calendar?id=' + id, {
                     method: 'GET',
                     mode: 'cors'
                 }
