@@ -1,0 +1,61 @@
+#set( $title = "Books List" )
+##set( $stylesheet = "css/mybooksapp.css")
+#set( $stylesheet = "css/viewdata.css")
+#parse("public/templates/top.vm")
+
+#if ($books)
+<h1>List of the Books:</h1>
+<div class="divContents">
+    <ol>
+    <p>
+        #foreach($book in $books )
+            <li class="content book"><i>$book.title</i> (isbn: $book.isbn) was published in $book.year by $book.publisher. <button class="$book.isbn">X</button></li>
+        #end
+        </p>
+    </ol>
+</div>
+#end
+
+<form class="content list-form" onsubmit="return validateISBN() && validateTitle();">
+    <h3>Add Book</h3>
+    <div class="center">
+        <div class="row">
+            <label for="title">Title: </label>
+            <input type="text" name="title" placeholder="title" id="title" required>
+        </div>
+        <div class="row">
+            <label for="isbn">ISBN: </label>
+            <input type="text" name="isbn" placeholder="ISBN" id="isbn" />
+        </div>
+        <div class="row">
+            <label for="year">Year: </label>
+            <input type="number" name="year" placeholder="2020" id="year" min="1" max="2030"/>
+        </div>
+        <div class="row">
+            <label for="publisher">Publisher: </label>
+            <input type="text" name="publisher" placeholder="publisher" id="publisher" />
+        </div>
+        <br/>
+        <div class="row">
+            <label for="name">Author name: </label>
+            <input type="text" name="name" placeholder="name" id="name" />
+        </div>
+        <div class="row">
+            <label for="nationality">Author nationality: </label>
+            <input type="text" name="nationality" placeholder="nationality" id="nationality" />
+        </div>
+        <div class="row">
+            <label for="numOfBooks">Author's number of books: </label>
+            <input type="number" name="numOfBooks" placeholder="1" id="numOfBooks" min="1" max="200"/>
+        </div>
+    </div>
+    <div id="divSubmit">
+        <input type="submit" id="submit-book" value="&#10004" class="green-check" />
+    </div>
+</form>
+
+<script src="js/delbook.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/addbook.js"></script>
+
+#parse("public/templates/bottom.vm")
