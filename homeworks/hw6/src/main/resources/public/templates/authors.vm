@@ -1,0 +1,29 @@
+#set( $title = "Authors List" )
+#parse("public/templates/top.vm")
+
+#if ($authors)
+<h1>List of the authors of your favorite books:</h1>
+<div class="divContents">
+    <ol>
+        <p>
+            #foreach($author in $authors )
+                <li class="content author" ><i>$author.name</i> ($author.nationality) has published $author.numOfBooks books. <button class="$author.name">X</button></li>
+            #end
+        </p>
+    </ol>
+    <form action="/addauthor" method="post" class="content list-form" onsubmit="return validateAuthorName();">
+        <label for="name">Name: </label>
+        <input type="text" name="name" placeholder="name" id="name" required>
+        <label for="nationality">Nationality: </label>
+        <input type="text" name="nationality" placeholder="nationality" id="nationality" />
+        <label for="numOfBooks">Number of books: </label>
+        <input type="number" name="numOfBooks" placeholder="1" id="numOfBooks" min="1" max="200"/>
+        <input type="submit" value="&#10004" class="green-check" />
+    </form>
+</div>
+#end
+<script src="js/delauthor.js"></script>
+##<script src="js/validate.js"></script>
+<script src="js/addauthor.js"></script>
+
+#parse("public/templates/bottom.vm")
