@@ -114,10 +114,10 @@ public class Server {
 
         staticFiles.location("/public");
 
-        after((Filter) (request, response) -> {
+        /* after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
             response.header("Access-Control-Allow-Methods", "GET, POST");
-        });
+        }); */
 
         // root route; show a simple message!
 
