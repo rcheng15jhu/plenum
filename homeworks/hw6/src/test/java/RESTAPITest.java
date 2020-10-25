@@ -21,17 +21,18 @@ public class RESTAPITest {
         gson = new Gson();
     }
 
-    @Test
-    public void testListAuthors() throws IOException {
-        Request request = new Request.Builder()
-                .url("http://localhost:7000/authors")
-                .build();
-        Response response = client.newCall(request).execute();
-        String resBody = response.body().string();
-        Author[] authors = gson.fromJson(resBody, Author[].class);
-        // loop through authors and do extra assertions
-        assertEquals(200, response.code());
-    }
+//    @Test
+//    public void testListAuthors() throws IOException {
+//        Request request = new Request.Builder()
+//                .url("http://localhost:7000/authors")
+//                .build();
+//        Response response = client.newCall(request).execute();
+//        String resBody = response.body().string();
+//        System.out.println(resBody);
+//        Author[] authors = gson.fromJson(resBody, Author[].class);
+//        // loop through authors and do extra assertions
+//        assertEquals(200, response.code());
+//    }
 
     @Test
     public void testAddAuthor() throws IOException {
