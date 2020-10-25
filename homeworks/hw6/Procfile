@@ -1,1 +1,1 @@
-web: java -jar build/libs/HerokuDemo-1.0-SNAPSHOT.jar
+web: java -jar build/libs/MyBooksApp-1.0-SNAPSHOT.jar
