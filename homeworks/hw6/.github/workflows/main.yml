@@ -31,4 +31,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "damp-spire-88649" #Provide your unique app name here
           heroku_email: "tylerjshin@gmail.com" #Provide your Heroku email address here
-          # appdir: "homeworks/hw6" # <- This will point to the api folder in your project
+          #     appdir: "homeworks/hw6" # <- This will point to the api folder in your project
