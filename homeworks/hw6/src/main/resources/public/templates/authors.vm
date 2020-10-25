@@ -15,7 +15,7 @@
 </div>
 #end
 
-<form class="content list-form" onsubmit="return validateAuthorName();">
+<form class="content list-form">
     <h3>Add Authors</h3>
     <div class = "center">
         <div class="row">

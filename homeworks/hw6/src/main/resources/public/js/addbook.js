@@ -1,5 +1,6 @@
 document.getElementById("submit-book").onclick = function(e) {
-    fetch('/addbook?' +
+    if (validateISBN() && validateTitle()) {
+        fetch('/addbook?' +
         'title=' + document.getElementById("title").value + 
         '&isbn=' + document.getElementById("isbn").value + 
         '&year=' + document.getElementById("year").value + 
@@ -10,4 +11,5 @@ document.getElementById("submit-book").onclick = function(e) {
         method: 'POST',
         }
     ).then(res => window.location.reload(true));
+    }
 }

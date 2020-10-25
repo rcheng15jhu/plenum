@@ -16,7 +16,7 @@
 </div>
 #end
 
-<form class="content list-form" onsubmit="return validateISBN() && validateTitle();">
+<form class="content list-form">
     <h3>Add Book</h3>
     <div class="center">
         <div class="row">
