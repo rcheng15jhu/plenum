@@ -5,6 +5,9 @@ import model.Book;
 import okhttp3.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.sql2o.Connection;
+import org.sql2o.Sql2o;
+
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
@@ -13,12 +16,21 @@ import static org.junit.Assert.*;
 
 public class RESTAPITest {
 
+    final static String URI = "jdbc:sqlite:./MyBooksApp.db";
     static OkHttpClient client;
     static Gson gson;
     @BeforeClass
     public static void beforeClassTests() throws SQLException {
+
+        Sql2o sql2o = new Sql2o(URI,"","");
+        String sqlDropAuthors = "DROP TABLE IF EXISTS Authors";
+        String sqlDropBooks = "DROP TABLE IF EXISTS Books";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sqlDropBooks).executeUpdate();
+            con.createQuery(sqlDropAuthors).executeUpdate();
+        }
         Server.main(null);
-        
+
         client = new OkHttpClient();
         gson = new Gson();
     }

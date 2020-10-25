@@ -1,4 +1,5 @@
 import model.Author;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -75,6 +76,12 @@ public class DBPersistenceTest {
         ResultSet rs = st.executeQuery(sql);
         assertTrue(rs.next());
     }
+
+    @AfterClass
+    public static void closeStatement() throws SQLException {
+        conn.close();
+    }
+
 
 
 

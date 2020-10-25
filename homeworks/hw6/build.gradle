@@ -2,6 +2,10 @@ plugins {
     id 'java'
 }
 
+test {
+    maxParallelForks 1
+}
+
 jar {
     manifest {
         attributes 'Main-Class' : 'Application'

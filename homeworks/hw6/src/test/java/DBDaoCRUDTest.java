@@ -20,7 +20,6 @@ public class DBDaoCRUDTest {
 
     @BeforeClass
     public static void beforeClassTests() {
-        Server.main(null);
 
         sql2o = new Sql2o(URI,"","");
         authorDao = new Sql2oAuthorDao(sql2o);
@@ -29,8 +28,8 @@ public class DBDaoCRUDTest {
         String sqlDropBooks = "DROP TABLE IF EXISTS Books";
         String sqlCreateAuthors = "CREATE TABLE IF NOT EXISTS Authors (id INTEGER PRIMARY KEY, name VARCHAR(100) NOT NULL UNIQUE," +
                 "numOfBooks INTEGER, nationality VARCHAR(30));";
-        String sqlCreateBooks = "CREATE TABLE IF NOT EXISTS Books (id INTEGER PRIMARY KEY, title VARCHAR(200) NOT NULL,"+
-                "isbn VARCHAR(14) NOT NULL UNIQUE, publisher VARCHAR(14), year INTEGER,"+
+        String sqlCreateBooks = "CREATE TABLE IF NOT EXISTS Books (id INTEGER PRIMARY KEY, title VARCHAR(100) NOT NULL,"+
+                "isbn VARCHAR(100) NOT NULL UNIQUE, publisher VARCHAR(100), year INTEGER,"+
                 "authorId INTEGER NOT NULL, FOREIGN KEY(authorId) REFERENCES Authors(id)"+
                 "ON UPDATE CASCADE ON DELETE CASCADE);";
 
