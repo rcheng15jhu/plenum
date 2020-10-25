@@ -1,5 +1,5 @@
 function deleteBook(bookIsbn) {
-    fetch('http://localhost:7000/delbook?isbn=' + bookIsbn, {
+    fetch('/delbook?isbn=' + bookIsbn, {
             method: 'POST',
         }
     ).then(res => window.location.reload(true));

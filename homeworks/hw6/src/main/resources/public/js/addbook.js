@@ -1,5 +1,5 @@
 document.getElementById("submit-book").onclick = function(e) {
-    fetch('http://localhost:7000/addbook?' +
+    fetch('/addbook?' +
         'title=' + document.getElementById("title").value + 
         '&isbn=' + document.getElementById("isbn").value + 
         '&year=' + document.getElementById("year").value + 

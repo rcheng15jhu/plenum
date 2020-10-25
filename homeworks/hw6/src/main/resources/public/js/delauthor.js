@@ -1,5 +1,5 @@
 function deleteAuthor(authorName) {
-    fetch('http://localhost:7000/delauthor?name=' + authorName, {
+    fetch('/delauthor?name=' + authorName, {
             method: 'POST',
         }
     ).then(res => window.location.reload(true));
