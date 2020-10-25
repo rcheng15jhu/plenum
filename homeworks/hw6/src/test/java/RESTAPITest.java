@@ -17,6 +17,8 @@ public class RESTAPITest {
     static Gson gson;
     @BeforeClass
     public static void beforeClassTests() throws SQLException {
+        Server.main(null);
+        
         client = new OkHttpClient();
         gson = new Gson();
     }

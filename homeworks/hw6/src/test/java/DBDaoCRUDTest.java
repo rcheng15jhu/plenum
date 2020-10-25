@@ -20,6 +20,8 @@ public class DBDaoCRUDTest {
 
     @BeforeClass
     public static void beforeClassTests() {
+        Server.main(null);
+
         sql2o = new Sql2o(URI,"","");
         authorDao = new Sql2oAuthorDao(sql2o);
         bookDao = new Sql2oBookDao(sql2o);
