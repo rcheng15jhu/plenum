@@ -17,8 +17,9 @@ public class Sql2oAuthorDao implements AuthorDao {
     @Override
     public int add(Author author) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String query = "INSERT INTO Authors (name, numOfBooks, nationality)" +
-                    "VALUES (:name, :numOfBooks, :nationality)";
+            String query;
+            query = "INSERT INTO Authors (name, numOfBooks, nationality)" +
+                        "VALUES (:name, :numOfBooks, :nationality)";
             int id = (int) con.createQuery(query, true)
                     .bind(author)
                     .executeUpdate().getKey();
@@ -26,6 +27,7 @@ public class Sql2oAuthorDao implements AuthorDao {
             return id;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -37,6 +39,7 @@ public class Sql2oAuthorDao implements AuthorDao {
             return con.createQuery(sql).executeAndFetch(Author.class);
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -68,7 +71,6 @@ public class Sql2oAuthorDao implements AuthorDao {
             }
         }
         catch (Sql2oException ex) {
-            ex.printStackTrace();
             throw new DaoException();
         }
     }

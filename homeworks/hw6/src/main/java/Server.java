@@ -2,7 +2,6 @@ import com.google.gson.Gson;
 import exception.DaoException;
 import model.Author;
 import model.Book;
-import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
 import persistence.Sql2oAuthorDao;
@@ -10,6 +9,12 @@ import persistence.Sql2oBookDao;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,40 +22,100 @@ import static spark.Spark.*;
 
 public class Server {
 
-    private static Sql2o getSql2o() {
-        final String URI = "jdbc:sqlite:./MyBooksApp.db";
-        final String USERNAME = "";
-        final String PASSWORD = "";
-
-        // set on foreign keys
-        SQLiteConfig config = new SQLiteConfig();
-        config.enforceForeignKeys(true);
-        config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
-
-        Sql2o sql2o = new Sql2o(URI, USERNAME, PASSWORD);
-        try (Connection conn = sql2o.open()) {
-            String sq1 = "CREATE TABLE IF NOT EXISTS Authors (" +
-                    " id            INTEGER PRIMARY KEY," +
-                    " name          VARCHAR(100) NOT NULL UNIQUE," +
-                    " numOfBooks    INTEGER," +
-                    " nationality   VARCHAR(30)" +
-                    ");";
-            conn.createQuery(sq1).executeUpdate();
-            String sq2 = "CREATE TABLE IF NOT EXISTS Books (" +
-                    " id        INTEGER PRIMARY KEY," +
-                    " title     VARCHAR(100) NOT NULL," +
-                    " isbn      VARCHAR(100) NOT NULL UNIQUE," +
-                    " publisher VARCHAR(100)," +
-                    " year      INTEGER," +
-                    " authorId  INTEGER NOT NULL," +
-                    " FOREIGN KEY(authorId)" +
-                    " REFERENCES Authors (id)" +
-                    "   ON UPDATE CASCADE" +
-                    "   ON DELETE CASCADE" +
-                    ");";
-            conn.createQuery(sq2).executeUpdate();
-        }
+    private static Sql2o getSql2o() throws URISyntaxException {
+        String[] dbUrl = getDbUrl(System.getenv("DATABASE_URL"));
+        createTables();
+        Sql2o sql2o = new Sql2o(dbUrl[0], dbUrl[1], dbUrl[2]);
         return sql2o;
+    }
+
+    private static void createTables() {
+        try (Connection conn = getConnection()) {
+            String sq1 = "";
+            String sq2 = "";
+
+            if ("SQLite".equalsIgnoreCase(conn.getMetaData().getDatabaseProductName())) { // running locally
+                // set on foreign keys
+                SQLiteConfig config = new SQLiteConfig();
+                config.enforceForeignKeys(true);
+                config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
+                sq1 = "CREATE TABLE IF NOT EXISTS Authors (" +
+                        " id            INTEGER PRIMARY KEY," +
+                        " name          VARCHAR(100) NOT NULL UNIQUE," +
+                        " numOfBooks    INTEGER," +
+                        " nationality   VARCHAR(30)" +
+                        ");";
+                sq2 = "CREATE TABLE IF NOT EXISTS Books (" +
+                        " id        INTEGER PRIMARY KEY," +
+                        " title     VARCHAR(100) NOT NULL," +
+                        " isbn      VARCHAR(100) NOT NULL UNIQUE," +
+                        " publisher VARCHAR(100)," +
+                        " year      INTEGER," +
+                        " authorId  INTEGER NOT NULL," +
+                        " FOREIGN KEY(authorId)" +
+                        " REFERENCES Authors (id)" +
+                        "   ON UPDATE CASCADE" +
+                        "   ON DELETE CASCADE" +
+                        ");";
+            }
+            else {
+                sq1 = "CREATE TABLE IF NOT EXISTS Authors (" +
+                        " id            serial PRIMARY KEY," +
+                        " name          VARCHAR(100) NOT NULL UNIQUE," +
+                        " numOfBooks    INTEGER," +
+                        " nationality   VARCHAR(30)" +
+                        ");";
+                sq2 = "CREATE TABLE IF NOT EXISTS Books (" +
+                        " id        serial PRIMARY KEY," +
+                        " title     VARCHAR(100) NOT NULL," +
+                        " isbn      VARCHAR(100) NOT NULL UNIQUE," +
+                        " publisher VARCHAR(100)," +
+                        " year      INTEGER," +
+                        " authorId  INTEGER NOT NULL," +
+                        " FOREIGN KEY(authorId)" +
+                        " REFERENCES Authors (id)" +
+                        "   ON UPDATE CASCADE" +
+                        "   ON DELETE CASCADE" +
+                        ");";
+            }
+
+            Statement st = conn.createStatement();
+            st.executeUpdate(sq1);
+            st.executeUpdate(sq2);
+
+        } catch (URISyntaxException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Connection getConnection() throws URISyntaxException, SQLException {
+        String databaseUrl = System.getenv("DATABASE_URL");
+        if (databaseUrl == null) {
+            // Not on Heroku, so use SQLite
+            return DriverManager.getConnection("jdbc:sqlite:./MyBooksApp.db");
+        }
+
+        String[] dbUri = getDbUrl(databaseUrl);
+
+        String username = dbUri[1];
+        String password = dbUri[2];
+        String dbUrl = dbUri[0];
+
+        return DriverManager.getConnection(dbUrl, username, password);
+    }
+
+    private static String[] getDbUrl(String databaseUrl) throws URISyntaxException {
+        if (databaseUrl == null) {
+            return new String[]{"jdbc:sqlite:./MyBooksApp.db", "", ""};
+        }
+
+        URI dbUri = new URI(databaseUrl);
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
+                + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+        return new String[]{dbUrl, username, password};
     }
 
     static final int PORT = 7000;  
@@ -62,7 +127,7 @@ public class Server {
       return PORT;
     }
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws URISyntaxException {
         // set port number
         port(getHerokuAssignedPort());
 
