@@ -2,6 +2,9 @@ package persistence;
 
 import exception.DaoException;
 import model.Author;
+
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.List;
 import org.sql2o.*;
 
@@ -26,9 +29,8 @@ public class Sql2oAuthorDao implements AuthorDao {
             author.setId(id);
             return id;
         }
-        catch (Sql2oException ex) {
-            ex.printStackTrace();
-            throw new DaoException();
+        catch (URISyntaxException | SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -38,9 +40,8 @@ public class Sql2oAuthorDao implements AuthorDao {
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Author.class);
         }
-        catch (Sql2oException ex) {
-            ex.printStackTrace();
-            throw new DaoException();
+        catch (URISyntaxException | SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -53,8 +54,8 @@ public class Sql2oAuthorDao implements AuthorDao {
                     .executeUpdate();
             return true;
         }
-        catch (Sql2oException ex) {
-            throw new DaoException();
+        catch (URISyntaxException | SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -70,8 +71,8 @@ public class Sql2oAuthorDao implements AuthorDao {
                 return -1;
             }
         }
-        catch (Sql2oException ex) {
-            throw new DaoException();
+        catch (URISyntaxException | SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -83,8 +84,8 @@ public class Sql2oAuthorDao implements AuthorDao {
                     .executeUpdate();
             return true;
         }
-        catch (Sql2oException ex) {
-            throw new DaoException();
+        catch (URISyntaxException | SQLException e) {
+            e.printStackTrace();
         }
     }
 

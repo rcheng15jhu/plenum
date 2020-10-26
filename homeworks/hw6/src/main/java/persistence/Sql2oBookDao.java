@@ -5,6 +5,9 @@ import model.Book;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
+
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class Sql2oBookDao implements BookDao {
@@ -33,8 +36,8 @@ public class Sql2oBookDao implements BookDao {
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Book.class);
         }
-        catch (Sql2oException ex) {
-            throw new DaoException();
+        catch (URISyntaxException | SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -47,8 +50,8 @@ public class Sql2oBookDao implements BookDao {
                     .executeUpdate();
             return true;
         }
-        catch (Sql2oException ex) {
-            throw new DaoException();
+        catch (URISyntaxException | SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -60,8 +63,8 @@ public class Sql2oBookDao implements BookDao {
                     .executeUpdate();
             return true;
         }
-        catch (Sql2oException ex) {
-            throw new DaoException();
+        catch (URISyntaxException | SQLException e) {
+            e.printStackTrace();
         }
     }
 }
