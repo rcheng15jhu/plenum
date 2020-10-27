@@ -1,5 +1,5 @@
 document.getElementById("submit-book").onclick = function(e) {
-    if (validateISBN() && validateTitle()) {
+    if (validateISBN() && validateTitle() && validateAuthorName()) {
         fetch('/addbook?' +
         'title=' + document.getElementById("title").value + 
         '&isbn=' + document.getElementById("isbn").value + 

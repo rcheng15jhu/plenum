@@ -14,7 +14,8 @@
 #end
 
 <h2>Add a new Book</h2>
-<form action="/addbook" method="post" class="content" id="formAddBook">
+#* <form action="/addbook" method="post" class="content" id="formAddBook"> *#
+<form class="content" id="formAddBook">
     <h3>Book Information</h3>
     <div class="center">
         <div class="row">
@@ -52,6 +53,9 @@
     <br />
     <input type="submit" value="Add" id="submitAddAuthor" />
 </form>
+
+<script src="js/validate.js"></script>
+<script src="js/addbook.js"></script>
 
 <p><a class="content indexLink" href="/">Back to home</a></p>
 

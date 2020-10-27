@@ -13,7 +13,7 @@
 #end
 
 <h2>Add a new author</h2>
-<form action="/addauthor" method="post" class="content">
+<form class="content">
     <h3>Author Information</h3>
     <div class="center">
         <div class="row">
@@ -34,6 +34,9 @@
         <input type="submit" value="Add" class="submit" />
     </div>
 </form>
+
+<script src="js/validate.js"></script>
+<script src="js/addauthor.js"></script>
 
 <p><a class="content indexLink" href="/">Back to home</a></p>
 
