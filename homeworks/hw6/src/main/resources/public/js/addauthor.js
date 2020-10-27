@@ -1,4 +1,5 @@
 document.getElementById("submit-author").onclick = function(e) {
+    e.preventDefault()
     if (validateAuthorName()) {
         fetch('/addauthor?' +
         'name=' + document.getElementById("name").value + 
