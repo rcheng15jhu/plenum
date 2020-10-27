@@ -28,6 +28,10 @@ public class Sql2oBookDao implements BookDao {
             book.setId(id);
             return id;
         }
+        catch (Sql2oException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
     }
 
     @Override
@@ -36,8 +40,9 @@ public class Sql2oBookDao implements BookDao {
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Book.class);
         }
-        catch (URISyntaxException | SQLException e) {
+        catch (Sql2oException e) {
             e.printStackTrace();
+            throw new DaoException();
         }
     }
 
@@ -50,8 +55,9 @@ public class Sql2oBookDao implements BookDao {
                     .executeUpdate();
             return true;
         }
-        catch (URISyntaxException | SQLException e) {
+        catch (DaoException e) {
             e.printStackTrace();
+            throw new DaoException();
         }
     }
 
@@ -63,8 +69,9 @@ public class Sql2oBookDao implements BookDao {
                     .executeUpdate();
             return true;
         }
-        catch (URISyntaxException | SQLException e) {
+        catch (DaoException e) {
             e.printStackTrace();
+            throw new DaoException();
         }
     }
 }

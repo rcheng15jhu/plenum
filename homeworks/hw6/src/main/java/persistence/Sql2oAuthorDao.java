@@ -29,8 +29,9 @@ public class Sql2oAuthorDao implements AuthorDao {
             author.setId(id);
             return id;
         }
-        catch (URISyntaxException | SQLException e) {
+        catch (Sql2oException e) {
             e.printStackTrace();
+            throw new DaoException();
         }
     }
 
@@ -40,8 +41,9 @@ public class Sql2oAuthorDao implements AuthorDao {
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Author.class);
         }
-        catch (URISyntaxException | SQLException e) {
+        catch (Sql2oException e) {
             e.printStackTrace();
+            throw new DaoException();
         }
     }
 
@@ -54,8 +56,9 @@ public class Sql2oAuthorDao implements AuthorDao {
                     .executeUpdate();
             return true;
         }
-        catch (URISyntaxException | SQLException e) {
+        catch (Sql2oException e) {
             e.printStackTrace();
+            throw new DaoException();
         }
     }
 
@@ -71,8 +74,9 @@ public class Sql2oAuthorDao implements AuthorDao {
                 return -1;
             }
         }
-        catch (URISyntaxException | SQLException e) {
+        catch (Sql2oException e) {
             e.printStackTrace();
+            throw new DaoException();
         }
     }
 
@@ -84,8 +88,9 @@ public class Sql2oAuthorDao implements AuthorDao {
                     .executeUpdate();
             return true;
         }
-        catch (URISyntaxException | SQLException e) {
+        catch (Sql2oException e) {
             e.printStackTrace();
+            throw new DaoException();
         }
     }
 
