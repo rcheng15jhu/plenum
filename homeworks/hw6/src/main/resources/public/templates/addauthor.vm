@@ -13,7 +13,7 @@
 #end
 
 <h2>Add a new author</h2>
-<form action="/addauthor" method="post" class="content" id="formAddAuthor" onSubmit="validateAuthorName()">
+<form action="/addauthor" method="post" class="content" id="formAddAuthor" onSubmit="return validateAuthorName()">
     <h3>Author Information</h3>
     <div class="center">
         <div class="row">
