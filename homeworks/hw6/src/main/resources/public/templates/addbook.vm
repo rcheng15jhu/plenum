@@ -14,7 +14,7 @@
 #end
 
 <h2>Add a new Book</h2>
-<form action="/addbook" method="post" class="content" id="formAddBook" onSubmit="validateISBN() && validateTitle() && validateAuthorName()">
+<form action="/addbook" method="post" class="content" id="formAddBook" onSubmit="return validateISBN() && validateTitle() && validateAuthorName()">
     <h3>Book Information</h3>
     <div class="center">
         <div class="row">
