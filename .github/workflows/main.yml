@@ -23,8 +23,8 @@ jobs:
         run: chmod +x ./homeworks/hw6/gradlew
       - name: Build with Gradle
         run: cd ./homeworks/hw6/; touch MyBooksApp.db; chmod 755 MyBooksApp.db; ./gradlew --scan --stacktrace build jar; mv ./build/libs/MyBooksApp-1.0-SNAPSHOT.jar .
-      - name: Commit to the repo
-        uses: EndBug/add-and-commit@v4.4.0
+      - name: Commit on the runner
+        run: git add *; git commit -m "None"
       - name: Deploy to Heroku
         uses: AkhileshNS/heroku-deploy@v3.5.7
         with:
