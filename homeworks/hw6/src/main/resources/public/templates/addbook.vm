@@ -51,7 +51,7 @@
         </div>
     </div>
     <br />
-    <input type="submit" value="Add" id="submitAddAuthor" />
+    <input type="submit" id="submit-book" value="Add" />
 </form>
 
 <script src="js/validate.js"></script>

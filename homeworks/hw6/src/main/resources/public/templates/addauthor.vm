@@ -31,7 +31,7 @@
     </div>
     <br />
     <div id="divSubmit">
-        <input type="submit" value="Add" class="submit" />
+        <input type="submit" id="submit-author" value="Add" class="submit" />
     </div>
 </form>
 
