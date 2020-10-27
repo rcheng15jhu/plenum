@@ -21,7 +21,7 @@ heroku {
     processTypes(
             web: "java -jar build/libs/MyBooksApp-1.0-SNAPSHOT.jar"
     )
-    appName="frozen-thicket-39470"
+    appName="damp-spire-88649"
 }
 
 sourceCompatibility = 1.8

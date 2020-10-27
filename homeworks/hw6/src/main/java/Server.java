@@ -127,11 +127,19 @@ public class Server {
       return PORT;
     }
 
-    public static void main(String[] args) throws URISyntaxException {
+    public static void main(String[] args) {
         // set port number
         port(getHerokuAssignedPort());
 
-        Sql2o sql2o = getSql2o();
+        Sql2o attemptSql2o = null;
+        try {
+            attemptSql2o = getSql2o();
+        } catch(URISyntaxException e) {
+            System.out.println("Server unable to start; invalid URI");
+            e.printStackTrace();
+            return;
+        }
+        Sql2o sql2o = attemptSql2o;
 
         staticFiles.location("/public");
 
