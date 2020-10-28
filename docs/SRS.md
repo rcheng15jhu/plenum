@@ -43,8 +43,8 @@ I need this application to have a way to view aggregate availabilities, so that 
 can coordinate events more efficiently.
 
 * As someone who frequently has to schedule multiple distinct events with other people,
-I need to be able to log in and log out of this application to securely store information
-related to my availability.
+I need to be able to log in and log out of this application to securely store
+information related to my availability.
 
 * As someone who frequently has to schedule multiple distinct events with other people,
 I need this application to include a way to include a default availability schedule
@@ -53,9 +53,9 @@ so that I can submit my availability more conveniently.
 * As someone who frequently has to schedule multiple distinct events with other people,
 I need this application to store many different calendars for me, so that I can submit
 my availability differently for events that I have different amount of
-commitments to. For example, for my job I may want to list more availability, but for a
-school club, I may want to list less availability, and I would like both calendars to
-be stored for quick use.
+commitments to. For example, for my job I may want to list more availability, but for
+a school club, I may want to list less availability, and I would like both calendars
+to be stored for quick use.
 
 * As someone who frequently uses my calendar to schedule events throughout my life,
 I need to be able to import my schedule from my calendar application, so that I can
@@ -83,14 +83,50 @@ in the event can upvote/downvote suggested events to come to a consensus about w
 meeting time is most optimal. 
 
 * As a user that wants to avoid wasting time on deciding a meeting time once
-the group's availability is known, I would like the application to suggest meeting times
-autonomously for the group, based on the availability, so as to more easily finalize
-a meeting time once availabilities are known.
+the group's availability is known, I would like the application to suggest meeting
+times autonomously for the group, based on the avaliability, so as to more easily
+finalize a meeting time once avaliabilities are known.
 
 * As someone who frequently has to schedule multiple distinct events with other people
-on different days of the week, I would like to store calendars specifically for certain
-days of the week, so as to allow me to plan my availability in different chunks for different
-times of the week.
+on different days of the week, I would like to store calendars specifically for
+certain days of the week, so as to allow me to plan my availability in different
+chunks for different times of the week.
+
+* As a user whose weekly availability may constantly change, such as having new shifts
+assigned at work, or having new hours of access at some research lab, I would like a
+feature to have my availiability for specific events automatically changed to reflect
+my changing schedule. This may include the ability to use the same calendar to
+indicate availability for multiple events, or some sort of syncing feature, which can
+notify me of all 'derived' event calendars that may need to be updated after a change
+to the 'base' calendar.
+
+* As a user who is involved in many activities and would like to mark unavailability
+for each commitment separately, I would like to store calendars specifically meant for
+this purpose, and not for use to indicate availability for events directly. These
+calendars could be called 'activity' calendars.
+
+* As a user who is involved in many activities and would like to mark unavailability
+for each commitment separately, I would like an easy calendar composition feature,
+allowing me to easily create a new 'base' calendar by combining 'activity' calendars.
+
+* As a user whose weekly availability may constantly change, I would like a feature
+that allows me to automatically progogate or merge some changes from 'base' calendars
+to other 'derived' calendars that I have used to indicate my availability for a
+number of events, resolving merge conflicts through a special calendar view.
+
+* As a user who has many one-off events that change availability different from week
+to week, I would like some way to import these one-off events into this application,
+so that it will automatically show up on 'derived' calendars showing my availability
+for a specific week.
+
+* As a user that organizes weekly meetings that may have to occur at different times
+every week, I would like a way to view aggregate availabilities on a week-by-week
+view, which is able to correctly aggregate one-off events of each person in the event. 
+
+* As a user that schedules many events using this app, I would like a feature that
+automatically creates a one-off event or 'activity' calendar once a meeting time for
+an event is finalized using this app, so that I do not have to manually edit
+availability for the numerous yet un-finalized events.
 
 
 ## Software Architecture
