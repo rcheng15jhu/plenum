@@ -329,6 +329,26 @@ public class Server {
             return new Gson().toJson(a.toString());
         });
 
+        //updateavailability route; updates availability
+        post("/updateavailability", (req, res) -> {
+            int calendarId = Integer.parseInt(req.queryParams("calendarId"));
+            int date = Integer.parseInt(req.queryParams("date"));
+            System.out.println(date);
+            int qAvail = Integer.parseInt(req.queryParams("qAvail"));
+            int availstate = Integer.parseInt(req.queryParams("state"))
+            Availability a = new Availability(calendarId, date, qAvail);
+            if (state == 1) {
+                new Sql2oAvailabilityDao(getSql2o()).add(a);
+                }
+            else {
+                new Sql2oAvailabilityDao(getSql2o()).delete(a);
+            }
+
+            res.status(201);
+            res.type("application/json");
+            return new Gson().toJson(a.toString());
+        });
+
         //Gets page to make a calendar
         get("/makecalendar", (req, res) -> {
             //res.redirect("/templates/test_checkbox.html");
@@ -360,6 +380,7 @@ public class Server {
             res.type("text/html");
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index4.html"));
         });
+
 
     }
 }

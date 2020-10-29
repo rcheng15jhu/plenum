@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/2020-fall-group-fun-fun-fun.iml" filepath="$PROJECT_DIR$/.idea/2020-fall-group-fun-fun-fun.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyBooksApp.iml" filepath="$PROJECT_DIR$/.idea/modules/MyBooksApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyBooksApp.main.iml" filepath="$PROJECT_DIR$/.idea/modules/MyBooksApp.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyBooksApp.test.iml" filepath="$PROJECT_DIR$/.idea/modules/MyBooksApp.test.iml" />
     </modules>
   </component>
 </project>
