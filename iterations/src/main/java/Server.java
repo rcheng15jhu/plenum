@@ -335,9 +335,9 @@ public class Server {
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
             int qAvail = Integer.parseInt(req.queryParams("qAvail"));
-            int availstate = Integer.parseInt(req.queryParams("state"))
+            int availstate = Integer.parseInt(req.queryParams("state"));
             Availability a = new Availability(calendarId, date, qAvail);
-            if (state == 1) {
+            if (availstate == 1) {
                 new Sql2oAvailabilityDao(getSql2o()).add(a);
                 }
             else {

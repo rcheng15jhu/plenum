@@ -12,11 +12,13 @@ function getObjToSave() {
     objToSave.dates = [];
     for (let i = 0; i < 7; i++) {
         const buttons = [...document.getElementsByClassName("day" + i)];
+        console.log(buttons);
         let times = [];
         buttons.forEach(button => {
-            if(button.checked) {
-                times.push(parseInt(button.value));
-            }
+            let value = parseInt(button.value);
+            console.log(value);
+            if(value !== -1)
+            times.push(value);
         });
         if(times.length !== 0) {
             objToSave.dates.push({
@@ -33,8 +35,8 @@ function downloadTemplate() {
     console.log("Test");
 }
 
-function upload(name, event, content) {
-    fetch("/addcalendar?title=test&userId=" + name + "&eventId=" + event, {
+function upload(title, content) {
+    fetch("/addcalendar?title=" + title, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -46,9 +48,10 @@ function upload(name, event, content) {
 }
 
 function uploadTemplate() {
-    let name = document.getElementById("name").value;
-    let event = document.getElementById("event").value;
-    if (name !== "" && event !== "") {
-        upload(name, event, getObjToSave());
+    let title = document.getElementById("title").value;
+    if (title !== "") {
+        upload(title, getObjToSave());
     }
 }
+
+export default uploadTemplate
