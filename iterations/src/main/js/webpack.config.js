@@ -1,12 +1,27 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+let pages = [ // KEEP THIS ARRAY UPDATED
+    'a', 
+    'b',
+    'c',
+]
+
+let entryGenerator = {}
+pages.forEach(page => entryGenerator[page] = './src/pages/' + page + '.js')
+
+let pageGenerator = pages.map(page => 
+    new HtmlWebpackPlugin({
+        title: `${page}`,
+        template: 'template.ejs',
+        inject: true,
+        chunks: [`${page}`],
+        filename: path.resolve(__dirname, '..', `resources/public/static/html/${page}.html`)
+    })
+)
+
 const config = {
-    entry: {
-        'a': './src/pages/a.js',
-        'b': './src/pages/b.js',
-        'c': './src/pages/c.js'
-    },
+    entry: entryGenerator,
     output: {
         path: path.resolve(__dirname, '..', 'resources/public/static'),
         filename: 'js/[name].js',
@@ -32,26 +47,7 @@ const config = {
             },
         ],
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: 'template.ejs',
-            inject: true,
-            chunks: ['a'],
-            filename: path.resolve(__dirname, '..', 'resources/public/static/html/a.html')
-        }),
-        new HtmlWebpackPlugin({
-            template: 'template.ejs',
-            inject: true,
-            chunks: ['b'],
-            filename: path.resolve(__dirname, '..', 'resources/public/static/html/b.html')
-        }),
-        new HtmlWebpackPlugin({
-            template: 'template.ejs',
-            inject: true,
-            chunks: ['c'],
-            filename: path.resolve(__dirname, '..', 'resources/public/static/html/c.html')
-        }),
-    ]
+    plugins: pageGenerator
 }
 
 module.exports = config
