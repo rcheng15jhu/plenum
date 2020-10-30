@@ -1,11 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('fs')
 
-let pages = [ // KEEP THIS ARRAY UPDATED
-    'a', 
-    'b',
-    'c',
-]
+let pages = fs.readdirSync('src/pages').map(i => i.replace('.js', ''))
 
 let entryGenerator = {}
 pages.forEach(page => entryGenerator[page] = './src/pages/' + page + '.js')
