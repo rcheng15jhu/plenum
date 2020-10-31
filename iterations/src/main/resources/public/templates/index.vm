@@ -10,7 +10,7 @@
     <p><a class="content indexLink" href="/makecalendarnew">Make Calendar (New)</a></p>
     <p><a class="content indexLink" href="/events">Events</a></p>
     <p><a class="content indexLink" href="/viewevent">View Event</a></p>
-    <p><a class="content indexLink" href="/testing github actions">View Event</a></p>
+    <p><a class="content indexLink" href="/Testing github actions">View Event</a></p>
 </div>
 #else
 <h1>Please login first!</h1>
