@@ -4,9 +4,9 @@ name: Quorum Java CI/CD with Gradle and Deploy to Heroku
 
 on:
   push:
-    branches: [ master, iteration3 ]
+    branches: [ iteration3 ]
   pull_request:
-    branches: [ master ]
+    branches: [ iteration3 ]
 
 jobs:
   build:
