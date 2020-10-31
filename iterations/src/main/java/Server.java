@@ -1,22 +1,18 @@
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import exception.DaoException;
 import model.*;
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
-import org.sqlite.SQLiteDataSource;
 import persistence.Sql2oAvailabilityDao;
 import persistence.Sql2oCalendarDao;
 import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
 import static spark.Spark.*;
 
-import spark.Filter;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 import spark.utils.IOUtils;
-import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -85,7 +81,7 @@ public class Server {
                 String sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
                         " id            serial PRIMARY KEY," +
                         " calendarId    INTEGER NOT NULL," +
-                        " date          DATE," +
+                        " date          INTEGER NOT NULL," +
                         " qAvail        INTEGER NOT NULL," +
                         " FOREIGN KEY(calendarId)" +
                         " REFERENCES Calendars (id)" +
