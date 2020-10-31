@@ -31,3 +31,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY_QUORUM}}
           heroku_app_name: "warm-ridge-98252"
           heroku_email: "lee.hsinpei.melody@gmail.com"
+          appdir: "iterations/"
