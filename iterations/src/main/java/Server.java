@@ -61,7 +61,7 @@ public class Server {
                             ");";
                     sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
                             " id            INTEGER PRIMARY KEY," +
-                            " name          VARCHAR(100) NOT NULL," +
+                            " title         VARCHAR(100) NOT NULL," +
                             " userId        INTEGER NOT NULL," +
                             " FOREIGN KEY(userId)" +
                             " REFERENCES Users (id)" +
@@ -112,7 +112,7 @@ public class Server {
                             ");";
                     sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
                             " id            serial PRIMARY KEY," +
-                            " name          VARCHAR(100) NOT NULL," +
+                            " title         VARCHAR(100) NOT NULL," +
                             " userId        INTEGER NOT NULL," +
                             " FOREIGN KEY(userId)" +
                             " REFERENCES Users (id)" +
@@ -281,7 +281,7 @@ public class Server {
         });
 
         //calendar route; returns availabilities associated with the calendar id
-        get("/calendar", (req, res) -> {
+        get("/api/calendar", (req, res) -> {
             String results;
             String idParam = req.queryParams("id");
             if(idParam != null) {
@@ -305,10 +305,10 @@ public class Server {
 
         //addcalendar route; add a new calendar
         post("/api/addcalendar", (req, res) -> {
-            String name = req.queryParams("title");
+            String title = req.queryParams("title");
             String username = req.cookie("username");
             int userId = new Sql2oUserDao(getSql2o()).getId(username);
-            Calendar c = new Calendar(name, userId);
+            Calendar c = new Calendar(title, userId);
             System.out.println(c);
             new Sql2oCalendarDao(getSql2o()).add(c);
             String blob = req.body();
@@ -488,6 +488,12 @@ public class Server {
             res.status(200);
             res.type("text/html");
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index4.html"));
+        });
+
+        get("/create-calendar", (req, res) -> {
+            res.status(200);
+            res.type("text/html");
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/create-calendar"));
         });
 
 

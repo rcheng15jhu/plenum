@@ -18,8 +18,8 @@ public class Sql2oCalendarDao implements CalendarDao {
     @Override
     public int add(Calendar cal) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String query = "INSERT INTO Calendars (name, userId)" +
-                    "VALUES (:name, :userId)";
+            String query = "INSERT INTO Calendars (title, userId)" +
+                    "VALUES (:title, :userId)";
             int id = (int) con.createQuery(query, true)
                     .bind(cal)
                     .executeUpdate().getKey();
