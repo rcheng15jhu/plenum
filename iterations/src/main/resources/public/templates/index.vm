@@ -6,8 +6,7 @@
 <div class="divContents indexLinkWrapper">
     <p><a class="content indexLink" href="/calendars">Calendars</a></p>
     <p><a class="content indexLink" href="/viewcalendar">View Calendar Availabilities</a></p>
-    <p><a class="content indexLink" href="/makecalendar">Make Calendar (Deprecated)</a></p>
-    <p><a class="content indexLink" href="/makecalendarnew">Make Calendar (New)</a></p>
+    <p><a class="content indexLink" href="/create-calendar">Create Calendar</a></p>
     <p><a class="content indexLink" href="/events">Events</a></p>
     <p><a class="content indexLink" href="/viewevent">View Event</a></p>
     <p><a class="content indexLink" href="/Testing github actions">View Event</a></p>
