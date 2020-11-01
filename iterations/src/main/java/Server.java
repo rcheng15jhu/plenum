@@ -103,7 +103,7 @@ public class Server {
             }
         }
 
-        System.out.println("Table created successfully");
+        System.out.println("Table created successfully!");
 
         return sql2o;
     }
