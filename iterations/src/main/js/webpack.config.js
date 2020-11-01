@@ -43,11 +43,31 @@ module.exports = (env, options) => {
             contentBase: path.resolve(__dirname, '..', 'resources/public/static/html'),
             compress: true,
             port: 3000,
-            proxy: {
-                '/api': {
+            proxy: [
+                {
+                    context: ['/api'],
                     target: 'http://localhost:7000',
+                },
+                {
+                    context: ['/'],
+                    target: 'http://localhost:7000',
+                    bypass: function(req, res, proxyOptions) {
+                        if (req.url.indexOf('api') !== -1) {
+                            return null;
+                        }
+                        else if (req.url.indexOf('html') === -1 && req.url.indexOf('js') === -1 && req.url.indexOf('css') === -1) {
+                            console.log('Skipping proxy for browser request.');
+                            if(req.url === 'http://localhost:3000/') {
+                                return 'http://localhost:3000/';
+                            }
+                            return req.url + '.html';
+                        }
+                        else {
+                            return req.url;
+                        }
+                    }
                 }
-            }
+            ]
         },
         devtool: 'source-map',
         module: {
