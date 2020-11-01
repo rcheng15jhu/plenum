@@ -14,7 +14,7 @@ const calendar = (props) => {
 
     for (let i = 0; i < 12; i++) {
         for (let j = 0; j < 7; j++) {
-            calendar[i][j] = 'A'
+            calendar[i][j] = 'U'
         }
     }
 
@@ -23,7 +23,7 @@ const calendar = (props) => {
         let dates = template.dates;
         for (let i = 0; i < dates.length; i++) {
             for (let j = 0; j < dates[i].times.length; j++) {
-                calendar[dates[i].times[j]][dates[i].date] = 'U'
+                calendar[dates[i].times[j]][dates[i].date] = 'A'
             }
         }
     }

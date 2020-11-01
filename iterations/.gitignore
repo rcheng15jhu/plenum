@@ -3,7 +3,7 @@
 *.vscode/
 *bin/
 *build/
-*Quorum.db
+Plenum.db
 *hs_err_pid*.log
 
 .DS_Store
