@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const editable-cell = (props) => {
+const editable_cell = (props) => {
     const [avail, setAvail] = useState(props.unavailable === 'A')
     let styles = {border: '1px solid black', width: '25px', height: '25px', textAlign: 'center', outline: 'none'}
 
@@ -14,4 +14,4 @@ const editable-cell = (props) => {
     return <td><button onClick={flipState} style={styles} className={"day" + props.day} value={avail ? props.time : -1}/></td>
 };
 
-export default editable-cell
+export default editable_cell

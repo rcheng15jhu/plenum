@@ -90,7 +90,7 @@ public class Server {
                             " id            INTEGER PRIMARY KEY," +
                             " calendarId    INTEGER NOT NULL," +
                             " date          INTEGER NOT NULL," +
-                            " qAvail        INTEGER NOT NULL," +
+                            " qHour        INTEGER NOT NULL," +
                             " FOREIGN KEY(calendarId)" +
                             " REFERENCES Calendars (id)" +
                             "   ON UPDATE CASCADE" +
@@ -141,7 +141,7 @@ public class Server {
                             " id            serial PRIMARY KEY," +
                             " calendarId    INTEGER NOT NULL," +
                             " date          INTEGER NOT NULL," +
-                            " qAvail        INTEGER NOT NULL," +
+                            " qHour        INTEGER NOT NULL," +
                             " FOREIGN KEY(calendarId)" +
                             " REFERENCES Calendars (id)" +
                             "   ON UPDATE CASCADE" +

@@ -28,6 +28,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
             return id;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
