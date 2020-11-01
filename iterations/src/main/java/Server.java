@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -490,12 +491,17 @@ public class Server {
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index4.html"));
         });
 
-        get("/create-calendar", (req, res) -> {
+        makeStaticRoutes(Arrays.asList("/create-calendar", "/view-calendar", "/list-calendar", "/home", "/index"
+                , "/view-event"));
+
+
+    }
+
+    public static void makeStaticRoutes(List<String> routes) {
+        routes.forEach(route -> get(route, (req, res) -> {
             res.status(200);
             res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/create-calendar.html"));
-        });
-
-
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html" + route + ".html"));
+        }));
     }
 }

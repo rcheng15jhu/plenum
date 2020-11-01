@@ -5,7 +5,19 @@ import Viewable_list from "../components/viewable-list";
 
 const App = () => {
 
-    const [id, setId] = useState(-1)
+    let getInitId = () => {
+        let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
+        if(isNaN(paramId)) {
+            window.history.replaceState({id: -1},'','/view-calendar')
+            return -1;
+        }
+        else {
+            window.history.replaceState({id: paramId},'','/view-calendar?id=' + paramId)
+            return paramId;
+        }
+    }
+
+    const [id, setId] = useState(getInitId)
 
     const [calendars, setCalendars] = useState([])
 
@@ -39,10 +51,23 @@ const App = () => {
                 setFile(data)
             })
         }
+        else {
+            setFile({})
+        }
     }, [id])
 
     let updateActive = (id) => () => {
+        window.history.pushState({id: id},'','/view-calendar?id=' + id)
         setId(id)
+    }
+
+    window.onpopstate = (e) => {
+        setId(e.state.id)
+    }
+
+    let clearCalendarView = () => {
+        window.history.pushState({id: -1},'','/view-calendar')
+        setId(-1)
     }
 
     let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
