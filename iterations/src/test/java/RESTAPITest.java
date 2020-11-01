@@ -15,6 +15,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.List;
 
@@ -43,7 +44,11 @@ public class RESTAPITest {
             con.createQuery(sqlDropConnections).executeUpdate();
             con.createQuery(sqlDropAvailabilities).executeUpdate();
         }
-        Server.main(null);
+        try {
+            Server.main(null);
+        } catch (URISyntaxException e) {
+            System.out.println("oh no");
+        }
 
         client = new OkHttpClient();
         gson = new Gson();
