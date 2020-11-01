@@ -81,8 +81,13 @@ public class Server {
                 String sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
                         " id            serial PRIMARY KEY," +
                         " calendarId    INTEGER NOT NULL," +
+<<<<<<< HEAD
+                        " date          DATE," +
+                        " qAvail        INTEGER NOT NULL," + 
+=======
                         " date          INTEGER NOT NULL," +
                         " qAvail        INTEGER NOT NULL," +
+>>>>>>> 08edc7b1efb34475e1282364e1cc74816f3218ec
                         " FOREIGN KEY(calendarId)" +
                         " REFERENCES Calendars (id)" +
                         "   ON UPDATE CASCADE" +
@@ -197,10 +202,8 @@ public class Server {
 //                res.redirect("/");
 //                return null;
 //            }
-            String name = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getId(username);
             Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
-            model.put("calendars", sql2oCalendar.listOne(userID));
+            model.put("calendars", sql2oCalendar.listAll());
             res.type("text/html");
             res.status(200);
             return new ModelAndView(model, "public/templates/calendars.vm");

@@ -1,24 +1,24 @@
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import exception.DaoException;
 import model.*;
+import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
+import org.sqlite.SQLiteDataSource;
 import persistence.Sql2oAvailabilityDao;
 import persistence.Sql2oCalendarDao;
 import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
 import static spark.Spark.*;
 
+import spark.Filter;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 import spark.utils.IOUtils;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class Server {
 
     private static Sql2o sql2o;
 
-    private static Sql2o getSql2o() throws URISyntaxException {
+    private static Sql2o getSql2o() {
         if(sql2o == null) {
             System.out.println("was null!");
             // set on foreign keys
@@ -35,24 +35,27 @@ public class Server {
             config.enforceForeignKeys(true);
             config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
 
-            // create data source - update to use postgresql
-            String[] dbUrl = getDbUrl(System.getenv("DATABASE_URL"));
-            sql2o = new Sql2o(dbUrl[0], dbUrl[1], dbUrl[2]);
+            // create data source
+            SQLiteDataSource ds = new SQLiteDataSource(config);
+            ds.setUrl("jdbc:sqlite:Quorum.db");
 
-            try (Connection conn = getConnection()) {
+            sql2o = new Sql2o(ds);
+            try (Connection conn = sql2o.open()) {
                 String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
-                        " id            serial PRIMARY KEY," +
+                        " id            INTEGER PRIMARY KEY," +
                         " name          VARCHAR(100) NOT NULL UNIQUE," +
                         " password      VARCHAR(100) NOT NULL" +
                         ");";
+                conn.createQuery(sq1).executeUpdate();
                 String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
-                        " id            serial PRIMARY KEY," +
+                        " id            INTEGER PRIMARY KEY," +
                         " title         VARCHAR(100) NOT NULL," +
                         " startTime     INTEGER," +
                         " endTime       INTEGER" +
                         ");";
+                conn.createQuery(sq2).executeUpdate();
                 String sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
-                        " id            serial PRIMARY KEY," +
+                        " id            INTEGER PRIMARY KEY," +
                         " name          VARCHAR(100) NOT NULL," +
                         " userId        INTEGER NOT NULL," +
                         " FOREIGN KEY(userId)" +
@@ -60,8 +63,9 @@ public class Server {
                         "   ON UPDATE CASCADE" +
                         "   ON DELETE CASCADE" +
                         ");";
+                conn.createQuery(sq3).executeUpdate();
                 String sq4 = "CREATE TABLE IF NOT EXISTS Connections (" +
-                        " id            serial PRIMARY KEY," +
+                        " id            INTEGER PRIMARY KEY," +
                         " eventId       INTEGER NOT NULL," +
                         " calendarId    INTEGER NOT NULL," +
                         " userId        INTEGER NOT NULL," +
@@ -78,57 +82,21 @@ public class Server {
                         "   ON UPDATE CASCADE" +
                         "   ON DELETE CASCADE" +
                         ");";
+                conn.createQuery(sq4).executeUpdate();
                 String sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
-                        " id            serial PRIMARY KEY," +
+                        " id            INTEGER PRIMARY KEY," +
                         " calendarId    INTEGER NOT NULL," +
-                        " date          INTEGER NOT NULL," +
-                        " qAvail        INTEGER NOT NULL," +
+                        " date          DATE," +
+                        " qAvail        INTEGER NOT NULL," + 
                         " FOREIGN KEY(calendarId)" +
                         " REFERENCES Calendars (id)" +
                         "   ON UPDATE CASCADE" +
                         "   ON DELETE CASCADE" +
                         ");";
-                Statement st = conn.createStatement();
-                st.executeUpdate(sq1);
-                st.executeUpdate(sq2);
-                st.executeUpdate(sq3);
-                st.executeUpdate(sq4);
-                st.executeUpdate(sq5);
-            } catch (URISyntaxException | SQLException e) {
-                e.printStackTrace();
+                conn.createQuery(sq5).executeUpdate();
             }
         }
         return sql2o;
-    }
-
-    public static Connection getConnection() throws URISyntaxException, SQLException {
-        String databaseUrl = System.getenv("DATABASE_URL");
-        if (databaseUrl == null) {
-            // Not on Heroku
-            throw new SQLException();
-        }
-
-        String[] dbUri = getDbUrl(databaseUrl);
-
-        String username = dbUri[1];
-        String password = dbUri[2];
-        String dbUrl = dbUri[0];
-
-        return DriverManager.getConnection(dbUrl, username, password);
-    }
-
-    private static String[] getDbUrl(String databaseUrl) throws URISyntaxException {
-        if (databaseUrl == null) {
-            throw new URISyntaxException("error", "Incorrect database URL");
-        }
-
-        URI dbUri = new URI(databaseUrl);
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
-                + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-        return new String[]{dbUrl, username, password};
     }
 
     final static int PORT_NUM = 7000;
@@ -197,10 +165,8 @@ public class Server {
 //                res.redirect("/");
 //                return null;
 //            }
-            String name = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getId(username);
             Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
-            model.put("calendars", sql2oCalendar.listOne(userID));
+            model.put("calendars", sql2oCalendar.listAll());
             res.type("text/html");
             res.status(200);
             return new ModelAndView(model, "public/templates/calendars.vm");
@@ -369,9 +335,9 @@ public class Server {
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
             int qAvail = Integer.parseInt(req.queryParams("qAvail"));
-            int availstate = Integer.parseInt(req.queryParams("state"));
+            int availstate = Integer.parseInt(req.queryParams("state"))
             Availability a = new Availability(calendarId, date, qAvail);
-            if (availstate == 1) {
+            if (state == 1) {
                 new Sql2oAvailabilityDao(getSql2o()).add(a);
                 }
             else {

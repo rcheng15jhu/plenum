@@ -197,10 +197,8 @@ public class Server {
 //                res.redirect("/");
 //                return null;
 //            }
-            String name = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getId(username);
             Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
-            model.put("calendars", sql2oCalendar.listOne(userID));
+            model.put("calendars", sql2oCalendar.listAll());
             res.type("text/html");
             res.status(200);
             return new ModelAndView(model, "public/templates/calendars.vm");
