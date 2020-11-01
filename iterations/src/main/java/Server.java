@@ -430,8 +430,8 @@ public class Server {
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
-            int qAvail = Integer.parseInt(req.queryParams("qAvail"));
-            Availability a = new Availability(calendarId, date, qAvail);
+            int qHour = Integer.parseInt(req.queryParams("qHour"));
+            Availability a = new Availability(calendarId, date, qHour);
             new Sql2oAvailabilityDao(getSql2o()).add(a);
             res.status(201);
             res.type("application/json");
@@ -439,18 +439,18 @@ public class Server {
         });
 
         //updateavailability route; updates availability
-        post("/updateavailability", (req, res) -> {
+        post("/api/updateavailability", (req, res) -> {
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
-            int qAvail = Integer.parseInt(req.queryParams("qAvail"));
+            int qHour = Integer.parseInt(req.queryParams("qHour"));
             int availstate = Integer.parseInt(req.queryParams("state"));
-            Availability a = new Availability(calendarId, date, qAvail);
-            List<Boolean> availabilities = new Sql2oAvailabilityDao(getSql2o()).updatecheck(a);
-            if (availstate == 1 && availabilities.get(0) == false) {
+            Availability a = new Availability(calendarId, date, qHour);
+            boolean curAvail = new Sql2oAvailabilityDao(getSql2o()).updatecheck(a);
+            if (availstate == 1 && !curAvail) {
                 new Sql2oAvailabilityDao(getSql2o()).add(a);
                 }
-            else if (availstate == 0 && availabilities.get(0) == true) {
+            else if (availstate == 0 && curAvail) {
                 new Sql2oAvailabilityDao(getSql2o()).delete(a);
             }
 

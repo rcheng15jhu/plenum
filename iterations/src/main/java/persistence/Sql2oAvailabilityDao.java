@@ -74,15 +74,21 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
         }
     }
 
-    public List<Boolean> updatecheck(Availability a) throws DaoException {
+    public boolean updatecheck(Availability a) throws DaoException {
         try (Connection con = sql2o.open()) {
             String query = "SELECT * FROM Availabilities " +
-                    "WHERE date =: date, " +
-                    "AND qHour =: qHour)" +
-                    "AND calenderID =: calenderID";
-            return con.createQuery(query).bind(a).executeAndFetch(Boolean.class);
+                    "WHERE date = :date " +
+                    "AND qHour = :qHour " +
+                    "AND calendarId = :calendarId";
+            List<Availability> list = con.createQuery(query).bind(a).executeAndFetch(Availability.class);
+            if (list.size() == 1) {
+                a.setId(list.get(0).getId());
+                return true;
+            }
+            return false;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -90,9 +96,9 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
     public int updateadd(Availability a) throws DaoException {
         try (Connection con = sql2o.open()) {
             String query = "SELECT * FROM Availabilities " +
-                    "WHERE date =: date, " +
-                    "AND qHour =: qHour)" +
-                    "AND calenderID =: calenderID";
+                    "WHERE date = :date " +
+                    "AND qHour = :qHour " +
+                    "AND calendarId = :calendarId";
             int id = (int) con.createQuery(query, true)
                     .bind(a)
                     .executeUpdate().getKey();
@@ -100,6 +106,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
             return id;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }

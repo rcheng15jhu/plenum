@@ -25,6 +25,8 @@ const App = () => {
 
     const [file, setFile] = useState({})
 
+    const [editable, setEditable] = useState(false)
+
     useEffect(() => {
         fetch('/api/calendar', {
                 method: 'GET',
@@ -54,15 +56,11 @@ const App = () => {
         else {
             setFile({})
         }
-    }, [id])
+    }, [id, editable])
 
     let updateActive = (id) => () => {
         window.history.pushState({id: id},'','/view-calendar?id=' + id)
         setId(id)
-    }
-
-    window.onpopstate = (e) => {
-        setId(e.state.id)
     }
 
     let clearCalendarView = () => {
@@ -70,11 +68,23 @@ const App = () => {
         setId(-1)
     }
 
+    window.onpopstate = (e) => {
+        setId(e.state.id)
+    }
+
+    let onAvailChange = (date, qHour, state) => () => {
+        fetch('/api/updateavailability?calendarId=' + id + "&date=" + date + "&qHour=" + qHour + "&state=" + (state ? 1 : 0), {
+            method: 'POST',
+            mode: 'cors'
+        }).then(res => undefined)
+    }
+
     let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
 
     return (
         <div>
-            <Calendar editable={false} file={file}/>
+            <button onClick={() => setEditable(!editable)}>{editable ? "Stop Edit" : "Edit"}</button>
+            <Calendar editable={editable} onAvailChange={onAvailChange} file={file}/>
             <div className="divContents">
                 <Viewable_list list={calendarNames} clicked={updateActive} />
             </div>
