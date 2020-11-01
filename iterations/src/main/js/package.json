@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "OOSE project",
     "scripts": {
-        "build": "webpack --mode=production",
+        "build": "webpack --mode=production --env production",
         "start": "webpack serve --mode=development"
     },
     "license": "MIT",
