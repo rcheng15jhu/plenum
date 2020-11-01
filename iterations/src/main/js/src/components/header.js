@@ -60,8 +60,8 @@ export default function ButtonAppBar() {
                     <Typography variant="h6" className={classes.title}>
                         Plenum
                     </Typography>
-                    <Button href="/list-calendar.html"  color="inherit">Calendars</Button>
-                    <Button href="/list-events.html" color="inherit">Events</Button>
+                    <Button href="/list-calendar"  color="inherit">Calendars</Button>
+                    <Button href="/list-events" color="inherit">Events</Button>
                     <IconButton
                         edge="end"
                         aria-label="account of current user"
