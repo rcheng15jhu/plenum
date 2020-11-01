@@ -1,37 +1,33 @@
 package model;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 public class Calendar {
     private int id;
-    private String name;
+    private String title;
     private int userId;
 
     @Override
     public String toString() {
         return "Calendar{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", userId=" + userId +
                 '}';
     }
 
-    public Calendar(int id, String name, int userId) {
+    public Calendar(int id, String title, int userId) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.userId = userId;
     }
 
-    public Calendar(String name, int userId) {
-        this.name = name;
+    public Calendar(String title, int userId) {
+        this.title = title;
         this.userId = userId;
     }
 
     public Calendar(int id) {
         this.id = id;
-        name = "";
+        title = "";
     }
 
     public void setId(int id) {
@@ -42,12 +38,12 @@ public class Calendar {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getUserId() {

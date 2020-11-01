@@ -7,7 +7,7 @@
     <ol>
     <p>
         #foreach($calendar in $calendars )
-            <li class="content calendar"><i>$calendar.name</i> Owned by $calendar.userId. <button class="$calendar.id">X</button></li>
+            <li class="content calendar"><i>$calendar.title</i> Owned by $calendar.userId. <button class="$calendar.id">X</button></li>
         #end
         </p>
     </ol>
