@@ -304,7 +304,7 @@ public class Server {
         });
 
         //addcalendar route; add a new calendar
-        post("/addcalendar", (req, res) -> {
+        post("/api/addcalendar", (req, res) -> {
             String name = req.queryParams("title");
             String username = req.cookie("username");
             int userId = new Sql2oUserDao(getSql2o()).getId(username);

@@ -7,7 +7,7 @@ let pages = fs.readdirSync('src/pages').map(i => i.replace('.js', ''))
 let entryGenerator = {}
 pages.forEach(page => entryGenerator[page] = './src/pages/' + page + '.js')
 
-let pageGenerator = pages.map(page => 
+let pageGenerator = pages.map(page =>
     new HtmlWebpackPlugin({
         title: `${page}`,
         template: 'template.ejs',
@@ -27,6 +27,11 @@ const config = {
         contentBase: path.resolve(__dirname, '..', 'resources/public/static/html'),
         compress: true,
         port: 3000,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:7000',
+            }
+        }
     },
     devtool: 'source-map',
     module: {
