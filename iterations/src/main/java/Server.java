@@ -37,9 +37,13 @@ public class Server {
 
             // create data source - update to use postgresql
             String[] dbUrl = getDbUrl(System.getenv("DATABASE_URL"));
+            System.out.println("Sql2o causing error");
             sql2o = new Sql2o(dbUrl[0], dbUrl[1], dbUrl[2]);
 
+            System.out.println("Connection causing error");
             try (Connection conn = getConnection()) {
+                System.out.println("Opened database successfully");
+
                 String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
                         " id            serial PRIMARY KEY," +
                         " name          VARCHAR(100) NOT NULL UNIQUE," +
@@ -98,14 +102,16 @@ public class Server {
                 e.printStackTrace();
             }
         }
+
+        System.out.println("Table created successfully");
+
         return sql2o;
     }
 
-    public static Connection getConnection() throws URISyntaxException, SQLException {
+    public static Connection getConnection() throws SQLException, URISyntaxException {
         String databaseUrl = System.getenv("DATABASE_URL");
-        if (databaseUrl == null) {
-            // Not on Heroku
-            throw new SQLException();
+        if (databaseUrl == null) { //running locally
+            return DriverManager.getConnection("jdbc:postgresql:Plenum.db");
         }
 
         String[] dbUri = getDbUrl(databaseUrl);
@@ -119,7 +125,7 @@ public class Server {
 
     private static String[] getDbUrl(String databaseUrl) throws URISyntaxException {
         if (databaseUrl == null) {
-            throw new URISyntaxException("error", "Incorrect database URL");
+            return new String[]{"jdbc:postgresql:Plenum.db", "", ""};
         }
 
         URI dbUri = new URI(databaseUrl);
@@ -128,6 +134,7 @@ public class Server {
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
                 + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+        System.out.println("***" + dbUrl);
         return new String[]{dbUrl, username, password};
     }
 
@@ -140,11 +147,13 @@ public class Server {
         return PORT_NUM;
     }
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws URISyntaxException {
         // set port number
         port(getHerokuAssignedPort());
 
         staticFiles.location("/public");
+
+        sql2o = getSql2o();
 
         /* after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
