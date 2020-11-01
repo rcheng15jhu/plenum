@@ -57,13 +57,21 @@ module.exports = (env, options) => {
                         }
                         else if (req.url.indexOf('html') === -1 && req.url.indexOf('js') === -1 && req.url.indexOf('css') === -1) {
                             console.log('Skipping proxy for browser request.');
-                            if(req.url === 'http://localhost:3000/') {
-                                return 'http://localhost:3000/';
+                            console.log('url: ' + req.url)
+                            if(req.url === '/') {
+                                console.log('was root!')
+                                return '/';
                             }
-                            return req.url + '.html';
+                            console.log("Was a redirect request!")
+                            return req.url.substring(req.url.lastIndexOf('/') + 1) + '.html';
                         }
                         else {
-                            return req.url;
+                            console.log('Was an html/js/css file!')
+                            let jsIndex = req.url.lastIndexOf('/static/js/')
+                            if(jsIndex !== -1) {
+                                return req.url.substring(jsIndex + 7);
+                            }
+                            return req.url.substring(req.url.lastIndexOf('/') + 1);
                         }
                     }
                 }
