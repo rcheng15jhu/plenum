@@ -73,12 +73,25 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
         }
     }
 
+    public List<Boolean> updatecheck(Availability a) throws DaoException {
+        try (Connection con = sql2o.open()) {
+            String query = "SELECT * FROM Availabilities " +
+                    "WHERE date =: date, " +
+                    "AND qHour =: qHour)" +
+                    "AND calenderID =: calenderID";
+            return con.createQuery(query).bind(a).executeAndFetch(Boolean.class);
+        }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
+
     public int updateadd(Availability a) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String query = "UPDATE Availabilities " +
-                    "SET date =: date, " +
-                    "qHour =: qHour)" +
-                    "WHERE calenderID =: calenderID";
+            String query = "SELECT * FROM Availabilities " +
+                    "WHERE date =: date, " +
+                    "AND qHour =: qHour)" +
+                    "AND calenderID =: calenderID";
             int id = (int) con.createQuery(query, true)
                     .bind(a)
                     .executeUpdate().getKey();

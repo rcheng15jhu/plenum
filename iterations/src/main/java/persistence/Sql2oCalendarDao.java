@@ -44,13 +44,13 @@ public class Sql2oCalendarDao implements CalendarDao {
         }
     }
 
-    @Override
     public List<Calendar> listOne(int userID) throws DaoException {
-        String sql = "SELECT * FROM Calendars WHERE userId =: userID";
-        con.createQuery(query)
-                .bind(userID)
-                .executeUpdate();
+
         try (Connection con = sql2o.open()) {
+            String sql = "SELECT * FROM Calendars WHERE userId =: userID";
+            con.createQuery(sql)
+                    .bind(userID)
+                    .executeUpdate();
             return con.createQuery(sql).executeAndFetch(Calendar.class);
         }
         catch (Sql2oException ex) {

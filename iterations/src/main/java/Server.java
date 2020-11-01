@@ -198,9 +198,9 @@ public class Server {
 //                return null;
 //            }
             String name = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getId(username);
+            int userId = new Sql2oUserDao(getSql2o()).getId(name);
             Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
-            model.put("calendars", sql2oCalendar.listOne(userID));
+            model.put("calendars", sql2oCalendar.listOne(userId));
             res.type("text/html");
             res.status(200);
             return new ModelAndView(model, "public/templates/calendars.vm");
@@ -371,10 +371,11 @@ public class Server {
             int qAvail = Integer.parseInt(req.queryParams("qAvail"));
             int availstate = Integer.parseInt(req.queryParams("state"));
             Availability a = new Availability(calendarId, date, qAvail);
-            if (availstate == 1) {
+            List<Boolean> availabilities = new Sql2oAvailabilityDao(getSql2o()).updatecheck(a);
+            if (availstate == 1 && availabilities.get(0) == false) {
                 new Sql2oAvailabilityDao(getSql2o()).add(a);
                 }
-            else {
+            else if (availstate == 0 && availabilities.get(0) == true) {
                 new Sql2oAvailabilityDao(getSql2o()).delete(a);
             }
 
