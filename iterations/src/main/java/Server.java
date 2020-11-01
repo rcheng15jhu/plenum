@@ -30,64 +30,125 @@ public class Server {
     private static Sql2o getSql2o() throws URISyntaxException {
         if(sql2o == null) {
             System.out.println("was null!");
-            // set on foreign keys
-            SQLiteConfig config = new SQLiteConfig();
-            config.enforceForeignKeys(true);
-            config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
 
-            // create data source - update to use postgresql
-            String[] dbUrl = getDbUrl(System.getenv("DATABASE_URL"));
-            sql2o = new Sql2o(dbUrl[0], dbUrl[1], dbUrl[2]);
-
+            System.out.println("Connection causing error");
             try (Connection conn = getConnection()) {
-                String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
-                        " id            serial PRIMARY KEY," +
-                        " name          VARCHAR(100) NOT NULL UNIQUE," +
-                        " password      VARCHAR(100) NOT NULL" +
-                        ");";
-                String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
-                        " id            serial PRIMARY KEY," +
-                        " title         VARCHAR(100) NOT NULL," +
-                        " startTime     INTEGER," +
-                        " endTime       INTEGER" +
-                        ");";
-                String sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
-                        " id            serial PRIMARY KEY," +
-                        " name          VARCHAR(100) NOT NULL," +
-                        " userId        INTEGER NOT NULL," +
-                        " FOREIGN KEY(userId)" +
-                        " REFERENCES Users (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE" +
-                        ");";
-                String sq4 = "CREATE TABLE IF NOT EXISTS Connections (" +
-                        " id            serial PRIMARY KEY," +
-                        " eventId       INTEGER NOT NULL," +
-                        " calendarId    INTEGER NOT NULL," +
-                        " userId        INTEGER NOT NULL," +
-                        " FOREIGN KEY(eventId)" +
-                        " REFERENCES Events (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE," +
-                        " FOREIGN KEY(calendarId)" +
-                        " REFERENCES Calendars (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE," +
-                        " FOREIGN KEY(userId)" +
-                        " REFERENCES Users (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE" +
-                        ");";
-                String sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
-                        " id            serial PRIMARY KEY," +
-                        " calendarId    INTEGER NOT NULL," +
-                        " date          INTEGER NOT NULL," +
-                        " qAvail        INTEGER NOT NULL," +
-                        " FOREIGN KEY(calendarId)" +
-                        " REFERENCES Calendars (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE" +
-                        ");";
+                String sq1 = "";
+                String sq2 = "";
+                String sq3 = "";
+                String sq4 = "";
+                String sq5 = "";
+
+                System.out.println("Opened database successfully");
+
+                if ("SQLite".equalsIgnoreCase(conn.getMetaData().getDatabaseProductName())) { // running locally
+
+                    // set on foreign keys
+                    SQLiteConfig config = new SQLiteConfig();
+                    config.enforceForeignKeys(true);
+                    config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
+
+                    sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
+                            " id            INTEGER PRIMARY KEY," +
+                            " name          VARCHAR(100) NOT NULL UNIQUE," +
+                            " password      VARCHAR(100) NOT NULL" +
+                            ");";
+                    sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
+                            " id            INTEGER PRIMARY KEY," +
+                            " title         VARCHAR(100) NOT NULL," +
+                            " startTime     INTEGER," +
+                            " endTime       INTEGER" +
+                            ");";
+                    sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
+                            " id            INTEGER PRIMARY KEY," +
+                            " name          VARCHAR(100) NOT NULL," +
+                            " userId        INTEGER NOT NULL," +
+                            " FOREIGN KEY(userId)" +
+                            " REFERENCES Users (id)" +
+                            "   ON UPDATE CASCADE" +
+                            "   ON DELETE CASCADE" +
+                            ");";
+                    sq4 = "CREATE TABLE IF NOT EXISTS Connections (" +
+                            " id            INTEGER PRIMARY KEY," +
+                            " eventId       INTEGER NOT NULL," +
+                            " calendarId    INTEGER NOT NULL," +
+                            " userId        INTEGER NOT NULL," +
+                            " FOREIGN KEY(eventId)" +
+                            " REFERENCES Events (id)" +
+                            "   ON UPDATE CASCADE" +
+                            "   ON DELETE CASCADE," +
+                            " FOREIGN KEY(calendarId)" +
+                            " REFERENCES Calendars (id)" +
+                            "   ON UPDATE CASCADE" +
+                            "   ON DELETE CASCADE," +
+                            " FOREIGN KEY(userId)" +
+                            " REFERENCES Users (id)" +
+                            "   ON UPDATE CASCADE" +
+                            "   ON DELETE CASCADE" +
+                            ");";
+                    sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
+                            " id            INTEGER PRIMARY KEY," +
+                            " calendarId    INTEGER NOT NULL," +
+                            " date          INTEGER NOT NULL," +
+                            " qAvail        INTEGER NOT NULL," +
+                            " FOREIGN KEY(calendarId)" +
+                            " REFERENCES Calendars (id)" +
+                            "   ON UPDATE CASCADE" +
+                            "   ON DELETE CASCADE" +
+                            ");";
+                }
+                else {
+
+                    sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
+                            " id            serial PRIMARY KEY," +
+                            " name          VARCHAR(100) NOT NULL UNIQUE," +
+                            " password      VARCHAR(100) NOT NULL" +
+                            ");";
+                    sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
+                            " id            serial PRIMARY KEY," +
+                            " title         VARCHAR(100) NOT NULL," +
+                            " startTime     INTEGER," +
+                            " endTime       INTEGER" +
+                            ");";
+                    sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
+                            " id            serial PRIMARY KEY," +
+                            " name          VARCHAR(100) NOT NULL," +
+                            " userId        INTEGER NOT NULL," +
+                            " FOREIGN KEY(userId)" +
+                            " REFERENCES Users (id)" +
+                            "   ON UPDATE CASCADE" +
+                            "   ON DELETE CASCADE" +
+                            ");";
+                    sq4 = "CREATE TABLE IF NOT EXISTS Connections (" +
+                            " id            serial PRIMARY KEY," +
+                            " eventId       INTEGER NOT NULL," +
+                            " calendarId    INTEGER NOT NULL," +
+                            " userId        INTEGER NOT NULL," +
+                            " FOREIGN KEY(eventId)" +
+                            " REFERENCES Events (id)" +
+                            "   ON UPDATE CASCADE" +
+                            "   ON DELETE CASCADE," +
+                            " FOREIGN KEY(calendarId)" +
+                            " REFERENCES Calendars (id)" +
+                            "   ON UPDATE CASCADE" +
+                            "   ON DELETE CASCADE," +
+                            " FOREIGN KEY(userId)" +
+                            " REFERENCES Users (id)" +
+                            "   ON UPDATE CASCADE" +
+                            "   ON DELETE CASCADE" +
+                            ");";
+                    sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
+                            " id            serial PRIMARY KEY," +
+                            " calendarId    INTEGER NOT NULL," +
+                            " date          INTEGER NOT NULL," +
+                            " qAvail        INTEGER NOT NULL," +
+                            " FOREIGN KEY(calendarId)" +
+                            " REFERENCES Calendars (id)" +
+                            "   ON UPDATE CASCADE" +
+                            "   ON DELETE CASCADE" +
+                            ");";
+                }
+
                 Statement st = conn.createStatement();
                 st.executeUpdate(sq1);
                 st.executeUpdate(sq2);
@@ -98,16 +159,24 @@ public class Server {
                 e.printStackTrace();
             }
         }
+
+        // create data source - update to use postgresql
+        String[] dbUrl = getDbUrl(System.getenv("DATABASE_URL"));
+        System.out.println("Sql2o causing error");
+        sql2o = new Sql2o(dbUrl[0], dbUrl[1], dbUrl[2]);
+
+        System.out.println("Table created successfully!");
+
         return sql2o;
     }
 
-    public static Connection getConnection() throws URISyntaxException, SQLException {
+    public static Connection getConnection() throws SQLException, URISyntaxException {
         String databaseUrl = System.getenv("DATABASE_URL");
-        if (databaseUrl == null) {
-            // Not on Heroku
-            throw new SQLException();
+        if (databaseUrl == null) { //running locally
+            return DriverManager.getConnection("jdbc:sqlite:./Plenum.db");
         }
 
+        System.out.println("database url is not null");
         String[] dbUri = getDbUrl(databaseUrl);
 
         String username = dbUri[1];
@@ -119,8 +188,10 @@ public class Server {
 
     private static String[] getDbUrl(String databaseUrl) throws URISyntaxException {
         if (databaseUrl == null) {
-            throw new URISyntaxException("error", "Incorrect database URL");
+            return new String[]{"jdbc:sqlite:./Plenum.db", "", ""};
         }
+
+        System.out.println("database url is not null (getdburl)");
 
         URI dbUri = new URI(databaseUrl);
 
@@ -128,6 +199,7 @@ public class Server {
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
                 + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+        System.out.println("***" + dbUrl);
         return new String[]{dbUrl, username, password};
     }
 
@@ -140,11 +212,13 @@ public class Server {
         return PORT_NUM;
     }
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws URISyntaxException {
         // set port number
         port(getHerokuAssignedPort());
 
         staticFiles.location("/public");
+
+        sql2o = getSql2o();
 
         /* after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
@@ -203,8 +277,8 @@ public class Server {
             model.put("calendars", sql2oCalendar.listOne(userId));
             res.type("text/html");
             res.status(200);
-            return new ModelAndView(model, "public/templates/calendars.vm");
-        }, new VelocityTemplateEngine());
+            return IOUtils.toString(Spark.class.getResourceAsStream("./resources/public/static/html/list-calendar.html"));
+        });
 
         //calendar route; returns availabilities associated with the calendar id
         get("/calendar", (req, res) -> {
@@ -275,8 +349,8 @@ public class Server {
             model.put("events", sql2oEventDao.listAll());
             res.type("text/html");
             res.status(200);
-            return new ModelAndView(model, "public/templates/events.vm");
-        }, new VelocityTemplateEngine());
+            return IOUtils.toString(Spark.class.getResourceAsStream("./resources/public/static/html/list-events.html"));
+        });
 
         //delevent route; deletes event
         post("/delevent", (req, res) -> {
