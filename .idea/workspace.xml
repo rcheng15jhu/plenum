@@ -23,15 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="edd0c7d7-7a0b-4424-a08d-55968d277238" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/MyBooksApp.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/MyBooksApp.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/MyBooksApp.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/iterations/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/iterations/src/main/java/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iterations/src/main/java/persistence/Sql2oAvailabilityDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/iterations/src/main/java/persistence/Sql2oAvailabilityDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iterations/src/main/java/persistence/Sql2oCalendarDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/iterations/src/main/java/persistence/Sql2oCalendarDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
