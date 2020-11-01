@@ -5,10 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import Link from "@material-ui/core/Link";
 import {AccountCircle} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,6 +49,7 @@ export default function ButtonAppBar() {
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
         </Menu>
     );
 
@@ -61,9 +60,8 @@ export default function ButtonAppBar() {
                     <Typography variant="h6" className={classes.title}>
                         Plenum
                     </Typography>
-                    <Button href="../pages/list-calendar.js"  color="inherit">Calendars</Button>
-                    <Button href="../pages/list-events.js" color="inherit">Events</Button>
-                    <Button href="../pages/login.js" color="inherit">Login</Button>
+                    <Button href="../../../resources/public/static/html/list-calendar.html"  color="inherit">Calendars</Button>
+                    <Button href="../../../resources/public/static/html/list-events.html" color="inherit">Events</Button>
                     <IconButton
                         edge="end"
                         aria-label="account of current user"
