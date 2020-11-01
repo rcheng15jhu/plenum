@@ -3,33 +3,68 @@ import ReactDOM from 'react-dom'
 import Calendar from "../components/calendar";
 import Header from "../components/header";
 import uploadTemplate from "../services/calendar-manager.js";
-import Box from "@material-ui/core/Box";
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import {TextField, Container, Button} from '@material-ui/core';
+import SaveIcon from '@material-ui/icons/Save';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
-            margin: theme.spacing(1),
+            margin: theme.spacing(3),
             width: '25ch',
         },
     },
+    center: {
+        // marginLeft: "3%"
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    contentDiv: {
+        margin: theme.spacing(3),
+        marginTop: "5%",
+    },
+    bold: {
+        fontWeight: "bold",
+    },
+    button: {
+        marginLeft: "20px",
+        marginTop: "10px"
+    }
 }));
 
 const App = () => {
     const classes = useStyles();
 
     return (
-        <div>
+        <Container>
             <Header></Header>
-            <Box color="text.primary" justifyContent="center" width={1}>
-                <form className={classes.root} noValidate autoComplete="off">
+            <div className={classes.contentDiv}>
+                <form className={classes.root} noValidate autoComplete="off" className={classes.center}>
                     <TextField label="Calendar Title" variant="outlined" id="title"/>
                 </form>
-                    <Calendar editable={true}/>
-                <button onClick={uploadTemplate} >Upload template!</button>
-            </Box>
-        </div>
+                <ol>
+                    <li>Give a title to your calendar above.</li>
+                    <li>
+                        Then, indicate your unavailability on the calendar below.
+                        Click to mark boxes red for the time ranges when you are <span className={classes.bold}>NOT</span> available.
+                    </li>
+                    <li>
+                        When you are done, click on "Upload Template!" button at the bottom.
+                    </li>
+                </ol>
+
+                <Calendar editable={true} className={classes.center}/>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={uploadTemplate}
+                    className={classes.button}
+                    startIcon={<SaveIcon />}>
+                    Upload Template!
+                </Button>
+            </div>
+        </Container>
     )
 };
 
