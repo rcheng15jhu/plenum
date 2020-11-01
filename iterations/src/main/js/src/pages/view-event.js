@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Aggregate_calendar from "../components/aggregate-calendar";
 
 const App = () => (
     <div>
-      <p>Hello world</p>
+      <Aggregate_calendar/>
     </div>
   )
 

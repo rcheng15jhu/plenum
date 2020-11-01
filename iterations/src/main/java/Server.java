@@ -493,7 +493,7 @@ public class Server {
         get("/create-calendar", (req, res) -> {
             res.status(200);
             res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/create-calendar"));
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/create-calendar.html"));
         });
 
 

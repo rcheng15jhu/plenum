@@ -2,54 +2,89 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs')
 
-let pages = fs.readdirSync('src/pages').map(i => i.replace('.js', ''))
+module.exports = (env, options) => {
+    let pages = fs.readdirSync('src/pages').map(i => i.replace('.js', ''))
 
-let entryGenerator = {}
-pages.forEach(page => entryGenerator[page] = './src/pages/' + page + '.js')
+    let entryGenerator = {}
+    pages.forEach(page => entryGenerator[page] = './src/pages/' + page + '.js')
 
-let pageGenerator = pages.map(page =>
-    new HtmlWebpackPlugin({
-        title: `${page}`,
-        template: 'template.ejs',
-        inject: true,
-        chunks: [`${page}`],
-        filename: path.resolve(__dirname, '..', `resources/public/static/html/${page}.html`)
-    })
-)
+    let pageGenerator = []
 
-const config = {
-    entry: entryGenerator,
-    output: {
-        path: path.resolve(__dirname, '..', 'resources/public/static'),
-        filename: 'js/[name].js',
-    },
-    devServer: {
-        contentBase: path.resolve(__dirname, '..', 'resources/public/static/html'),
-        compress: true,
-        port: 3000,
-        proxy: {
-            '/api': {
-                target: 'http://localhost:7000',
-            }
-        }
-    },
-    devtool: 'source-map',
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/preset-env', '@babel/preset-react'],
+    if (options.mode === 'development') {
+        pageGenerator = pages.map(page =>
+            new HtmlWebpackPlugin({
+                title: `${page}`,
+                template: 'template.ejs',
+                inject: true,
+                chunks: [`${page}`],
+                filename: path.resolve(__dirname, '..', `resources/public/static/html/${page}.html`)
+            })
+        )
+    } 
+    else {
+        pageGenerator = pages.map(page =>
+            new HtmlWebpackPlugin({
+                title: `${page}`,
+                template: 'template.ejs',
+                inject: true,
+                chunks: [`${page}`],
+                publicPath: 'static',
+                filename: path.resolve(__dirname, '..', `resources/public/static/html/${page}.html`)
+            })
+        )
+    }
+    return {
+        entry: entryGenerator,
+        output: {
+            path: path.resolve(__dirname, '..', 'resources/public/static'),
+            filename: 'js/[name].js',
+        },
+        devServer: {
+            contentBase: path.resolve(__dirname, '..', 'resources/public/static/html'),
+            compress: true,
+            port: 3000,
+            proxy: [
+                {
+                    context: ['/api'],
+                    target: 'http://localhost:7000',
                 },
-            },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
-            },
-        ],
-    },
-    plugins: pageGenerator
+                {
+                    context: ['/'],
+                    target: 'http://localhost:7000',
+                    bypass: function(req, res, proxyOptions) {
+                        if (req.url.indexOf('api') !== -1) {
+                            return null;
+                        }
+                        else if (req.url.indexOf('html') === -1 && req.url.indexOf('js') === -1 && req.url.indexOf('css') === -1) {
+                            console.log('Skipping proxy for browser request.');
+                            if(req.url === 'http://localhost:3000/') {
+                                return 'http://localhost:3000/';
+                            }
+                            return req.url + '.html';
+                        }
+                        else {
+                            return req.url;
+                        }
+                    }
+                }
+            ]
+        },
+        devtool: 'source-map',
+        module: {
+            rules: [
+                {
+                    test: /\.js$/,
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                    },
+                },
+                {
+                    test: /\.css$/,
+                    use: ['style-loader', 'css-loader'],
+                },
+            ],
+        },
+        plugins: pageGenerator
+    }
 }
-
-module.exports = config

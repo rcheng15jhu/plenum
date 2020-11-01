@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 import Calendar from "../components/calendar";
-import uploadTemplate from "../services/calendar-manager";
+import Viewable_list from "../components/viewable-list";
 
 const App = () => {
 
@@ -45,23 +45,13 @@ const App = () => {
         setId(id)
     }
 
+    let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
 
     return (
         <div>
             <Calendar editable={false} file={file}/>
             <div className="divContents">
-                <ol>
-                    <p>
-                        {
-                            calendars.map(calendar => (
-                                <li key={calendar.id} className="content calendar">
-                                    <i>{calendar.name}</i> Owned by
-                                    {" " + calendar.userId}.
-                                    <button onClick={updateActive(calendar.id)} className={calendar.userId}>View</button></li>
-                            ))
-                        }
-                    </p>
-                </ol>
+                <Viewable_list list={calendarNames} clicked={updateActive} />
             </div>
         </div>
     )
