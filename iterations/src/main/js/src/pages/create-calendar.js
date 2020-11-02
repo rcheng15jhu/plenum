@@ -39,17 +39,18 @@ const App = () => {
         <Container>
             <Header></Header>
             <div className={classes.contentDiv} id="content">
+                <h1>Create New Calendar</h1>
                 <form className={classes.root} noValidate autoComplete="off" className={classes.center}>
                     <TextField label="Calendar Title" variant="outlined" id="title"/>
                 </form>
                 <ol>
                     <li>Give a title to your calendar above.</li>
                     <li>
-                        Then, indicate your unavailability on the calendar below.
+                        Indicate your unavailability on the calendar below.
                         Click to mark boxes red for the time ranges when you are <span className={classes.bold}>NOT</span> available.
                     </li>
                     <li>
-                        When you are done, click on "Upload Template!" button at the bottom.
+                        When you are done, click on "Upload Template!" button at the bottom of the page.
                     </li>
                 </ol>
 
