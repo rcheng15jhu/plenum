@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 import Calendar from "../components/calendar";
 import Viewable_list from "../components/viewable-list";
+import Header from "../components/header";
 
 const App = () => {
 
@@ -83,6 +84,7 @@ const App = () => {
 
     return (
         <div>
+            <Header></Header>
             <button onClick={() => setEditable(!editable)}>{editable ? "Stop Edit" : "Edit"}</button>
             <Calendar editable={editable} onAvailChange={onAvailChange} file={file}/>
             <div className="divContents">

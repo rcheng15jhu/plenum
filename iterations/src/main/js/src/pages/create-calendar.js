@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     center: {
-        // marginLeft: "3%"
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: "bold",
     },
     button: {
-        marginLeft: "20px",
+        marginLeft: "30px",
         marginTop: "10px"
     }
 }));
@@ -39,7 +38,7 @@ const App = () => {
     return (
         <Container>
             <Header></Header>
-            <div className={classes.contentDiv}>
+            <div className={classes.contentDiv} id="content">
                 <form className={classes.root} noValidate autoComplete="off" className={classes.center}>
                     <TextField label="Calendar Title" variant="outlined" id="title"/>
                 </form>
