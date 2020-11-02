@@ -31,6 +31,7 @@ const App = () =>  {
         <div className="divContents">
             <Viewable_list list={calendarNames} clicked={navToViewPage} />
         </div>
+
     )
 }
 
