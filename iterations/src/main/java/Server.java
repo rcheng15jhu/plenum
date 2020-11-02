@@ -230,8 +230,16 @@ public class Server {
 
         post("/", (req, res) -> {
             String username = req.queryParams("username");
-            res.cookie("username", username);
-            res.redirect("/");
+            String password = req.queryParams("password");
+            boolean corr = new Sql2oUserDao(getSql2o()).checkCred(username, password);
+            if (corr) {
+                res.cookie("username", username);
+                res.redirect("/");
+            }
+            else {
+                res.status(403);
+                res.redirect("/");
+            }
             return null;
         });
 

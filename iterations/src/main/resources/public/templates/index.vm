@@ -18,6 +18,10 @@
         <label for="username">Username:</label>
         <input type="text" placeholder="username" name="username" id="username" />
     </div>
+    <div>
+        <label for="username">Password:</label>
+        <input type="text" placeholder="password" name="password" id="password" />
+    </div>
     <div id="divSubmit">
         <input type="submit" value="Sign in" class="submit" />
     </div>
