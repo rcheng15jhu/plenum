@@ -236,8 +236,8 @@ public class Server {
                 model.put("username", req.cookie("username"));
             res.status(200);
             res.type("text/html");
-            return new ModelAndView(model, "public/templates/index.vm");
-        }, new VelocityTemplateEngine());
+            return IOUtils.toString(Spark.class.getResourceAsStream("./resources/public/static/html/index"));
+        });
 
         //adduser route; allows a new user to be added
         post("/adduser", (req, res) -> {

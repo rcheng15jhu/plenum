@@ -167,9 +167,9 @@ const App = () => {
                         <Typography component="h4" variant="h4" className={classes.title}>
                             Calendar: {id}
                         </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            description
-                        </Typography>
+                        {/*<Typography variant="subtitle1" color="textSecondary">*/}
+                        {/*    description*/}
+                        {/*</Typography>*/}
                     </CardContent>
                     <Card>
                         <Calendar editable={editable} onAvailChange={onAvailChange} file={file}/>

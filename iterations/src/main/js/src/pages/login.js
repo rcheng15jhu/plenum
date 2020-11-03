@@ -47,13 +47,41 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
     const classes = useStyles();
+    const [values, setValues] = React.useState({
+        username: 'name',
+        password: '1320',
+    });
+
+    function handleLogin(username, password){
+        return null;
+    }
+
+    function handleSignup(username, password){
+        fetch('/adduser?username=' + username + '&password=' + password, {
+                method: 'POST',
+                mode: 'cors'
+            }
+        ).then(res => {
+            return res.json()
+        })
+    }
+
     const options = [
         {
             value: 'Login',
+            clicked: handleLogin
         },
         {
             value: 'Sign-up',
+            clicked: handleSignup
         }];
+
+    const handleChange = (event) => {
+        setValues({
+            ...values,
+            [event.target.name]: event.target.value,
+        });
+    }
 
     return (
 
@@ -84,7 +112,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField required label="required" />
+                                <TextField name='username' onChange={handleChange} required label="required" />
                             </Grid>
                         </Grid>
                     </div>
@@ -96,7 +124,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField required label="required" />
+                                <TextField name='password' onChange={handleChange} required label="required" />
                             </Grid>
                         </Grid>
                     </div>
@@ -106,6 +134,7 @@ const App = () => {
                             variant="contained"
                             color="secondary"
                             className={classes.button}
+                            onClick={opt.clicked(values.username, values.password)}
                         >
                             {opt.value}
                         </Button>
