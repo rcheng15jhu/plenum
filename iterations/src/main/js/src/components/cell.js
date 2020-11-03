@@ -13,7 +13,7 @@ const cell = (props) => {
         styles.backgroundColor = `hsla(120, 50%, 50%, ${props.opacity}`
     }
 
-    let tooltip = (!props.users_avail.length || props.users_avail === null)
+    let tooltip = (props.users_avail === undefined || !props.users_avail.length)
         ? null 
         : <ReactTooltip id={props.tooltip_id} place="top" effect="solid">
             <ul style={{margin: '0', padding: '0'}}>
