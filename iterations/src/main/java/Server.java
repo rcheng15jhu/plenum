@@ -30,17 +30,12 @@ public class Server {
 
     private static Sql2o getSql2o() throws URISyntaxException {
         if(sql2o == null) {
-            System.out.println("was null!");
-
-            System.out.println("Connection causing error");
             try (Connection conn = getConnection()) {
                 String sq1 = "";
                 String sq2 = "";
                 String sq3 = "";
                 String sq4 = "";
                 String sq5 = "";
-
-                System.out.println("Opened database successfully");
 
                 if ("SQLite".equalsIgnoreCase(conn.getMetaData().getDatabaseProductName())) { // running locally
 
@@ -163,10 +158,7 @@ public class Server {
 
         // create data source - update to use postgresql
         String[] dbUrl = getDbUrl(System.getenv("DATABASE_URL"));
-        System.out.println("Sql2o causing error");
         sql2o = new Sql2o(dbUrl[0], dbUrl[1], dbUrl[2]);
-
-        System.out.println("Table created successfully!");
 
         return sql2o;
     }
@@ -176,8 +168,6 @@ public class Server {
         if (databaseUrl == null) { //running locally
             return DriverManager.getConnection("jdbc:sqlite:./Plenum.db");
         }
-
-        System.out.println("database url is not null");
         String[] dbUri = getDbUrl(databaseUrl);
 
         String username = dbUri[1];
