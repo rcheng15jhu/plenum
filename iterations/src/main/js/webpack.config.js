@@ -20,7 +20,7 @@ module.exports = (env, options) => {
                 filename: path.resolve(__dirname, '..', `resources/public/static/html/${page}.html`)
             })
         )
-    } 
+    }
     else {
         pageGenerator = pages.map(page =>
             new HtmlWebpackPlugin({
@@ -52,18 +52,23 @@ module.exports = (env, options) => {
                     context: ['/'],
                     target: 'http://localhost:7000',
                     bypass: function(req, res, proxyOptions) {
+                        console.log('url: ' + req.url)
                         if (req.url.indexOf('api') !== -1) {
                             return null;
                         }
                         else if (req.url.indexOf('html') === -1 && req.url.indexOf('js') === -1 && req.url.indexOf('css') === -1) {
                             console.log('Skipping proxy for browser request.');
-                            console.log('url: ' + req.url)
                             if(req.url === '/') {
                                 console.log('was root!')
                                 return '/';
                             }
                             console.log("Was a redirect request!")
-                            return req.url.substring(req.url.lastIndexOf('/') + 1) + '.html';
+                            let isParam = req.url.indexOf('?')
+                            let newUrlAttempt = isParam !== -1
+                                ? req.url.substring(req.url.lastIndexOf('/'), isParam) + '.html' + req.url.substring(isParam)
+                                : req.url.substring(req.url.lastIndexOf('/')) + '.html';
+                            console.log(newUrlAttempt);
+                            return newUrlAttempt;
                         }
                         else {
                             console.log('Was an html/js/css file!')
@@ -71,7 +76,7 @@ module.exports = (env, options) => {
                             if(jsIndex !== -1) {
                                 return req.url.substring(jsIndex + 7);
                             }
-                            return req.url.substring(req.url.lastIndexOf('/') + 1);
+                            return req.url.substring(req.url.lastIndexOf('/'));
                         }
                     }
                 }

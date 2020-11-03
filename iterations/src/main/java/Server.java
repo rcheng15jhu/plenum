@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -229,8 +230,16 @@ public class Server {
 
         post("/", (req, res) -> {
             String username = req.queryParams("username");
-            res.cookie("username", username);
-            res.redirect("/");
+            String password = req.queryParams("password");
+            boolean corr = new Sql2oUserDao(getSql2o()).checkCred(username, password);
+            if (corr) {
+                res.cookie("username", username);
+                res.redirect("/");
+            }
+            else {
+                res.status(403);
+                res.redirect("/");
+            }
             return null;
         });
 
@@ -429,8 +438,8 @@ public class Server {
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
-            int qAvail = Integer.parseInt(req.queryParams("qAvail"));
-            Availability a = new Availability(calendarId, date, qAvail);
+            int qHour = Integer.parseInt(req.queryParams("qHour"));
+            Availability a = new Availability(calendarId, date, qHour);
             new Sql2oAvailabilityDao(getSql2o()).add(a);
             res.status(201);
             res.type("application/json");
@@ -438,18 +447,18 @@ public class Server {
         });
 
         //updateavailability route; updates availability
-        post("/updateavailability", (req, res) -> {
+        post("/api/updateavailability", (req, res) -> {
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
-            int qAvail = Integer.parseInt(req.queryParams("qAvail"));
+            int qHour = Integer.parseInt(req.queryParams("qHour"));
             int availstate = Integer.parseInt(req.queryParams("state"));
-            Availability a = new Availability(calendarId, date, qAvail);
-            List<Boolean> availabilities = new Sql2oAvailabilityDao(getSql2o()).updatecheck(a);
-            if (availstate == 1 && availabilities.get(0) == false) {
+            Availability a = new Availability(calendarId, date, qHour);
+            boolean curAvail = new Sql2oAvailabilityDao(getSql2o()).updatecheck(a);
+            if (availstate == 1 && !curAvail) {
                 new Sql2oAvailabilityDao(getSql2o()).add(a);
                 }
-            else if (availstate == 0 && availabilities.get(0) == true) {
+            else if (availstate == 0 && curAvail) {
                 new Sql2oAvailabilityDao(getSql2o()).delete(a);
             }
 
@@ -490,12 +499,17 @@ public class Server {
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index4.html"));
         });
 
-        get("/create-calendar", (req, res) -> {
+        makeStaticRoutes(Arrays.asList("/create-calendar", "/view-calendar", "/list-calendar", "/home", "/index"
+                , "/view-event"));
+
+
+    }
+
+    public static void makeStaticRoutes(List<String> routes) {
+        routes.forEach(route -> get(route, (req, res) -> {
             res.status(200);
             res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/create-calendar.html"));
-        });
-
-
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html" + route + ".html"));
+        }));
     }
 }
