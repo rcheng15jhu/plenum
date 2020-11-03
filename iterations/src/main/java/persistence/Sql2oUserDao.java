@@ -49,9 +49,17 @@ public class Sql2oUserDao implements UserDao{
     public boolean checkCred(String name, String pass) throws DaoException {
         String sql = "SELECT * FROM Users WHERE name = :name";
         try (Connection con = sql2o.open()) {
-            String pword = con.createQuery(sql)
+
+            List<User> user = con.createQuery(sql)
                     .addParameter("name", name)
-                    .executeAndFetch(User.class).get(0).getPassword();
+                    .executeAndFetch(User.class);
+
+            if (user.size() == 0) {
+                return false;
+            }
+
+            String pword = user.get(0).getPassword();
+
             if (pword.equals(pass)) {
                 return true;
             }
