@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        width: '100%',
+        width: '90%',
     },
 }))
 
@@ -64,7 +64,7 @@ const App = () =>  {
     }
 
     return (
-        <div>
+        <div style={{'paddingBottom': '100px'}}>
             <Header />
             <div  className={classes.root}>
                 <Typography variant="h4" className='headingTyp'>

@@ -43,7 +43,7 @@ const App = () => {
     const classes = useStyles();
 
     return (
-        <Container>
+        <Container style={{'paddingBottom': '50px'}}>
             <ThemeProvider theme={newTheme}>
             <Header />
             <div className={classes.contentDiv} id="content">

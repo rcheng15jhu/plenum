@@ -10,11 +10,13 @@ import Menu from "@material-ui/core/Menu";
 import {AccountCircle} from "@material-ui/icons";
 import theme from "./baseline-theme";
 import {ThemeProvider} from "@material-ui/styles";
+import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         width: '100%',
+        overflow: "hidden",
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -39,6 +41,15 @@ export default function ButtonAppBar() {
         setAnchorEl(null);
     };
 
+    const handleMenuCloseProfile = () => {
+        window.location.assign('/profile');
+        handleMenuClose();
+    };
+
+    const handleMenuCloseLogout = () => {
+        handleMenuClose();
+    };
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -50,9 +61,8 @@ export default function ButtonAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Account Settings</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+            <MenuItem href='/profile' onClick={handleMenuCloseProfile}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuCloseLogout}>Logout</MenuItem>
         </Menu>
     );
 
@@ -62,7 +72,9 @@ export default function ButtonAppBar() {
             <AppBar position="static" style={{"marginBottom": "30px"}}>
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        <Button variant='text' size='large' href="/" color="inherit">Plenum</Button>
+                        <Button variant='text' size='large' href="/" color="inherit">
+                            <HomeRoundedIcon style={{'marginRight': '5px'}} />
+                            Plenum </Button>
                     </Typography>
                     <Button href="/list-calendar" color="inherit">Calendars</Button>
                     <Button href="/list-events" color="inherit">Events</Button>

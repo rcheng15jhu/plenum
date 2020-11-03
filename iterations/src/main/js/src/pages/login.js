@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import theme from "../components/baseline-theme";
-import Divider from "@material-ui/core/Divider";
+import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -59,7 +59,10 @@ const App = () => {
 
         <ThemeProvider theme={theme}>
             <Typography variant="h6" className={classes.home}>
-                <Button variant='contained' size='large' href="/" color="primary">Plenum</Button>
+                <Button variant='contained' size='large' href="/" color="primary">
+                    <HomeRoundedIcon style={{'marginRight': '5px'}} />
+                    Plenum
+                </Button>
             </Typography>
             <Container className={classes.root}>
                 {options.map(opt => (
@@ -101,7 +104,7 @@ const App = () => {
                     <div className={classes.center}>
                         <Button
                             variant="contained"
-                            color="primary"
+                            color="secondary"
                             className={classes.button}
                         >
                             {opt.value}
