@@ -6,6 +6,7 @@ import uploadTemplate from "../services/calendar-manager.js";
 import { makeStyles } from '@material-ui/core/styles';
 import {TextField, Container, Button} from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,7 +40,9 @@ const App = () => {
         <Container>
             <Header></Header>
             <div className={classes.contentDiv} id="content">
-                <h1>Create New Calendar (this is a test of CI)</h1>
+                <Typography component="h6" variant="h6">
+                    Create New Calendar (this is a test of CI)
+                </Typography>
                 <form className={classes.root} noValidate autoComplete="off" className={classes.center}>
                     <TextField label="Calendar Title" variant="outlined" id="title"/>
                 </form>

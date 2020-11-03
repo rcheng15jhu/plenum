@@ -1,22 +1,19 @@
 import React from "react";
+import List from '@material-ui/core/List';
+import ListItem from '../components/list-item';
 
 
 
 const viewable_list = (props) => {
-return (
-    <ul>
-        <p>
-        {
-            props.list.map(el => (
-                <li key={el.id} className="content list">
-                    {el.content}
-                    <button onClick={props.clicked(el.id)} className={el.id}>View</button>
-                </li>
-            ))
-        }
-        </p>
-    </ul>
-)
+
+    return (
+        <List>
+            {props.list.map(el => (
+                <ListItem el={el} clicked={props.clicked}></ListItem>
+            ))}
+
+        </List>
+    )
 }
 
 export default viewable_list
