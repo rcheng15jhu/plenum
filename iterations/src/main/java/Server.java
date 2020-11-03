@@ -182,15 +182,12 @@ public class Server {
             return new String[]{"jdbc:sqlite:./Plenum.db", "", ""};
         }
 
-        System.out.println("database url is not null (getdburl)");
-
         URI dbUri = new URI(databaseUrl);
 
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
                 + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-        System.out.println("***" + dbUrl);
         return new String[]{dbUrl, username, password};
     }
 
