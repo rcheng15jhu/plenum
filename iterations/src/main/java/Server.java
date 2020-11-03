@@ -229,19 +229,19 @@ public class Server {
         // root route; show a simple message!
 
         post("/", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
             String username = req.queryParams("username");
             String password = req.queryParams("password");
             boolean corr = new Sql2oUserDao(getSql2o()).checkCred(username, password);
             if (corr) {
                 res.cookie("username", username);
                 res.redirect("/");
+                return null;
             }
             else {
-                res.status(403);
-                res.redirect("/");
+                return new ModelAndView(model, "public/templates/invalidlogin.vm");
             }
-            return null;
-        });
+        }, new VelocityTemplateEngine());
 
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
