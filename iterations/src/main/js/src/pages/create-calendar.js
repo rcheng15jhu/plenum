@@ -7,12 +7,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import {TextField, Container, Button} from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import Typography from "@material-ui/core/Typography";
+import newTheme from "../components/baseline-theme";
+import ThemeProvider from "@material-ui/styles/ThemeProvider";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
-            margin: theme.spacing(3),
+            margin: theme.spacing(1),
             width: '25ch',
+            marginTop: theme.spacing(2)
         },
     },
     center: {
@@ -21,15 +24,18 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center"
     },
     contentDiv: {
-        margin: theme.spacing(3),
         marginTop: "5%",
     },
     bold: {
         fontWeight: "bold",
     },
     button: {
-        marginLeft: "30px",
+        marginLeft: theme.spacing(2),
         marginTop: "10px"
+    },
+    title: {
+        fontWeight: "bold",
+        marginBottom: theme.spacing(4),
     }
 }));
 
@@ -38,9 +44,10 @@ const App = () => {
 
     return (
         <Container>
-            <Header></Header>
+            <ThemeProvider theme={newTheme}>
+            <Header />
             <div className={classes.contentDiv} id="content">
-                <Typography component="h6" variant="h6">
+                <Typography component="h4" variant="h4" className={classes.title}>
                     Create New Calendar (this is a test of CI)
                 </Typography>
                 <form className={classes.root} noValidate autoComplete="off" className={classes.center}>
@@ -60,13 +67,14 @@ const App = () => {
                 <Calendar editable={true} className={classes.center}/>
                 <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     onClick={uploadTemplate}
                     className={classes.button}
                     startIcon={<SaveIcon />}>
                     Upload Template!
                 </Button>
             </div>
+            </ThemeProvider>
         </Container>
     )
 };

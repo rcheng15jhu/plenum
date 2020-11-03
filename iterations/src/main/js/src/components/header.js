@@ -8,10 +8,13 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import {AccountCircle} from "@material-ui/icons";
+import theme from "./baseline-theme";
+import {ThemeProvider} from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        width: '100%',
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -54,13 +57,14 @@ export default function ButtonAppBar() {
     );
 
     return (
+        <ThemeProvider theme={theme}>
         <div className={classes.root}>
             <AppBar position="static" style={{"marginBottom": "30px"}}>
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        Plenum
+                        <Button variant='text' size='large' href="/" color="inherit">Plenum</Button>
                     </Typography>
-                    <Button href="/list-calendar"  color="inherit">Calendars</Button>
+                    <Button href="/list-calendar" color="inherit">Calendars</Button>
                     <Button href="/list-events" color="inherit">Events</Button>
                     <IconButton
                         edge="end"
@@ -76,5 +80,6 @@ export default function ButtonAppBar() {
             </AppBar>
             {renderMenu}
         </div>
+        </ThemeProvider>
     );
 }

@@ -1,13 +1,11 @@
 import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
 import Calendar from "../components/calendar";
-import Viewable_list from "../components/viewable-list";
+import Viewable_list from "../components/viewable-list-item";
 import Header from "../components/header";
-import Button from "@material-ui/core/Button";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
@@ -34,8 +32,9 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(1),
         paddingTop: theme.spacing(1),
     },
-    icon: {
-
+    title: {
+        fontWeight: "bold",
+        marginBottom: theme.spacing(4),
     },
     fab: {
         display: 'flex',
@@ -165,7 +164,7 @@ const App = () => {
             <Card className={classes.root}>
                 <div className={classes.details}>
                     <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
+                        <Typography component="h4" variant="h4" className={classes.title}>
                             Calendar: {id}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
@@ -194,10 +193,6 @@ const App = () => {
                     </div>
                 </div>
             </Card>
-
-            <div className="divContents">
-                <Viewable_list list={calendarNames} clicked={updateActive} />
-            </div>
         </div>
     )
 };

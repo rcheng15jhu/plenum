@@ -1,10 +1,33 @@
-// import AddCalToEvent from './add-calendar-to-event';
-// import CreateCal from './create-calendar';
-// import Home from './home';
-// import CreateEvent from './create-event';
-// import ListCals from './list-calendar';
-// import ListEvents from './list-events';
-// import ViewCal from './view-calendar';
-// import ViewEvents from './view-event';
-//
-// export { AddCalToEvent, CreateCal, Home, CreateEvent, ListCals, ListEvents, ViewCal, ViewEvents}
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Header from "../components/header";
+import {Typography} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+
+const App = () => {
+
+    const handleLogin = () => {
+        window.location.assign('/login')
+    }
+
+    return (
+        <div>
+            <Header></Header>
+            <div style={{'marginTop': '60px'}}>
+                <Typography variant='h3' align='center' style={{'marginBottom': '30px'}}>
+                    Welcome to Plenum!
+                </Typography>
+                <div style={{'display': "flex",
+                            'alignItems': "center",
+                            'justifyContent': "center",
+                            'width': '100%',}}>
+                    <Button variant='contained' color='primary' onClick={handleLogin}>
+                        Login
+                    </Button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
