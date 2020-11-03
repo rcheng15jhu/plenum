@@ -39,7 +39,7 @@ const App = () => {
         <Container>
             <Header></Header>
             <div className={classes.contentDiv} id="content">
-                <h1>Create New Calendar</h1>
+                <h1>Create New Calendar (this is a test of CI)</h1>
                 <form className={classes.root} noValidate autoComplete="off" className={classes.center}>
                     <TextField label="Calendar Title" variant="outlined" id="title"/>
                 </form>
