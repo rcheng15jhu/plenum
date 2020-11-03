@@ -1,10 +1,9 @@
 import React from "react";
 
 import Cell from './cell'
-import EditableCell from './editable-cell'
 
 let sample_data = {
-    "01": [
+    "asdfasdfasdf": [
         {
             "date": 1,
             "times": [0, 1, 2, 3]
@@ -30,6 +29,10 @@ let sample_data = {
         {
             "date": 6,
             "times": [6]
+        },
+        {
+            "date": 5,
+            "times": [5]
         }
     ],
     "03": [
@@ -59,28 +62,53 @@ const aggregate_calendar = (props) => {
 
     for (let i = 0; i < 12; i++) {
         for (let j = 0; j < 7; j++) {
-            calendar[i][j] = 0
+            calendar[i][j] = {
+                num_avail: 0,
+                users_avail: []
+            }
         }
     }
+    let users_in_event = Object.keys(sample_data)
+    let num_users_in_event = users_in_event.length
 
-    // if (template !== undefined && template.dates !== undefined) {
-    //     console.log("test")
-    //     let dates = template.dates;
-    //     for (let i = 0; i < dates.length; i++) {
-    //         for (let j = 0; j < dates[i].times.length; j++) {
-    //             calendar[dates[i].times[j]][dates[i].date] = 'A'
-    //         }
-    //     }
-    // }
-
-    let users_in_event = Object.keys(sample_data).length
-    console.log(users_in_event)
+    let k = 0
     for (const i in sample_data) {
-        console.log(sample_data[i])
         sample_data[i].forEach(element => {
-            console.log(element.date, element.times)
-            element.times.forEach(time => calendar[time][element.date] = calendar[time][element.date] + 1)
+            element.times.forEach(function (time) {
+                calendar[time][element.date].num_avail = calendar[time][element.date].num_avail + 1
+                calendar[time][element.date].users_avail.push(users_in_event[k])
+            })
         })
+        k = k + 1
+    }
+
+    function linspace(startValue, stopValue, cardinality) {
+        let arr = [];
+        let step = (stopValue - startValue) / (cardinality - 1);
+        for (let i = 0; i < cardinality; i++) {
+            arr.push(startValue + (step * i));
+        }
+        return arr;
+    }
+    // for n users you need n + 1 opacities
+    function get_opacity_from_num_avail(num_avail) {
+        if (num_users_in_event <= 6) {
+            let opacities = linspace(0, 1, num_users_in_event + 1)
+            return opacities[num_avail]
+        } else {
+            let opacities = linspace(0, 1, 8)
+            if (num_avail === 0) {
+                return 0
+            } else if (num_avail === num_users_in_event) {
+                return 1
+            } else {
+                for (let i = 0; i < 6; i++) {
+                    if ((num_avail / num_users_in_event) > (i / 6) && (num_avail / num_users_in_event) < ((i + 1) / 6)) {
+                        return opacities[i + 1]
+                    }
+                }
+            }
+        }
     }
 
     const time = (val) => {
@@ -106,17 +134,24 @@ const aggregate_calendar = (props) => {
             </thead>
             <tbody>
                 {
-                    calendar.map((keyList, i) => (
+                    calendar.map((rows, i) => (
                         <tr key={i}>
                             <td style={{ textAlign: 'right' }}>{time(i)}</td>
-                            {keyList.map((key, j) =>
-                                <td>key={j}{calendar[i][j]}</td> 
+                            {rows.map((cell, j) => (
+                                <Cell
+                                    key={j}
+                                    tooltip_id={'' + i + j}
+                                    opacity={get_opacity_from_num_avail(calendar[i][j].num_avail)}
+                                    users_avail={calendar[i][j].users_avail}
+                                />
+                                )
                             )}
                         </tr>
                     ))
                 }
             </tbody>
         </table>
+        
     )
 };
 
