@@ -9,7 +9,7 @@ const cell = (props) => {
         styles.backgroundColor = 'red'
     }
 
-    if (props.opacity !== null) {
+    if (props.opacity !== undefined) {
         styles.backgroundColor = `hsla(120, 50%, 50%, ${props.opacity}`
     }
 
