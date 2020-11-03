@@ -30,7 +30,7 @@ jobs:
       - name: Build with Gradle
         run: cd ./iterations ; ./gradlew build jar ; mv ./build/libs/iterations-1.0-SNAPSHOT.jar .
       - name: Commit on the runner
-        uses: git config user.email "runner@github.com"; git config user.name "Runner"; git add *; git commit -m "None"
+        run: git config user.email "runner@github.com"; git config user.name "Runner"; git add *; git commit -m "None"
       - name: Deploy to Heroku
         uses: AkhileshNS/heroku-deploy@v3.5.7
         with:
