@@ -486,7 +486,7 @@ public class Server {
         });
 
         makeStaticRoutes(Arrays.asList("/create-calendar", "/view-calendar", "/list-calendar", "/index"
-                , "/view-event", "/", "", "/login", "/profile"));
+                ,"/list-events" , "/view-event", "/", "", "/login", "/profile"));
 
 
     }
