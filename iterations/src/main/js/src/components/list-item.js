@@ -12,7 +12,6 @@ import List from "@material-ui/core/List";
 import React, {useEffect} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {blue} from "@material-ui/core/colors";
-import createAlert from "../services/create-alert";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,16 +33,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function fetchAPI(route) {
-    fetch(route, {
-            method: 'POST',
-            mode: 'cors'
-        }
-    ).then(data => {
-        location.reload();
-    })
-}
-
 const list_item = (props) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -52,10 +41,6 @@ const list_item = (props) => {
     const handleClick = () => {
         setOpen(!open);
     };
-
-    const handleDelete = () => {
-        fetchAPI(`/${props.route}?id=${el.id}`);
-    }
 
     return (
         <div>
@@ -76,7 +61,7 @@ const list_item = (props) => {
                 />
                 {open ? <ExpandLess /> : <ExpandMore />}
                 <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete" onClick={handleDelete}>
+                    <IconButton edge="end" aria-label="delete" onClick={props.delete(el.id)}>
                         <DeleteIcon />
                     </IconButton>
                 </ListItemSecondaryAction>

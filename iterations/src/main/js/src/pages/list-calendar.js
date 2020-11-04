@@ -22,6 +22,16 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
+function fetchAPI(id) {
+    fetch("/delcalendar?id=" + id, {
+            method: 'POST',
+            mode: 'cors'
+        }
+    ).then(data => {
+        location.reload();
+    })
+}
+
 const App = () =>  {
     const classes = useStyles();
     const [calendars, setCalendars] = useState([])
@@ -42,6 +52,11 @@ const App = () =>  {
     const handleAdd = () => {
         window.location.assign('/create-calendar')
     }
+
+    const handleDelete = (id) => {
+        fetchAPI(id);
+    }
+
 
 
     let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
@@ -72,7 +87,7 @@ const App = () =>  {
                 <div className="divContents">
                     <List>
                         {calendarNames.map(el => (
-                            <ViewableListItem route='delcalendar' key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
+                            <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
                         ))}
                     </List>
 
