@@ -53,8 +53,8 @@ const list_item = (props) => {
         setOpen(!open);
     };
 
-    const handleDelete = (id) => {
-            fetchAPI(`/${props.route}?id=${id}`);
+    const handleDelete = () => {
+        fetchAPI(`/${props.route}?id=${el.id}`);
     }
 
     return (
@@ -76,7 +76,7 @@ const list_item = (props) => {
                 />
                 {open ? <ExpandLess /> : <ExpandMore />}
                 <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete" onClick={handleDelete(el.id)}>
+                    <IconButton edge="end" aria-label="delete" onClick={handleDelete}>
                         <DeleteIcon />
                     </IconButton>
                 </ListItemSecondaryAction>
