@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ReactDOM from 'react-dom'
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
@@ -56,24 +56,22 @@ const App = () => {
         return null;
     }
 
-    function handleSignup(username, password){
-        fetch('/adduser?username=' + username + '&password=' + password, {
+    useEffect(() => {
+        fetch('/adduser?username=' + values.username + '&password=' + values.password, {
                 method: 'POST',
                 mode: 'cors'
             }
         ).then(res => {
             return res.json()
         })
-    }
+    }, [document.getElementById('Sign-UpButton')]);
 
     const options = [
         {
             value: 'Login',
-            clicked: handleLogin
         },
         {
             value: 'Sign-up',
-            clicked: handleSignup
         }];
 
     const handleChange = (event) => {
@@ -134,7 +132,8 @@ const App = () => {
                             variant="contained"
                             color="secondary"
                             className={classes.button}
-                            onClick={opt.clicked(values.username, values.password)}
+                            // onClick={opt.clicked(values.username, values.password)}
+                            id={`${classes.button}button` }
                         >
                             {opt.value}
                         </Button>

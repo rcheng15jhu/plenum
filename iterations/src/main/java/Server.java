@@ -236,7 +236,7 @@ public class Server {
                 model.put("username", req.cookie("username"));
             res.status(200);
             res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("./resources/public/static/html/index"));
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/index.html"));
         });
 
         //adduser route; allows a new user to be added
@@ -273,7 +273,7 @@ public class Server {
             model.put("calendars", sql2oCalendar.listOne(userId));
             res.type("text/html");
             res.status(200);
-            return IOUtils.toString(Spark.class.getResourceAsStream("./resources/public/static/html/list-calendar.html"));
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/list-calendar.html"));
         });
 
         //calendar route; returns availabilities associated with the calendar id
@@ -345,7 +345,7 @@ public class Server {
             model.put("events", sql2oEventDao.listAll());
             res.type("text/html");
             res.status(200);
-            return IOUtils.toString(Spark.class.getResourceAsStream("./resources/public/static/html/list-events.html"));
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/list-events.html"));
         });
 
         //delevent route; deletes event
@@ -486,8 +486,8 @@ public class Server {
             return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index4.html"));
         });
 
-        makeStaticRoutes(Arrays.asList("/create-calendar", "/view-calendar", "/list-calendar", "/home", "/index"
-                , "/view-event"));
+        makeStaticRoutes(Arrays.asList("/create-calendar", "/view-calendar", "/list-calendar", "/index"
+                , "/view-event", "/", "", "/login", "/profile"));
 
 
     }
@@ -496,7 +496,12 @@ public class Server {
         routes.forEach(route -> get(route, (req, res) -> {
             res.status(200);
             res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html" + route + ".html"));
+
+            String routeName = route;
+            if (route.equals("/") || route.equals("")) {
+                routeName = "/index";
+            }
+            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html" + routeName + ".html"));
         }));
     }
 }

@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import theme from "../components/baseline-theme";
 import Header from "../components/header";
+import getCookie from "../services/get-cookie";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,21 +47,6 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
     const classes = useStyles();
-
-    function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
 
     const username = getCookie('username');
 
