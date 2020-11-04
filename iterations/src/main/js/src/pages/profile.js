@@ -55,8 +55,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <Header />
             <Container className={classes.root}>
-                    <div className={classes.contentDiv} id="content">
-
+                    <div className={classes.contentDiv}>
                         <div className={classes.margin}>
                             <Grid container spacing={1} alignItems="flex-end">
                                 <Grid item>
