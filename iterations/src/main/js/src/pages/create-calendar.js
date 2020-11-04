@@ -56,8 +56,8 @@ const App = () => {
                 <ol>
                     <li>Give a title to your calendar above.</li>
                     <li>
-                        Indicate your unavailability on the calendar below.
-                        Click to mark boxes red for the time ranges when you are <span className={classes.bold}>NOT</span> available.
+                        Indicate your availability on the calendar below.
+                        Click to mark boxes red for the time ranges when you are available.
                     </li>
                     <li>
                         When you are done, click on "Upload Template!" button at the bottom of the page.
