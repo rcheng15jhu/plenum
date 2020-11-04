@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
 }))
 
 function fetchAPI(id) {
-    fetch("/delcalendar?id=" + id, {
+    fetch("/api/delcalendar?id=" + id, {
             method: 'POST',
             mode: 'cors'
         }
@@ -32,9 +32,11 @@ function fetchAPI(id) {
     })
 }
 
-const App = () =>  {
+const App = () => {
     const classes = useStyles();
     const [calendars, setCalendars] = useState([])
+
+    const [idToDelete, setIdToDelete] = useState(-1)
 
     useEffect(() => {
         fetch('/api/calendar', {
@@ -49,12 +51,19 @@ const App = () =>  {
         })
     }, [])
 
+    useEffect(() => {
+        if(idToDelete > 0) {
+            fetchAPI(idToDelete)
+            setIdToDelete(-1)
+        }
+    }, [idToDelete])
+
     const handleAdd = () => {
         window.location.assign('/create-calendar')
     }
 
-    const handleDelete = (id) => {
-        fetchAPI(id);
+    const handleDelete = (id) => () => {
+        setIdToDelete(id);
     }
 
 

@@ -60,10 +60,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
     @Override
     public boolean delete(Availability a) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String preQ = "PRAGMA foreign_keys = ON;";
-            con.createQuery(preQ).executeUpdate();
-
-            String query = "DELETE FROM Availabilities WHERE qHour =: qHour AND qAvail =: qAvail AND calenderID =:calenderID";
+            String query = "DELETE * FROM Availabilities WHERE qHour =: qHour AND date =: date AND calenderID =:calenderID";
             con.createQuery(query)
                     .bind(a)
                     .executeUpdate();
@@ -90,41 +87,6 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
         }
         catch (Sql2oException ex) {
             ex.printStackTrace();
-            throw new DaoException();
-        }
-    }
-
-    public int updateadd(Availability a) throws DaoException {
-        try (Connection con = sql2o.open()) {
-            String query = "SELECT * FROM Availabilities " +
-                    "WHERE date = :date " +
-                    "AND qHour = :qHour " +
-                    "AND calendarId = :calendarId";
-            int id = (int) con.createQuery(query, true)
-                    .bind(a)
-                    .executeUpdate().getKey();
-            a.setId(id);
-            return id;
-        }
-        catch (Sql2oException ex) {
-            ex.printStackTrace();
-            throw new DaoException();
-        }
-    }
-
-    public int updateremove(Availability a) throws DaoException {
-        try (Connection con = sql2o.open()) {
-            String query = "UPDATE Availabilities " +
-                    "SET date =: date, " +
-                    "qHour =: qHour)" +
-                    "WHERE calenderID =: calenderID";
-            int id = (int) con.createQuery(query, true)
-                    .bind(a)
-                    .executeUpdate().getKey();
-            a.setId(id);
-            return id;
-        }
-        catch (Sql2oException ex) {
             throw new DaoException();
         }
     }

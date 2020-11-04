@@ -318,7 +318,7 @@ public class Server {
         });
 
         //delcalendar route; delete calendar
-        post("/delcalendar", (req, res) -> {
+        post("/api/delcalendar", (req, res) -> {
             int id = Integer.parseInt(req.queryParams("id"));
             Calendar c = new Calendar(id);
             try {
@@ -441,12 +441,14 @@ public class Server {
             boolean curAvail = new Sql2oAvailabilityDao(getSql2o()).updatecheck(a);
             if (availstate == 1 && !curAvail) {
                 new Sql2oAvailabilityDao(getSql2o()).add(a);
+                res.status(201);
                 }
             else if (availstate == 0 && curAvail) {
                 new Sql2oAvailabilityDao(getSql2o()).delete(a);
+                res.status(204);
             }
 
-            res.status(201);
+
             res.type("application/json");
             return new Gson().toJson(a.toString());
         });

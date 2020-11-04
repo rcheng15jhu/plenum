@@ -59,8 +59,6 @@ const App = () => {
                             When you are done, click on "Publish Event!" button at the bottom of the page.
                         </li>
                     </ol>
-
-                    <Calendar editable={true} className={classes.center}/>
                     <Button
                         variant="contained"
                         color="secondary"

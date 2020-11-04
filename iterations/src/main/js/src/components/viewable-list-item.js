@@ -41,17 +41,6 @@ const viewable_list_item = (props) => {
         setOpen(!open);
     };
 
-    function handleDelete(id) {
-        console.log("delete clicked");
-        fetch(props.route + '?id=' + id, {
-                method: 'POST',
-                mode: 'cors'
-            }
-        ).then(res => {
-            return res.json()
-        })
-    }
-
     return (
         <div>
             <ListItem
@@ -72,14 +61,14 @@ const viewable_list_item = (props) => {
                 {open ? <ExpandLess /> : <ExpandMore />}
                 <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon onClick={handleDelete(props.id)}/>
+                        <DeleteIcon onClick={props.delete(props.id)}/>
                     </IconButton>
                 </ListItemSecondaryAction>
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItem button className={classes.nested} onClick={props.clicked(props.id)}>
-                        <ListItemText primary="Click here to view or edit calendar (Would be replaced by actual calendar instead of a link)" />
+                        <ListItemText primary="Click here to view or edit calendar (May be replaced by actual calendar view instead of a link in future. In addition, calendar descriptions may also appear here later.)" />
                     </ListItem>
                 </List>
             </Collapse>

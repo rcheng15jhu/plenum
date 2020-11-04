@@ -11,4 +11,5 @@ public interface AvailabilityDao {
     List<Availability> listAll() throws DaoException;
     List<Availability> listAllInCal(Calendar cal) throws DaoException;
     boolean delete(Availability a) throws DaoException;
+    boolean updatecheck(Availability a) throws DaoException;
 }
