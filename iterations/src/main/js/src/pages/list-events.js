@@ -44,19 +44,19 @@ const App = () =>  {
     }
 
 
-    // let eventNames = events.map(event => {return {id: event.id, content: event.title}})
+    let eventNames = events.map(event => {return {id: event.id, content: event.title}})
 
     //for testing:
-    let eventNames = [
-        {
-            id: 1,
-            content: 'title1'
-        },
-        {
-            id: 2,
-            content: 'title2'
-        },
-    ];
+    // let eventNames = [
+    //     {
+    //         id: 1,
+    //         content: 'title1'
+    //     },
+    //     {
+    //         id: 2,
+    //         content: 'title2'
+    //     },
+    // ];
 
     let navToViewPage = (id) => () => {
         window.location.assign('/view-event?id=' + id)
