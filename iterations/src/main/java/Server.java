@@ -407,8 +407,11 @@ public class Server {
 
         //delavailability route; deletes availabilities
         post("/delavailability", (req, res) -> {
-            int id = Integer.parseInt(req.queryParams("id"));
-            Availability a = new Availability(id);
+            int calendarId = Integer.parseInt(req.queryParams("calendarId"));
+            int date = Integer.parseInt(req.queryParams("date"));
+            System.out.println(date);
+            int qHour = Integer.parseInt(req.queryParams("qHour"));
+            Availability a = new Availability(calendarId, date, qHour);
             try {
                 new Sql2oAvailabilityDao(getSql2o()).delete(a);
                 res.status(204);
