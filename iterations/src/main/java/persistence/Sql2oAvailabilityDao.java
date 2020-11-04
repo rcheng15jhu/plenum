@@ -63,7 +63,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
             String preQ = "PRAGMA foreign_keys = ON;";
             con.createQuery(preQ).executeUpdate();
 
-            String query = "DELETE FROM Availabilities WHERE qHour =: qHour AND qAvail =: qAvail";
+            String query = "DELETE FROM Availabilities WHERE qHour =: qHour AND qAvail =: qAvail AND calenderID =:calenderID";
             con.createQuery(query)
                     .bind(a)
                     .executeUpdate();
