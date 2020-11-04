@@ -27,7 +27,7 @@ const App = () =>  {
     const [events, setEvents] = useState([])
 
     useEffect(() => {
-        fetch('/api/event', {
+        fetch('/api/events', {
                 method: 'GET',
                 mode: 'cors'
             }
@@ -35,7 +35,7 @@ const App = () =>  {
             return res.json()
         }).then(data => {
             console.log(data)
-            setCalendars([...data])
+            setEvents([...data])
         })
     }, [])
 
@@ -72,7 +72,7 @@ const App = () =>  {
                 <div className="divContents">
                     <List>
                         {eventNames.map(el => (
-                            <ViewableListItem route='delevent' key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
+                            <ViewableListItem route='/api/delevent' key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
                         ))}
                     </List>
 

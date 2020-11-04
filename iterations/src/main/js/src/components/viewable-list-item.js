@@ -43,7 +43,7 @@ const viewable_list_item = (props) => {
 
     function handleDelete(id) {
         console.log("delete clicked");
-        fetch('/delcalendar?id=' + id, {
+        fetch(props.route + '?id=' + id, {
                 method: 'POST',
                 mode: 'cors'
             }
