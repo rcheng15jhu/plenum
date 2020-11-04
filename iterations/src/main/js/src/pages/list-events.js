@@ -72,7 +72,7 @@ const App = () =>  {
                 <div className="divContents">
                     <List>
                         {eventNames.map(el => (
-                            <ViewableListItem key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
+                            <ViewableListItem route='delevent' key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
                         ))}
                     </List>
 

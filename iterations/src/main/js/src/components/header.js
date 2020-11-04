@@ -42,7 +42,7 @@ export default function ButtonAppBar() {
     };
 
     const handleMenuCloseProfile = () => {
-        window.location.assign('/profile.html');
+        window.location.assign('/profile');
         handleMenuClose();
     };
 

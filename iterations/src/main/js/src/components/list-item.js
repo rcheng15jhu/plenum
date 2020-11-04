@@ -12,6 +12,7 @@ import List from "@material-ui/core/List";
 import React, {useEffect} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {blue} from "@material-ui/core/colors";
+import createAlert from "../services/create-alert";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,6 +34,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
+function fetchAPI(route) {
+    fetch(route, {
+            method: 'POST',
+            mode: 'cors'
+        }
+    ).then(data => {
+        location.reload();
+    })
+}
+
 const list_item = (props) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -43,14 +54,7 @@ const list_item = (props) => {
     };
 
     const handleDelete = (id) => {
-            console.log("delete clicked");
-            fetch('/delcalendar?id=' + id, {
-                    method: 'POST',
-                    mode: 'cors'
-                }
-            ).then(res => {
-                return res.json()
-            })
+            fetchAPI(`/${props.route}?id=${id}`);
     }
 
     return (

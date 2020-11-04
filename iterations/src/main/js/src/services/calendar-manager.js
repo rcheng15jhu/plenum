@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
-import UploadTemplateAlert from "../components/uploadTemplateAlert";
+import createAlert from "./create-alert";
 
 function download(content) {
     const a = document.createElement("a");
@@ -48,14 +47,14 @@ function upload(title, content) {
         },body: JSON.stringify(content)
     }).then(data => {
         console.log(data);
-    }).catch(function() {
-        //handle error
-        console.log("error occurred");
-        document.getElementById("content").append("<UploadTemplateAlert severity='error' msg='An error occurred while uploading template!'></UploadTemplateAlert>");
+        if (data.status !== 201) {
+            createAlert('An error occurred while uploading template!', 'error');
+        } else {
+            createAlert("Template uploaded successfully!", 'success');
+        }
+
+
     });
-    let temp = document.createElement('alert');
-    ReactDOM.render(<UploadTemplateAlert severity='success' msg="Template uploaded successfully!"></UploadTemplateAlert>, temp);
-    document.getElementById("content").appendChild(temp);
 }
 
 function uploadTemplate() {
@@ -63,9 +62,7 @@ function uploadTemplate() {
     if (title !== "") {
         upload(title, getObjToSave());
     } else {
-        let temp = document.createElement('alert');
-        ReactDOM.render(<UploadTemplateAlert severity='error' msg="Calendar title required!"></UploadTemplateAlert>, temp);
-        document.getElementById("content").appendChild(temp);
+        createAlert("Calendar title required!", 'error');
     }
 }
 

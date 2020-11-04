@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import ReactDOM from 'react-dom'
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import theme from "../components/baseline-theme";
 import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
+import createAlert from "../services/create-alert";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,33 +46,74 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+function fetchAddUserAPI(values) {
+    if (values.username === '' || values.password === '') {
+        createAlert('Username and password cannot be blank!', 'error');
+        return;
+    }
+
+   fetch('/adduser?username=' + values.username + '&password=' + values.password, {
+           method: 'POST',
+           mode: 'cors'
+       }
+   ).then(data => {
+       console.log(data);
+       if (data.status !== 200) {
+           createAlert('An error occurred!', 'error');
+       } else {
+           createAlert(`Successfully signed up!`, 'success');
+           window.location.assign('/profile')
+       }
+   })
+}
+
+function fetchAPI(values) {
+    if (values.username === '' || values.password === '') {
+        createAlert('Username and password cannot be blank!', 'error');
+        return;
+    }
+
+    fetch('/?username=' + values.username + '&password=' + values.password, {
+            method: 'POST',
+            mode: 'cors'
+        }
+    ).then(data => {
+        console.log(data);
+        if (data.status === 401) {
+            createAlert('Incorrect login information!', 'error');
+        } else {
+            createAlert(`Successfully logged in!`, 'success');
+            window.location.assign('/profile')
+        }
+    })
+}
+
+
 const App = () => {
     const classes = useStyles();
     const [values, setValues] = React.useState({
-        username: 'name',
-        password: '1320',
+        username: '',
+        password: '',
     });
 
-    function handleLogin(username, password){
-        return null;
-    }
+    const state = { result: null };
 
-    useEffect(() => {
-        fetch('/adduser?username=' + values.username + '&password=' + values.password, {
-                method: 'POST',
-                mode: 'cors'
-            }
-        ).then(res => {
-            return res.json()
-        })
-    }, [document.getElementById('Sign-UpButton')]);
+    const toggleLoginButtonState = () => {
+        fetchAPI(values);
+    };
+
+    const toggleSignupButtonState = () => {
+        fetchAddUserAPI(values);
+    };
 
     const options = [
         {
             value: 'Login',
+            clicked: toggleLoginButtonState
         },
         {
             value: 'Sign-up',
+            clicked: toggleSignupButtonState
         }];
 
     const handleChange = (event) => {
@@ -84,7 +126,7 @@ const App = () => {
     return (
 
         <ThemeProvider theme={theme}>
-            <Typography variant="h6" className={classes.home}>
+            <Typography variant="h6" className={classes.home} id='content'>
                 <Button variant='contained' size='large' href="/" color="primary">
                     <HomeRoundedIcon style={{'marginRight': '5px'}} />
                     Plenum
@@ -92,7 +134,7 @@ const App = () => {
             </Typography>
             <Container className={classes.root}>
                 {options.map(opt => (
-                <div key={opt.value} className={classes.contentDiv} id="content">
+                <div key={opt.value} className={classes.contentDiv}>
                     {opt.value === 'Sign-up' ?
                         <Typography variant='h5' color='secondary' className={classes.text}>
                             Do not have an account?
@@ -132,7 +174,7 @@ const App = () => {
                             variant="contained"
                             color="secondary"
                             className={classes.button}
-                            // onClick={opt.clicked(values.username, values.password)}
+                            onClick={opt.clicked}
                             id={`${classes.button}button` }
                         >
                             {opt.value}

@@ -222,13 +222,12 @@ public class Server {
             boolean corr = new Sql2oUserDao(getSql2o()).checkCred(username, password);
             if (corr) {
                 res.cookie("username", username);
-                res.redirect("/");
-                return null;
             }
             else {
-                return new ModelAndView(model, "public/templates/invalidlogin.vm");
+                res.status(401);
             }
-        }, new VelocityTemplateEngine());
+            return null;
+        });
 
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
