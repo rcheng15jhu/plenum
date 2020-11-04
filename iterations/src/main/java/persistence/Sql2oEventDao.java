@@ -27,9 +27,10 @@ public class Sql2oEventDao implements EventDao{
             event.setId(id);
             return id;
         }
-//        catch (Sql2oException ex) {
-//            throw new DaoException();
-//        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
+            throw new DaoException();
+        }
     }
 
     @Override

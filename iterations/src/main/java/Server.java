@@ -229,14 +229,14 @@ public class Server {
             return null;
         });
 
-        get("/", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            if (req.cookie("username") != null)
-                model.put("username", req.cookie("username"));
-            res.status(200);
-            res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/index.html"));
-        });
+//        get("/", (req, res) -> {
+//            Map<String, Object> model = new HashMap<>();
+//            if (req.cookie("username") != null)
+//                model.put("username", req.cookie("username"));
+//            res.status(200);
+//            res.type("text/html");
+//            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/index.html"));
+//        });
 
         //adduser route; allows a new user to be added
         post("/adduser", (req, res) -> {
@@ -452,6 +452,8 @@ public class Server {
             res.type("application/json");
             return new Gson().toJson(a.toString());
         });
+
+
 
         makeStaticRoutes(Arrays.asList("/create-calendar", "/view-calendar", "/list-calendar", "/index"
                 ,"/list-events" , "/view-event", "/", "", "/login", "/profile", "/create-event"));
