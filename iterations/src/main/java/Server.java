@@ -334,21 +334,16 @@ public class Server {
         });
 
         //events route; list all events
-        get("/events", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-//        if (req.cookie("username") == null) {
-//            res.redirect("/");
-//            return null;
-//        }
-            Sql2oEventDao sql2oEventDao = new Sql2oEventDao(getSql2o());
-            model.put("events", sql2oEventDao.listAll());
-            res.type("text/html");
+        get("/api/events", (req, res) -> {          
+            List<Event> events = new Sql2oEventDao(getSql2o()).listAll();
+            String results = new Gson().toJson(events);
+            res.type("application/json");
             res.status(200);
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/list-events.html"));
+            return results;
         });
 
         //delevent route; deletes event
-        post("/delevent", (req, res) -> {
+        post("/api/delevent", (req, res) -> {
             int id = Integer.parseInt(req.queryParams("id"));
             Event e = new Event(id);
             try {
@@ -362,7 +357,7 @@ public class Server {
         });
 
         //addevent route; inserts a new event
-        post("/addevent", (req, res) -> {
+        post("/api/addevent", (req, res) -> {
             String title = req.queryParams("title");
             int startTime = Integer.parseInt(req.queryParams("startTime"));
             int endTime = Integer.parseInt(req.queryParams("endTime"));
