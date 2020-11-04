@@ -79,7 +79,7 @@ const viewable_list_item = (props) => {
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItem button className={classes.nested} onClick={props.clicked(props.id)}>
-                        <ListItemText primary="Would be replaced by actual calendar instead of a link" />
+                        <ListItemText primary="Click here to view or edit calendar (Would be replaced by actual calendar instead of a link)" />
                     </ListItem>
                 </List>
             </Collapse>
