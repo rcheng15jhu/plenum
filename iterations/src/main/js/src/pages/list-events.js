@@ -22,12 +22,24 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
+function fetchAPI(id) {
+    fetch("/api/delevent?id=" + id, {
+            method: 'POST',
+            mode: 'cors'
+        }
+    ).then(data => {
+        location.reload();
+    })
+}
+
 const App = () =>  {
     const classes = useStyles();
     const [events, setEvents] = useState([])
 
+    const [idToDelete, setIdToDelete] = useState(-1)
+
     useEffect(() => {
-        fetch('/api/event', {
+        fetch('/api/events', {
                 method: 'GET',
                 mode: 'cors'
             }
@@ -35,14 +47,24 @@ const App = () =>  {
             return res.json()
         }).then(data => {
             console.log(data)
-            setCalendars([...data])
+            setEvents([...data])
         })
     }, [])
+
+    useEffect(() => {
+        if(idToDelete > 0) {
+            fetchAPI(idToDelete)
+            setIdToDelete(-1)
+        }
+    }, [idToDelete])
 
     const handleAdd = () => {
         window.location.assign('/create-event')
     }
 
+    const handleDelete = (id) => () => {
+        setIdToDelete(id);
+    }
 
     let eventNames = events.map(event => {return {id: event.id, content: event.title}})
 
@@ -72,7 +94,7 @@ const App = () =>  {
                 <div className="divContents">
                     <List>
                         {eventNames.map(el => (
-                            <ViewableListItem route='delevent' key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
+                            <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
                         ))}
                     </List>
 

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom'
 import Calendar from "../components/calendar";
 import Header from "../components/header";
-import uploadTemplate from "../services/calendar-manager.js";
+import uploadEvent from "../services/event-manager.js";
 import { makeStyles } from '@material-ui/core/styles';
 import {TextField, Container, Button} from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
@@ -59,11 +59,10 @@ const App = () => {
                             When you are done, click on "Publish Event!" button at the bottom of the page.
                         </li>
                     </ol>
-
-                    <Calendar editable={true} className={classes.center}/>
                     <Button
                         variant="contained"
                         color="secondary"
+                        onClick={uploadEvent}
                         className={classes.button}
                         startIcon={<SaveIcon />}>
                         Publish Event!
