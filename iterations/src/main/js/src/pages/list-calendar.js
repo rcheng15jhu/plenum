@@ -7,7 +7,6 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/core/styles";
-import {blue} from "@material-ui/core/colors";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -45,19 +44,19 @@ const App = () =>  {
     }
 
 
-    // let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
+    let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
 
     //for testing:
-    let calendarNames = [
-        {
-            id: 1,
-            content: 'title1'
-        },
-        {
-            id: 2,
-            content: 'title2'
-        },
-    ];
+    // let calendarNames = [
+    //     {
+    //         id: 1,
+    //         content: 'title1'
+    //     },
+    //     {
+    //         id: 2,
+    //         content: 'title2'
+    //     },
+    // ];
 
     let navToViewPage = (id) => () => {
         window.location.assign('/view-calendar?id=' + id)

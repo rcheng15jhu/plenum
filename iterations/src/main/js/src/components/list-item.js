@@ -80,7 +80,7 @@ const list_item = (props) => {
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItem button className={classes.nested} onClick={props.clicked(el.id)}>
-                        <ListItemText primary="Would be replaced by actual calendar instead of a link" />
+                        <ListItemText primary="Would be replaced by actual calendar/event instead of a link" />
                     </ListItem>
                 </List>
             </Collapse>
