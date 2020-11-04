@@ -60,9 +60,6 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
     @Override
     public boolean delete(Availability a) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String preQ = "PRAGMA foreign_keys = ON;";
-            con.createQuery(preQ).executeUpdate();
-
             String query = "DELETE FROM Availabilities WHERE qHour =: qHour AND qAvail =: qAvail AND calenderID =:calenderID";
             con.createQuery(query)
                     .bind(a)
