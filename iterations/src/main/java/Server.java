@@ -453,40 +453,8 @@ public class Server {
             return new Gson().toJson(a.toString());
         });
 
-        //Gets page to make a calendar
-        get("/makecalendar", (req, res) -> {
-            //res.redirect("/templates/test_checkbox.html");
-            res.status(200);
-            res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/test_checkbox.html"));
-        });
-
-        get("/viewstaticcalendar", (req, res) -> {
-            res.status(200);
-            res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index1.html"));
-        });
-
-        get("/viewevent", (req, res) -> {
-            res.status(200);
-            res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index2.html"));
-        });
-
-        get("/makecalendarnew", (req, res) -> {
-            res.status(200);
-            res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index3.html"));
-        });
-
-        get("/viewcalendar", (req, res) -> {
-            res.status(200);
-            res.type("text/html");
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/templates/index4.html"));
-        });
-
         makeStaticRoutes(Arrays.asList("/create-calendar", "/view-calendar", "/list-calendar", "/index"
-                ,"/list-events" , "/view-event", "/", "", "/login", "/profile"));
+                ,"/list-events" , "/view-event", "/", "", "/login", "/profile", "/create-event"));
 
 
     }
