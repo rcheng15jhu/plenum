@@ -85,7 +85,10 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
                 a.setId(list.get(0).getId());
                 return true;
             }
-            return false;
+            else {
+                a.setId(list.get(0).getId());
+                return false;
+            }
         }
         catch (Sql2oException ex) {
             ex.printStackTrace();
