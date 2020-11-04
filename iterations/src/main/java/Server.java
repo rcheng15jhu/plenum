@@ -318,7 +318,7 @@ public class Server {
         });
 
         //delcalendar route; delete calendar
-        post("/delcalendar", (req, res) -> {
+        post("/api/delcalendar", (req, res) -> {
             int id = Integer.parseInt(req.queryParams("id"));
             Calendar c = new Calendar(id);
             try {

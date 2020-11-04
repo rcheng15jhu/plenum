@@ -41,17 +41,6 @@ const viewable_list_item = (props) => {
         setOpen(!open);
     };
 
-    function handleDelete(id) {
-        console.log("delete clicked");
-        fetch('/delcalendar?id=' + id, {
-                method: 'POST',
-                mode: 'cors'
-            }
-        ).then(res => {
-            return res.json()
-        })
-    }
-
     return (
         <div>
             <ListItem
@@ -72,7 +61,7 @@ const viewable_list_item = (props) => {
                 {open ? <ExpandLess /> : <ExpandMore />}
                 <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon onClick={handleDelete(props.id)}/>
+                        <DeleteIcon onClick={props.delete(props.id)}/>
                     </IconButton>
                 </ListItemSecondaryAction>
             </ListItem>
