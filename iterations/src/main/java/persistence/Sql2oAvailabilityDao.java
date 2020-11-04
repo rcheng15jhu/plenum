@@ -81,6 +81,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
                     "AND qHour = :qHour " +
                     "AND calendarId = :calendarId";
             List<Availability> list = con.createQuery(query).bind(a).executeAndFetch(Availability.class);
+            System.out.print(list.size())
             if (list.size() == 1) {
                 a.setId(list.get(0).getId());
                 return true;
