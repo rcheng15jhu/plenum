@@ -77,8 +77,9 @@ public class Sql2oCalendarDao implements CalendarDao {
     @Override
     public Calendar getCal(int id) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String sql = "SELECT * FROM Calendars WHERE id=" + id;
+            String sql = "SELECT * FROM Calendars WHERE id = :id";
             return con.createQuery(sql)
+                    .addParameter("id", id)
                     .executeAndFetch(Calendar.class).get(0);
         }
         catch (Sql2oException e) {

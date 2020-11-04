@@ -60,13 +60,24 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
     @Override
     public boolean delete(Availability a) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String query = "DELETE * FROM Availabilities WHERE qHour =: qHour AND date =: date AND calenderID =:calenderID";
-            con.createQuery(query)
-                    .bind(a)
-                    .executeUpdate();
-            return true;
+            int id = a.getId();
+            if(id == 0) {
+                String query = "DELETE FROM Availabilities WHERE qHour = :qHour AND date = :date AND calenderId =:calenderId";
+                con.createQuery(query)
+                        .bind(a)
+                        .executeUpdate();
+                return true;
+            }
+            else {
+                String query = "DELETE FROM Availabilities WHERE id = :id";
+                con.createQuery(query)
+                        .bind(a)
+                        .executeUpdate();
+                return true;
+            }
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -79,6 +90,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
                     "AND calendarId = :calendarId";
             List<Availability> list = con.createQuery(query).bind(a).executeAndFetch(Availability.class);
             if (list.size() == 1) {
+                a.setId(list.get(0).getId());
                 return true;
             }
             else {
