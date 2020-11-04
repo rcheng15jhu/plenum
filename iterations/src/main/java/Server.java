@@ -362,6 +362,7 @@ public class Server {
             int startTime = Integer.parseInt(req.queryParams("startTime"));
             int endTime = Integer.parseInt(req.queryParams("endTime"));
             Event e = new Event(title, startTime, endTime);
+            System.out.println(e.toString());
             new Sql2oEventDao(getSql2o()).add(e);
             res.status(201);
             res.type("application/json");
