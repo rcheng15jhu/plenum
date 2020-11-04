@@ -51,6 +51,7 @@ function upload(title, content) {
             createAlert('An error occurred while uploading template!', 'error');
         } else {
             createAlert("Template uploaded successfully!", 'success');
+            window.location.assign('/list-calendar');
         }
 
 
