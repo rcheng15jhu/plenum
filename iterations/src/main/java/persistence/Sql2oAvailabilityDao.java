@@ -62,7 +62,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
         try (Connection con = sql2o.open()) {
             int id = a.getId();
             if(id == 0) {
-                String query = "DELETE FROM Availabilities WHERE qHour = :qHour AND date = :date AND calenderId =:calenderId";
+                String query = "DELETE FROM Availabilities WHERE qHour = :qHour AND date = :date AND calendarId =:calendarId";
                 con.createQuery(query)
                         .bind(a)
                         .executeUpdate();
