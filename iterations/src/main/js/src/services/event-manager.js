@@ -6,7 +6,7 @@ function upload(title) {
     {
         method: 'POST',
     }).then(data => {
-        console.log(data);
+        //console.log(data);
         if (data.status !== 201) {
             createAlert('An error occurred while creating event!', 'error');
         } else {
