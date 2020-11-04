@@ -449,9 +449,7 @@ public class Server {
                 res.status(201);
                 }
             else if (availstate == 0 && curAvail) {
-                System.out.println("delete");
                 new Sql2oAvailabilityDao(getSql2o()).delete(a);
-                System.out.println("delete finish")
                 res.status(204);
             }
 
