@@ -240,7 +240,7 @@ public class Server {
 //        });
 
         //adduser route; allows a new user to be added
-        post("/adduser", (req, res) -> {
+        post("/api/adduser", (req, res) -> {
             System.out.println("request received!");
             String username = req.queryParams("username");
             String password = req.queryParams("password");

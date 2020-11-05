@@ -52,7 +52,7 @@ function fetchAddUserAPI(values) {
         return;
     }
 
-   fetch('/adduser?username=' + values.username + '&password=' + values.password, {
+   fetch('/api/adduser?username=' + values.username + '&password=' + values.password, {
            method: 'POST',
            mode: 'cors'
        }
