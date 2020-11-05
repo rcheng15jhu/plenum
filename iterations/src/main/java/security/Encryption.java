@@ -4,13 +4,13 @@ import java.util.UUID;
 import javax.xml.bind.DatatypeConverter; 
 import sun.security.provider.SecureRandom; 
   
-public class Main { 
+public class Encryption { 
     public static byte[] makeSalt() 
     { 
         byte[] salt = new byte[16]; 
         SecureRandom sr = new SecureRandom(); 
         sr.engineNextBytes(salt); 
-        return new String(salt);
+        return salt;
     } 
   
     public static byte[] sha2_hash(String plainText, byte[] salt) throws Exception 
