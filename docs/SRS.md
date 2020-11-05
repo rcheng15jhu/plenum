@@ -128,6 +128,21 @@ automatically creates a one-off event or 'activity' calendar once a meeting time
 an event is finalized using this app, so that I do not have to manually edit
 availability for the numerous yet un-finalized events.
 
+* As a user that has many calendars and events using this app, I would like to save
+and edit the order of various stored items, so that I can have my most used or
+important items on a consistant and easy part of the page to access.
+
+* As a user that has many calendars and events using this app, I would like the
+ability to star or pin key items, especially upcoming items, so that I can have my
+most used or important items on a consistant and easy part of the page to access.
+
+* As a user that has many calendars and events using this app, I would like to search
+for various stored items, so that I can easily access the many items without spending
+a lot of time manually searching for it.
+
+* As a user that schedules many events using this app, I would like the app to remind
+me of near upcoming events, so that I am less likely to forget about them.
+
 
 ## Software Architecture
 > Will this be a Web/desktop/mobile (all, or some other kind of) application? Would it conform to the Client-Server software architecture? 
