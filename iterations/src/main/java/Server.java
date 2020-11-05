@@ -262,18 +262,17 @@ public class Server {
 
         // calendars route; return list of calendars as JSON
         get("/api/calendars", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
+            Sql2o sql2o = getSql2o();
 //            if (req.cookie("username") == null) {
 //                res.redirect("/");
 //                return null;
 //            }
             String name = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(name).getId();
-            Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
-            model.put("calendars", sql2oCalendar.listOne(userId));
-            res.type("text/html");
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(name).getId();
+            String results = new Gson().toJson(new Sql2oCalendarDao(sql2o).listOne(userId));
+            res.type("application/json");
             res.status(200);
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/list-calendar.html"));
+            return results;
         });
 
         //calendar route; returns availabilities associated with the calendar id
@@ -288,7 +287,9 @@ public class Server {
                 List<Availability> availabilities = new Sql2oAvailabilityDao(getSql2o()).listAllInCal(c);
                 results = new Gson().toJson(AvailableDates.createFromAvailability(u.getName(), c.getTitle(), availabilities));
             } else {
-                results = new Gson().toJson(new Sql2oCalendarDao(sql2o).listAll());
+                String name = req.cookie("username");
+                int userId = new Sql2oUserDao(sql2o).getUserFromName(name).getId();
+                results = new Gson().toJson(new Sql2oCalendarDao(sql2o).listOne(userId));
                 System.out.println(results);
             }
 //            Sql2oCalendarDao sql2oCalendarDao = new Sql2oCalendarDao(getSql2o());
