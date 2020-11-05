@@ -32,9 +32,9 @@ jobs:
       - name: Commit on the runner
         run: git config user.email "runner@github.com"; git config user.name "Runner"; git add *; git commit -m "None"
       - name: Deploy to Heroku
-        env:
+        uses: AkhileshNS/heroku-deploy@v3.5.7
+        with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY_QUORUM}}
           heroku_app_name: "warm-ridge-98252"
           heroku_email: "lee.hsinpei.melody@gmail.com"
           appdir: "iterations/"
-        run: heroku git:remote -a warm-ridge-98252; git config user.password "$heroku_api_key"; git subtree push --prefix iterations heroku iteration3:master
