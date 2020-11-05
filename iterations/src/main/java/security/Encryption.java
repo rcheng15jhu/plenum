@@ -1,7 +1,5 @@
 import java.io.ByteArrayOutputStream; 
-import java.security.MessageDigest; 
-import java.util.UUID; 
-import javax.xml.bind.DatatypeConverter; 
+import java.security.MessageDigest;
 import sun.security.provider.SecureRandom; 
   
 public class Encryption { 
