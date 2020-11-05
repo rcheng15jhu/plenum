@@ -218,19 +218,19 @@ public class Server {
 
         // root route; show a simple message!
 
-        post("/", (req, res) -> {
+        post("/api/login", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             String username = req.queryParams("username");
             String password = req.queryParams("password");
             boolean corr = new Sql2oUserDao(getSql2o()).checkCred(username, password);
             if (corr) {
-                res.cookie("username", username);
+                //res.cookie("username", username);
                 res.status(200);
             }
             else {
                 res.status(401);
             }
-            return null;
+            return "";
         });
 
 //        get("/", (req, res) -> {
@@ -247,7 +247,7 @@ public class Server {
             System.out.println("request received!");
             String username = req.queryParams("username");
             String password = req.queryParams("password");
-            res.cookie("username", username);
+            //res.cookie("username", username);
             User u = new User(username, password);
             new Sql2oUserDao(getSql2o()).add(u);
             res.redirect("/");
@@ -277,7 +277,7 @@ public class Server {
             res.status(200);
             return results;
         });
-
+    
         //calendar route; returns availabilities associated with the calendar id
         get("/api/calendar", (req, res) -> {
             Sql2o sql2o = getSql2o();

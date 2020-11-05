@@ -58,10 +58,11 @@ function fetchAddUserAPI(values) {
        }
    ).then(data => {
        console.log(data);
-       if (data.status !== 200) {
+       if (data.status === 401) {
            createAlert('Username taken!', 'error');
-       } else {
+       } else if (data.status === 200) {
            createAlert(`Successfully signed up!`, 'success');
+           document.cookie = "username=" + values.username + "; path=/;";
            window.location.assign('/profile')
        }
    })
@@ -73,7 +74,7 @@ function fetchAPI(values) {
         return;
     }
 
-    fetch('/?username=' + values.username + '&password=' + values.password, {
+    fetch('/api/login?username=' + values.username + '&password=' + values.password, {
             method: 'POST',
             mode: 'cors'
         }
@@ -81,8 +82,9 @@ function fetchAPI(values) {
         console.log(data);
         if (data.status === 401) {
             createAlert('Incorrect login information!', 'error');
-        } else {
+        } else if (data.status === 200) {
             createAlert(`Successfully logged in!`, 'success');
+            document.cookie = "username=" + values.username + "; path=/;";
             window.location.assign('/profile')
         }
     })
