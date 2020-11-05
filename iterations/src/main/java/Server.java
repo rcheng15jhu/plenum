@@ -103,8 +103,8 @@ public class Server {
                     sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
                             " id            serial PRIMARY KEY," +
                             " title         VARCHAR(100) NOT NULL," +
-                            " startTime     INTEGER," +
-                            " endTime       INTEGER" +
+                            " startTime     INTEGER NOT NULL," +
+                            " endTime       INTEGER NOT NULL" +
                             ");";
                     sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
                             " id            serial PRIMARY KEY," +
@@ -359,10 +359,9 @@ public class Server {
         //addevent route; inserts a new event
         post("/api/addevent", (req, res) -> {
             String title = req.queryParams("title");
-            // int startTime = Integer.parseInt(req.queryParams("startTime"));
-            // int endTime = Integer.parseInt(req.queryParams("endTime"));
-            // Event e = new Event(title, startTime, endTime);
-            Event e = new Event(title, 1, 2);
+            int startTime = Integer.parseInt(req.queryParams("startTime"));
+            int endTime = Integer.parseInt(req.queryParams("endTime"));
+            Event e = new Event(title, startTime, endTime);
             System.out.println(e.toString());
             new Sql2oEventDao(getSql2o()).add(e);
             res.status(201);

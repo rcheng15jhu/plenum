@@ -19,7 +19,6 @@ public class Sql2oEventDao implements EventDao{
     @Override
     public int add(Event event) throws DaoException {
         try (Connection con = sql2o.open()) {
-            System.out.println(event.toString());
             String query = "INSERT INTO Events (title, startTime, endTime)" +
                             "VALUES (:title, :startTime, :endTime)";
             int id = (int) con.createQuery(query, true)
