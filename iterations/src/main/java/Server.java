@@ -4,6 +4,7 @@ import model.*;
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
 import persistence.Sql2oAvailabilityDao;
+import persistence.Sql2oConnectionsDao;
 import persistence.Sql2oCalendarDao;
 import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
@@ -21,6 +22,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class Server {
 
@@ -298,17 +300,17 @@ public class Server {
             return results;
         });
 
-        get("/api/aggregate", (req. res) -> {
+        get("/api/aggregate", (req, res) -> {
             Sql2o sql2o = getSql2o();
-            String results;
+            String results = "";
             //event id
             String idParam = req.queryParams("id");
             if(idParam != null) {
                 List<Connections> conns = new Sql2oConnectionsDao(sql2o).listAll();
-                List<AvailableDates> ads;
+                List<AvailableDates> ads = new ArrayList<>();
                 //get all available dates of all calendars associated with event id
                 for(Connections co : conns) {
-                    if(co.getEventId().toString().equals(idParam)) {
+                    if((co.getEventId() + "").equals(idParam)) {
                         Calendar ca = new Sql2oCalendarDao(sql2o).getCal(co.getCalendarId());
                         User us = new Sql2oUserDao(sql2o).getUserFromId(ca.getUserId());
                         List<Availability> av = new Sql2oAvailabilityDao(getSql2o()).listAllInCal(ca);
@@ -316,7 +318,7 @@ public class Server {
                         ads.add(ad);
                     }
                 }
-                results = new Gson().toJson(a);
+                results = new Gson().toJson(ads);
             }
             res.type("application/json");
             res.status(200);
@@ -392,6 +394,19 @@ public class Server {
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(e.toString());
+        });
+
+        //addconnection route; inserts a new event
+        post("/api/addconnection", (req, res) -> {
+            int eventId = Integer.parseInt(req.queryParams("eventId"));
+            int calendarId = Integer.parseInt(req.queryParams("calendarId"));
+            int userId = Integer.parseInt(req.queryParams("userId"));
+            Connections c = new Connections(eventId, calendarId, userId);
+            System.out.println(c.toString());
+            new Sql2oConnectionsDao(getSql2o()).add(c);
+            res.status(201);
+            res.type("application/json");
+            return new Gson().toJson(c.toString());
         });
 
         //users route; lists all users
