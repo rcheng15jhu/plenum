@@ -4,7 +4,7 @@ import java.util.UUID;
 import javax.xml.bind.DatatypeConverter; 
 import sun.security.provider.SecureRandom; 
   
-public class Main { 
+public class Encryption { 
     public static byte[] makeSalt() 
     { 
         byte[] salt = new byte[16]; 
