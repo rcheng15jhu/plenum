@@ -17,8 +17,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.2
-      - name: install npm dependencies
-        run:  (cd ./iterations/src/main/js  && npm install)
+      #- name: install npm dependencies
+      #  run:  (cd ./iterations/src/main/js  && npm install)
       #- name: generate transpiled production frontend code
       #  run:  (cd ./iterations/src/main/js && npm run build)
       - name: Set up JDK 1.8
@@ -37,4 +37,4 @@ jobs:
           heroku_app_name: "damp-garden-37477"
           heroku_email: "rcheng15@jhu.edu"
           appdir: "iterations/"
-        run: echo "machine git.heroku.com login Runner password $heroku_api_key" > .netrc; git remote add heroku https://git.heroku.com/damp-garden-37477.git; git config user.password "$heroku_api_key"; git push heroku `git subtree split --prefix iterations heroku iteration4`:master
+        run: git checkout `git subtree split -P iterations`; git push -f origin HEAD:heroku-deploy
