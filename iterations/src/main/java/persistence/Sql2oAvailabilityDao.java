@@ -28,6 +28,7 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
             return id;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -59,16 +60,45 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
     @Override
     public boolean delete(Availability a) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String preQ = "PRAGMA foreign_keys = ON;";
-            con.createQuery(preQ).executeUpdate();
-
-            String query = "DELETE FROM Availabilities WHERE id = :id";
-            con.createQuery(query)
-                    .bind(a)
-                    .executeUpdate();
-            return true;
+            int id = a.getId();
+            if(id == 0) {
+                String query = "DELETE FROM Availabilities WHERE qHour = :qHour AND date = :date AND calendarId =:calendarId";
+                con.createQuery(query)
+                        .bind(a)
+                        .executeUpdate();
+                return true;
+            }
+            else {
+                String query = "DELETE FROM Availabilities WHERE id = :id";
+                con.createQuery(query)
+                        .bind(a)
+                        .executeUpdate();
+                return true;
+            }
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
+            throw new DaoException();
+        }
+    }
+
+    public boolean updatecheck(Availability a) throws DaoException {
+        try (Connection con = sql2o.open()) {
+            String query = "SELECT * FROM Availabilities " +
+                    "WHERE date = :date " +
+                    "AND qHour = :qHour " +
+                    "AND calendarId = :calendarId";
+            List<Availability> list = con.createQuery(query).bind(a).executeAndFetch(Availability.class);
+            if (list.size() == 1) {
+                a.setId(list.get(0).getId());
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }

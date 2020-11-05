@@ -24,6 +24,14 @@
   <component name="ChangeListManager">
     <list default="true" id="edd0c7d7-7a0b-4424-a08d-55968d277238" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
+      <change beforePath="$PROJECT_DIR$/iterations/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/iterations/src/main/java/Server.java" afterDir="false" />
+<<<<<<< Updated upstream
+      <change beforePath="$PROJECT_DIR$/iterations/src/main/java/persistence/Sql2oCalendarDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/iterations/src/main/java/persistence/Sql2oCalendarDao.java" afterDir="false" />
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,6 +171,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle./Users/melodylee/GitHub/2020-fall-group-fun-fun-fun [build]" />
         <item itemvalue="Gradle./Users/melodylee/GitHub/2020-fall-group-fun-fun-fun [build]" />
         <item itemvalue="Gradle./Users/melodylee/GitHub/2020-fall-group-fun-fun-fun [build]" />
       </list>
@@ -345,10 +354,10 @@
       <screen x="55" y="23" width="1385" height="877" />
     </state>
     <state x="445" y="25" width="604" height="873" key="find.popup/55.23.1385.877@55.23.1385.877" timestamp="1600976131407" />
-    <state x="678" y="253" key="git4idea.branch.GitSmartOperationDialog" timestamp="1603215993283">
+    <state x="678" y="253" key="git4idea.branch.GitSmartOperationDialog" timestamp="1603993484432">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="678" y="253" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1603215993283" />
+    <state x="678" y="253" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1603993484432" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1601494523540">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

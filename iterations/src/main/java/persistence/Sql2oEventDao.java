@@ -20,16 +20,17 @@ public class Sql2oEventDao implements EventDao{
     public int add(Event event) throws DaoException {
         try (Connection con = sql2o.open()) {
             String query = "INSERT INTO Events (title, startTime, endTime)" +
-                            "VALUES (:title, :startTime, :endTime)";
+                            "VALUES (:title, 0, 2)";
             int id = (int) con.createQuery(query, true)
                     .bind(event)
                     .executeUpdate().getKey();
             event.setId(id);
             return id;
         }
-//        catch (Sql2oException ex) {
-//            throw new DaoException();
-//        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
+            throw new DaoException();
+        }
     }
 
     @Override

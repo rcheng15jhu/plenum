@@ -1,6 +1,9 @@
 #set( $title = "Welcome Page" )
+<<<<<<< HEAD
 ##set( $stylesheet = "css/mybooksapp.css")
 #set( $stylesheet = "css/landing.css")
+=======
+>>>>>>> iteration3
 #parse("public/templates/top.vm")
 
 #if($username)

@@ -5,10 +5,16 @@
 <h1>Welcome to Plenum $username</h1>
 <div class="divContents indexLinkWrapper">
     <p><a class="content indexLink" href="/calendars">Calendars</a></p>
+<<<<<<< HEAD
     <p><a class="content indexLink" href="/makecalendar">Make Calendar (Deprecated)</a></p>
     <p><a class="content indexLink" href="/makecalendarnew">Make Calendar (New)</a></p>
+=======
+    <p><a class="content indexLink" href="/viewcalendar">View Calendar Availabilities</a></p>
+    <p><a class="content indexLink" href="/create-calendar">Create Calendar</a></p>
+>>>>>>> iteration3
     <p><a class="content indexLink" href="/events">Events</a></p>
     <p><a class="content indexLink" href="/viewevent">View Event</a></p>
+    <p><a class="content indexLink" href="/Testing github actions">View Event</a></p>
 </div>
 #else
 <h1>Please login first!</h1>
@@ -16,6 +22,10 @@
     <div>
         <label for="username">Username:</label>
         <input type="text" placeholder="username" name="username" id="username" />
+    </div>
+    <div>
+        <label for="username">Password:</label>
+        <input type="text" placeholder="password" name="password" id="password" />
     </div>
     <div id="divSubmit">
         <input type="submit" value="Sign in" class="submit" />

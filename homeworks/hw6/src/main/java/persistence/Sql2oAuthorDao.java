@@ -2,9 +2,12 @@ package persistence;
 
 import exception.DaoException;
 import model.Author;
+<<<<<<< HEAD
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+=======
+>>>>>>> iteration3
 import java.util.List;
 import org.sql2o.*;
 
@@ -20,17 +23,26 @@ public class Sql2oAuthorDao implements AuthorDao {
     @Override
     public int add(Author author) throws DaoException {
         try (Connection con = sql2o.open()) {
+<<<<<<< HEAD
             String query;
             query = "INSERT INTO Authors (name, numOfBooks, nationality)" +
                         "VALUES (:name, :numOfBooks, :nationality)";
+=======
+            String query = "INSERT INTO Authors (name, numOfBooks, nationality)" +
+                    "VALUES (:name, :numOfBooks, :nationality)";
+>>>>>>> iteration3
             int id = (int) con.createQuery(query, true)
                     .bind(author)
                     .executeUpdate().getKey();
             author.setId(id);
             return id;
         }
+<<<<<<< HEAD
         catch (Sql2oException e) {
             e.printStackTrace();
+=======
+        catch (Sql2oException ex) {
+>>>>>>> iteration3
             throw new DaoException();
         }
     }
@@ -41,8 +53,12 @@ public class Sql2oAuthorDao implements AuthorDao {
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Author.class);
         }
+<<<<<<< HEAD
         catch (Sql2oException e) {
             e.printStackTrace();
+=======
+        catch (Sql2oException ex) {
+>>>>>>> iteration3
             throw new DaoException();
         }
     }
@@ -56,8 +72,12 @@ public class Sql2oAuthorDao implements AuthorDao {
                     .executeUpdate();
             return true;
         }
+<<<<<<< HEAD
         catch (Sql2oException e) {
             e.printStackTrace();
+=======
+        catch (Sql2oException ex) {
+>>>>>>> iteration3
             throw new DaoException();
         }
     }
@@ -74,8 +94,13 @@ public class Sql2oAuthorDao implements AuthorDao {
                 return -1;
             }
         }
+<<<<<<< HEAD
         catch (Sql2oException e) {
             e.printStackTrace();
+=======
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
+>>>>>>> iteration3
             throw new DaoException();
         }
     }
@@ -88,8 +113,12 @@ public class Sql2oAuthorDao implements AuthorDao {
                     .executeUpdate();
             return true;
         }
+<<<<<<< HEAD
         catch (Sql2oException e) {
             e.printStackTrace();
+=======
+        catch (Sql2oException ex) {
+>>>>>>> iteration3
             throw new DaoException();
         }
     }

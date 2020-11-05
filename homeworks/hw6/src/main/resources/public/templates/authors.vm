@@ -1,5 +1,8 @@
 #set( $title = "Authors List" )
+<<<<<<< HEAD
 #set( $stylesheet = "css/viewdata.css")
+=======
+>>>>>>> iteration3
 #parse("public/templates/top.vm")
 
 #if ($authors)
@@ -12,6 +15,7 @@
             #end
         </p>
     </ol>
+<<<<<<< HEAD
 </div>
 #end
 
@@ -39,6 +43,21 @@
 
 <script src="js/delauthor.js"></script>
 <script src="js/validate.js"></script>
+=======
+    <form action="/addauthor" method="post" class="content list-form" onsubmit="return validateAuthorName();">
+        <label for="name">Name: </label>
+        <input type="text" name="name" placeholder="name" id="name" required>
+        <label for="nationality">Nationality: </label>
+        <input type="text" name="nationality" placeholder="nationality" id="nationality" />
+        <label for="numOfBooks">Number of books: </label>
+        <input type="number" name="numOfBooks" placeholder="1" id="numOfBooks" min="1" max="200"/>
+        <input type="submit" value="&#10004" class="green-check" />
+    </form>
+</div>
+#end
+<script src="js/delauthor.js"></script>
+##<script src="js/validate.js"></script>
+>>>>>>> iteration3
 <script src="js/addauthor.js"></script>
 
 #parse("public/templates/bottom.vm")

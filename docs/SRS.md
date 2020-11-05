@@ -83,9 +83,9 @@ in the event can upvote/downvote suggested events to come to a consensus about w
 meeting time is most optimal. 
 
 * As a user that wants to avoid wasting time on deciding a meeting time once
-the group's availability is known, I would like the application to suggest meeting times
-autonomously for the group, based on the availability, so as to more easily finalize
-a meeting time once availabilities are known.
+the group's availability is known, I would like the application to suggest meeting
+times autonomously for the group, based on the avaliability, so as to more easily
+finalize a meeting time once avaliabilities are known.
 
 * As someone who frequently has to schedule multiple distinct events with other people
 on different days of the week, I would like to store calendars specifically for

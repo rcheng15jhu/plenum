@@ -1,6 +1,9 @@
 #set( $title = "Books List" )
+<<<<<<< HEAD
 ##set( $stylesheet = "css/mybooksapp.css")
 #set( $stylesheet = "css/viewdata.css")
+=======
+>>>>>>> iteration3
 #parse("public/templates/top.vm")
 
 #if ($books)
@@ -13,6 +16,7 @@
         #end
         </p>
     </ol>
+<<<<<<< HEAD
 </div>
 #end
 
@@ -57,5 +61,31 @@
 <script src="js/delbook.js"></script>
 <script src="js/validate.js"></script>
 <script src="js/addbook.js"></script>
+=======
+    <form action="/addbook" method="post" class="content list-form" onsubmit="return validateISBN() && validateTitle();">
+        <label for="title">Title: </label>
+            <input type="text" name="title" placeholder="title" id="title" required>
+            <label for="isbn">ISBN: </label>
+            <input type="text" name="isbn" placeholder="ISBN" id="isbn" />
+            <label for="year">Year: </label>
+            <input type="number" name="year" placeholder="2020" id="year" min="1" max="2030"/>
+            <label for="publisher">Publisher: </label>
+            <input type="text" name="publisher" placeholder="publisher" id="publisher" />
+        <br/>
+        <label for="name">Author name: </label>
+            <input type="text" name="name" placeholder="name" id="name" />
+            <label for="nationality">Author nationality: </label>
+            <input type="text" name="nationality" placeholder="nationality" id="nationality" />
+            <label for="numOfBooks">Author's number of books: </label>
+            <input type="number" name="numOfBooks" placeholder="1" id="numOfBooks" min="1" max="200"/>
+            <div id="divSubmit">
+                <input type="submit" value="&#10004" class="green-check" />
+            </div>
+    </form>
+</div>
+#end
+<script src="js/delbook.js"></script>
+<script src="js/validate.js"></script>
+>>>>>>> iteration3
 
 #parse("public/templates/bottom.vm")

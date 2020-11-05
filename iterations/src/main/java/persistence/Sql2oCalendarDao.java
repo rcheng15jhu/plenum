@@ -18,8 +18,8 @@ public class Sql2oCalendarDao implements CalendarDao {
     @Override
     public int add(Calendar cal) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String query = "INSERT INTO Calendars (name, userId)" +
-                    "VALUES (:name, :userId)";
+            String query = "INSERT INTO Calendars (title, userId)" +
+                    "VALUES (:title, :userId)";
             int id = (int) con.createQuery(query, true)
                     .bind(cal)
                     .executeUpdate().getKey();
@@ -37,6 +37,20 @@ public class Sql2oCalendarDao implements CalendarDao {
         String sql = "SELECT * FROM Calendars";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Calendar.class);
+        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
+            throw new DaoException();
+        }
+    }
+
+    public List<Calendar> listOne(int userId) throws DaoException {
+
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT * FROM Calendars WHERE userId = :userId";
+            return con.createQuery(sql)
+                    .addParameter("userId", userId)
+                    .executeAndFetch(Calendar.class);
         }
         catch (Sql2oException ex) {
             ex.printStackTrace();
@@ -62,8 +76,9 @@ public class Sql2oCalendarDao implements CalendarDao {
     @Override
     public Calendar getCal(int id) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String sql = "SELECT * FROM Calendars WHERE id=" + id;
+            String sql = "SELECT * FROM Calendars WHERE id = :id";
             return con.createQuery(sql)
+                    .addParameter("id", id)
                     .executeAndFetch(Calendar.class).get(0);
         }
         catch (Sql2oException e) {

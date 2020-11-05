@@ -1,6 +1,7 @@
 plugins {
     id 'java'
 	id "com.heroku.sdk.heroku-gradle" version "2.0.0"
+	id "application"
 }
 
 group 'org.example'
@@ -8,13 +9,6 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-}
-
-heroku {
-    jdkVersion = 1.8
-    processTypes(
-        web: "java -jar build/libs/HerokuDemo-1.0-SNAPSHOT.jar"
-    )
 }
 
 jar {
@@ -26,14 +20,35 @@ jar {
     }
 }
 
+heroku {
+    jdkVersion = 1.8
+    processTypes(
+            web: "java -jar build/libs/Quorum-1.0-SNAPSHOT.jar"
+    )
+    appName="warm-ridge-98252"
+}
+
+sourceCompatibility = 1.8
+
 dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.32.3'
     implementation group: 'org.sql2o', name: 'sql2o', version: '1.6.0'
-    compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+    //compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
     implementation 'com.sparkjava:spark-core:2.9.2'
     implementation 'org.slf4j:slf4j-simple:2.0.0-alpha1'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.sparkjava:spark-template-velocity:2.7.1'
+    implementation 'org.postgresql:postgresql:42.2.17'
+    implementation 'org.xerial:sqlite-jdbc:3.32.3.2'
+}
+
+apply plugin : "java"
+ext {
+	javaMainClass = "Server"
+}
+
+application {
+	mainClassName = javaMainClass
 }

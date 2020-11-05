@@ -5,9 +5,12 @@ import model.Book;
 import okhttp3.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
+<<<<<<< HEAD
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+=======
+>>>>>>> iteration3
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
@@ -16,11 +19,15 @@ import static org.junit.Assert.*;
 
 public class RESTAPITest {
 
+<<<<<<< HEAD
     final static String URI = "jdbc:sqlite:./MyBooksApp.db";
+=======
+>>>>>>> iteration3
     static OkHttpClient client;
     static Gson gson;
     @BeforeClass
     public static void beforeClassTests() throws SQLException {
+<<<<<<< HEAD
 
         Sql2o sql2o = new Sql2o(URI,"","");
         String sqlDropAuthors = "DROP TABLE IF EXISTS Authors";
@@ -31,10 +38,13 @@ public class RESTAPITest {
         }
         Server.main(null);
 
+=======
+>>>>>>> iteration3
         client = new OkHttpClient();
         gson = new Gson();
     }
 
+<<<<<<< HEAD
 //    @Test
 //    public void testListAuthors() throws IOException {
 //        Request request = new Request.Builder()
@@ -47,6 +57,19 @@ public class RESTAPITest {
 //        // loop through authors and do extra assertions
 //        assertEquals(200, response.code());
 //    }
+=======
+    @Test
+    public void testListAuthors() throws IOException {
+        Request request = new Request.Builder()
+                .url("http://localhost:7000/authors")
+                .build();
+        Response response = client.newCall(request).execute();
+        String resBody = response.body().string();
+        Author[] authors = gson.fromJson(resBody, Author[].class);
+        // loop through authors and do extra assertions
+        assertEquals(200, response.code());
+    }
+>>>>>>> iteration3
 
     @Test
     public void testAddAuthor() throws IOException {

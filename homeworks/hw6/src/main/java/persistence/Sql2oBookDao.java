@@ -5,9 +5,12 @@ import model.Book;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
+<<<<<<< HEAD
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+=======
+>>>>>>> iteration3
 import java.util.List;
 
 public class Sql2oBookDao implements BookDao {
@@ -20,18 +23,26 @@ public class Sql2oBookDao implements BookDao {
     @Override
     public int add(Book book) throws DaoException {
         try (Connection con = sql2o.open()) {
+<<<<<<< HEAD
             String query = "INSERT INTO Books (title, isbn, publisher, year, authorId)" +
                     "VALUES (:title, :isbn, :publisher, :year, :authorId)";
+=======
+            String query = "INSERT INTO Books (id, title, isbn, publisher, year, authorId)" +
+                    "VALUES (NULL, :title, :isbn, :publisher, :year, :authorId)";
+>>>>>>> iteration3
             int id = (int) con.createQuery(query, true)
                     .bind(book)
                     .executeUpdate().getKey();
             book.setId(id);
             return id;
         }
+<<<<<<< HEAD
         catch (Sql2oException e) {
             e.printStackTrace();
             throw new DaoException();
         }
+=======
+>>>>>>> iteration3
     }
 
     @Override
@@ -40,8 +51,12 @@ public class Sql2oBookDao implements BookDao {
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Book.class);
         }
+<<<<<<< HEAD
         catch (Sql2oException e) {
             e.printStackTrace();
+=======
+        catch (Sql2oException ex) {
+>>>>>>> iteration3
             throw new DaoException();
         }
     }
@@ -55,8 +70,12 @@ public class Sql2oBookDao implements BookDao {
                     .executeUpdate();
             return true;
         }
+<<<<<<< HEAD
         catch (DaoException e) {
             e.printStackTrace();
+=======
+        catch (Sql2oException ex) {
+>>>>>>> iteration3
             throw new DaoException();
         }
     }
@@ -69,8 +88,12 @@ public class Sql2oBookDao implements BookDao {
                     .executeUpdate();
             return true;
         }
+<<<<<<< HEAD
         catch (DaoException e) {
             e.printStackTrace();
+=======
+        catch (Sql2oException ex) {
+>>>>>>> iteration3
             throw new DaoException();
         }
     }

@@ -46,12 +46,50 @@ public class Sql2oUserDao implements UserDao{
         }
     }
 
-    public int getId(String name) throws DaoException {
-        String sql = "SELECT id FROM Users WHERE name = :name";
+    public boolean checkCred(String name, String pass) throws DaoException {
+        String sql = "SELECT * FROM Users WHERE name = :name";
+        try (Connection con = sql2o.open()) {
+
+            List<User> user = con.createQuery(sql)
+                    .addParameter("name", name)
+                    .executeAndFetch(User.class);
+
+            if (user.size() == 0) {
+                return false;
+            }
+
+            String pword = user.get(0).getPassword();
+
+            if (pword.equals(pass)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
+
+    public User getUserFromName(String name) throws DaoException {
+        String sql = "SELECT * FROM Users WHERE name = :name";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
                     .addParameter("name", name)
-                    .executeAndFetch(User.class).get(0).getId();
+                    .executeAndFetch(User.class).get(0);
+        }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
+
+    public User getUserFromId(int id) throws DaoException {
+        String sql = "SELECT * FROM Users WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetch(User.class).get(0);
         }
         catch (Sql2oException ex) {
             throw new DaoException();
