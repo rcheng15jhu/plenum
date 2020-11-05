@@ -172,21 +172,23 @@ const App = () => {
                             <Grid item>
                                 <TextField name='password' type = 'password' onChange={handleChange} required label="required" />
                             </Grid>
+                        </Grid>
+                    </div>
 
-                            {opt.value === 'Sign-up' ?
-                                <div>
+                    <div className={classes.margin}>
+                        {opt.value === 'Sign-up' ?
+                            <div>
                                 <Grid item>
                                     <Typography variant='h6'>
-                                        Password:
+                                        Confirm password:
                                     </Typography>
                                 </Grid>
                                 <Grid item>
                                     <TextField name='confirm' type = 'password' onChange={handleChange} required label="required" />
                                 </Grid>
-                                </div>
-                                : <div></div>
-                            }
-                        </Grid>
+                            </div>
+                            : <div></div>
+                        }
                     </div>
 
                     <div className={classes.center}>
