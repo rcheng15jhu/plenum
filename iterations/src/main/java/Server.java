@@ -398,7 +398,7 @@ public class Server {
             return new Gson().toJson(e.toString());
         });
 
-        //addconnection route; inserts a new event
+        //addconnection route; associates a calendar and an event together
         post("/api/addconnection", (req, res) -> {
             int eventId = Integer.parseInt(req.queryParams("eventId"));
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));

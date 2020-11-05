@@ -1,6 +1,7 @@
 plugins {
     id 'java'
 	id "com.heroku.sdk.heroku-gradle" version "2.0.0"
+	id "application"
 }
 
 group 'org.example'
@@ -41,4 +42,13 @@ dependencies {
     implementation 'com.sparkjava:spark-template-velocity:2.7.1'
     implementation 'org.postgresql:postgresql:42.2.17'
     implementation 'org.xerial:sqlite-jdbc:3.32.3.2'
+}
+
+apply plugin : "java"
+ext {
+	javaMainClass = "Server"
+}
+
+application {
+	mainClassName = javaMainClass
 }
