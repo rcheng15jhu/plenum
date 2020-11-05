@@ -9,7 +9,6 @@ import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
 import static spark.Spark.*;
 
-import spark.ModelAndView;
 import spark.Spark;
 import spark.utils.IOUtils;
 import java.net.URI;
@@ -266,7 +265,7 @@ public class Server {
 //                return null;
 //            }
             String name = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getId(name);
+            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(name).getId();
             Sql2oCalendarDao sql2oCalendar = new Sql2oCalendarDao(getSql2o());
             model.put("calendars", sql2oCalendar.listOne(userId));
             res.type("text/html");
@@ -276,15 +275,17 @@ public class Server {
 
         //calendar route; returns availabilities associated with the calendar id
         get("/api/calendar", (req, res) -> {
+            Sql2o sql2o = getSql2o();
             String results;
             String idParam = req.queryParams("id");
             if(idParam != null) {
                 int id = Integer.parseInt(idParam);
-                Calendar c = new Calendar(id);
+                Calendar c = new Sql2oCalendarDao(sql2o).getCal(id);
+                User u = new Sql2oUserDao(sql2o).getUserFromId(c.getUserId());
                 List<Availability> availabilities = new Sql2oAvailabilityDao(getSql2o()).listAllInCal(c);
-                results = new Gson().toJson(AvailableDates.createFromAvailability(availabilities));
+                results = new Gson().toJson(AvailableDates.createFromAvailability(u.getName(), c.getTitle(), availabilities));
             } else {
-                results = new Gson().toJson(new Sql2oCalendarDao(getSql2o()).listAll());
+                results = new Gson().toJson(new Sql2oCalendarDao(sql2o).listAll());
                 System.out.println(results);
             }
 //            Sql2oCalendarDao sql2oCalendarDao = new Sql2oCalendarDao(getSql2o());
@@ -301,7 +302,7 @@ public class Server {
         post("/api/addcalendar", (req, res) -> {
             String title = req.queryParams("title");
             String username = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getId(username);
+            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
             Calendar c = new Calendar(title, userId);
             System.out.println(c);
             new Sql2oCalendarDao(getSql2o()).add(c);
