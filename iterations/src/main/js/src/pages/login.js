@@ -55,9 +55,6 @@ function fetchAddUserAPI(values) {
         return;
     }
 
-    const crypto = require('crypto');
-    hashes = crypto.getHashes();
-
    fetch('/api/adduser?username=' + values.username.normalize() + '&password=' + values.password.normalize(), {
            method: 'POST',
            mode: 'cors'
