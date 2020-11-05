@@ -359,9 +359,10 @@ public class Server {
         //addevent route; inserts a new event
         post("/api/addevent", (req, res) -> {
             String title = req.queryParams("title");
-            int startTime = Integer.parseInt(req.queryParams("startTime"));
-            int endTime = Integer.parseInt(req.queryParams("endTime"));
-            Event e = new Event(title, startTime, endTime);
+            // int startTime = Integer.parseInt(req.queryParams("startTime"));
+            // int endTime = Integer.parseInt(req.queryParams("endTime"));
+            // Event e = new Event(title, startTime, endTime);
+            Event e = new Event(title, 1, 2);
             System.out.println(e.toString());
             new Sql2oEventDao(getSql2o()).add(e);
             res.status(201);
