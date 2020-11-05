@@ -39,7 +39,7 @@ const App = () => {
     const [idToDelete, setIdToDelete] = useState(-1)
 
     useEffect(() => {
-        fetch('/api/calendar', {
+        fetch('/api/calendars', {
                 method: 'GET',
                 mode: 'cors'
             }
