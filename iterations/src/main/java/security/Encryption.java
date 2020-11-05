@@ -1,3 +1,5 @@
+package security;
+
 import java.io.ByteArrayOutputStream; 
 import java.security.MessageDigest;
 import sun.security.provider.SecureRandom; 
