@@ -3,7 +3,8 @@
 This package represents the third iteration of Plenum, a simple peer-scheduling application. In order to use this
 iteration of Plenum, the main function of Server.java can be ran, and after server initialization, the current
 frontend of the application can be accessed at localhost:3000. Alternatively, the current working build of the project can be found in Heroku at http://warm-ridge-98252.herokuapp.com/
-In the future, a fully web-based frontend will be used.
+
+Additionally, work was done with webpack and github actions to ease the development process, including defining what endpoints to build, and what folders the compiled files should automatically move to. More work was done to set up a proxy to ensure that the dev and build environments could use the same endpoints without much issue.
 
 The available routes in main are the root route which displays a simple message,
 "api/calendars" which gets a list of calendars as a JSON file,
