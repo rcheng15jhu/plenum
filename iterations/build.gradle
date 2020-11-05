@@ -52,3 +52,5 @@ ext {
 application {
 	mainClassName = javaMainClass
 }
+
+task stage(dependsOn: ['clean'])
