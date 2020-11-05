@@ -164,7 +164,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='password' onChange={handleChange} required label="required" />
+                                <TextField name='password' type = 'password' onChange={handleChange} required label="required" />
                             </Grid>
                         </Grid>
                     </div>
