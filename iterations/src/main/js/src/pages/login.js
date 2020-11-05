@@ -59,7 +59,7 @@ function fetchAddUserAPI(values) {
    ).then(data => {
        console.log(data);
        if (data.status !== 200) {
-           createAlert('An error occurred!', 'error');
+           createAlert('Username taken!', 'error');
        } else {
            createAlert(`Successfully signed up!`, 'success');
            window.location.assign('/profile')
