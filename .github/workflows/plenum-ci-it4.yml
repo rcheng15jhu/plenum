@@ -37,4 +37,4 @@ jobs:
           heroku_app_name: "damp-garden-37477"
           heroku_email: "rcheng15@jhu.edu"
           appdir: "iterations/"
-        run: echo "machine git.heroku.com login Runner password $heroku_api_key" > .netrc; git remote add heroku https://git.heroku.com/damp-garden-37477.git; git config user.password "$heroku_api_key"; git push heroku `git subtree split --prefix iterations heroku iteration4`:master
+        run: git push -f `git subtree split -P iterations`:heroku-deploy
