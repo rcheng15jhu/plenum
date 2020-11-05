@@ -50,6 +50,9 @@ function fetchAddUserAPI(values) {
     if (values.username === '' || values.password === '') {
         createAlert('Username and password cannot be blank!', 'error');
         return;
+    } else if (values.confirm === '' || values.confirm != values.password) {
+        createAlert('Confirm password is not equal to password!', 'error');
+        return;
     }
 
    fetch('/api/adduser?username=' + values.username + '&password=' + values.password, {
@@ -96,6 +99,7 @@ const App = () => {
     const [values, setValues] = React.useState({
         username: '',
         password: '',
+        confirm: '',
     });
 
     const state = { result: null };
@@ -139,7 +143,7 @@ const App = () => {
                 <div key={opt.value} className={classes.contentDiv}>
                     {opt.value === 'Sign-up' ?
                         <Typography variant='h5' color='secondary' className={classes.text}>
-                            Do not have an account?
+                            Don't have an account?
                         </Typography>
                         :
                         <div></div>}
@@ -167,6 +171,9 @@ const App = () => {
                             </Grid>
                             <Grid item>
                                 <TextField name='password' type = 'password' onChange={handleChange} required label="required" />
+                            </Grid>
+                            <Grid item>
+                                <TextField name='confirm' type = 'password' onChange={handleChange} required label="required" />
                             </Grid>
                         </Grid>
                     </div>
