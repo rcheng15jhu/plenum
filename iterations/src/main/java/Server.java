@@ -403,15 +403,43 @@ public class Server {
 
         //addconnection route; associates a calendar and an event together
         post("/api/addconnection", (req, res) -> {
+            String username = req.cookie("username");
+            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
             int eventId = Integer.parseInt(req.queryParams("eventId"));
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
-            int userId = Integer.parseInt(req.queryParams("userId"));
             Connections c = new Connections(eventId, calendarId, userId);
             System.out.println(c.toString());
             new Sql2oConnectionsDao(getSql2o()).add(c);
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(c.toString());
+        });
+
+        //delonnection route; inserts a new event
+        post("/api/delconnection", (req, res) -> {
+            String username = req.cookie("username");
+            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
+            int eventId = Integer.parseInt(req.queryParams("eventId"));
+            int calendarId = Integer.parseInt(req.queryParams("calendarId"));
+            Connections c = new Connections(eventId, calendarId, userId);
+            System.out.println(c.toString());
+            try {
+                new Sql2oConnectionsDao(getSql2o()).delete(c);
+                res.status(204);
+            } catch (DaoException e) {
+                res.status(404);
+            }
+            res.type("application/json");
+            return new Gson().toJson(c.toString());
+        });
+
+        //connections route; lists all availabilities
+        get("/api/connections", (req, res) -> {
+            Sql2oConnectionsDao sql2oConnectionsDao = new Sql2oConnectionsDao(getSql2o());
+            String results = new Gson().toJson(sql2oConnectionsDao.listAll());
+            res.type("application/json");
+            res.status(200);
+            return results;
         });
 
         //users route; lists all users

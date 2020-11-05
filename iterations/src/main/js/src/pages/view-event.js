@@ -48,9 +48,7 @@ const App = () => {
 
     const [id, setId] = useState(getInitId)
 
-    const [calendars, setCalendars] = useState([])
-
-    console.log(calendars)
+    const [calendars, setCalendars] = useState({})
 
     const [file, setFile] = useState({})
 
@@ -65,17 +63,16 @@ const App = () => {
     const theme = useTheme();
 
     useEffect(() => {
-        fetch('/api/event', {
+        fetch('/api/aggregate?id=' + id, {
             method: 'GET',
             mode: 'cors'
         }
         ).then(res => {
             return res.json()
         }).then(data => {
-            console.log(data)
-            setCalendars([...data])
+            setCalendars(data)
         })
-    }, [])
+    })
 
     useEffect(() => {
         fetch('/api/calendar', {
@@ -85,28 +82,9 @@ const App = () => {
         ).then(res => {
             return res.json()
         }).then(data => {
-            console.log(data)
             setCalOptions(data)
         })
     }, [])
-
-    useEffect(() => {
-        if (id > 0) {
-            fetch('/api/event?id=' + id, {
-                method: 'GET',
-                mode: 'cors'
-            }
-            ).then(res => {
-                return res.json()
-            }).then(data => {
-                console.log(data)
-                setFile(data)
-            })
-        }
-        else {
-            setFile({})
-        }
-    }, [id, editable])
 
     let updateActive = (id) => () => {
         window.history.pushState({ id: id }, '', '/view-event?id=' + id)
@@ -126,6 +104,21 @@ const App = () => {
         setSelectedCal(cal)
     }
 
+    function upload() {
+        let a = ""
+        for (let i = 0; i < calOptions.length; i++) {
+            if (calOptions[i].title === selectedCal) {
+                a = calOptions[i].id
+            }
+        }
+        fetch("/api/addconnection?eventId=" + id +
+        "&calendarId=" + a,
+        {
+            method: 'POST',
+        })
+        console.log("uploaded")
+    }
+    
     return (
         <div>
             <Header></Header>
@@ -137,7 +130,7 @@ const App = () => {
                         </Typography>
                     </CardContent>
                     <Card>
-                        <Aggregate_calendar />
+                        <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
                     </Card>
                 </div>
             </Card>
@@ -145,6 +138,7 @@ const App = () => {
             <Button
                 variant="contained"
                 color="secondary"
+                onClick={() => upload()}
                 className={classes.button}
                 startIcon={<SaveIcon />}>
                 Save Calendar to Event!
