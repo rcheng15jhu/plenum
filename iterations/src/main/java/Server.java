@@ -258,7 +258,7 @@ public class Server {
 
 
         // calendars route; return list of calendars as JSON
-        get("/calendars", (req, res) -> {
+        get("/api/calendars", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
 //            if (req.cookie("username") == null) {
 //                res.redirect("/");
