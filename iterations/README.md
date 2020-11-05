@@ -14,6 +14,7 @@ The available routes in main are the root route which displays a simple message,
 "api/events" which gets a list of events as a JSON file, 
 "api/addevent" which adds (through post) a new event,
 "api/delevent" which takes an ID and deletes (through post) the corresponding event,
+"viewevent" which allows the user to view aggregate availability.
 "users" which gets a list of users as a JSON file,
 "adduser" which adds (through post) a new user,
 "deluser" which takes an ID and deletes (through post) the corresponding user,
