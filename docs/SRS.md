@@ -57,12 +57,12 @@ commitments to. For example, for my job I may want to list more availability, bu
 a school club, I may want to list less availability, and I would like both calendars
 to be stored for quick use.
 
+
+### Nice to have
 * As someone who frequently uses my calendar to schedule events throughout my life,
 I need to be able to import my schedule from my calendar application, so that I can
 set my availabilities in an efficient and convenient way.
 
-
-### Nice to have
 * As a college student who has to center my life around my classes, I would like to be
 able to set my availability directly by importing the class schedule I have this
 semester (through sis integration) so as to make my scheduling quick and easy to
