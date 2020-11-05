@@ -259,7 +259,7 @@ public class Server {
 
 
         // calendars route; return list of calendars as JSON
-        get("/calendars", (req, res) -> {
+        get("/api/calendars", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
 //            if (req.cookie("username") == null) {
 //                res.redirect("/");
@@ -294,6 +294,31 @@ public class Server {
 //            Calendar c = sql2oCalendarDao.getCal(id);
 
 
+            res.type("application/json");
+            res.status(200);
+            return results;
+        });
+
+        get("/api/aggregate", (req. res) -> {
+            Sql2o sql2o = getSql2o();
+            String results;
+            //event id
+            String idParam = req.queryParams("id");
+            if(idParam != null) {
+                List<Connections> conns = new Sql2oConnectionsDao(sql2o).listAll();
+                List<AvailableDates> ads;
+                //get all available dates of all calendars associated with event id
+                for(Connections co : conns) {
+                    if(co.getEventId().toString().equals(idParam)) {
+                        Calendar ca = new Sql2oCalendarDao(sql2o).getCal(co.getCalendarId());
+                        User us = new Sql2oUserDao(sql2o).getUserFromId(ca.getUserId());
+                        List<Availability> av = new Sql2oAvailabilityDao(getSql2o()).listAllInCal(ca);
+                        AvailableDates ad = AvailableDates.createFromAvailability(us.getName(), ca.getTitle(), av);
+                        ads.add(ad);
+                    }
+                }
+                results = new Gson().toJson(a);
+            }
             res.type("application/json");
             res.status(200);
             return results;
