@@ -220,6 +220,7 @@ public class Server {
             boolean corr = new Sql2oUserDao(getSql2o()).checkCred(username, password);
             if (corr) {
                 res.cookie("username", username);
+                res.status(200);
             }
             else {
                 res.status(401);
