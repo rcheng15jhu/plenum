@@ -47,15 +47,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function fetchAddUserAPI(values) {
-    if (values.username === '' || values.password === '') {
+    if (values.username.normalize() === '' || values.password.normalize() === '') {
         createAlert('Username and password cannot be blank!', 'error');
         return;
-    } else if (values.confirm === '' || values.confirm != values.password) {
+    } else if (values.confirm.normalize() === '' || values.confirm.normalize() != values.password.normalize()) {
         createAlert('Confirm password is not equal to password!', 'error');
         return;
     }
 
-   fetch('/api/adduser?username=' + values.username + '&password=' + values.password, {
+    const crypto = require('crypto');
+    hashes = crypto.getHashes();
+
+   fetch('/api/adduser?username=' + values.username.normalize() + '&password=' + values.password.normalize(), {
            method: 'POST',
            mode: 'cors'
        }
@@ -65,19 +68,19 @@ function fetchAddUserAPI(values) {
            createAlert('Username taken!', 'error');
        } else if (data.status === 200) {
            createAlert(`Successfully signed up!`, 'success');
-           document.cookie = "username=" + values.username + "; path=/;";
+           document.cookie = "username=" + values.username.normalize() + "; path=/;";
            window.location.assign('/profile')
        }
    })
 }
 
 function fetchAPI(values) {
-    if (values.username === '' || values.password === '') {
+    if (values.username.normalize() === '' || values.password.normalize() === '') {
         createAlert('Username and password cannot be blank!', 'error');
         return;
     }
 
-    fetch('/api/login?username=' + values.username + '&password=' + values.password, {
+    fetch('/api/login?username=' + values.username.normalize() + '&password=' + values.password.normalize(), {
             method: 'POST',
             mode: 'cors'
         }
@@ -87,7 +90,7 @@ function fetchAPI(values) {
             createAlert('Incorrect login information!', 'error');
         } else if (data.status === 200) {
             createAlert(`Successfully logged in!`, 'success');
-            document.cookie = "username=" + values.username + "; path=/;";
+            document.cookie = "username=" + values.username.normalize() + "; path=/;";
             window.location.assign('/profile')
         }
     })
