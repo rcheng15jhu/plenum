@@ -47,8 +47,8 @@ I need to be able to log in and log out of this application to securely store
 information related to my availability.
 
 * As someone who frequently has to schedule multiple distinct events with other people,
-I need this application to include a way to include a default availability schedule
-so that I can submit my availability more conveniently.
+I need this application to include a way to save at least one calendar representing my
+schedule, so that I can submit my availability more conveniently.
 
 * As someone who frequently has to schedule multiple distinct events with other people,
 I need this application to store many different calendars for me, so that I can submit
