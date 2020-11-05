@@ -11,7 +11,6 @@ import static spark.Spark.*;
 
 import spark.ModelAndView;
 import spark.Spark;
-import spark.template.velocity.VelocityTemplateEngine;
 import spark.utils.IOUtils;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -250,13 +249,13 @@ public class Server {
             return new Gson().toJson(u.toString());
         });
 
-        //displays sign-up view
-        get("/adduser", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            res.status(200);
-            res.type("text/html");
-            return new ModelAndView(model, "public/templates/signup.vm");
-        }, new VelocityTemplateEngine());
+//        //displays sign-up view
+//        get("/adduser", (req, res) -> {
+//            Map<String, Object> model = new HashMap<>();
+//            res.status(200);
+//            res.type("text/html");
+//            return new ModelAndView(model, "public/templates/signup.vm");
+//        }, new VelocityTemplateEngine());
 
 
         // calendars route; return list of calendars as JSON
