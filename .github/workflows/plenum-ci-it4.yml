@@ -17,11 +17,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.2
-      #- name: install npm dependencies
-      #  run:  (cd ./iterations/src/main/js  && npm install)
-      #- name: generate transpiled production frontend code
-      #  run:  (cd ./iterations/src/main/js && npm run build)
-      # test
+      - name: install npm dependencies
+        run:  (cd ./iterations/src/main/js  && npm install)
+      - name: generate transpiled production frontend code
+        run:  (cd ./iterations/src/main/js && npm run build)
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
