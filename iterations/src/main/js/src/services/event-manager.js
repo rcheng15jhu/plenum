@@ -2,7 +2,7 @@ import createAlert from "./create-alert";
 
 function upload(title) {
     fetch("/api/addevent?title=" + title + 
-    "&startTime=0&endTime=9", //temporary
+    "&startTime=1&endTime=9", //temporary
     {
         method: 'POST',
         headers: {
