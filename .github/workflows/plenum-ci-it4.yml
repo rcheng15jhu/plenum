@@ -21,6 +21,7 @@ jobs:
       #  run:  (cd ./iterations/src/main/js  && npm install)
       #- name: generate transpiled production frontend code
       #  run:  (cd ./iterations/src/main/js && npm run build)
+      # test
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
