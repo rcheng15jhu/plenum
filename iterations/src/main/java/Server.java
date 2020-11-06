@@ -31,7 +31,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class Server {
 
     private static Sql2o sql2o;
-    private static Dotenv dotenv = Dotenv.load();
 
     private static Sql2o getSql2o() throws URISyntaxException {
         if(sql2o == null) {
@@ -106,6 +105,7 @@ public class Server {
     public static Connection getConnection() throws SQLException, URISyntaxException {
         String databaseUrl = System.getenv("DATABASE_URL");
         if (databaseUrl == null) { //running locally
+            Dotenv dotenv = Dotenv.load();
             return DriverManager.getConnection(
                 dotenv.get("DEV_DB_URL"),
                 dotenv.get("DEV_DB_USER"),
@@ -122,6 +122,7 @@ public class Server {
 
     private static String[] getDbUrl(String databaseUrl) throws URISyntaxException {
         if (databaseUrl == null) {
+            Dotenv dotenv = Dotenv.load();
             return new String[]{
                 dotenv.get("DEV_DB_URL"),
                 dotenv.get("DEV_DB_USER"),
