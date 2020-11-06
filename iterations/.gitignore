@@ -6,6 +6,7 @@
 Plenum.db
 *hs_err_pid*.log
 *misc.xml
+.env
 
 .DS_Store
 

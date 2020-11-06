@@ -14,7 +14,6 @@ import static spark.Spark.*;
 import spark.Spark;
 import spark.utils.IOUtils;
 
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -27,127 +26,65 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class Server {
 
     private static Sql2o sql2o;
+    private static Dotenv dotenv = Dotenv.load();
 
     private static Sql2o getSql2o() throws URISyntaxException {
         if(sql2o == null) {
             try (Connection conn = getConnection()) {
-                String sq1 = "";
-                String sq2 = "";
-                String sq3 = "";
-                String sq4 = "";
-                String sq5 = "";
-
-                if ("SQLite".equalsIgnoreCase(conn.getMetaData().getDatabaseProductName())) { // running locally
-
-                    // set on foreign keys
-                    SQLiteConfig config = new SQLiteConfig();
-                    config.enforceForeignKeys(true);
-                    config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
-
-                    sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
-                            " id            INTEGER PRIMARY KEY," +
-                            " name          VARCHAR(100) NOT NULL UNIQUE," +
-                            " password      VARCHAR(100) NOT NULL" +
-                            ");";
-                    sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
-                            " id            INTEGER PRIMARY KEY," +
-                            " title         VARCHAR(100) NOT NULL," +
-                            " startTime     INTEGER," +
-                            " endTime       INTEGER" +
-                            ");";
-                    sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
-                            " id            INTEGER PRIMARY KEY," +
-                            " title         VARCHAR(100) NOT NULL," +
-                            " userId        INTEGER NOT NULL," +
-                            " FOREIGN KEY(userId)" +
-                            " REFERENCES Users (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                    sq4 = "CREATE TABLE IF NOT EXISTS Connections (" +
-                            " id            INTEGER PRIMARY KEY," +
-                            " eventId       INTEGER NOT NULL," +
-                            " calendarId    INTEGER NOT NULL," +
-                            " userId        INTEGER NOT NULL," +
-                            " FOREIGN KEY(eventId)" +
-                            " REFERENCES Events (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE," +
-                            " FOREIGN KEY(calendarId)" +
-                            " REFERENCES Calendars (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE," +
-                            " FOREIGN KEY(userId)" +
-                            " REFERENCES Users (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                    sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
-                            " id            INTEGER PRIMARY KEY," +
-                            " calendarId    INTEGER NOT NULL," +
-                            " date          INTEGER NOT NULL," +
-                            " qHour        INTEGER NOT NULL," +
-                            " FOREIGN KEY(calendarId)" +
-                            " REFERENCES Calendars (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                }
-                else {
-
-                    sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
-                            " id            serial PRIMARY KEY," +
-                            " name          VARCHAR(100) NOT NULL UNIQUE," +
-                            " password      VARCHAR(100) NOT NULL" +
-                            ");";
-                    sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
-                            " id            serial PRIMARY KEY," +
-                            " title         VARCHAR(100) NOT NULL," +
-                            " startTime     INTEGER NOT NULL," +
-                            " endTime       INTEGER NOT NULL" +
-                            ");";
-                    sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
-                            " id            serial PRIMARY KEY," +
-                            " title         VARCHAR(100) NOT NULL," +
-                            " userId        INTEGER NOT NULL," +
-                            " FOREIGN KEY(userId)" +
-                            " REFERENCES Users (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                    sq4 = "CREATE TABLE IF NOT EXISTS Connections (" +
-                            " id            serial PRIMARY KEY," +
-                            " eventId       INTEGER NOT NULL," +
-                            " calendarId    INTEGER NOT NULL," +
-                            " userId        INTEGER NOT NULL," +
-                            " FOREIGN KEY(eventId)" +
-                            " REFERENCES Events (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE," +
-                            " FOREIGN KEY(calendarId)" +
-                            " REFERENCES Calendars (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE," +
-                            " FOREIGN KEY(userId)" +
-                            " REFERENCES Users (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                    sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
-                            " id            serial PRIMARY KEY," +
-                            " calendarId    INTEGER NOT NULL," +
-                            " date          INTEGER NOT NULL," +
-                            " qHour        INTEGER NOT NULL," +
-                            " FOREIGN KEY(calendarId)" +
-                            " REFERENCES Calendars (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                }
-
+                String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
+                        " id            serial PRIMARY KEY," +
+                        " name          VARCHAR(100) NOT NULL UNIQUE," +
+                        " password      VARCHAR(100) NOT NULL" +
+                        ");";
+                String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
+                        " id            serial PRIMARY KEY," +
+                        " title         VARCHAR(100) NOT NULL," +
+                        " startTime     INTEGER NOT NULL," +
+                        " endTime       INTEGER NOT NULL" +
+                        ");";
+                String sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
+                        " id            serial PRIMARY KEY," +
+                        " title         VARCHAR(100) NOT NULL," +
+                        " userId        INTEGER NOT NULL," +
+                        " FOREIGN KEY(userId)" +
+                        " REFERENCES Users (id)" +
+                        "   ON UPDATE CASCADE" +
+                        "   ON DELETE CASCADE" +
+                        ");";
+                String sq4 = "CREATE TABLE IF NOT EXISTS Connections (" +
+                        " id            serial PRIMARY KEY," +
+                        " eventId       INTEGER NOT NULL," +
+                        " calendarId    INTEGER NOT NULL," +
+                        " userId        INTEGER NOT NULL," +
+                        " FOREIGN KEY(eventId)" +
+                        " REFERENCES Events (id)" +
+                        "   ON UPDATE CASCADE" +
+                        "   ON DELETE CASCADE," +
+                        " FOREIGN KEY(calendarId)" +
+                        " REFERENCES Calendars (id)" +
+                        "   ON UPDATE CASCADE" +
+                        "   ON DELETE CASCADE," +
+                        " FOREIGN KEY(userId)" +
+                        " REFERENCES Users (id)" +
+                        "   ON UPDATE CASCADE" +
+                        "   ON DELETE CASCADE" +
+                        ");";
+                String sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
+                        " id            serial PRIMARY KEY," +
+                        " calendarId    INTEGER NOT NULL," +
+                        " date          INTEGER NOT NULL," +
+                        " qHour        INTEGER NOT NULL," +
+                        " FOREIGN KEY(calendarId)" +
+                        " REFERENCES Calendars (id)" +
+                        "   ON UPDATE CASCADE" +
+                        "   ON DELETE CASCADE" +
+                        ");";
+            
                 Statement st = conn.createStatement();
                 st.executeUpdate(sq1);
                 st.executeUpdate(sq2);
@@ -169,7 +106,10 @@ public class Server {
     public static Connection getConnection() throws SQLException, URISyntaxException {
         String databaseUrl = System.getenv("DATABASE_URL");
         if (databaseUrl == null) { //running locally
-            return DriverManager.getConnection("jdbc:sqlite:./Plenum.db");
+            return DriverManager.getConnection(
+                dotenv.get("DEV_DB_URL"),
+                dotenv.get("DEV_DB_USER"),
+                dotenv.get("DEV_DB_PWORD"));
         }
         String[] dbUri = getDbUrl(databaseUrl);
 
@@ -182,7 +122,10 @@ public class Server {
 
     private static String[] getDbUrl(String databaseUrl) throws URISyntaxException {
         if (databaseUrl == null) {
-            return new String[]{"jdbc:sqlite:./Plenum.db", "", ""};
+            return new String[]{
+                dotenv.get("DEV_DB_URL"),
+                dotenv.get("DEV_DB_USER"),
+                dotenv.get("DEV_DB_PWORD")};
         }
 
         URI dbUri = new URI(databaseUrl);
