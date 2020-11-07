@@ -42,9 +42,4 @@ jobs:
       - name: Commit on the runner
         run: git config user.email "runner@github.com"; git config user.name "Runner"; git add *; git commit -m "None"
       - name: Deploy to Heroku
-        env:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY_TESTING}}
-          heroku_app_name: "damp-garden-37477"
-          heroku_email: "rcheng15@jhu.edu"
-          appdir: "iterations/"
         run: git checkout `git subtree split -P iterations`; git push -f origin HEAD:heroku-deploy
