@@ -1,4 +1,5 @@
 # Accomplished #
+- Greatly improved ease of development by setting up webpack config and proxies
 - Deployed app on Heroku and set up continuous integration with Github
 - Styled pages and set up frontend page routings
 - Implemented live saving to backend when user edits calendar frontend
