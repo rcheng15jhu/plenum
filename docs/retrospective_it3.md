@@ -20,5 +20,5 @@
 - Need to write more unit tests 
 - Need to be able to share an event through a link
 - Need to filter events so only events for the user appear
-- Need to implement import calendars functionality
-- Attempt base/derived calendars for synchronous editing on the calendar inputted availabilities for an event is based on
+- Attempt base/derived calendars for synchronous editing on the calendar inputted
+  availabilities for an event is based on
