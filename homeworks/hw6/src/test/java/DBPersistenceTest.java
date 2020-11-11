@@ -1,8 +1,5 @@
 import model.Author;
-<<<<<<< HEAD
 import org.junit.AfterClass;
-=======
->>>>>>> iteration3
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -80,15 +77,10 @@ public class DBPersistenceTest {
         assertTrue(rs.next());
     }
 
-<<<<<<< HEAD
     @AfterClass
     public static void closeStatement() throws SQLException {
         conn.close();
     }
-
-
-=======
->>>>>>> iteration3
 
 
 }

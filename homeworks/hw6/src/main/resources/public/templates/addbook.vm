@@ -1,9 +1,6 @@
 #set( $title = "Add Book" )
-<<<<<<< HEAD
 ##set( $stylesheet = "css/mybooksapp.css")
 #set( $stylesheet = "css/adddata.css")
-=======
->>>>>>> iteration3
 #parse("public/templates/top.vm")
 
 #if($added)
@@ -17,7 +14,6 @@
 #end
 
 <h2>Add a new Book</h2>
-<<<<<<< HEAD
 <form action="/addbook" method="post" class="content" id="formAddBook" onSubmit="return validateISBN() && validateTitle() && validateAuthorName()">
     <h3>Book Information</h3>
     <div class="center">
@@ -62,39 +58,3 @@
 <p><a class="content indexLink" href="/">Back to home</a></p>
 
 #parse("public/templates/bottom.vm")
-=======
-<form action="/addbook" method="post" class="content" id="formAddBook">
-    <div>
-        <label for="title">Title: </label>
-        <input type="text" name="title" placeholder="title" id="title" required>
-    </div>
-    <div>
-        <label for="isbn">ISBN: </label>
-        <input type="text" name="isbn" placeholder="isbn" id="isbn" required>
-    </div>
-    <div>
-        <label for="publisher">Publisher: </label>
-        <input type="text" name="publisher" placeholder="publisher" id="publisher" required>
-    </div>
-    <div>
-        <label for="year">Year: </label>
-        <input type="text" name="year" placeholder="year" id="year" required>
-    </div>
-    <div>
-        <label for="name">Author name: </label>
-        <input type="text" name="name" placeholder="name" id="name" required>
-    </div>
-    <div>
-        <label for="nationality">Author nationality: </label>
-        <input type="text" name="nationality" placeholder="nationality" id="nationality" />
-    </div>
-    <div>
-        <label for="numOfBooks">Author's number of books: </label>
-        <input type="number" name="numOfBooks" placeholder="1" id="numOfBooks" min="1" max="200"/>
-    </div>
-    <br />
-    <input type="submit" value="Add" id="submitAddAuthor" />
-</form>
-
-#parse("public/templates/bottom.vm")
->>>>>>> iteration3

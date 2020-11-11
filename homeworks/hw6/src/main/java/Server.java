@@ -2,7 +2,6 @@ import com.google.gson.Gson;
 import exception.DaoException;
 import model.Author;
 import model.Book;
-<<<<<<< HEAD
 import org.sql2o.Sql2o;
 import org.sqlite.SQLiteConfig;
 import persistence.Sql2oAuthorDao;
@@ -141,64 +140,6 @@ public class Server {
             return;
         }
         Sql2o sql2o = attemptSql2o;
-=======
-import org.sql2o.Connection;
-import org.sql2o.Sql2o;
-import org.sqlite.SQLiteConfig;
-import org.sqlite.SQLiteDataSource;
-import persistence.Sql2oAuthorDao;
-import persistence.Sql2oBookDao;
-import spark.ModelAndView;
-import java.util.HashMap;
-import java.util.Map;
-import static spark.Spark.*;
-import spark.template.velocity.VelocityTemplateEngine;
-
-public class Server {
-
-    private static Sql2o getSql2o() {
-        final String URI = "jdbc:sqlite:./MyBooksApp.db";
-        final String USERNAME = "";
-        final String PASSWORD = "";
-
-        // set on foreign keys
-        SQLiteConfig config = new SQLiteConfig();
-        config.enforceForeignKeys(true);
-        config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
-
-        Sql2o sql2o = new Sql2o(URI, USERNAME, PASSWORD);
-        try (Connection conn = sql2o.open()) {
-            String sq1 = "CREATE TABLE IF NOT EXISTS Authors (" +
-                    " id            INTEGER PRIMARY KEY," +
-                    " name          VARCHAR(100) NOT NULL UNIQUE," +
-                    " numOfBooks    INTEGER," +
-                    " nationality   VARCHAR(30)" +
-                    ");";
-            conn.createQuery(sq1).executeUpdate();
-            String sq2 = "CREATE TABLE IF NOT EXISTS Books (" +
-                    " id        INTEGER PRIMARY KEY," +
-                    " title     VARCHAR(100) NOT NULL," +
-                    " isbn      VARCHAR(100) NOT NULL UNIQUE," +
-                    " publisher VARCHAR(100)," +
-                    " year      INTEGER," +
-                    " authorId  INTEGER NOT NULL," +
-                    " FOREIGN KEY(authorId)" +
-                    " REFERENCES Authors (id)" +
-                    "   ON UPDATE CASCADE" +
-                    "   ON DELETE CASCADE" +
-                    ");";
-            conn.createQuery(sq2).executeUpdate();
-        }
-        return sql2o;
-    }
-
-    public static void main(String[] args)  {
-        // set port number
-        final int PORT_NUM = 7000;
-        port(PORT_NUM);
-
-        Sql2o sql2o = getSql2o();
->>>>>>> iteration3
 
         staticFiles.location("/public");
 
@@ -341,11 +282,7 @@ public class Server {
                     model.remove("added");
                 }
             }
-<<<<<<< HEAD
             ModelAndView mdl = new ModelAndView(model, "public/templates/addbook.vm");
-=======
-            ModelAndView mdl = new ModelAndView(model, "public/templates/books.vm");
->>>>>>> iteration3
             return new VelocityTemplateEngine().render(mdl);
         });
     }
