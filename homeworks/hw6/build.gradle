@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-<<<<<<< HEAD
     id "com.heroku.sdk.heroku-gradle" version "2.0.0"
 }
 
@@ -23,8 +22,6 @@ heroku {
             web: "java -jar build/libs/MyBooksApp-1.0-SNAPSHOT.jar"
     )
     appName="damp-spire-88649"
-=======
->>>>>>> iteration3
 }
 
 sourceCompatibility = 1.8
@@ -41,17 +38,11 @@ dependencies {
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.32.3'
     implementation group: 'org.sql2o', name: 'sql2o', version: '1.6.0'
-<<<<<<< HEAD
     implementation 'org.postgresql:postgresql:42.2.17'
-=======
->>>>>>> iteration3
     implementation 'com.sparkjava:spark-core:2.9.2'
     implementation 'org.slf4j:slf4j-simple:2.0.0-alpha1'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.sparkjava:spark-template-velocity:2.7.1'
 }
-<<<<<<< HEAD
 
 task stage(dependsOn: ['clean'])
-=======
->>>>>>> iteration3
