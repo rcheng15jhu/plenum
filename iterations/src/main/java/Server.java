@@ -188,6 +188,7 @@ public class Server {
 //        });
 
         //adduser route; allows a new user to be added
+
         post("/api/adduser", (req, res) -> {
             System.out.println("request received!");
             String username = req.queryParams("username");
@@ -225,13 +226,19 @@ public class Server {
     
         //calendar route; returns availabilities associated with the calendar id
         get("/api/calendar", (req, res) -> {
+            String username = req.cookie("username");
             Sql2o sql2o = getSql2o();
             String results;
             String idParam = req.queryParams("id");
             if(idParam != null) {
                 int id = Integer.parseInt(idParam);
                 Calendar c = new Sql2oCalendarDao(sql2o).getCal(id);
+                int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
                 User u = new Sql2oUserDao(sql2o).getUserFromId(c.getUserId());
+                if (userId != u.getId()) {
+                    res.status(404);
+                    return "";
+                }
                 List<Availability> availabilities = new Sql2oAvailabilityDao(getSql2o()).listAllInCal(c);
                 results = new Gson().toJson(AvailableDates.createFromAvailability(u.getName(), c.getTitle(), availabilities));
             } else {
@@ -408,6 +415,8 @@ public class Server {
 
         //users route; lists all users
         get("/users", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
             Sql2oUserDao sql2oUserDao = new Sql2oUserDao(getSql2o());
             String results = new Gson().toJson(sql2oUserDao.listAll());
             res.type("application/json");
@@ -417,6 +426,8 @@ public class Server {
 
         //deluser route; deletes users
         post("/deluser", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
             int id = Integer.parseInt(req.queryParams("id"));
             User u = new User(id);
             try {
@@ -431,6 +442,8 @@ public class Server {
 
         //availabilities route; lists all availabilities
         get("/availabilities", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
             Sql2oAvailabilityDao sql2oAvailabilityDao = new Sql2oAvailabilityDao(getSql2o());
             String results = new Gson().toJson(sql2oAvailabilityDao.listAll());
             res.type("application/json");
@@ -440,6 +453,8 @@ public class Server {
 
         //delavailability route; deletes availabilities
         post("/delavailability", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
@@ -457,6 +472,8 @@ public class Server {
 
         //addavailability route; inserts a new availability
         post("/addavailability", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
