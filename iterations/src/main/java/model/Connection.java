@@ -1,12 +1,12 @@
 package model;
 
-public class Connections {
+public class Connection {
   private int id;
   private int eventId;
   private int calendarId;
   private int userId;
 
-  public Connections(int eventId, int calendarId, int userId) {
+  public Connection(int eventId, int calendarId, int userId) {
     this.eventId = eventId;
     this.calendarId = calendarId;
     this.userId = userId;
@@ -46,7 +46,7 @@ public class Connections {
 
   @Override
   public String toString() {
-    return "Connections{" +
+    return "Connection{" +
             "id=" + id +
             ", eventId=" + eventId +
             ", calendarId=" + calendarId +

@@ -1,25 +1,22 @@
 package persistence;
 
 import exception.DaoException;
-import model.Availability;
-import model.Calendar;
-import model.Connections;
-import org.sql2o.Connection;
+import model.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.util.List;
 
-public class Sql2oConnectionsDao implements ConnectionsDao {
+public class Sql2oConnectionDao implements ConnectionDao {
     private final Sql2o sql2o;
 
-    public Sql2oConnectionsDao(Sql2o sql2o) {
+    public Sql2oConnectionDao(Sql2o sql2o) {
         this.sql2o = sql2o;
     }
 
     @Override
-    public int add(Connections conn) throws DaoException{
-        try (Connection con = sql2o.open()) {
+    public int add(Connection conn) throws DaoException{
+        try (org.sql2o.Connection con = sql2o.open()) {
             String query = "INSERT INTO Connections (eventId, calendarId, userId)" +
                     "VALUES (:eventId, :calendarId, :userId)";
             int id = (int) con.createQuery(query, true)
@@ -35,10 +32,10 @@ public class Sql2oConnectionsDao implements ConnectionsDao {
     }
 
     @Override
-    public List<Connections> listAll() throws DaoException{
+    public List<Connection> listAll() throws DaoException{
         String sql = "SELECT * FROM Connections";
-        try (Connection con = sql2o.open()) {
-            return con.createQuery(sql).executeAndFetch(Connections.class);
+        try (org.sql2o.Connection con = sql2o.open()) {
+            return con.createQuery(sql).executeAndFetch(Connection.class);
         }
         catch (Sql2oException ex) {
             ex.printStackTrace();
@@ -46,12 +43,12 @@ public class Sql2oConnectionsDao implements ConnectionsDao {
         }
     }
 
-    public List<Connections> listOne(int userId) throws DaoException {
-        try (Connection con = sql2o.open()) {
+    public List<Connection> listOne(int userId) throws DaoException {
+        try (org.sql2o.Connection con = sql2o.open()) {
             String sql = "SELECT * FROM Connections WHERE userId = :userId";
             return con.createQuery(sql)
                     .addParameter("userId", userId)
-                    .executeAndFetch(Connections.class);
+                    .executeAndFetch(Connection.class);
         }
         catch (Sql2oException ex) {
             ex.printStackTrace();
@@ -60,8 +57,8 @@ public class Sql2oConnectionsDao implements ConnectionsDao {
     }
 
     @Override
-    public boolean delete(Connections conn) throws DaoException{
-        try (Connection con = sql2o.open()) {
+    public boolean delete(Connection conn) throws DaoException{
+        try (org.sql2o.Connection con = sql2o.open()) {
             String query = "DELETE FROM Connections WHERE id = :id";
             con.createQuery(query)
                     .bind(conn)
@@ -74,15 +71,15 @@ public class Sql2oConnectionsDao implements ConnectionsDao {
         }
     }
 
-    public List<Connections> updateconnectionscheck(int eventId, int calendarId, int userId) throws DaoException {
-        try (Connection con = sql2o.open()) {
+    public List<Connection> updateconnectionscheck(int eventId, int calendarId, int userId) throws DaoException {
+        try (org.sql2o.Connection con = sql2o.open()) {
             String query = "SELECT * FROM Connections " +
                     "WHERE eventId = :eventId "+
                     "AND userId = :userId ";
-            List<Connections> list = con.createQuery(query)
+            List<Connection> list = con.createQuery(query)
                     .addParameter("eventId", eventId)
                     .addParameter("userId", userId)
-                    .executeAndFetch(Connections.class);
+                    .executeAndFetch(Connection.class);
             return list;
         }
         catch (Sql2oException ex) {

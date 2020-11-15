@@ -1,38 +1,30 @@
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import exception.DaoException;
 import model.*;
 import model.Calendar;
-import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
-import org.sqlite.SQLiteConfig;
 import persistence.Sql2oAvailabilityDao;
-import persistence.Sql2oConnectionsDao;
+import persistence.Sql2oConnectionDao;
 import persistence.Sql2oCalendarDao;
 import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
 import security.Encryption;
 import static spark.Spark.*;
-
-import org.postgresql.ds.PGPoolingDataSource;
+import static model.SqlSchema.*;
 
 import spark.Spark;
 import spark.utils.IOUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.github.cdimascio.dotenv.Dotenv;
-
-import javax.print.URIException;
 
 public class Server {
 
@@ -52,61 +44,12 @@ public class Server {
                 e.printStackTrace();
             }
 
-            try (Connection con = sql2o.beginTransaction()) {
-                String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
-                        " id            serial PRIMARY KEY," +
-                        " name          VARCHAR(100) NOT NULL UNIQUE," +
-                        " password      VARCHAR(48) NOT NULL," +
-                        " salt          VARCHAR(36) NOT NULL" +
-                        ");";
-                String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
-                        " id            serial PRIMARY KEY," +
-                        " title         VARCHAR(100) NOT NULL," +
-                        " startTime     INTEGER NOT NULL," +
-                        " endTime       INTEGER NOT NULL" +
-                        ");";
-                String sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
-                        " id            serial PRIMARY KEY," +
-                        " title         VARCHAR(100) NOT NULL," +
-                        " userId        INTEGER NOT NULL," +
-                        " FOREIGN KEY(userId)" +
-                        " REFERENCES Users (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE" +
-                        ");";
-                String sq4 = "CREATE TABLE IF NOT EXISTS Connections (" +
-                        " id            serial PRIMARY KEY," +
-                        " eventId       INTEGER NOT NULL," +
-                        " calendarId    INTEGER NOT NULL," +
-                        " userId        INTEGER NOT NULL," +
-                        " FOREIGN KEY(eventId)" +
-                        " REFERENCES Events (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE," +
-                        " FOREIGN KEY(calendarId)" +
-                        " REFERENCES Calendars (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE," +
-                        " FOREIGN KEY(userId)" +
-                        " REFERENCES Users (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE" +
-                        ");";
-                String sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
-                        " id            serial PRIMARY KEY," +
-                        " calendarId    INTEGER NOT NULL," +
-                        " date          INTEGER NOT NULL," +
-                        " qHour        INTEGER NOT NULL," +
-                        " FOREIGN KEY(calendarId)" +
-                        " REFERENCES Calendars (id)" +
-                        "   ON UPDATE CASCADE" +
-                        "   ON DELETE CASCADE" +
-                        ");";
-                con.createQuery(sq1).executeUpdate();
-                con.createQuery(sq2).executeUpdate();
-                con.createQuery(sq3).executeUpdate();
-                con.createQuery(sq4).executeUpdate();
-                con.createQuery(sq5).executeUpdate();
+            try (org.sql2o.Connection con = sql2o.beginTransaction()) {
+                con.createQuery(UsersSchema).executeUpdate();
+                con.createQuery(EventsSchema).executeUpdate();
+                con.createQuery(CalendarsSchema).executeUpdate();
+                con.createQuery(ConnectionsSchema).executeUpdate();
+                con.createQuery(AvailabilitiesSchema).executeUpdate();
                 con.commit();
             } catch (Sql2oException e) {
                 e.printStackTrace();
@@ -241,10 +184,10 @@ public class Server {
             //event id
             String idParam = req.queryParams("id");
             if(idParam != null) {
-                List<Connections> conns = new Sql2oConnectionsDao(sql2o).listAll();
+                List<Connection> conns = new Sql2oConnectionDao(sql2o).listAll();
                 List<AvailableDates> ads = new ArrayList<>();
                 //get all available dates of all calendars associated with event id
-                for(Connections co : conns) {
+                for(Connection co : conns) {
                     if((co.getEventId() + "").equals(idParam)) {
                         Calendar ca = new Sql2oCalendarDao(sql2o).getCal(co.getCalendarId());
                         User us = new Sql2oUserDao(sql2o).getUserFromId(ca.getUserId());
@@ -308,8 +251,8 @@ public class Server {
             Sql2oEventDao eventDao = new Sql2oEventDao(sql2o);
             List<Event> events;
             if(filter) {
-                events = new Sql2oConnectionsDao(sql2o).listOne(userId).stream()
-                        .map(Connections::getEventId)//.distinct()
+                events = new Sql2oConnectionDao(sql2o).listOne(userId).stream()
+                        .map(Connection::getEventId)//.distinct()
                         .map(eventDao::getEventFromId)
                         .collect(Collectors.toList());
             }
@@ -356,9 +299,9 @@ public class Server {
             int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             int eventId = Integer.parseInt(req.queryParams("eventId"));
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
-            Connections c = new Connections(eventId, calendarId, userId);
+            Connection c = new Connection(eventId, calendarId, userId);
             System.out.println(c.toString());
-            new Sql2oConnectionsDao(sql2o).add(c);
+            new Sql2oConnectionDao(sql2o).add(c);
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(c.toString());
@@ -371,10 +314,10 @@ public class Server {
             int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             int eventId = Integer.parseInt(req.queryParams("eventId"));
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
-            Connections c = new Connections(eventId, calendarId, userId);
+            Connection c = new Connection(eventId, calendarId, userId);
             System.out.println(c.toString());
             try {
-                new Sql2oConnectionsDao(sql2o).delete(c);
+                new Sql2oConnectionDao(sql2o).delete(c);
                 res.status(204);
             } catch (DaoException e) {
                 res.status(404);
@@ -385,8 +328,8 @@ public class Server {
 
         //connections route; lists all availabilities
         get("/api/connections", (req, res) -> {
-            Sql2oConnectionsDao sql2oConnectionsDao = new Sql2oConnectionsDao(getSql2o());
-            String results = new Gson().toJson(sql2oConnectionsDao.listAll());
+            Sql2oConnectionDao sql2OConnectionDao = new Sql2oConnectionDao(getSql2o());
+            String results = new Gson().toJson(sql2OConnectionDao.listAll());
             res.type("application/json");
             res.status(200);
             return results;
@@ -420,14 +363,14 @@ public class Server {
             int eventId = Integer.parseInt(req.queryParams("eventId"));
             System.out.println(req.queryParams("calendarId"));
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
-            Connections c = new Connections(eventId, calendarId, userId);
+            Connection c = new Connection(eventId, calendarId, userId);
             System.out.println(c.toString());
-            List<Connections> updateconnections = new Sql2oConnectionsDao(sql2o).updateconnectionscheck(eventId, calendarId, userId);
+            List<Connection> updateconnections = new Sql2oConnectionDao(sql2o).updateconnectionscheck(eventId, calendarId, userId);
             if (updateconnections.size() == 1) {
-                new Sql2oConnectionsDao(sql2o).delete(updateconnections.get(0));
+                new Sql2oConnectionDao(sql2o).delete(updateconnections.get(0));
             }
 
-            new Sql2oConnectionsDao(sql2o).add(c);
+            new Sql2oConnectionDao(sql2o).add(c);
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(c.toString());

@@ -1,13 +1,4 @@
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import model.Availability;
-import model.AvailableDate;
-import model.AvailableDates;
-import model.Calendar;
-import model.Connections;
-import model.Event;
-import model.Range;
-import model.User;
 import okhttp3.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,11 +6,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.sql.*;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 
 public class RESTAPITest {
