@@ -332,13 +332,19 @@ public class Server {
         get("/api/events", (req, res) -> {
             Sql2o sql2o = getSql2o();
             String username = req.cookie("username");
+            boolean filter = !"true".equals(req.queryParams("all"));
             int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             Sql2oEventDao eventDao = new Sql2oEventDao(sql2o);
-            List<Event> events = new Sql2oConnectionsDao(sql2o).listOne(userId).stream()
-                    .map(Connections::getEventId)
-                    .map(eventDao::getEventFromId)
-                    .collect(Collectors.toList());
-            //List<Event> events = eventDao.listAll();
+            List<Event> events;
+            if(filter) {
+                events = new Sql2oConnectionsDao(sql2o).listOne(userId).stream()
+                        .map(Connections::getEventId)
+                        .map(eventDao::getEventFromId)
+                        .collect(Collectors.toList());
+            }
+            else {
+                events = eventDao.listAll();
+            }
             String results = new Gson().toJson(events);
             res.type("application/json");
             res.status(200);
