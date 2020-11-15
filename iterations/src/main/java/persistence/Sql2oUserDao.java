@@ -101,9 +101,6 @@ public class Sql2oUserDao implements UserDao{
     @Override
     public boolean delete(User user) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String preQ = "PRAGMA foreign_keys = ON;";
-            con.createQuery(preQ).executeUpdate();
-
             String query = "DELETE FROM Users WHERE id = :id";
             con.createQuery(query)
                     .bind(user)
