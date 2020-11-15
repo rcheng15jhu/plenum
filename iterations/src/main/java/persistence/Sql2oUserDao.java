@@ -62,7 +62,7 @@ public class Sql2oUserDao implements UserDao{
             String pword = user.get(0).getPassword();
             String salt = user.get(0).getSalt();
 
-            if (pword.equals(sha2_hash(pass, salt))) {
+            if (pword.equals(Encryption.sha2_hash(pass, salt))) {
                 return true;
             }
             else {
@@ -122,9 +122,9 @@ public class Sql2oUserDao implements UserDao{
             User u = con.createQuery(sql)
                     .addParameter("name", name)
                     .executeAndFetch(User.class).get(0);
-            if (sha2_hash(pword, u.getSalt()).equals(u.getPassword())) {
+            if (Encryption.sha2_hash(pword, u.getSalt()).equals(u.getPassword())) {
                 con.createQuery(sql2)
-                        .addParameter("newpword", sha2_hash(newpword, u.getSalt()))
+                        .addParameter("newpword", Encryption.sha2_hash(newpword, u.getSalt()))
                         .addParameter("name", name)
                         .executeUpdate();
                 return true;

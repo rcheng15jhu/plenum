@@ -196,9 +196,9 @@ public class Server {
             System.out.println("request received!");
             String username = req.queryParams("username");
             String password = req.queryParams("password");
-            String salt = makeSalt();
+            String salt = Encryption.makeSalt();
             //res.cookie("username", username);
-            User u = new User(username, sha2_hash(password, salt), salt);
+            User u = new User(username, Encryption.sha2_hash(password, salt), salt);
             new Sql2oUserDao(getSql2o()).add(u);
             res.redirect("/");
             //don't return actual new user for security reasons
