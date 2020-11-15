@@ -9,7 +9,7 @@ import persistence.Sql2oConnectionsDao;
 import persistence.Sql2oCalendarDao;
 import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
-import security.Exception;
+import security.Encryption;
 import static spark.Spark.*;
 
 import spark.Spark;
