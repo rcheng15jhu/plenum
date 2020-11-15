@@ -12,5 +12,10 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
+    <data-source name="AWS Plenum" uuid="63eb8549-9673-4910-8baf-05995a28a4aa">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" exact-version="0" />
+      <user-name>funfunfun</user-name>
+      <schema-mapping />
+    </data-source>
   </component>
 </project>
