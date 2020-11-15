@@ -553,7 +553,7 @@ public class Server {
                         new StaticRoutes("/", "index").noRedirect(),
                         new StaticRoutes("", "index").noRedirect(),
                         new StaticRoutes("/login").noRedirect(),
-                        new StaticRoutes("view-event").noRedirect()
+                        new StaticRoutes("/view-event").noRedirect()
                 )
         );
 
