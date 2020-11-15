@@ -38,13 +38,17 @@ public class Server {
 
     private static Sql2o sql2o;
 
-    private static Sql2o getSql2o() throws URISyntaxException {
+    static {
+        getSql2o();
+    }
+
+    private static Sql2o getSql2o() {
         if(sql2o == null) {
             // create data source - update to use postgresql
-            Properties props = getDbUrl(System.getenv("DATABASE_URL"));
             try {
+                Properties props = getDbUrl(System.getenv("DATABASE_URL"));
                 sql2o = new Sql2o(new HikariDataSource(new HikariConfig(props)));
-            } catch(Sql2oException e) {
+            } catch(URISyntaxException | Sql2oException e) {
                 e.printStackTrace();
             }
 
@@ -112,24 +116,6 @@ public class Server {
         return sql2o;
     }
 
-//    public static Connection getConnection() throws SQLException, URISyntaxException {
-//        String databaseUrl = System.getenv("DATABASE_URL");
-//        if (databaseUrl == null) { //running locally
-//            Dotenv dotenv = Dotenv.load();
-//            return DriverManager.getConnection(
-//                dotenv.get("DEV_DB_URL"),
-//                dotenv.get("DEV_DB_USER"),
-//                dotenv.get("DEV_DB_PWORD"));
-//        }
-//        String[] dbUri = getDbUrl(databaseUrl);
-//
-//        String username = dbUri[1];
-//        String password = dbUri[2];
-//        String dbUrl = dbUri[0];
-//
-//        return DriverManager.getConnection(dbUrl, username, password);
-//    }
-
     private static Properties getDbUrl(String databaseUrl) throws URISyntaxException {
         Properties props = new Properties();
         if (databaseUrl == null) {
@@ -158,20 +144,16 @@ public class Server {
         return PORT_NUM;
     }
 
-    public static void main(String[] args) throws URISyntaxException {
+    public static void main(String[] args) {
         // set port number
         port(getHerokuAssignedPort());
 
         staticFiles.location("/public");
 
-        getSql2o();
-
         /* after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
             response.header("Access-Control-Allow-Methods", "GET, POST");
         }); */
-
-        // root route; show a simple message!
 
         post("/api/login", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
@@ -213,22 +195,10 @@ public class Server {
             return "";
         });
 
-//        //displays sign-up view
-//        get("/adduser", (req, res) -> {
-//            Map<String, Object> model = new HashMap<>();
-//            res.status(200);
-//            res.type("text/html");
-//            return new ModelAndView(model, "public/templates/signup.vm");
-//        }, new VelocityTemplateEngine());
-
 
         // calendars route; return list of calendars as JSON
         get("/api/calendars", (req, res) -> {
             Sql2o sql2o = getSql2o();
-//            if (req.cookie("username") == null) {
-//                res.redirect("/");
-//                return null;
-//            }
             String name = req.cookie("username");
             int userId = new Sql2oUserDao(sql2o).getUserFromName(name).getId();
             String results = new Gson().toJson(new Sql2oCalendarDao(sql2o).listOne(userId));
@@ -259,10 +229,6 @@ public class Server {
                 results = new Gson().toJson(new Sql2oCalendarDao(sql2o).listOne(userId));
                 System.out.println(results);
             }
-//            Sql2oCalendarDao sql2oCalendarDao = new Sql2oCalendarDao(getSql2o());
-//            int id = Integer.parseInt(req.queryParams("id"));
-//            Calendar c = sql2oCalendarDao.getCal(id);
-
 
             res.type("application/json");
             res.status(200);
@@ -427,7 +393,7 @@ public class Server {
         });
 
         //changepassword route; allows user to change password
-        post("/changepassword", (req, res) -> {
+        post("/api/changepassword", (req, res) -> {
             if (req.cookie("username") == null)
                 res.redirect("/");
             String username = req.cookie("username");

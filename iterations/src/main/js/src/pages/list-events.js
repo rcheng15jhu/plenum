@@ -7,6 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/core/styles";
+import UploadTemplateAlert from "../components/uploadTemplateAlert";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -105,6 +106,7 @@ const App = () =>  {
                     </Fab>
 
                 </div>
+                <UploadTemplateAlert msg={<a href='list-public-events'>Show all public events!</a>} severity={'success'} />
             </div>
         </div>
 
