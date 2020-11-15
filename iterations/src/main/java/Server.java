@@ -40,7 +40,7 @@ public class Server {
                 String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
                         " id            serial PRIMARY KEY," +
                         " name          VARCHAR(100) NOT NULL UNIQUE," +
-                        " password      VARCHAR(48) NOT NULL" +
+                        " password      VARCHAR(48) NOT NULL," +
                         " salt          VARCHAR(36) NOT NULL" +
                         ");";
                 String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
