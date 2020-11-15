@@ -93,7 +93,6 @@ const config = {
         ],
     },
     plugins:
-
         pages.map(page =>
             new HtmlWebpackPlugin({
                 title: `${page}`,
@@ -105,7 +104,6 @@ const config = {
                 alwaysWriteToDisk: true
             })
         )
-
             .concat(new HtmlWebpackHarddiskPlugin())
 };
 

@@ -284,11 +284,7 @@ public class Server {
 
         //addcalendar route; add a new calendar
         post("/api/addcalendar", (req, res) -> {
-<<<<<<< HEAD
             long startTime = System.nanoTime();
-=======
-            Sql2o sql2o = getSql2o();
->>>>>>> a31adeb87d3a641ed897e73dd15361e4b64c2ceb
             String title = req.queryParams("title");
             String username = req.cookie("username");
             int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
