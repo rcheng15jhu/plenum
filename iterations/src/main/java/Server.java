@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -328,7 +330,15 @@ public class Server {
 
         //events route; list all events
         get("/api/events", (req, res) -> {
-            List<Event> events = new Sql2oEventDao(getSql2o()).listAll();
+            Sql2o sql2o = getSql2o();
+            String username = req.cookie("username");
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
+            Sql2oEventDao eventDao = new Sql2oEventDao(sql2o);
+            List<Event> events = new Sql2oConnectionsDao(sql2o).listOne(userId).stream()
+                    .map(Connections::getEventId)
+                    .map(eventDao::getEventFromId)
+                    .collect(Collectors.toList());
+            //List<Event> events = eventDao.listAll();
             String results = new Gson().toJson(events);
             res.type("application/json");
             res.status(200);
@@ -359,7 +369,7 @@ public class Server {
             new Sql2oEventDao(getSql2o()).add(e);
             res.status(201);
             res.type("application/json");
-            return new Gson().toJson(e.toString());
+            return new Gson().toJson(e);
         });
 
         //addconnection route; associates a calendar and an event together

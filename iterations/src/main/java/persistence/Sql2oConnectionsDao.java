@@ -2,6 +2,7 @@ package persistence;
 
 import exception.DaoException;
 import model.Availability;
+import model.Calendar;
 import model.Connections;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -38,6 +39,19 @@ public class Sql2oConnectionsDao implements ConnectionsDao {
         String sql = "SELECT * FROM Connections";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Connections.class);
+        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
+            throw new DaoException();
+        }
+    }
+
+    public List<Connections> listOne(int userId) throws DaoException {
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT * FROM Connections WHERE userId = :userId";
+            return con.createQuery(sql)
+                    .addParameter("userId", userId)
+                    .executeAndFetch(Connections.class);
         }
         catch (Sql2oException ex) {
             ex.printStackTrace();
