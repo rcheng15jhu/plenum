@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -226,24 +227,23 @@ public class Server {
     
         //calendar route; returns availabilities associated with the calendar id
         get("/api/calendar", (req, res) -> {
-            String username = req.cookie("username");
             Sql2o sql2o = getSql2o();
-            String results;
+            String username = req.cookie("username");
             String idParam = req.queryParams("id");
+            String results;
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             if(idParam != null) {
                 int id = Integer.parseInt(idParam);
                 Calendar c = new Sql2oCalendarDao(sql2o).getCal(id);
-                int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
                 User u = new Sql2oUserDao(sql2o).getUserFromId(c.getUserId());
-                if (userId != u.getId()) {
+                if (!username.equals(u.getName())) {
                     res.status(404);
                     return "";
                 }
-                List<Availability> availabilities = new Sql2oAvailabilityDao(getSql2o()).listAllInCal(c);
+                List<Availability> availabilities = new Sql2oAvailabilityDao(sql2o).listAllInCal(c);
                 results = new Gson().toJson(AvailableDates.createFromAvailability(u.getName(), c.getTitle(), availabilities));
             } else {
                 String name = req.cookie("username");
-                int userId = new Sql2oUserDao(sql2o).getUserFromName(name).getId();
                 results = new Gson().toJson(new Sql2oCalendarDao(sql2o).listOne(userId));
                 System.out.println(results);
             }
@@ -270,7 +270,7 @@ public class Server {
                     if((co.getEventId() + "").equals(idParam)) {
                         Calendar ca = new Sql2oCalendarDao(sql2o).getCal(co.getCalendarId());
                         User us = new Sql2oUserDao(sql2o).getUserFromId(ca.getUserId());
-                        List<Availability> av = new Sql2oAvailabilityDao(getSql2o()).listAllInCal(ca);
+                        List<Availability> av = new Sql2oAvailabilityDao(sql2o).listAllInCal(ca);
                         AvailableDates ad = AvailableDates.createFromAvailability(us.getName(), ca.getTitle(), av);
                         ads.add(ad);
                     }
@@ -284,16 +284,17 @@ public class Server {
 
         //addcalendar route; add a new calendar
         post("/api/addcalendar", (req, res) -> {
+            Sql2o sql2o = getSql2o();
             String title = req.queryParams("title");
             String username = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             Calendar c = new Calendar(title, userId);
             System.out.println(c);
-            new Sql2oCalendarDao(getSql2o()).add(c);
+            new Sql2oCalendarDao(sql2o).add(c);
             String blob = req.body();
             System.out.println(blob);
             AvailableDates a = new Gson().fromJson(blob, AvailableDates.class);
-            Sql2oAvailabilityDao availabilityDao = new Sql2oAvailabilityDao(getSql2o());
+            Sql2oAvailabilityDao availabilityDao = new Sql2oAvailabilityDao(sql2o);
             a.getAvailabilityStream(c.getId())
                     .forEachOrdered(availabilityDao::add);
             res.status(201);
@@ -303,12 +304,13 @@ public class Server {
 
         //delcalendar route; delete calendar
         post("/api/delcalendar", (req, res) -> {
+            Sql2o sql2o = getSql2o();
             int id = Integer.parseInt(req.queryParams("id"));
             Calendar c = new Calendar(id);
             try {
-                c = new Sql2oCalendarDao(getSql2o()).getCal(id);
+                c = new Sql2oCalendarDao(sql2o).getCal(id);
                 System.out.println(c);
-                new Sql2oCalendarDao(getSql2o()).delete(c);
+                new Sql2oCalendarDao(sql2o).delete(c);
                 res.status(204);
             } catch (DaoException ex) {
                 res.status(404);
@@ -355,13 +357,14 @@ public class Server {
 
         //addconnection route; associates a calendar and an event together
         post("/api/addconnection", (req, res) -> {
+            Sql2o sql2o = getSql2o();
             String username = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             int eventId = Integer.parseInt(req.queryParams("eventId"));
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             Connections c = new Connections(eventId, calendarId, userId);
             System.out.println(c.toString());
-            new Sql2oConnectionsDao(getSql2o()).add(c);
+            new Sql2oConnectionsDao(sql2o).add(c);
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(c.toString());
@@ -369,14 +372,15 @@ public class Server {
 
         //delonnection route; inserts a new event
         post("/api/delconnection", (req, res) -> {
+            Sql2o sql2o = getSql2o();
             String username = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             int eventId = Integer.parseInt(req.queryParams("eventId"));
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             Connections c = new Connections(eventId, calendarId, userId);
             System.out.println(c.toString());
             try {
-                new Sql2oConnectionsDao(getSql2o()).delete(c);
+                new Sql2oConnectionsDao(sql2o).delete(c);
                 res.status(204);
             } catch (DaoException e) {
                 res.status(404);
@@ -396,18 +400,19 @@ public class Server {
 
         //updateconnection route; edit the calendar associated with the event
         post("/api/updateconnection", (req, res) -> {
+            Sql2o sql2o = getSql2o();
             String username = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             int eventId = Integer.parseInt(req.queryParams("eventId"));
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             Connections c = new Connections(eventId, calendarId, userId);
             System.out.println(c.toString());
-            List<Connections> updateconnections = new Sql2oConnectionsDao(getSql2o()).updateconnectionscheck(eventId, calendarId, userId);
+            List<Connections> updateconnections = new Sql2oConnectionsDao(sql2o).updateconnectionscheck(eventId, calendarId, userId);
             if (updateconnections.size() == 1) {
-                new Sql2oConnectionsDao(getSql2o()).delete(updateconnections.get(0));
+                new Sql2oConnectionsDao(sql2o).delete(updateconnections.get(0));
             }
 
-            new Sql2oConnectionsDao(getSql2o()).add(c);
+            new Sql2oConnectionsDao(sql2o).add(c);
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(c.toString());
@@ -487,19 +492,20 @@ public class Server {
 
         //updateavailability route; updates availability
         post("/api/updateavailability", (req, res) -> {
+            Sql2o sql2o = getSql2o();
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
             int qHour = Integer.parseInt(req.queryParams("qHour"));
             int availstate = Integer.parseInt(req.queryParams("state"));
             Availability a = new Availability(calendarId, date, qHour);
-            boolean curAvail = new Sql2oAvailabilityDao(getSql2o()).updatecheck(a);
+            boolean curAvail = new Sql2oAvailabilityDao(sql2o).updatecheck(a);
             if (availstate == 1 && !curAvail) {
-                new Sql2oAvailabilityDao(getSql2o()).add(a);
+                new Sql2oAvailabilityDao(sql2o).add(a);
                 res.status(201);
                 }
             else if (availstate == 0 && curAvail) {
-                new Sql2oAvailabilityDao(getSql2o()).delete(a);
+                new Sql2oAvailabilityDao(sql2o).delete(a);
                 res.status(204);
             }
 
@@ -510,22 +516,57 @@ public class Server {
 
 
 
-        makeStaticRoutes(Arrays.asList("/create-calendar", "/view-calendar", "/list-calendar", "/index"
-                ,"/list-events" , "/view-event", "/", "", "/login", "/profile", "/create-event"));
-
+        makeStaticRoutes(
+                Arrays.asList(
+                          "/login", "/profile"
+                        , "/create-calendar", "/view-calendar", "/list-calendar"
+                        , "/create-event", "/list-events"
+                ),
+                Arrays.asList(
+                        new StaticRoutes("/", "index"),
+                        new StaticRoutes("", "index"),
+                        new StaticRoutes("view-event").noRedirect()
+                )
+        );
 
     }
 
-    public static void makeStaticRoutes(List<String> routes) {
-        routes.forEach(route -> get(route, (req, res) -> {
-            res.status(200);
-            res.type("text/html");
+    private static class StaticRoutes {
+        public String routeName;
+        public String fileName;
+        public boolean redirect;
 
-            String routeName = route;
-            if (route.equals("/") || route.equals("")) {
-                routeName = "/index";
-            }
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html" + routeName + ".html"));
-        }));
+        public StaticRoutes(String routeName) {
+            this.routeName = routeName;
+            this.fileName = routeName.substring(1);
+            redirect = true;
+        }
+
+        public StaticRoutes(String routeName, String fileName) {
+            this.routeName = routeName;
+            this.fileName = fileName;
+            redirect = true;
+        }
+
+        public StaticRoutes noRedirect() {
+            redirect = false;
+            return this;
+        }
+    }
+
+
+
+    public static void makeStaticRoutes(List<String> simpleRoutes, List<StaticRoutes> otherRoutes) {
+        Stream.concat(simpleRoutes.parallelStream().map(StaticRoutes::new).sequential(), otherRoutes.stream())
+                .forEach(route -> get(route.routeName, (req, res) -> {
+                    res.status(200);
+                    res.type("text/html");
+                    if (route.redirect && req.cookie("username") == null) {
+                        res.redirect("/");
+                        return "";
+                    }
+
+                    return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/" + route.fileName + ".html"));
+                }));
     }
 }
