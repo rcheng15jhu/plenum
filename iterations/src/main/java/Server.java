@@ -9,6 +9,7 @@ import persistence.Sql2oConnectionsDao;
 import persistence.Sql2oCalendarDao;
 import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
+import security.Exception;
 import static spark.Spark.*;
 
 import spark.Spark;
@@ -39,7 +40,8 @@ public class Server {
                 String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
                         " id            serial PRIMARY KEY," +
                         " name          VARCHAR(100) NOT NULL UNIQUE," +
-                        " password      VARCHAR(100) NOT NULL" +
+                        " password      VARCHAR(48) NOT NULL" +
+                        " salt          VARCHAR(36) NOT NULL" +
                         ");";
                 String sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
                         " id            serial PRIMARY KEY," +
@@ -194,11 +196,14 @@ public class Server {
             System.out.println("request received!");
             String username = req.queryParams("username");
             String password = req.queryParams("password");
+            String salt = makeSalt();
             //res.cookie("username", username);
-            User u = new User(username, password);
+            User u = new User(username, sha2_hash(password, salt), salt);
             new Sql2oUserDao(getSql2o()).add(u);
             res.redirect("/");
-            return new Gson().toJson(u.toString());
+            //don't return actual new user for security reasons
+            //but return empty string nonetheless
+            return "";
         });
 
 //        //displays sign-up view
@@ -407,7 +412,6 @@ public class Server {
             String username = req.cookie("username");
             String password = req.queryParams("password");
             String newpassword = req.queryParams("new password");
-            User newp = new User(username, newpassword);
             boolean pcheck = new Sql2oUserDao(getSql2o()).passwordcheck(username, password, newpassword);
             if (pcheck) {
                 res.status(200);
@@ -416,7 +420,9 @@ public class Server {
                 res.status(400);
             }
             res.type("application/json");
-            return new Gson().toJson(newp.toString());
+            //don't return actual new user for security reasons
+            //but return empty string nonetheless
+            return "";
         });
 
         //updateconnection route; edit the calendar associated with the event

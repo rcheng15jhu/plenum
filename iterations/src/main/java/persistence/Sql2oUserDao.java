@@ -6,6 +6,7 @@ import model.User;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
+import security.Encryption;
 
 import java.util.List;
 
@@ -59,8 +60,9 @@ public class Sql2oUserDao implements UserDao{
             }
 
             String pword = user.get(0).getPassword();
+            String salt = user.get(0).getSalt();
 
-            if (pword.equals(pass)) {
+            if (pword.equals(sha2_hash(pass, salt))) {
                 return true;
             }
             else {
@@ -120,9 +122,9 @@ public class Sql2oUserDao implements UserDao{
             User u = con.createQuery(sql)
                     .addParameter("name", name)
                     .executeAndFetch(User.class).get(0);
-            if (pword.equals(u.getPassword())) {
+            if (sha2_hash(pword, u.getSalt()).equals(u.getPassword())) {
                 con.createQuery(sql2)
-                        .addParameter("newpword", newpword)
+                        .addParameter("newpword", sha2_hash(newpword, u.getSalt()))
                         .addParameter("name", name)
                         .executeUpdate();
                 return true;
