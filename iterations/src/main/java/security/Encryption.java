@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom; 
+import java.util.Base64;
+import java.util.Base64.Encoder;
   
 public class Encryption { 
     public static String makeSalt() 
@@ -11,10 +13,11 @@ public class Encryption {
         byte[] saltBytes = new byte[24]; 
         SecureRandom random = new SecureRandom(); 
         random.nextBytes(saltBytes);
-        return new String(saltBytes, StandardCharsets.UTF_8);
+        Encoder encoder = Base64.getEncoder();
+        return encoder.encodeToString(saltBytes);
     } 
   
-    public static String sha2_hash(String plainText, String salt) throws Exception 
+    public static String sha2_hash(String plainText, String salt)
     { 
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
@@ -23,9 +26,11 @@ public class Encryption {
             byte[] appendedText = baos.toByteArray(); 
             MessageDigest md = MessageDigest.getInstance("SHA-256"); 
             byte[] result = md.digest(appendedText);
-            return new String(result, StandardCharsets.UTF_8);
+            Encoder encoder = Base64.getEncoder();
+            return encoder.encodeToString(result);
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 } 
