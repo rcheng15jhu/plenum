@@ -86,11 +86,11 @@ public class Sql2oUserDao implements UserDao{
         }
     }
 
-    public User getUserFromId(int id) throws DaoException {
+    public User getUserFromId(int userId) throws DaoException {
         String sql = "SELECT * FROM Users WHERE id = :id";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
-                    .addParameter("id", id)
+                    .addParameter("id", userId)
                     .executeAndFetch(User.class).get(0);
         }
         catch (Sql2oException ex) {

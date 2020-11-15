@@ -8,13 +8,18 @@ function upload(title) {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-    }).then(data => {
-        if (data.status !== 201) {
+    }).then(res => {
+        if (res.status !== 201) {
             createAlert('An error occurred while creating event!', 'error');
+            return undefined
         } else {
             createAlert("Event created successfully!", 'success');
-            window.location.assign('/list-events');
+            return res.json();
         }
+    }).then(data => {
+        console.log(data)
+        console.log('/view-event?id=' + data.id)
+        window.location.assign('/view-event?id=' + data.id);
     });
 }
 
