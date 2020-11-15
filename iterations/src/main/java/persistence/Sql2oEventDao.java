@@ -60,9 +60,6 @@ public class Sql2oEventDao implements EventDao{
     @Override
     public boolean delete(Event event) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String preQ = "PRAGMA foreign_keys = ON;";
-            con.createQuery(preQ).executeUpdate();
-
             String query = "DELETE FROM Events WHERE id = :id";
             con.createQuery(query)
                     .bind(event)

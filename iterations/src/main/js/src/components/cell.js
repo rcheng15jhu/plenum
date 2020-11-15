@@ -17,7 +17,7 @@ const cell = (props) => {
         ? null 
         : <ReactTooltip id={props.tooltip_id} place="top" effect="solid">
             <ul style={{margin: '0', padding: '0'}}>
-                {props.users_avail.map(element => <li>{element}</li>)}
+                {props.users_avail.map(element => <li key={element}>{element}</li>)}
             </ul>
         </ReactTooltip>
 

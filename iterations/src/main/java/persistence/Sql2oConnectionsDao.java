@@ -62,9 +62,6 @@ public class Sql2oConnectionsDao implements ConnectionsDao {
     @Override
     public boolean delete(Connections conn) throws DaoException{
         try (Connection con = sql2o.open()) {
-            String preQ = "PRAGMA foreign_keys = ON;";
-            con.createQuery(preQ).executeUpdate();
-
             String query = "DELETE FROM Connections WHERE id = :id";
             con.createQuery(query)
                     .bind(conn)
@@ -72,6 +69,7 @@ public class Sql2oConnectionsDao implements ConnectionsDao {
             return true;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }

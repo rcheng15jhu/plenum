@@ -441,6 +441,7 @@ public class Server {
             String username = req.cookie("username");
             int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             int eventId = Integer.parseInt(req.queryParams("eventId"));
+            System.out.println(req.queryParams("calendarId"));
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             Connections c = new Connections(eventId, calendarId, userId);
             System.out.println(c.toString());
