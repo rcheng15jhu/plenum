@@ -217,8 +217,7 @@ public class Server {
             long stopTime = System.nanoTime();     
             AvailableDates a = new Gson().fromJson(blob, AvailableDates.class);
             Sql2oAvailabilityDao availabilityDao = new Sql2oAvailabilityDao(sql2o);
-            a.getAvailabilityStream(c.getId())
-                    .forEachOrdered(availabilityDao::add);
+            availabilityDao.addBatch(a.getAvailabilityStream(c.getId()));
             res.status(201);
             res.type("application/json");
             System.out.println(stopTime - startTime);       
