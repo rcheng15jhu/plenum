@@ -1,25 +1,31 @@
 package security;
 
-import java.io.ByteArrayOutputStream; 
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import sun.security.provider.SecureRandom; 
+import java.security.SecureRandom; 
   
 public class Encryption { 
-    public static byte[] makeSalt() 
+    public static String makeSalt() 
     { 
-        byte[] salt = new byte[16]; 
-        SecureRandom sr = new SecureRandom(); 
-        sr.engineNextBytes(salt); 
-        return salt;
+        byte[] saltBytes = new byte[24]; 
+        SecureRandom random = new SecureRandom(); 
+        random.nextBytes(saltBytes);
+        return new String(saltBytes, StandardCharsets.UTF_8);
     } 
   
-    public static byte[] sha2_hash(String plainText, byte[] salt) throws Exception 
+    public static String sha2_hash(String plainText, String salt) throws Exception 
     { 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
-        baos.write(salt); 
-        baos.write(plainText.getBytes()); 
-        byte[] appendedText = baos.toByteArray(); 
-        MessageDigest md = MessageDigest.getInstance("SHA-256"); 
-        return md.digest(appendedText); 
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+            baos.write(salt.getBytes(StandardCharsets.UTF_8)); 
+            baos.write(plainText.getBytes(StandardCharsets.UTF_8));
+            byte[] appendedText = baos.toByteArray(); 
+            MessageDigest md = MessageDigest.getInstance("SHA-256"); 
+            byte[] result = md.digest(appendedText);
+            return new String(result, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 } 
