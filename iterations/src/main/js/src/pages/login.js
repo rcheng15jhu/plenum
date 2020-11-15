@@ -50,7 +50,10 @@ function fetchAddUserAPI(values) {
     if (values.username.normalize() === '' || values.password.normalize() === '') {
         createAlert('Username and password cannot be blank!', 'error');
         return;
-    } else if (values.confirm.normalize() === '' || values.confirm.normalize() != values.password.normalize()) {
+    } else if (values.password.length > 40) {
+        createAlert('Please limit your password to 40 characters.', 'error');
+        return;
+    } else if (values.confirm.normalize() != values.password.normalize()) {
         createAlert('Confirm password is not equal to password!', 'error');
         return;
     }

@@ -1,6 +1,7 @@
 package persistence;
 
 import exception.DaoException;
+import model.Availability;
 import model.Connections;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -50,13 +51,30 @@ public class Sql2oConnectionsDao implements ConnectionsDao {
             String preQ = "PRAGMA foreign_keys = ON;";
             con.createQuery(preQ).executeUpdate();
 
-            String query = "DELETE FROM Calendars WHERE id = :id";
+            String query = "DELETE FROM Connections WHERE id = :id";
             con.createQuery(query)
                     .bind(conn)
                     .executeUpdate();
             return true;
         }
         catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
+
+    public List<Connections> updateconnectionscheck(int eventId, int calendarId, int userId) throws DaoException {
+        try (Connection con = sql2o.open()) {
+            String query = "SELECT * FROM Connections " +
+                    "WHERE eventId = :eventId "+
+                    "AND userId = :userId ";
+            List<Connections> list = con.createQuery(query)
+                    .addParameter("eventId", eventId)
+                    .addParameter("userId", userId)
+                    .executeAndFetch(Connections.class);
+            return list;
+        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }

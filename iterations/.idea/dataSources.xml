@@ -18,5 +18,11 @@
         </library>
       </libraries>
     </data-source>
+    <data-source source="LOCAL" name="AWS Plenum" uuid="63eb8549-9673-4910-8baf-05995a28a4aa">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://database-2.c9yrnwhznjvg.us-east-1.rds.amazonaws.com:5432/plenum</jdbc-url>
+    </data-source>
   </component>
 </project>
