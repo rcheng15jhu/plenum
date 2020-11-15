@@ -545,13 +545,14 @@ public class Server {
 
         makeStaticRoutes(
                 Arrays.asList(
-                          "/login", "/profile"
+                          "/profile"
                         , "/create-calendar", "/view-calendar", "/list-calendar"
                         , "/create-event", "/list-events"
                 ),
                 Arrays.asList(
                         new StaticRoutes("/", "index").noRedirect(),
                         new StaticRoutes("", "index").noRedirect(),
+                        new StaticRoutes("/login").noRedirect(),
                         new StaticRoutes("view-event").noRedirect()
                 )
         );
