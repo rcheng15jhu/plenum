@@ -4,7 +4,8 @@ public class User {
 
     private int id;
     private String name;
-    private String password; //Should this be byte[]? Need to look into proper authentication
+    private String password;
+    private String salt;
 
    public User(int id) {
         this.id = id;
@@ -18,9 +19,10 @@ public class User {
                 '}';
     }
 
-    public User(String name, String password) {
+    public User(String name, String password, String salt) {
         this.name = name;
         this.password = password;
+        this.salt = salt;
     }
 
     public User(String name) {
@@ -41,5 +43,9 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getSalt() {
+        return salt;
     }
 }
