@@ -43,11 +43,24 @@ public class Sql2oConnectionDao implements ConnectionDao {
         }
     }
 
-    public List<Connection> listOne(int userId) throws DaoException {
+    public List<Connection> listOneUser(int userId) throws DaoException {
         try (org.sql2o.Connection con = sql2o.open()) {
             String sql = "SELECT * FROM Connections WHERE userId = :userId";
             return con.createQuery(sql)
                     .addParameter("userId", userId)
+                    .executeAndFetch(Connection.class);
+        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
+            throw new DaoException();
+        }
+    }
+
+    public List<Connection> listOneEvent(int eventId) throws DaoException {
+        try (org.sql2o.Connection con = sql2o.open()) {
+            String sql = "SELECT * FROM Connections WHERE eventId = :eventId";
+            return con.createQuery(sql)
+                    .addParameter("eventId", eventId)
                     .executeAndFetch(Connection.class);
         }
         catch (Sql2oException ex) {

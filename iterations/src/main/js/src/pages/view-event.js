@@ -56,6 +56,8 @@ const App = () => {
 
     const [selectedCal, setSelectedCal] = useState(null)
 
+    const [eventTitle, setEventTitle] = useState(null)
+
     const classes = useStyles();
     const theme = useTheme();
 
@@ -67,7 +69,8 @@ const App = () => {
         ).then(res => {
             return res.json()
         }).then(data => {
-            setCalendars(data)
+            setEventTitle(data.eventTitle)
+            setCalendars(data.calendars)
         })
     }, [])
 
@@ -154,7 +157,7 @@ const App = () => {
                 <div className={classes.details}>
                     <CardContent className={classes.content}>
                         <Typography component="h4" variant="h4" className={classes.title}>
-                            Event: {id}
+                            Event: {eventTitle}
                         </Typography>
                     </CardContent>
                     <Card>

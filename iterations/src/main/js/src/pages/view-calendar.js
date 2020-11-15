@@ -165,7 +165,7 @@ const App = () => {
                 <div className={classes.details}>
                     <CardContent className={classes.content}>
                         <Typography component="h4" variant="h4" className={classes.title}>
-                            Calendar: {id}
+                            Calendar: {file.calendarTitle}
                         </Typography>
                         {/*<Typography variant="subtitle1" color="textSecondary">*/}
                         {/*    description*/}

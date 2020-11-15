@@ -182,21 +182,20 @@ public class Server {
             Sql2o sql2o = getSql2o();
             String results = "";
             //event id
-            String idParam = req.queryParams("id");
-            if(idParam != null) {
-                List<Connection> conns = new Sql2oConnectionDao(sql2o).listAll();
+            int eventId = Integer.parseInt(req.queryParams("id"));
+            Event e = new Sql2oEventDao(sql2o).getEventFromId(eventId);
+            if(eventId > 0) {
+                List<Connection> conns = new Sql2oConnectionDao(sql2o).listOneEvent(eventId);
                 List<AvailableDates> ads = new ArrayList<>();
                 //get all available dates of all calendars associated with event id
                 for(Connection co : conns) {
-                    if((co.getEventId() + "").equals(idParam)) {
                         Calendar ca = new Sql2oCalendarDao(sql2o).getCal(co.getCalendarId());
                         User us = new Sql2oUserDao(sql2o).getUserFromId(ca.getUserId());
                         List<Availability> av = new Sql2oAvailabilityDao(sql2o).listAllInCal(ca);
                         AvailableDates ad = AvailableDates.createFromAvailability(us.getName(), ca.getTitle(), av);
                         ads.add(ad);
-                    }
                 }
-                results = new Gson().toJson(ads);
+                results = new Gson().toJson(new AggrAvail(e.getTitle(), ads));
             }
             res.type("application/json");
             res.status(200);
@@ -250,7 +249,7 @@ public class Server {
             Sql2oEventDao eventDao = new Sql2oEventDao(sql2o);
             List<Event> events;
             if(filter) {
-                events = new Sql2oConnectionDao(sql2o).listOne(userId).stream()
+                events = new Sql2oConnectionDao(sql2o).listOneUser(userId).stream()
                         .map(Connection::getEventId)//.distinct()
                         .map(eventDao::getEventFromId)
                         .collect(Collectors.toList());
