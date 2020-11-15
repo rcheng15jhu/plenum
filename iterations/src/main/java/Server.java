@@ -121,20 +121,21 @@ public class Server {
     }
 
     private static String[] getDbUrl(String databaseUrl) throws URISyntaxException {
+        String username, password, dbUrl;
         if (databaseUrl == null) {
             Dotenv dotenv = Dotenv.load();
-            return new String[]{
-                dotenv.get("DEV_DB_URL"),
-                dotenv.get("DEV_DB_USER"),
-                dotenv.get("DEV_DB_PWORD")};
+            username = dotenv.get("DEV_DB_USER");
+            password = dotenv.get("DEV_DB_PWORD");
+            dbUrl = dotenv.get("DEV_DB_URL");
+        } else {
+            URI dbUri = new URI(databaseUrl);
+
+            username = dbUri.getUserInfo().split(":")[0];
+            password = dbUri.getUserInfo().split(":")[1];
+            dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
+                    + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
         }
 
-        URI dbUri = new URI(databaseUrl);
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
-                + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
         return new String[]{dbUrl, username, password};
     }
 
