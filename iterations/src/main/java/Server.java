@@ -544,8 +544,8 @@ public class Server {
                         , "/create-event", "/list-events"
                 ),
                 Arrays.asList(
-                        new StaticRoutes("/", "index"),
-                        new StaticRoutes("", "index"),
+                        new StaticRoutes("/", "index").noRedirect(),
+                        new StaticRoutes("", "index").noRedirect(),
                         new StaticRoutes("view-event").noRedirect()
                 )
         );
