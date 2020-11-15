@@ -52,7 +52,7 @@ const App = () => {
 
     const [calendars, setCalendars] = useState({})
 
-    const [calOptions, setCalOptions] = useState([])
+    const [calOptions, setCalOptions] = useState(null)
 
     const [selectedCal, setSelectedCal] = useState(null)
 
@@ -125,10 +125,32 @@ const App = () => {
         })
     }
     
+    function renderDropdown() {
+        if (calOptions === null) {
+            return null
+        } else if (calOptions.length == 0) {
+            return <UploadTemplateAlert msg={<a href='create-calendar'>Create a calendar to upload to event!</a>} severity={'error'} ></UploadTemplateAlert>
+        } else {
+            return (
+                <div>
+                    <List_menu options={calOptions.map(element => element.title)} onChange={handleMenuChange} ></List_menu>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => upload()}
+                        className={classes.button}
+                        startIcon={<SaveIcon />}>
+                        Save Calendar to Event!
+                    </Button>
+                </div>
+            )
+        }
+    } 
+
     return (
         <div>
             <Header></Header>
-            <Card className={classes.root}>
+            <Card className={classes.root} id='content'>
                 <div className={classes.details}>
                     <CardContent className={classes.content}>
                         <Typography component="h4" variant="h4" className={classes.title}>
@@ -138,22 +160,10 @@ const App = () => {
                     <Card>
                         <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
                     </Card>
+                    {renderDropdown()}
                 </div>
             </Card>
-            {calOptions === undefined || calOptions.length == 0 ? 
-            <UploadTemplateAlert msg={'Create a calendar to upload to event!'} severity={'error'} ></UploadTemplateAlert> :
-            <div id='content'>
-                <List_menu options={calOptions.map(element => element.title)} onChange={handleMenuChange} ></List_menu>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => upload()}
-                    className={classes.button}
-                    startIcon={<SaveIcon />}>
-                    Save Calendar to Event!
-                </Button>
-            </div>
-        }
+
         </div>
     )
 };
