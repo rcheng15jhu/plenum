@@ -398,6 +398,25 @@ public class Server {
             return results;
         });
 
+        //changepassword route; allows user to change password
+        post("/changepassword", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
+            String username = req.cookie("username");
+            String password = req.queryParams("password");
+            String newpassword = req.queryParams("new password");
+            User newp = new User(username, newpassword);
+            boolean pcheck = new Sql2oUserDao(getSql2o()).passwordcheck(username, password, newpassword);
+            if (pcheck) {
+                res.status(200);
+            }
+            else {
+                res.status(400);
+            }
+            res.type("application/json");
+            return new Gson().toJson(newp.toString());
+        });
+
         //updateconnection route; edit the calendar associated with the event
         post("/api/updateconnection", (req, res) -> {
             Sql2o sql2o = getSql2o();

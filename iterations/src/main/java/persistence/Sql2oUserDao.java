@@ -112,4 +112,27 @@ public class Sql2oUserDao implements UserDao{
             throw new DaoException();
         }
     }
+
+    public boolean passwordcheck(String name, String pword, String newpword) throws DaoException {
+        String sql = "SELECT * FROM Users WHERE name = :name";
+        String sql2 = "UPDATE Users SET password = :newpword WHERE name = :name";
+        try (Connection con = sql2o.open()) {
+            User u = con.createQuery(sql)
+                    .addParameter("name", name)
+                    .executeAndFetch(User.class).get(0);
+            if (pword.equals(u.getPassword())) {
+                con.createQuery(sql2)
+                        .addParameter("newpword", newpword)
+                        .addParameter("name", name)
+                        .executeUpdate();
+                return true;
+            }
+
+            else
+                return false;
+        }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
 }
