@@ -564,7 +564,7 @@ public class Server {
                 Arrays.asList(
                           "/profile"
                         , "/create-calendar", "/view-calendar", "/list-calendar"
-                        , "/create-event", "/list-events"
+                        , "/create-event", "/list-events", "/list-public-events"
                 ),
                 Arrays.asList(
                         new StaticRoutes("/", "index").noRedirect(),
