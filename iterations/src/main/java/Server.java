@@ -1,8 +1,13 @@
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import exception.DaoException;
 import model.*;
+import model.Calendar;
+import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 import org.sqlite.SQLiteConfig;
 import persistence.Sql2oAvailabilityDao;
 import persistence.Sql2oConnectionsDao;
@@ -12,25 +17,22 @@ import persistence.Sql2oUserDao;
 import security.Encryption;
 import static spark.Spark.*;
 
+import org.postgresql.ds.PGPoolingDataSource;
+
 import spark.Spark;
 import spark.utils.IOUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.function.Function;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.github.cdimascio.dotenv.Dotenv;
+
+import javax.print.URIException;
 
 public class Server {
 
@@ -38,7 +40,15 @@ public class Server {
 
     private static Sql2o getSql2o() throws URISyntaxException {
         if(sql2o == null) {
-            try (Connection conn = getConnection()) {
+            // create data source - update to use postgresql
+            Properties props = getDbUrl(System.getenv("DATABASE_URL"));
+            try {
+                sql2o = new Sql2o(new HikariDataSource(new HikariConfig(props)));
+            } catch(Sql2oException e) {
+                e.printStackTrace();
+            }
+
+            try (Connection con = sql2o.beginTransaction()) {
                 String sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
                         " id            serial PRIMARY KEY," +
                         " name          VARCHAR(100) NOT NULL UNIQUE," +
@@ -88,60 +98,55 @@ public class Server {
                         "   ON UPDATE CASCADE" +
                         "   ON DELETE CASCADE" +
                         ");";
-            
-                Statement st = conn.createStatement();
-                st.executeUpdate(sq1);
-                st.executeUpdate(sq2);
-                st.executeUpdate(sq3);
-                st.executeUpdate(sq4);
-                st.executeUpdate(sq5);
-            } catch (URISyntaxException | SQLException e) {
+                con.createQuery(sq1).executeUpdate();
+                con.createQuery(sq2).executeUpdate();
+                con.createQuery(sq3).executeUpdate();
+                con.createQuery(sq4).executeUpdate();
+                con.createQuery(sq5).executeUpdate();
+                con.commit();
+            } catch (Sql2oException e) {
                 e.printStackTrace();
             }
         }
 
-        // create data source - update to use postgresql
-        String[] dbUrl = getDbUrl(System.getenv("DATABASE_URL"));
-        sql2o = new Sql2o(dbUrl[0], dbUrl[1], dbUrl[2]);
-
         return sql2o;
     }
 
-    public static Connection getConnection() throws SQLException, URISyntaxException {
-        String databaseUrl = System.getenv("DATABASE_URL");
-        if (databaseUrl == null) { //running locally
-            Dotenv dotenv = Dotenv.load();
-            return DriverManager.getConnection(
-                dotenv.get("DEV_DB_URL"),
-                dotenv.get("DEV_DB_USER"),
-                dotenv.get("DEV_DB_PWORD"));
-        }
-        String[] dbUri = getDbUrl(databaseUrl);
+//    public static Connection getConnection() throws SQLException, URISyntaxException {
+//        String databaseUrl = System.getenv("DATABASE_URL");
+//        if (databaseUrl == null) { //running locally
+//            Dotenv dotenv = Dotenv.load();
+//            return DriverManager.getConnection(
+//                dotenv.get("DEV_DB_URL"),
+//                dotenv.get("DEV_DB_USER"),
+//                dotenv.get("DEV_DB_PWORD"));
+//        }
+//        String[] dbUri = getDbUrl(databaseUrl);
+//
+//        String username = dbUri[1];
+//        String password = dbUri[2];
+//        String dbUrl = dbUri[0];
+//
+//        return DriverManager.getConnection(dbUrl, username, password);
+//    }
 
-        String username = dbUri[1];
-        String password = dbUri[2];
-        String dbUrl = dbUri[0];
-
-        return DriverManager.getConnection(dbUrl, username, password);
-    }
-
-    private static String[] getDbUrl(String databaseUrl) throws URISyntaxException {
-        String username, password, dbUrl;
+    private static Properties getDbUrl(String databaseUrl) throws URISyntaxException {
+        Properties props = new Properties();
         if (databaseUrl == null) {
             Dotenv dotenv = Dotenv.load();
-            username = dotenv.get("DEV_DB_USER");
-            password = dotenv.get("DEV_DB_PWORD");
-            dbUrl = dotenv.get("DEV_DB_URL");
+            props.setProperty("username", dotenv.get("DEV_DB_USER"));
+            props.setProperty("password", dotenv.get("DEV_DB_PWORD"));
+            props.setProperty("jdbcUrl",  dotenv.get("DEV_DB_URL"));
         } else {
             URI dbUri = new URI(databaseUrl);
 
-            username = dbUri.getUserInfo().split(":")[0];
-            password = dbUri.getUserInfo().split(":")[1];
-            dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
-                    + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+            props.setProperty("username", dbUri.getUserInfo().split(":")[0]);
+            props.setProperty("password", dbUri.getUserInfo().split(":")[1]);
+            props.setProperty("jdbcUrl",  "jdbc:postgresql://" + dbUri.getHost() + ':'
+                    + dbUri.getPort() + dbUri.getPath() + "?sslmode=require");
         }
 
-        return new String[]{dbUrl, username, password};
+        return props;
     }
 
     final static int PORT_NUM = 7000;
@@ -159,7 +164,7 @@ public class Server {
 
         staticFiles.location("/public");
 
-        sql2o = getSql2o();
+        getSql2o();
 
         /* after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
@@ -338,7 +343,7 @@ public class Server {
             List<Event> events;
             if(filter) {
                 events = new Sql2oConnectionsDao(sql2o).listOne(userId).stream()
-                        .map(Connections::getEventId)
+                        .map(Connections::getEventId)//.distinct()
                         .map(eventDao::getEventFromId)
                         .collect(Collectors.toList());
             }
