@@ -93,21 +93,20 @@ const config = {
         ],
     },
     plugins:
-        [new CleanWebpackPlugin()]
-        .concat(
-            pages.map(page =>
-                new HtmlWebpackPlugin({
-                    title: `${page}`,
-                    template: 'template.ejs',
-                    inject: true,
-                    chunks: [`${page}`, 'node_vendors'],
-                    publicPath: 'static',
-                    filename: path.resolve(__dirname, '..', `resources/public/static/html/${page}.html`),
-                    alwaysWriteToDisk: true
-                })
-            )
+
+        pages.map(page =>
+            new HtmlWebpackPlugin({
+                title: `${page}`,
+                template: 'template.ejs',
+                inject: true,
+                chunks: [`${page}`, 'node_vendors'],
+                publicPath: 'static',
+                filename: path.resolve(__dirname, '..', `resources/public/static/html/${page}.html`),
+                alwaysWriteToDisk: true
+            })
         )
-        .concat(new HtmlWebpackHarddiskPlugin())
+
+            .concat(new HtmlWebpackHarddiskPlugin())
 };
 
 module.exports = config

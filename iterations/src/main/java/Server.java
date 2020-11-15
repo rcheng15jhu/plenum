@@ -276,6 +276,7 @@ public class Server {
 
         //addcalendar route; add a new calendar
         post("/api/addcalendar", (req, res) -> {
+            long startTime = System.nanoTime();
             String title = req.queryParams("title");
             String username = req.cookie("username");
             int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
@@ -284,12 +285,14 @@ public class Server {
             new Sql2oCalendarDao(getSql2o()).add(c);
             String blob = req.body();
             System.out.println(blob);
+            long stopTime = System.nanoTime();     
             AvailableDates a = new Gson().fromJson(blob, AvailableDates.class);
             Sql2oAvailabilityDao availabilityDao = new Sql2oAvailabilityDao(getSql2o());
             a.getAvailabilityStream(c.getId())
                     .forEachOrdered(availabilityDao::add);
             res.status(201);
             res.type("application/json");
+            System.out.println(stopTime - startTime);       
             return new Gson().toJson(c.toString());
         });
 
