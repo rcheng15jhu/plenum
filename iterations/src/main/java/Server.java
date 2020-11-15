@@ -387,6 +387,25 @@ public class Server {
             return results;
         });
 
+        //updateconnection route; edit the calendar associated with the event
+        post("/api/updateconnection", (req, res) -> {
+            String username = req.cookie("username");
+            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
+            int eventId = Integer.parseInt(req.queryParams("eventId"));
+            int calendarId = Integer.parseInt(req.queryParams("calendarId"));
+            Connections c = new Connections(eventId, calendarId, userId);
+            System.out.println(c.toString());
+            List<Connections> updateconnections = new Sql2oConnectionsDao(getSql2o()).updateconnectionscheck(eventId, calendarId, userId);
+            if (updateconnections.size() == 1) {
+                new Sql2oConnectionsDao(getSql2o()).delete(updateconnections.get(0));
+            }
+
+            new Sql2oConnectionsDao(getSql2o()).add(c);
+            res.status(201);
+            res.type("application/json");
+            return new Gson().toJson(c.toString());
+        });
+
         //users route; lists all users
         get("/users", (req, res) -> {
             Sql2oUserDao sql2oUserDao = new Sql2oUserDao(getSql2o());
