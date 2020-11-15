@@ -44,11 +44,9 @@ public class RESTAPITest {
             con.createQuery(sqlDropConnections).executeUpdate();
             con.createQuery(sqlDropAvailabilities).executeUpdate();
         }
-        try {
-            Server.main(null);
-        } catch (URISyntaxException e) {
-            System.out.println("oh no");
-        }
+        Server.main(null);
+
+        System.out.println("oh no");
 
         client = new OkHttpClient();
         gson = new Gson();
