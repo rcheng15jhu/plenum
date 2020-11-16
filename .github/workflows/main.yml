@@ -4,7 +4,7 @@ name: Java CI/CD with Gradle and Deploy to Heroku
 
 on:
   push:
-    branches: [ iteration4 ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
