@@ -6,7 +6,10 @@ import {Typography} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles, useTheme} from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Calendar from "../components/calendar";
+import ViewCalendar from "../components/view-calendar";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -82,6 +85,8 @@ const App = () => {
     //     },
     // ];
 
+    //copy ends
+
     let navToViewPage = (id) => () => {
         window.location.assign('/view-calendar?id=' + id)
     }
@@ -89,25 +94,32 @@ const App = () => {
     return (
         <div style={{'paddingBottom': '100px'}}>
             <Header />
-            <div  className={classes.root}>
-                <Typography variant="h4" className='headingTyp'>
-                    Calendar List
-                </Typography>
-                <div className="divContents">
-                    <List>
-                        {calendarNames.map(el => (
-                            <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
-                        ))}
-                    </List>
+            <Grid container spacing={3}>
+                <Grid item xs={6}>
+                <div  className={classes.root}>
+                    <Typography variant="h4" className='headingTyp'>
+                        Calendar List
+                    </Typography>
+                    <div className="divContents">
+                        <List>
+                            {calendarNames.map(el => (
+                                <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
+                            ))}
+                        </List>
 
-                </div>
-                <div className={classes.center}>
-                    <Fab color="primary" aria-label="add" onClick={handleAdd}>
-                        <AddIcon />
-                    </Fab>
+                    </div>
+                    <div className={classes.center}>
+                        <Fab color="primary" aria-label="add" onClick={handleAdd}>
+                            <AddIcon />
+                        </Fab>
 
+                    </div>
                 </div>
-            </div>
+                </Grid>
+                <Grid item xs={6}>
+                    <ViewCalendar />
+                </Grid>
+            </Grid>
         </div>
 
     )

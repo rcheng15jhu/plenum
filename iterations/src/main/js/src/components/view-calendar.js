@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import ReactDOM from 'react-dom';
-import Calendar from "../components/calendar";
-import Viewable_list from "../components/viewable-list-item";
-import Header from "../components/header";
+import Calendar from "./calendar";
+import Viewable_list from "./viewable-list-item";
+import Header from "./header";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const App = () => {
+const ViewCalendar = () => {
 
     let getInitId = () => {
         let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
@@ -160,7 +160,6 @@ const App = () => {
 
     return (
         <div>
-            <Header></Header>
             <Card className={classes.root}>
                 <div className={classes.details}>
                     <CardContent className={classes.content}>
@@ -196,5 +195,4 @@ const App = () => {
         </div>
     )
 };
-
-ReactDOM.render(<App />, document.getElementById('root'))
+export default ViewCalendar;

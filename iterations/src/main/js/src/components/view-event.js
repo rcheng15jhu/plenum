@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
-import Aggregate_calendar from "../components/aggregate-calendar";
-import List_menu from '../components/list-menu'
-import Header from "../components/header";
+import Aggregate_calendar from "./aggregate-calendar";
+import List_menu from './list-menu'
+import Header from "./header";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { List } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import {TextField, Container, Button} from '@material-ui/core';
-import UploadTemplateAlert from '../components/uploadTemplateAlert'
+import UploadTemplateAlert from './uploadTemplateAlert'
 import createAlert from "../services/create-alert";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const App = () => {
+const ViewEvent = () => {
 
     let getInitId = () => {
         let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
@@ -171,4 +171,4 @@ const App = () => {
     )
 };
 
-ReactDOM.render(<App />, document.getElementById('root'))
+export default ViewEvent;
