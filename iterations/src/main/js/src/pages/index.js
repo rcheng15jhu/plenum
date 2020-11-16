@@ -7,12 +7,11 @@ import getCookie from "../services/get-cookie";
 const App = () => {
 
     const handleLogin = () => {
-        // if(getCookie('username') !== ""){
-        //     window.location.assign('/list-calendar')
-        // } else {
-        //     window.location.assign('/login')
-        // }
-        window.location.assign('/list-calendar')
+        if(getCookie('username') !== ""){
+            window.location.assign('/list-calendar')
+        } else {
+            window.location.assign('/login')
+        }
     }
 
     return (
