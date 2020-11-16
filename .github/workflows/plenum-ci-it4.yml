@@ -13,7 +13,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps: 
+    steps:
       - uses: actions/checkout@v2
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.2
@@ -43,3 +43,10 @@ jobs:
         run: git config user.email "runner@github.com"; git config user.name "Runner"; git add *; git commit -m "None"
       - name: Deploy to Heroku
         run: git checkout `git subtree split -P iterations`; git push -f origin HEAD:heroku-deploy
+      - name: Deploy to Heroku
+        uses: AkhileshNS/heroku-deploy@v3.5.7
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY_QUORUM}}
+          heroku_app_name: "warm-ridge-98252"
+          heroku_email: "lee.hsinpei.melody@gmail.com"
+          appdir: "iterations/"
