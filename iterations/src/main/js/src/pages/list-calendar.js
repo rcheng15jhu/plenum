@@ -8,7 +8,6 @@ import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Calendar from "../components/calendar";
 import ViewCalendar from "../components/view-calendar";
 
 const useStyles = makeStyles(() => ({
@@ -40,6 +39,7 @@ const App = () => {
     const [calendars, setCalendars] = useState([])
 
     const [idToDelete, setIdToDelete] = useState(-1)
+    const [viewId, setViewId] = useState(-1)
 
     useEffect(() => {
         fetch('/api/calendars', {
@@ -69,15 +69,11 @@ const App = () => {
         setIdToDelete(id);
     }
 
-
+    const viewListClicked = (id) => () => {
+        setViewId(id);
+    }
 
     let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
-
-    //copy ends
-
-    // let onViewCalendar = (id) => () => {
-    //     window.location.assign('/view-calendar?id=' + id)
-    // }
 
     return (
         <div style={{'paddingBottom': '100px'}}>
@@ -91,7 +87,7 @@ const App = () => {
                     <div className="divContents">
                         <List>
                             {calendarNames.map(el => (
-                                <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content}  />
+                                <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={viewListClicked} />
                             ))}
                         </List>
 
@@ -105,7 +101,7 @@ const App = () => {
                 </div>
                 </Grid>
                 <Grid item xs={6}>
-                    <ViewCalendar />
+                    <ViewCalendar id={viewId} />
                 </Grid>
             </Grid>
         </div>

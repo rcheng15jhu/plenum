@@ -51,21 +51,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ViewCalendar = () => {
+const ViewCalendar = (props) => {
 
-    let getInitId = () => {
-        let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
-        if(isNaN(paramId)) {
-            window.history.replaceState({id: -1},'','/view-calendar')
-            return -1;
-        }
-        else {
-            window.history.replaceState({id: paramId},'','/view-calendar?id=' + paramId)
-            return paramId;
-        }
-    }
+    // let getInitId = () => {
+    //     let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
+    //     if(isNaN(paramId)) {
+    //         window.history.replaceState({id: -1},'','/view-calendar')
+    //         return -1;
+    //     }
+    //     else {
+    //         window.history.replaceState({id: paramId},'','/view-calendar?id=' + paramId)
+    //         return paramId;
+    //     }
+    // }
 
-    const [id, setId] = useState(getInitId)
+    // const [id, setId] = useState(getInitId)
 
     const [calendars, setCalendars] = useState([])
 
@@ -97,8 +97,9 @@ const ViewCalendar = () => {
     }, [])
 
     useEffect(() => {
-        if(id > 0) {
-            fetch('/api/calendar?id=' + id, {
+        console.log("from view-calendar, id is " + props.id)
+        if(props.id > 0) {
+            fetch('/api/calendar?id=' + props.id, {
                     method: 'GET',
                     mode: 'cors'
                 }
@@ -112,30 +113,30 @@ const ViewCalendar = () => {
         else {
             setFile({})
         }
-    }, [id, editable])
+    }, [props.id, editable])
 
-    let updateActive = (id) => () => {
-        window.history.pushState({id: id},'','/view-calendar?id=' + id)
-        setId(id)
-    }
+    // let updateActive = (props.id) => () => {
+    //     window.history.pushState({id: id},'','/view-calendar?id=' + id)
+    //     setId(id)
+    // }
 
-    let clearCalendarView = () => {
-        window.history.pushState({id: -1},'','/view-calendar')
-        setId(-1)
-    }
+    // let clearCalendarView = () => {
+    //     window.history.pushState({id: -1},'','/view-calendar')
+    //     setId(-1)
+    // }
 
-    window.onpopstate = (e) => {
-        setId(e.state.id)
-    }
+    // window.onpopstate = (e) => {
+    //     setId(e.state.id)
+    // }
 
     let onAvailChange = (date, qHour, state) => () => {
-        fetch('/api/updateavailability?calendarId=' + id + "&date=" + date + "&qHour=" + qHour + "&state=" + (state ? 1 : 0), {
+        fetch('/api/updateavailability?calendarId=' + props.id + "&date=" + date + "&qHour=" + qHour + "&state=" + (state ? 1 : 0), {
             method: 'POST',
             mode: 'cors'
         }).then(res => undefined)
     }
 
-    let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
+    // let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
 
     const fabs = [
         {
