@@ -100,13 +100,6 @@ const ViewCalendar = (props) => {
         }
     }, [props.id, editable])
 
-    let onAvailChange = (date, qHour, state) => () => {
-        fetch('/api/updateavailability?calendarId=' + props.id + "&date=" + date + "&qHour=" + qHour + "&state=" + (state ? 1 : 0), {
-            method: 'POST',
-            mode: 'cors'
-        }).then(res => undefined)
-    }
-
     const fabs = [
         {
             color: 'primary',
@@ -126,6 +119,13 @@ const ViewCalendar = (props) => {
         editable ? setValue(0) : setValue(1);
         setEditable(!editable);
     };
+
+    let onAvailChange = (date, qHour, state) => () => {
+        fetch('/api/updateavailability?calendarId=' + props.id + "&date=" + date + "&qHour=" + qHour + "&state=" + (state ? 1 : 0), {
+            method: 'POST',
+            mode: 'cors'
+        }).then(res => undefined)
+    }
 
 
     return (

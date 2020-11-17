@@ -42,7 +42,7 @@ function ListMenu(props) {
                     aria-controls="lock-menu"
                     onClick={handleClickListItem}
                 >
-                    <ListItemText primary="Select calendar:" secondary={options[selectedIndex]} />
+                    <ListItemText primary="Select a calendar as template:" secondary={options[selectedIndex]} />
                 </ListItem>
             </List>
             <Menu
