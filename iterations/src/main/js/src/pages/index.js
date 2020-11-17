@@ -9,7 +9,7 @@ const App = () => {
     if(getCookie('username') !== ""){
         window.location.assign('/list-calendar')
     }
-    
+
     const handleLogin = () => {
         if(getCookie('username') !== ""){
             window.location.assign('/list-calendar')
@@ -30,6 +30,9 @@ const App = () => {
                             'width': '100%',}}>
                     <Button variant='contained' color='primary' onClick={handleLogin}>
                         Login
+                    </Button>
+                    <Button variant='contained' color='primary' href='list-public-events'>
+                        View public events
                     </Button>
                 </div>
             </div>

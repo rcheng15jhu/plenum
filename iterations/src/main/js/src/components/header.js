@@ -11,6 +11,7 @@ import {AccountCircle} from "@material-ui/icons";
 import theme from "./baseline-theme";
 import {ThemeProvider} from "@material-ui/styles";
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
+import getCookie from "../services/get-cookie";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ButtonAppBar() {
+
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = React.useState(null);

@@ -46,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App = () => {
+
+    if(getCookie('username') === ""){
+        window.location.assign('/')
+    }
+
     const classes = useStyles();
 
     const username = getCookie('username');

@@ -12,6 +12,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import {TextField, Container, Button} from '@material-ui/core';
 import UploadTemplateAlert from '../components/uploadTemplateAlert'
 import createAlert from "../services/create-alert";
+import getCookie from "../services/get-cookie";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App = () => {
+
+    if(getCookie('username') === ""){
+        window.location.assign('/')
+    }
 
     let getInitId = () => {
         let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));

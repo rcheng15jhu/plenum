@@ -8,6 +8,8 @@ import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/core/styles";
 import UploadTemplateAlert from "../components/uploadTemplateAlert";
+import Button from "@material-ui/core/Button";
+import getCookie from "../services/get-cookie";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -34,6 +36,11 @@ function fetchAPI(id) {
 }
 
 const App = () =>  {
+
+    if(getCookie('username') === ""){
+        window.location.assign('/')
+    }
+
     const classes = useStyles();
     const [events, setEvents] = useState([])
 
@@ -69,17 +76,6 @@ const App = () =>  {
 
     let eventNames = events.map(event => {return {id: event.id, content: event.title}})
 
-    //for testing:
-    // let eventNames = [
-    //     {
-    //         id: 1,
-    //         content: 'title1'
-    //     },
-    //     {
-    //         id: 2,
-    //         content: 'title2'
-    //     },
-    // ];
 
     let navToViewPage = (id) => () => {
         window.location.assign('/view-event?id=' + id)
@@ -91,6 +87,9 @@ const App = () =>  {
             <div  className={classes.root}>
                 <Typography variant="h4" className='headingTyp'>
                     Event List
+                </Typography>
+                <Typography variant="h6" className='headingTyp'>
+                    Private Events
                 </Typography>
                 <div className="divContents">
                     <List>
@@ -106,7 +105,11 @@ const App = () =>  {
                     </Fab>
 
                 </div>
-                <UploadTemplateAlert msg={<a href='list-public-events'>Show all public events!</a>} severity={'success'} />
+                <Typography variant="h6" className='headingTyp'>
+                    Public Events
+                </Typography>
+                <Button variant="outlined" href='list-public-events' color='primary'>View all public events!</Button>
+                {/*<UploadTemplateAlert msg={<a href='list-public-events'>Show all public events!</a>} severity={'success'} />*/}
             </div>
         </div>
 
