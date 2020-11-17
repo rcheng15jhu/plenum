@@ -73,23 +73,11 @@ const App = () => {
 
     let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
 
-    //for testing:
-    // let calendarNames = [
-    //     {
-    //         id: 1,
-    //         content: 'title1'
-    //     },
-    //     {
-    //         id: 2,
-    //         content: 'title2'
-    //     },
-    // ];
-
     //copy ends
 
-    let navToViewPage = (id) => () => {
-        window.location.assign('/view-calendar?id=' + id)
-    }
+    // let onViewCalendar = (id) => () => {
+    //     window.location.assign('/view-calendar?id=' + id)
+    // }
 
     return (
         <div style={{'paddingBottom': '100px'}}>
@@ -103,7 +91,7 @@ const App = () => {
                     <div className="divContents">
                         <List>
                             {calendarNames.map(el => (
-                                <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
+                                <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content}  />
                             ))}
                         </List>
 
