@@ -6,6 +6,10 @@ import getCookie from "../services/get-cookie";
 
 const App = () => {
 
+    if(getCookie('username') !== ""){
+        window.location.assign('/list-calendar')
+    }
+    
     const handleLogin = () => {
         if(getCookie('username') !== ""){
             window.location.assign('/list-calendar')

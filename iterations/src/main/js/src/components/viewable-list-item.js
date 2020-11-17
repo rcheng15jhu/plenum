@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         maxWidth: 752,
+        overflow: "scroll"
     },
     demo: {
         backgroundColor: theme.palette.background.paper,
@@ -35,20 +36,21 @@ const viewable_list_item = (props) => {
     const classes = useStyles();
 
     return (
-        <div>
+        <div className={classes.root}>
             <ListItem
                 key={props.id}
                 className="content list"
                 divider={true}
                 button
                 onClick={props.clicked(props.id)}
-                className={`${props.id}`}>
+                className={`${props.id}`}
+                >
                 <ListItemAvatar>
                     <Avatar variant="rounded" className={classes.rounded}>
                         <DateRangeIcon />
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText
+                <ListItemText className={classes.title}
                     primary={`${props.content}`}
                 />
                 {/*{open ? <VisibilityIcon /> : <VisibilityOffIcon />}*/}

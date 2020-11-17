@@ -83,7 +83,6 @@ const ViewCalendar = (props) => {
     }, [])
 
     useEffect(() => {
-        console.log("from view-calendar, id is " + props.id)
         if(props.id > 0) {
             fetch('/api/calendar?id=' + props.id, {
                     method: 'GET',
