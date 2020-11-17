@@ -3,17 +3,12 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import ListItemText from "@material-ui/core/ListItemText";
-import {ExpandLess, ExpandMore} from "@material-ui/icons";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Collapse from "@material-ui/core/Collapse";
-import List from "@material-ui/core/List";
 import React, {useEffect} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {blue} from "@material-ui/core/colors";
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,12 +33,6 @@ const useStyles = makeStyles((theme) => ({
 
 const viewable_list_item = (props) => {
     const classes = useStyles();
-    // const [open, setOpen] = React.useState(false);
-
-    // const handleClickList = () => {
-    //     setOpen(!open);
-    //     props.clicked();
-    // };
 
     return (
         <div>
@@ -63,19 +52,12 @@ const viewable_list_item = (props) => {
                     primary={`${props.content}`}
                 />
                 {/*{open ? <VisibilityIcon /> : <VisibilityOffIcon />}*/}
-                {/*<ListItemSecondaryAction>*/}
-                {/*    <IconButton edge="end" aria-label="delete">*/}
-                {/*        <DeleteIcon onClick={props.delete(props.id)}/>*/}
-                {/*    </IconButton>*/}
-                {/*</ListItemSecondaryAction>*/}
+                <ListItemSecondaryAction onClick={props.delete(props.id)}>
+                    <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                    </IconButton>
+                </ListItemSecondaryAction>
             </ListItem>
-            {/*<Collapse in={open} timeout="auto" unmountOnExit>*/}
-            {/*    <List component="div" disablePadding>*/}
-            {/*        /!*<ListItem button className={classes.nested} onClick={props.clicked(props.id)}>*!/*/}
-            {/*        /!*    <ListItemText primary="View calendar" />*!/*/}
-            {/*        /!*</ListItem>*!/*/}
-            {/*    </List>*/}
-            {/*</Collapse>*/}
         </div>
     )
 }
