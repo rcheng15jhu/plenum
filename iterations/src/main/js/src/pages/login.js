@@ -66,7 +66,10 @@ function fetchAddUserAPI(values) {
        console.log(data);
        if (data.status === 401) {
            createAlert('Username taken!', 'error');
-       } else if (data.status === 200) {
+       } else if (data.status === 500) {
+           createAlert('Server error, try again.', 'error');
+       }
+       else if (data.status === 200) {
            createAlert(`Successfully signed up!`, 'success');
            document.cookie = "username=" + values.username.normalize() + "; path=/;";
            window.location.assign('/profile')
