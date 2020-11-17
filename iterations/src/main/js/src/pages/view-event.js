@@ -240,7 +240,7 @@ const App = () => {
                     className={classes.listItem}
                 >
                     <ListItemText
-                        primary={'Select calendar template'}
+                        primary={'Select template'}
                     />
                     {open ? <Minimize /> : <Add />}
                 </ListItem>
