@@ -86,7 +86,7 @@ const App = () =>  {
             <Header />
             <div  className={classes.root}>
                 <Typography variant="h4" className='headingTyp'>
-                    Event List
+                    Your Events
                 </Typography>
                 <Typography variant="h6" className='headingTyp'>
                     Private Events

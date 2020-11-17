@@ -88,7 +88,7 @@ const App = () => {
                 <Grid item xs={6}>
                 <div  className={classes.root}>
                     <Typography variant="h4" className='headingTyp'>
-                        Calendar List
+                        Your Calendars
                     </Typography>
                     <div className="divContents">
                         <List>
