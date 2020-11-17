@@ -27,11 +27,12 @@ const App = () => {
                 <div style={{'display': "flex",
                             'alignItems': "center",
                             'justifyContent': "center",
-                            'width': '100%',}}>
-                    <Button variant='contained' color='primary' onClick={handleLogin}>
+                            'width': '100%',
+                }}>
+                    <Button variant='contained' color='primary' onClick={handleLogin} style={{'margin': '0 10px'}}>
                         Login
                     </Button>
-                    <Button variant='contained' color='primary' href='list-public-events'>
+                    <Button variant='contained' color='inherit' href='list-public-events'>
                         View public events
                     </Button>
                 </div>
