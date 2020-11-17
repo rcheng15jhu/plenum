@@ -475,7 +475,7 @@ public class Server {
         makeStaticRoutes(
                 Arrays.asList(
                           "/profile"
-                        , "/create-calendar", "/view-calendar", "/list-calendar"
+                        , "/create-calendar", "/list-calendar"
                         , "/create-event", "/list-events", "/list-public-events"
                 ),
                 Arrays.asList(
