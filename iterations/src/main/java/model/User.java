@@ -6,6 +6,8 @@ public class User {
     private String name;
     private String password;
     private String salt;
+    private String email;
+    private String affil;
 
    public User(int id) {
         this.id = id;
@@ -23,6 +25,8 @@ public class User {
         this.name = name;
         this.password = password;
         this.salt = salt;
+        this.email = "";
+        this.affil = "";
     }
 
     public User(String name) {
@@ -35,6 +39,22 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAffil() {
+        return affil;
+    }
+
+    public void setAffil(String affil) {
+        this.affil = affil;
     }
 
     public String getName() {
