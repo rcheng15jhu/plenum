@@ -14,9 +14,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
             display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center"
+            flexDirection: "column"
         },
     },
     margin: {
@@ -24,15 +22,15 @@ const useStyles = makeStyles((theme) => ({
     },
     center: {
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        alignItems: "center"
     },
     contentDiv: {
         margin: '10px auto',
-        padding: '50px 0',
+        padding: '50px 50px',
         width: '50%',
         border: '2px solid black',
-        borderRadius: '10',
+        borderRadius: '10px',
     },
     button: {
         marginTop: '30px',
@@ -60,44 +58,60 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <Header />
             <Container className={classes.root}>
-                    <div className={classes.contentDiv}>
-                        <div className={classes.margin}>
-                            <Grid container spacing={1} alignItems="flex-end">
-                                <Grid item>
-                                    <Typography variant='h6'>
-                                        Username:
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant='h6' color='primary'>
-                                        {username}
-                                    </Typography>
-                                </Grid>
+                <div className={classes.contentDiv}>
+                    <div className={classes.margin}>
+                        <Grid container spacing={1} direction="column" justify="flex-start" alignItems="flex-start">
+                            <Grid container direction="row">
+                                <Typography variant='h6'>
+                                    Username:&nbsp;
+                                </Typography>
+                                <Typography variant='h6' color='primary'>
+                                    {username}
+                                </Typography>
                             </Grid>
-                        </div>
-
-                        <div className={classes.center}>
-                            <Button
-                                href='/list-calendar'
-                                variant="contained"
-                                color="secondary"
-                                className={classes.button}
-                            >
-                                View Calendars
-                            </Button>
-                        </div>
-
-                        <div className={classes.center}>
-                            <Button
-                                href='/list-events'
-                                variant="contained"
-                                color="secondary"
-                                className={classes.button}
-                            >
-                                View Events
-                            </Button>
-                        </div>
+                            <Grid container direction="row">
+                                <Typography variant='h6'>
+                                    Email:&nbsp;
+                                </Typography>
+                                <Typography variant='h6' color='primary'>
+                                    hardcoded@example.com
+                                </Typography>
+                            </Grid>
+                            <Grid container direction="row">
+                                <Typography variant='h6'>
+                                    Affiliation:&nbsp;
+                                </Typography>
+                                <Typography variant='h6' color='primary'>
+                                    Loremipsum University
+                                </Typography>
+                            </Grid>
+                        </Grid>
                     </div>
+                </div>
+
+                <div className={classes.contentDiv}>
+                    <div className={classes.center}>
+                        <Button
+                            href='/list-calendar'
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                        >
+                            View Calendars
+                        </Button>
+                    </div>
+
+                    <div className={classes.center}>
+                        <Button
+                            href='/list-events'
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                        >
+                            View Events
+                        </Button>
+                    </div>
+                </div>
             </Container>
         </ThemeProvider>
     )
