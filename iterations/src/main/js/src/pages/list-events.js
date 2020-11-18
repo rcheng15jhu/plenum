@@ -91,9 +91,7 @@ const App = () =>  {
     }
 
     let navToViewPage = (id) => () => {
-        if (id > 0) {
             window.location.assign('/view-event?id=' + id)
-        }
     }
 
 
@@ -141,21 +139,25 @@ const App = () =>  {
                                 ))}
                             </List>
 
+                                <div className={classes.center}>
+                                    <Fab color="primary" aria-label="add" onClick={handleAdd}>
+                                        <AddIcon />
+                                    </Fab>
+
+                                </div>
                             </div>
                         </Grid>
                         <Grid item xs={6}>
                             <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
-                            <Button variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
+                            {id > 0?
+                                <Button style={{'margin' : '30px 0 0 50px'}} variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
+                                :
+                                <div></div>
+                            }
                         </Grid>
 
 
                 </Grid>
-                <div className={classes.center}>
-                    <Fab color="primary" aria-label="add" onClick={handleAdd}>
-                        <AddIcon />
-                    </Fab>
-
-                </div>
                 <Typography variant="h6" className='headingTyp'>
                     Public Events
                 </Typography>
