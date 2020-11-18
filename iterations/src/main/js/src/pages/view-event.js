@@ -54,10 +54,6 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
 
-    if(getCookie('username') === ""){
-        window.location.assign('/')
-    }
-
     let getInitId = () => {
         let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
         if (isNaN(paramId)) {
