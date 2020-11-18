@@ -22,5 +22,8 @@ The available routes in main are the root route which displays a simple message,
 "availabilities" which gets a list of availabilities as a JSON file,
 "addavailability" which adds (through post) a new user,
 "delavailability" which takes an ID and deletes (through post) the corresponding availability,
-"api/updateavailability", which updates the availability corresponding to supplied parameters, and
-"api/addconnection", which creates a new connection based off of event, calendar, and user parameters.
+"api/updateavailability", which updates the availability corresponding to supplied parameters,
+"api/addconnection", which creates a new connection based off of event, calendar, and user parameters,
+"api/delconnection", which deletes a connection based off of the parameters,
+"api/updateconnection", which changes the connections depending on the given parameters,
+"api/changepassword", which allows the user to change their password

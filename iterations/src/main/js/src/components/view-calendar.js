@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(1),
     },
     title: {
-        fontWeight: "bold",
         marginBottom: theme.spacing(4),
     },
     fab: {
@@ -130,23 +129,28 @@ const ViewCalendar = (props) => {
                     <Card>
                         <Calendar editable={editable} onAvailChange={onAvailChange} file={file}/>
                     </Card>
-                    <div className={classes.controls}>
-                        {fabs.map((fab, index) => (
-                            <Zoom
-                                key={fab.color}
-                                in={value === index}
-                                timeout={transitionDuration}
-                                style={{
-                                    transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
-                                }}
-                                unmountOnExit
-                            >
-                                <Fab aria-label={fab.label} className={fab.className} color={fab.color} onClick={handleChangeIndex}>
-                                    {fab.icon}
-                                </Fab>
-                            </Zoom>
-                        ))}
-                    </div>
+                    {props.id > 0 ?
+                        <div className={classes.controls}>
+                            {fabs.map((fab, index) => (
+                                <Zoom
+                                    key={fab.color}
+                                    in={value === index}
+                                    timeout={transitionDuration}
+                                    style={{
+                                        transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
+                                    }}
+                                    unmountOnExit
+                                >
+                                    <Fab aria-label={fab.label} className={fab.className} color={fab.color}
+                                         onClick={handleChangeIndex}>
+                                        {fab.icon}
+                                    </Fab>
+                                </Zoom>
+                            ))}
+                        </div>
+                        :
+                        <div></div>
+                    }
                 </div>
             </Card>
         </div>
