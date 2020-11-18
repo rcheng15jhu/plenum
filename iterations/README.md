@@ -2,7 +2,7 @@
 
 This package represents the fourth iteration of Plenum, a simple peer-scheduling application. In order to use this
 iteration of Plenum, the main function of Server.java can be ran, and after server initialization, the current
-frontend of the application can be accessed at localhost:3000. Alternatively, the current working build of the project can be found in Heroku at http://warm-ridge-98252.herokuapp.com/
+frontend of the application can be accessed at localhost:3000. Alternatively, the current working build of the project can be found in Heroku at http://damp-garden-37477.herokuapp.com/
 
 Additionally, work was done with webpack and github actions to ease the development process, including defining what endpoints to build, and what folders the compiled files should automatically move to. More work was done to set up a proxy to ensure that the dev and build environments could use the same endpoints without much issue.
 
