@@ -9,7 +9,6 @@ import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import theme from "../components/baseline-theme";
 import Header from "../components/header";
 import getCookie from "../services/get-cookie";
-import profileImage from '../resources/profile.png';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -88,16 +87,28 @@ const App = () => {
                             </Grid>
                         </Grid>
                     </div>
+                </div>
 
-                    <div className={classes.margin}>
-                        <img src = {profileImage}/>
+                <div className={classes.contentDiv}>
+                    <div className={classes.center}>
                         <Button
-                            href='/'
+                            href='/list-calendar'
                             variant="contained"
                             color="secondary"
                             className={classes.button}
                         >
-                            Change Profile Picture
+                            View Calendars
+                        </Button>
+                    </div>
+
+                    <div className={classes.center}>
+                        <Button
+                            href='/list-events'
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                        >
+                            View Events
                         </Button>
                     </div>
                 </div>
