@@ -4,10 +4,12 @@ import exception.DaoException;
 import model.Availability;
 import model.Calendar;
 import org.sql2o.Connection;
+import org.sql2o.Query;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Sql2oAvailabilityDao implements AvailabilityDao {
     private final Sql2o sql2o;
@@ -26,6 +28,26 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
                     .executeUpdate().getKey();
             a.setId(id);
             return id;
+        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
+            throw new DaoException();
+        }
+    }
+
+    public List<Integer> addBatch(Stream<Availability> as) {
+        try (Connection con = sql2o.open()) {
+            String query = "INSERT INTO Availabilities (calendarId, date, qHour)" +
+                    "VALUES (:calendarId, :date, :qHour)";
+
+            Query q = con.createQuery(query, true);
+
+            as.forEachOrdered(avail -> {
+                q.bind(avail).addToBatch();
+            });
+
+            List<Integer> ids = q.executeBatch().getKeys(Integer.class);
+            return ids;
         }
         catch (Sql2oException ex) {
             ex.printStackTrace();

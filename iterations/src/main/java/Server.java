@@ -1,197 +1,81 @@
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import exception.DaoException;
 import model.*;
+import model.Calendar;
 import org.sql2o.Sql2o;
-import org.sqlite.SQLiteConfig;
+import org.sql2o.Sql2oException;
 import persistence.Sql2oAvailabilityDao;
-import persistence.Sql2oConnectionsDao;
+import persistence.Sql2oConnectionDao;
 import persistence.Sql2oCalendarDao;
 import persistence.Sql2oEventDao;
 import persistence.Sql2oUserDao;
+import security.Encryption;
 import static spark.Spark.*;
+import static model.SqlSchema.*;
 
 import spark.Spark;
 import spark.utils.IOUtils;
 
-
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class Server {
 
     private static Sql2o sql2o;
 
-    private static Sql2o getSql2o() throws URISyntaxException {
+    static {
+        getSql2o();
+    }
+
+    private static Sql2o getSql2o() {
         if(sql2o == null) {
-            try (Connection conn = getConnection()) {
-                String sq1 = "";
-                String sq2 = "";
-                String sq3 = "";
-                String sq4 = "";
-                String sq5 = "";
+            // create data source - update to use postgresql
+            try {
+                Properties props = getDbUrl(System.getenv("DATABASE_URL"));
+                sql2o = new Sql2o(new HikariDataSource(new HikariConfig(props)));
+            } catch(URISyntaxException | Sql2oException e) {
+                e.printStackTrace();
+            }
 
-                if ("SQLite".equalsIgnoreCase(conn.getMetaData().getDatabaseProductName())) { // running locally
-
-                    // set on foreign keys
-                    SQLiteConfig config = new SQLiteConfig();
-                    config.enforceForeignKeys(true);
-                    config.setPragma(SQLiteConfig.Pragma.FOREIGN_KEYS, "ON");
-
-                    sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
-                            " id            INTEGER PRIMARY KEY," +
-                            " name          VARCHAR(100) NOT NULL UNIQUE," +
-                            " password      VARCHAR(100) NOT NULL" +
-                            ");";
-                    sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
-                            " id            INTEGER PRIMARY KEY," +
-                            " title         VARCHAR(100) NOT NULL," +
-                            " startTime     INTEGER," +
-                            " endTime       INTEGER" +
-                            ");";
-                    sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
-                            " id            INTEGER PRIMARY KEY," +
-                            " title         VARCHAR(100) NOT NULL," +
-                            " userId        INTEGER NOT NULL," +
-                            " FOREIGN KEY(userId)" +
-                            " REFERENCES Users (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                    sq4 = "CREATE TABLE IF NOT EXISTS Connections (" +
-                            " id            INTEGER PRIMARY KEY," +
-                            " eventId       INTEGER NOT NULL," +
-                            " calendarId    INTEGER NOT NULL," +
-                            " userId        INTEGER NOT NULL," +
-                            " FOREIGN KEY(eventId)" +
-                            " REFERENCES Events (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE," +
-                            " FOREIGN KEY(calendarId)" +
-                            " REFERENCES Calendars (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE," +
-                            " FOREIGN KEY(userId)" +
-                            " REFERENCES Users (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                    sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
-                            " id            INTEGER PRIMARY KEY," +
-                            " calendarId    INTEGER NOT NULL," +
-                            " date          INTEGER NOT NULL," +
-                            " qHour        INTEGER NOT NULL," +
-                            " FOREIGN KEY(calendarId)" +
-                            " REFERENCES Calendars (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                }
-                else {
-
-                    sq1 = "CREATE TABLE IF NOT EXISTS Users (" +
-                            " id            serial PRIMARY KEY," +
-                            " name          VARCHAR(100) NOT NULL UNIQUE," +
-                            " password      VARCHAR(100) NOT NULL" +
-                            ");";
-                    sq2 = "CREATE TABLE IF NOT EXISTS Events (" +
-                            " id            serial PRIMARY KEY," +
-                            " title         VARCHAR(100) NOT NULL," +
-                            " startTime     INTEGER NOT NULL," +
-                            " endTime       INTEGER NOT NULL" +
-                            ");";
-                    sq3 = "CREATE TABLE IF NOT EXISTS Calendars (" +
-                            " id            serial PRIMARY KEY," +
-                            " title         VARCHAR(100) NOT NULL," +
-                            " userId        INTEGER NOT NULL," +
-                            " FOREIGN KEY(userId)" +
-                            " REFERENCES Users (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                    sq4 = "CREATE TABLE IF NOT EXISTS Connections (" +
-                            " id            serial PRIMARY KEY," +
-                            " eventId       INTEGER NOT NULL," +
-                            " calendarId    INTEGER NOT NULL," +
-                            " userId        INTEGER NOT NULL," +
-                            " FOREIGN KEY(eventId)" +
-                            " REFERENCES Events (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE," +
-                            " FOREIGN KEY(calendarId)" +
-                            " REFERENCES Calendars (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE," +
-                            " FOREIGN KEY(userId)" +
-                            " REFERENCES Users (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                    sq5 = "CREATE TABLE IF NOT EXISTS Availabilities (" +
-                            " id            serial PRIMARY KEY," +
-                            " calendarId    INTEGER NOT NULL," +
-                            " date          INTEGER NOT NULL," +
-                            " qHour        INTEGER NOT NULL," +
-                            " FOREIGN KEY(calendarId)" +
-                            " REFERENCES Calendars (id)" +
-                            "   ON UPDATE CASCADE" +
-                            "   ON DELETE CASCADE" +
-                            ");";
-                }
-
-                Statement st = conn.createStatement();
-                st.executeUpdate(sq1);
-                st.executeUpdate(sq2);
-                st.executeUpdate(sq3);
-                st.executeUpdate(sq4);
-                st.executeUpdate(sq5);
-            } catch (URISyntaxException | SQLException e) {
+            try (org.sql2o.Connection con = sql2o.beginTransaction()) {
+                con.createQuery(UsersSchema).executeUpdate();
+                con.createQuery(EventsSchema).executeUpdate();
+                con.createQuery(CalendarsSchema).executeUpdate();
+                con.createQuery(ConnectionsSchema).executeUpdate();
+                con.createQuery(AvailabilitiesSchema).executeUpdate();
+                con.commit();
+            } catch (Sql2oException e) {
                 e.printStackTrace();
             }
         }
 
-        // create data source - update to use postgresql
-        String[] dbUrl = getDbUrl(System.getenv("DATABASE_URL"));
-        sql2o = new Sql2o(dbUrl[0], dbUrl[1], dbUrl[2]);
-
         return sql2o;
     }
 
-    public static Connection getConnection() throws SQLException, URISyntaxException {
-        String databaseUrl = System.getenv("DATABASE_URL");
-        if (databaseUrl == null) { //running locally
-            return DriverManager.getConnection("jdbc:sqlite:./Plenum.db");
-        }
-        String[] dbUri = getDbUrl(databaseUrl);
-
-        String username = dbUri[1];
-        String password = dbUri[2];
-        String dbUrl = dbUri[0];
-
-        return DriverManager.getConnection(dbUrl, username, password);
-    }
-
-    private static String[] getDbUrl(String databaseUrl) throws URISyntaxException {
+    private static Properties getDbUrl(String databaseUrl) throws URISyntaxException {
+        Properties props = new Properties();
         if (databaseUrl == null) {
-            return new String[]{"jdbc:sqlite:./Plenum.db", "", ""};
+            Dotenv dotenv = Dotenv.load();
+            props.setProperty("username", dotenv.get("DEV_DB_USER"));
+            props.setProperty("password", dotenv.get("DEV_DB_PWORD"));
+            props.setProperty("jdbcUrl",  dotenv.get("DEV_DB_URL"));
+        } else {
+            URI dbUri = new URI(databaseUrl);
+
+            props.setProperty("username", dbUri.getUserInfo().split(":")[0]);
+            props.setProperty("password", dbUri.getUserInfo().split(":")[1]);
+            props.setProperty("jdbcUrl",  "jdbc:postgresql://" + dbUri.getHost() + ':'
+                    + dbUri.getPort() + dbUri.getPath() + "?sslmode=require");
         }
 
-        URI dbUri = new URI(databaseUrl);
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
-                + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-        return new String[]{dbUrl, username, password};
+        return props;
     }
 
     final static int PORT_NUM = 7000;
@@ -203,34 +87,30 @@ public class Server {
         return PORT_NUM;
     }
 
-    public static void main(String[] args) throws URISyntaxException {
+    public static void main(String[] args) {
         // set port number
         port(getHerokuAssignedPort());
 
         staticFiles.location("/public");
-
-        sql2o = getSql2o();
 
         /* after((Filter) (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
             response.header("Access-Control-Allow-Methods", "GET, POST");
         }); */
 
-        // root route; show a simple message!
-
-        post("/", (req, res) -> {
+        post("/api/login", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             String username = req.queryParams("username");
             String password = req.queryParams("password");
             boolean corr = new Sql2oUserDao(getSql2o()).checkCred(username, password);
             if (corr) {
-                res.cookie("username", username);
+                //res.cookie("username", username);
                 res.status(200);
             }
             else {
                 res.status(401);
             }
-            return null;
+            return "";
         });
 
 //        get("/", (req, res) -> {
@@ -243,33 +123,25 @@ public class Server {
 //        });
 
         //adduser route; allows a new user to be added
+
         post("/api/adduser", (req, res) -> {
             System.out.println("request received!");
             String username = req.queryParams("username");
             String password = req.queryParams("password");
-            res.cookie("username", username);
-            User u = new User(username, password);
+            String salt = Encryption.makeSalt();
+            //res.cookie("username", username);
+            User u = new User(username, Encryption.sha2_hash(password, salt), salt);
             new Sql2oUserDao(getSql2o()).add(u);
             res.redirect("/");
-            return new Gson().toJson(u.toString());
+            //don't return actual new user for security reasons
+            //but return empty string nonetheless
+            return "";
         });
-
-//        //displays sign-up view
-//        get("/adduser", (req, res) -> {
-//            Map<String, Object> model = new HashMap<>();
-//            res.status(200);
-//            res.type("text/html");
-//            return new ModelAndView(model, "public/templates/signup.vm");
-//        }, new VelocityTemplateEngine());
 
 
         // calendars route; return list of calendars as JSON
         get("/api/calendars", (req, res) -> {
             Sql2o sql2o = getSql2o();
-//            if (req.cookie("username") == null) {
-//                res.redirect("/");
-//                return null;
-//            }
             String name = req.cookie("username");
             int userId = new Sql2oUserDao(sql2o).getUserFromName(name).getId();
             String results = new Gson().toJson(new Sql2oCalendarDao(sql2o).listOne(userId));
@@ -277,28 +149,29 @@ public class Server {
             res.status(200);
             return results;
         });
-
+    
         //calendar route; returns availabilities associated with the calendar id
         get("/api/calendar", (req, res) -> {
             Sql2o sql2o = getSql2o();
-            String results;
+            String username = req.cookie("username");
             String idParam = req.queryParams("id");
+            String results;
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             if(idParam != null) {
                 int id = Integer.parseInt(idParam);
                 Calendar c = new Sql2oCalendarDao(sql2o).getCal(id);
                 User u = new Sql2oUserDao(sql2o).getUserFromId(c.getUserId());
-                List<Availability> availabilities = new Sql2oAvailabilityDao(getSql2o()).listAllInCal(c);
+                if (!username.equals(u.getName())) {
+                    res.status(404);
+                    return "";
+                }
+                List<Availability> availabilities = new Sql2oAvailabilityDao(sql2o).listAllInCal(c);
                 results = new Gson().toJson(AvailableDates.createFromAvailability(u.getName(), c.getTitle(), availabilities));
             } else {
                 String name = req.cookie("username");
-                int userId = new Sql2oUserDao(sql2o).getUserFromName(name).getId();
                 results = new Gson().toJson(new Sql2oCalendarDao(sql2o).listOne(userId));
                 System.out.println(results);
             }
-//            Sql2oCalendarDao sql2oCalendarDao = new Sql2oCalendarDao(getSql2o());
-//            int id = Integer.parseInt(req.queryParams("id"));
-//            Calendar c = sql2oCalendarDao.getCal(id);
-
 
             res.type("application/json");
             res.status(200);
@@ -309,21 +182,20 @@ public class Server {
             Sql2o sql2o = getSql2o();
             String results = "";
             //event id
-            String idParam = req.queryParams("id");
-            if(idParam != null) {
-                List<Connections> conns = new Sql2oConnectionsDao(sql2o).listAll();
+            int eventId = Integer.parseInt(req.queryParams("id"));
+            Event e = new Sql2oEventDao(sql2o).getEventFromId(eventId);
+            if(eventId > 0) {
+                List<Connection> conns = new Sql2oConnectionDao(sql2o).listOneEvent(eventId);
                 List<AvailableDates> ads = new ArrayList<>();
                 //get all available dates of all calendars associated with event id
-                for(Connections co : conns) {
-                    if((co.getEventId() + "").equals(idParam)) {
+                for(Connection co : conns) {
                         Calendar ca = new Sql2oCalendarDao(sql2o).getCal(co.getCalendarId());
                         User us = new Sql2oUserDao(sql2o).getUserFromId(ca.getUserId());
-                        List<Availability> av = new Sql2oAvailabilityDao(getSql2o()).listAllInCal(ca);
+                        List<Availability> av = new Sql2oAvailabilityDao(sql2o).listAllInCal(ca);
                         AvailableDates ad = AvailableDates.createFromAvailability(us.getName(), ca.getTitle(), av);
                         ads.add(ad);
-                    }
                 }
-                results = new Gson().toJson(ads);
+                results = new Gson().toJson(new AggrAvail(e.getTitle(), ads));
             }
             res.type("application/json");
             res.status(200);
@@ -332,31 +204,34 @@ public class Server {
 
         //addcalendar route; add a new calendar
         post("/api/addcalendar", (req, res) -> {
+            long startTime = System.nanoTime();
             String title = req.queryParams("title");
             String username = req.cookie("username");
-            int userId = new Sql2oUserDao(getSql2o()).getUserFromName(username).getId();
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             Calendar c = new Calendar(title, userId);
             System.out.println(c);
-            new Sql2oCalendarDao(getSql2o()).add(c);
+            new Sql2oCalendarDao(sql2o).add(c);
             String blob = req.body();
             System.out.println(blob);
+            long stopTime = System.nanoTime();     
             AvailableDates a = new Gson().fromJson(blob, AvailableDates.class);
-            Sql2oAvailabilityDao availabilityDao = new Sql2oAvailabilityDao(getSql2o());
-            a.getAvailabilityStream(c.getId())
-                    .forEachOrdered(availabilityDao::add);
+            Sql2oAvailabilityDao availabilityDao = new Sql2oAvailabilityDao(sql2o);
+            availabilityDao.addBatch(a.getAvailabilityStream(c.getId()));
             res.status(201);
             res.type("application/json");
+            System.out.println(stopTime - startTime);       
             return new Gson().toJson(c.toString());
         });
 
         //delcalendar route; delete calendar
         post("/api/delcalendar", (req, res) -> {
+            Sql2o sql2o = getSql2o();
             int id = Integer.parseInt(req.queryParams("id"));
             Calendar c = new Calendar(id);
             try {
-                c = new Sql2oCalendarDao(getSql2o()).getCal(id);
+                c = new Sql2oCalendarDao(sql2o).getCal(id);
                 System.out.println(c);
-                new Sql2oCalendarDao(getSql2o()).delete(c);
+                new Sql2oCalendarDao(sql2o).delete(c);
                 res.status(204);
             } catch (DaoException ex) {
                 res.status(404);
@@ -367,7 +242,21 @@ public class Server {
 
         //events route; list all events
         get("/api/events", (req, res) -> {
-            List<Event> events = new Sql2oEventDao(getSql2o()).listAll();
+            Sql2o sql2o = getSql2o();
+            String username = req.cookie("username");
+            boolean filter = !"true".equals(req.queryParams("all"));
+            Sql2oEventDao eventDao = new Sql2oEventDao(sql2o);
+            List<Event> events;
+            if(filter) {
+                int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
+                events = new Sql2oConnectionDao(sql2o).listOneUser(userId).stream()
+                        .map(Connection::getEventId)//.distinct()
+                        .map(eventDao::getEventFromId)
+                        .collect(Collectors.toList());
+            }
+            else {
+                events = eventDao.listAll();
+            }
             String results = new Gson().toJson(events);
             res.type("application/json");
             res.status(200);
@@ -398,17 +287,88 @@ public class Server {
             new Sql2oEventDao(getSql2o()).add(e);
             res.status(201);
             res.type("application/json");
-            return new Gson().toJson(e.toString());
+            return new Gson().toJson(e);
         });
 
         //addconnection route; associates a calendar and an event together
         post("/api/addconnection", (req, res) -> {
+            Sql2o sql2o = getSql2o();
+            String username = req.cookie("username");
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             int eventId = Integer.parseInt(req.queryParams("eventId"));
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
-            int userId = Integer.parseInt(req.queryParams("userId"));
-            Connections c = new Connections(eventId, calendarId, userId);
+            Connection c = new Connection(eventId, calendarId, userId);
             System.out.println(c.toString());
-            new Sql2oConnectionsDao(getSql2o()).add(c);
+            new Sql2oConnectionDao(sql2o).add(c);
+            res.status(201);
+            res.type("application/json");
+            return new Gson().toJson(c.toString());
+        });
+
+        //delonnection route; inserts a new event
+        post("/api/delconnection", (req, res) -> {
+            Sql2o sql2o = getSql2o();
+            String username = req.cookie("username");
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
+            int eventId = Integer.parseInt(req.queryParams("eventId"));
+            int calendarId = Integer.parseInt(req.queryParams("calendarId"));
+            Connection c = new Connection(eventId, calendarId, userId);
+            System.out.println(c.toString());
+            try {
+                new Sql2oConnectionDao(sql2o).delete(c);
+                res.status(204);
+            } catch (DaoException e) {
+                res.status(404);
+            }
+            res.type("application/json");
+            return new Gson().toJson(c.toString());
+        });
+
+        //connections route; lists all availabilities
+        get("/api/connections", (req, res) -> {
+            Sql2oConnectionDao sql2OConnectionDao = new Sql2oConnectionDao(getSql2o());
+            String results = new Gson().toJson(sql2OConnectionDao.listAll());
+            res.type("application/json");
+            res.status(200);
+            return results;
+        });
+
+        //changepassword route; allows user to change password
+        post("/api/changepassword", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
+            String username = req.cookie("username");
+            String password = req.queryParams("password");
+            String newpassword = req.queryParams("new password");
+            boolean pcheck = new Sql2oUserDao(getSql2o()).passwordcheck(username, password, newpassword);
+            if (pcheck) {
+                res.status(200);
+            }
+            else {
+                res.status(400);
+            }
+            res.type("application/json");
+            //don't return actual new user for security reasons
+            //but return empty string nonetheless
+            return "";
+        });
+
+        //updateconnection route; edit the calendar associated with the event
+        post("/api/updateconnection", (req, res) -> {
+            Sql2o sql2o = getSql2o();
+            String username = req.cookie("username");
+            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
+            int eventId = Integer.parseInt(req.queryParams("eventId"));
+            System.out.println(req.queryParams("calendarId"));
+            int calendarId = Integer.parseInt(req.queryParams("calendarId"));
+            Connection c = new Connection(eventId, calendarId, userId);
+            System.out.println(c.toString());
+            List<Connection> updateconnections = new Sql2oConnectionDao(sql2o).updateconnectionscheck(eventId, calendarId, userId);
+            if (updateconnections.size() == 1) {
+                new Sql2oConnectionDao(sql2o).delete(updateconnections.get(0));
+            }
+
+            new Sql2oConnectionDao(sql2o).add(c);
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(c.toString());
@@ -416,6 +376,8 @@ public class Server {
 
         //users route; lists all users
         get("/users", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
             Sql2oUserDao sql2oUserDao = new Sql2oUserDao(getSql2o());
             String results = new Gson().toJson(sql2oUserDao.listAll());
             res.type("application/json");
@@ -425,6 +387,8 @@ public class Server {
 
         //deluser route; deletes users
         post("/deluser", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
             int id = Integer.parseInt(req.queryParams("id"));
             User u = new User(id);
             try {
@@ -439,6 +403,8 @@ public class Server {
 
         //availabilities route; lists all availabilities
         get("/availabilities", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
             Sql2oAvailabilityDao sql2oAvailabilityDao = new Sql2oAvailabilityDao(getSql2o());
             String results = new Gson().toJson(sql2oAvailabilityDao.listAll());
             res.type("application/json");
@@ -448,6 +414,8 @@ public class Server {
 
         //delavailability route; deletes availabilities
         post("/delavailability", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
@@ -465,6 +433,8 @@ public class Server {
 
         //addavailability route; inserts a new availability
         post("/addavailability", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
@@ -478,19 +448,20 @@ public class Server {
 
         //updateavailability route; updates availability
         post("/api/updateavailability", (req, res) -> {
+            Sql2o sql2o = getSql2o();
             int calendarId = Integer.parseInt(req.queryParams("calendarId"));
             int date = Integer.parseInt(req.queryParams("date"));
             System.out.println(date);
             int qHour = Integer.parseInt(req.queryParams("qHour"));
             int availstate = Integer.parseInt(req.queryParams("state"));
             Availability a = new Availability(calendarId, date, qHour);
-            boolean curAvail = new Sql2oAvailabilityDao(getSql2o()).updatecheck(a);
+            boolean curAvail = new Sql2oAvailabilityDao(sql2o).updatecheck(a);
             if (availstate == 1 && !curAvail) {
-                new Sql2oAvailabilityDao(getSql2o()).add(a);
+                new Sql2oAvailabilityDao(sql2o).add(a);
                 res.status(201);
                 }
             else if (availstate == 0 && curAvail) {
-                new Sql2oAvailabilityDao(getSql2o()).delete(a);
+                new Sql2oAvailabilityDao(sql2o).delete(a);
                 res.status(204);
             }
 
@@ -501,22 +472,58 @@ public class Server {
 
 
 
-        makeStaticRoutes(Arrays.asList("/create-calendar", "/view-calendar", "/list-calendar", "/index"
-                ,"/list-events" , "/view-event", "/", "", "/login", "/profile", "/create-event"));
-
+        makeStaticRoutes(
+                Arrays.asList(
+                          "/profile"
+                        , "/create-calendar", "/list-calendar"
+                        , "/create-event", "/list-events", "/list-public-events"
+                ),
+                Arrays.asList(
+                        new StaticRoutes("/", "index").noRedirect(),
+                        new StaticRoutes("", "index").noRedirect(),
+                        new StaticRoutes("/login").noRedirect(),
+                        new StaticRoutes("/view-event").noRedirect()
+                )
+        );
 
     }
 
-    public static void makeStaticRoutes(List<String> routes) {
-        routes.forEach(route -> get(route, (req, res) -> {
-            res.status(200);
-            res.type("text/html");
+    private static class StaticRoutes {
+        public String routeName;
+        public String fileName;
+        public boolean redirect;
 
-            String routeName = route;
-            if (route.equals("/") || route.equals("")) {
-                routeName = "/index";
-            }
-            return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html" + routeName + ".html"));
-        }));
+        public StaticRoutes(String routeName) {
+            this.routeName = routeName;
+            this.fileName = routeName.substring(1);
+            redirect = true;
+        }
+
+        public StaticRoutes(String routeName, String fileName) {
+            this.routeName = routeName;
+            this.fileName = fileName;
+            redirect = true;
+        }
+
+        public StaticRoutes noRedirect() {
+            redirect = false;
+            return this;
+        }
+    }
+
+
+
+    public static void makeStaticRoutes(List<String> simpleRoutes, List<StaticRoutes> otherRoutes) {
+        Stream.concat(simpleRoutes.parallelStream().map(StaticRoutes::new).sequential(), otherRoutes.stream())
+                .forEach(route -> get(route.routeName, (req, res) -> {
+                    res.status(200);
+                    res.type("text/html");
+                    if (route.redirect && req.cookie("username") == null) {
+                        res.redirect("/");
+                        return "";
+                    }
+
+                    return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/" + route.fileName + ".html"));
+                }));
     }
 }

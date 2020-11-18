@@ -89,9 +89,6 @@ public class Sql2oCalendarDao implements CalendarDao {
     @Override
     public boolean delete(Calendar cal) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String preQ = "PRAGMA foreign_keys = ON;";
-            con.createQuery(preQ).executeUpdate();
-
             String query = "DELETE FROM Calendars WHERE id = :id";
             con.createQuery(query)
                     .bind(cal)

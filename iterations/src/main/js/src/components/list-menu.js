@@ -12,19 +12,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const options = [
-    'Show nothing',
-    'Show all notification content',
-    'Hide sensitive notification content',
-    'Hide all notification content',
-];
-
 function ListMenu(props) {
     let options = props.options
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
@@ -49,7 +42,7 @@ function ListMenu(props) {
                     aria-controls="lock-menu"
                     onClick={handleClickListItem}
                 >
-                    <ListItemText primary="Select calendar:" secondary={options[selectedIndex]} />
+                    <ListItemText primary="Select a calendar as template:" secondary={options[selectedIndex]} />
                 </ListItem>
             </List>
             <Menu

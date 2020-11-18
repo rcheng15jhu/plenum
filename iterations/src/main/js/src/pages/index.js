@@ -6,9 +6,13 @@ import getCookie from "../services/get-cookie";
 
 const App = () => {
 
+    if(getCookie('username') !== ""){
+        window.location.assign('/list-calendar')
+    }
+
     const handleLogin = () => {
         if(getCookie('username') !== ""){
-            window.location.assign('/profile')
+            window.location.assign('/list-calendar')
         } else {
             window.location.assign('/login')
         }
@@ -23,9 +27,13 @@ const App = () => {
                 <div style={{'display': "flex",
                             'alignItems': "center",
                             'justifyContent': "center",
-                            'width': '100%',}}>
-                    <Button variant='contained' color='primary' onClick={handleLogin}>
+                            'width': '100%',
+                }}>
+                    <Button variant='contained' color='primary' onClick={handleLogin} style={{'margin': '0 10px'}}>
                         Login
+                    </Button>
+                    <Button variant='contained' color='inherit' href='list-public-events'>
+                        View public events
                     </Button>
                 </div>
             </div>

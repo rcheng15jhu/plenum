@@ -47,33 +47,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function fetchAddUserAPI(values) {
-    if (values.username === '' || values.password === '') {
+    if (values.username.normalize() === '' || values.password.normalize() === '') {
         createAlert('Username and password cannot be blank!', 'error');
+        return;
+    } else if (values.password.length > 40) {
+        createAlert('Please limit your password to 40 characters.', 'error');
+        return;
+    } else if (values.confirm.normalize() != values.password.normalize()) {
+        createAlert('Confirm password is not equal to password!', 'error');
         return;
     }
 
-   fetch('/api/adduser?username=' + values.username + '&password=' + values.password, {
+   fetch('/api/adduser?username=' + values.username.normalize() + '&password=' + values.password.normalize(), {
            method: 'POST',
            mode: 'cors'
        }
    ).then(data => {
        console.log(data);
-       if (data.status !== 200) {
+       if (data.status === 401 || data.status === 500) {
            createAlert('Username taken!', 'error');
-       } else {
+       } else if (data.status === 200) {
            createAlert(`Successfully signed up!`, 'success');
-           window.location.assign('/profile')
+           document.cookie = "username=" + values.username.normalize() + "; path=/;";
+           window.location.assign('/list-calendar')
        }
    })
 }
 
 function fetchAPI(values) {
-    if (values.username === '' || values.password === '') {
+    if (values.username.normalize() === '' || values.password.normalize() === '') {
         createAlert('Username and password cannot be blank!', 'error');
         return;
     }
 
-    fetch('/?username=' + values.username + '&password=' + values.password, {
+    fetch('/api/login?username=' + values.username.normalize() + '&password=' + values.password.normalize(), {
             method: 'POST',
             mode: 'cors'
         }
@@ -81,9 +88,10 @@ function fetchAPI(values) {
         console.log(data);
         if (data.status === 401) {
             createAlert('Incorrect login information!', 'error');
-        } else {
+        } else if (data.status === 200) {
             createAlert(`Successfully logged in!`, 'success');
-            window.location.assign('/profile')
+            document.cookie = "username=" + values.username.normalize() + "; path=/;";
+            window.location.assign('/list-calendar')
         }
     })
 }
@@ -94,6 +102,7 @@ const App = () => {
     const [values, setValues] = React.useState({
         username: '',
         password: '',
+        confirm: '',
     });
 
     const state = { result: null };
@@ -137,7 +146,7 @@ const App = () => {
                 <div key={opt.value} className={classes.contentDiv}>
                     {opt.value === 'Sign-up' ?
                         <Typography variant='h5' color='secondary' className={classes.text}>
-                            Do not have an account?
+                            Don't have an account?
                         </Typography>
                         :
                         <div></div>}
@@ -167,6 +176,22 @@ const App = () => {
                                 <TextField name='password' type = 'password' onChange={handleChange} required label="required" />
                             </Grid>
                         </Grid>
+                    </div>
+
+                    <div className={classes.margin}>
+                        {opt.value === 'Sign-up' ?
+                            <div>
+                                <Grid item>
+                                    <Typography variant='h6'>
+                                        Confirm password:
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <TextField name='confirm' type = 'password' onChange={handleChange} required label="required" />
+                                </Grid>
+                            </div>
+                            : <div></div>
+                        }
                     </div>
 
                     <div className={classes.center}>

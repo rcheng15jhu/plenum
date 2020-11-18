@@ -6,6 +6,7 @@ import model.User;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
+import security.Encryption;
 
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class Sql2oUserDao implements UserDao{
     public int add(User user) throws DaoException {
         try (Connection con = sql2o.open()) {
             System.out.println("Inside add!");
-            String query = "INSERT INTO Users (name, password)" +
-                    "VALUES (:name, :password)";
+            String query = "INSERT INTO Users (name, password, salt)" +
+                    "VALUES (:name, :password, :salt)";
             int id = (int) con.createQuery(query, true)
                     .bind(user)
                     .executeUpdate().getKey();
@@ -59,8 +60,9 @@ public class Sql2oUserDao implements UserDao{
             }
 
             String pword = user.get(0).getPassword();
+            String salt = user.get(0).getSalt();
 
-            if (pword.equals(pass)) {
+            if (pword.equals(Encryption.sha2_hash(pass, salt))) {
                 return true;
             }
             else {
@@ -84,11 +86,11 @@ public class Sql2oUserDao implements UserDao{
         }
     }
 
-    public User getUserFromId(int id) throws DaoException {
+    public User getUserFromId(int userId) throws DaoException {
         String sql = "SELECT * FROM Users WHERE id = :id";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
-                    .addParameter("id", id)
+                    .addParameter("id", userId)
                     .executeAndFetch(User.class).get(0);
         }
         catch (Sql2oException ex) {
@@ -99,14 +101,34 @@ public class Sql2oUserDao implements UserDao{
     @Override
     public boolean delete(User user) throws DaoException {
         try (Connection con = sql2o.open()) {
-            String preQ = "PRAGMA foreign_keys = ON;";
-            con.createQuery(preQ).executeUpdate();
-
             String query = "DELETE FROM Users WHERE id = :id";
             con.createQuery(query)
                     .bind(user)
                     .executeUpdate();
             return true;
+        }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
+
+    public boolean passwordcheck(String name, String pword, String newpword) throws DaoException {
+        String sql = "SELECT * FROM Users WHERE name = :name";
+        String sql2 = "UPDATE Users SET password = :newpword WHERE name = :name";
+        try (Connection con = sql2o.open()) {
+            User u = con.createQuery(sql)
+                    .addParameter("name", name)
+                    .executeAndFetch(User.class).get(0);
+            if (Encryption.sha2_hash(pword, u.getSalt()).equals(u.getPassword())) {
+                con.createQuery(sql2)
+                        .addParameter("newpword", Encryption.sha2_hash(newpword, u.getSalt()))
+                        .addParameter("name", name)
+                        .executeUpdate();
+                return true;
+            }
+
+            else
+                return false;
         }
         catch (Sql2oException ex) {
             throw new DaoException();

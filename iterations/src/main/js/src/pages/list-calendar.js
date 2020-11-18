@@ -7,18 +7,29 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import ViewCalendar from "../components/view-calendar";
+import getCookie from "../services/get-cookie";
 
 const useStyles = makeStyles(() => ({
     root: {
         '& > *': {
-            margin: 30,
+            overflowX: 'hidden'
         },
+        overflowX: 'hidden',
+        paddingBottom: '100px'
     },
     center: {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         width: '90%',
+        paddingBottom: '30px'
+    },
+    contents: {
+        '& > *': {
+            margin: '30px'
+        },
     },
 }))
 
@@ -33,10 +44,13 @@ function fetchAPI(id) {
 }
 
 const App = () => {
+
+    if(getCookie('username') === ""){
+        window.location.assign('/')
+    }
+
     const classes = useStyles();
     const [calendars, setCalendars] = useState([])
-
-    const [idToDelete, setIdToDelete] = useState(-1)
 
     useEffect(() => {
         fetch('/api/calendars', {
@@ -51,12 +65,41 @@ const App = () => {
         })
     }, [])
 
+    let getInitId = () => {
+        let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
+        if(isNaN(paramId)) {
+            window.history.replaceState({id: -1},'','/list-calendar')
+            return -1;
+        }
+        else {
+            window.history.replaceState({id: paramId},'','/list-calendar?id=' + paramId)
+            return paramId;
+        }
+    }
+
+    const [idToDelete, setIdToDelete] = useState(-1)
+    const [viewId, setViewId] = useState(getInitId)
+
     useEffect(() => {
         if(idToDelete > 0) {
             fetchAPI(idToDelete)
             setIdToDelete(-1)
         }
     }, [idToDelete])
+
+    const viewListClicked = (id) => () => {
+        window.history.pushState({id: id},'','/list-calendar?id=' + id)
+        setViewId(id);
+    }
+
+    let clearCalendarView = () => {
+        window.history.pushState({id: -1},'','/list-calendar')
+        setViewId(-1)
+    }
+
+    window.onpopstate = (e) => {
+        setViewId(e.state.id)
+    }
 
     const handleAdd = () => {
         window.location.assign('/create-calendar')
@@ -66,48 +109,37 @@ const App = () => {
         setIdToDelete(id);
     }
 
-
-
     let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
 
-    //for testing:
-    // let calendarNames = [
-    //     {
-    //         id: 1,
-    //         content: 'title1'
-    //     },
-    //     {
-    //         id: 2,
-    //         content: 'title2'
-    //     },
-    // ];
-
-    let navToViewPage = (id) => () => {
-        window.location.assign('/view-calendar?id=' + id)
-    }
-
     return (
-        <div style={{'paddingBottom': '100px'}}>
+        <div className={classes.root}>
             <Header />
-            <div  className={classes.root}>
-                <Typography variant="h4" className='headingTyp'>
-                    Calendar List
-                </Typography>
-                <div className="divContents">
-                    <List>
-                        {calendarNames.map(el => (
-                            <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
-                        ))}
-                    </List>
+            <Grid container spacing={3}>
+                <Grid item xs={6}>
+                <div  className={classes.contents}>
+                    <Typography variant="h4" className='headingTyp'>
+                        Your Calendars
+                    </Typography>
+                    <div className="divContents">
+                        <List>
+                            {calendarNames.map(el => (
+                                <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={viewListClicked} />
+                            ))}
+                        </List>
 
-                </div>
-                <div className={classes.center}>
-                    <Fab color="primary" aria-label="add" onClick={handleAdd}>
-                        <AddIcon />
-                    </Fab>
+                    </div>
+                    <div className={classes.center}>
+                        <Fab color="primary" aria-label="add" onClick={handleAdd}>
+                            <AddIcon />
+                        </Fab>
 
+                    </div>
                 </div>
-            </div>
+                </Grid>
+                <Grid item xs={6}>
+                    <ViewCalendar id={viewId} />
+                </Grid>
+            </Grid>
         </div>
 
     )

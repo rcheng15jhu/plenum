@@ -2,57 +2,8 @@ import React from "react";
 
 import Cell from './cell'
 
-let sample_data = {
-    "asdfasdfasdf": [
-        {
-            "date": 1,
-            "times": [0, 1, 2, 3]
-        },
-        {
-            "date": 4,
-            "times": [5, 7, 8, 10]
-        },
-        {
-            "date": 5,
-            "times": [5]
-        }
-    ],
-    "02": [
-        {
-            "date": 1,
-            "times": [0, 1, 2, 3]
-        },
-        {
-            "date": 4,
-            "times": [5, 7, 8, 10]
-        },
-        {
-            "date": 6,
-            "times": [6]
-        },
-        {
-            "date": 5,
-            "times": [5]
-        }
-    ],
-    "03": [
-        {
-            "date": 1,
-            "times": [0, 1, 2, 3]
-        },
-        {
-            "date": 4,
-            "times": [5, 7, 8, 10]
-        },
-        {
-            "date": 0,
-            "times": [0]
-        }
-    ]
-}
-
 const aggregate_calendar = (props) => {
-    // let template = props.file
+    let agg = props.agg
 
     let calendar = new Array(12)
 
@@ -68,18 +19,16 @@ const aggregate_calendar = (props) => {
             }
         }
     }
-    let users_in_event = Object.keys(sample_data)
+    let users_in_event = Object.keys(agg)
     let num_users_in_event = users_in_event.length
 
-    let k = 0
-    for (const i in sample_data) {
-        sample_data[i].forEach(element => {
-            element.times.forEach(function (time) {
+    for (const i in agg) {
+        agg[i].dates.forEach(element => {
+            element.times.forEach(function(time) {
                 calendar[time][element.date].num_avail = calendar[time][element.date].num_avail + 1
-                calendar[time][element.date].users_avail.push(users_in_event[k])
+                calendar[time][element.date].users_avail.push(agg[i].userName)
             })
         })
-        k = k + 1
     }
 
     function linspace(startValue, stopValue, cardinality) {
