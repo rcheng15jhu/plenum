@@ -70,19 +70,6 @@ const ViewCalendar = (props) => {
     };
 
     useEffect(() => {
-        fetch('/api/calendar', {
-                method: 'GET',
-                mode: 'cors'
-            }
-        ).then(res => {
-            return res.json()
-        }).then(data => {
-            console.log(data)
-            setCalendars([...data])
-        })
-    }, [])
-
-    useEffect(() => {
         if(props.id > 0) {
             fetch('/api/calendar?id=' + props.id, {
                     method: 'GET',

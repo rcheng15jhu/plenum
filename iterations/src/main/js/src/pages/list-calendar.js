@@ -44,9 +44,6 @@ const App = () => {
     const classes = useStyles();
     const [calendars, setCalendars] = useState([])
 
-    const [idToDelete, setIdToDelete] = useState(-1)
-    const [viewId, setViewId] = useState(-1)
-
     useEffect(() => {
         fetch('/api/calendars', {
                 method: 'GET',
@@ -60,6 +57,21 @@ const App = () => {
         })
     }, [])
 
+    let getInitId = () => {
+        let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
+        if(isNaN(paramId)) {
+            window.history.replaceState({id: -1},'','/list-calendar')
+            return -1;
+        }
+        else {
+            window.history.replaceState({id: paramId},'','/list-calendar?id=' + paramId)
+            return paramId;
+        }
+    }
+
+    const [idToDelete, setIdToDelete] = useState(-1)
+    const [viewId, setViewId] = useState(getInitId)
+
     useEffect(() => {
         if(idToDelete > 0) {
             fetchAPI(idToDelete)
@@ -67,16 +79,26 @@ const App = () => {
         }
     }, [idToDelete])
 
+    const viewListClicked = (id) => () => {
+        window.history.pushState({id: id},'','/list-calendar?id=' + id)
+        setViewId(id);
+    }
+
+    let clearCalendarView = () => {
+        window.history.pushState({id: -1},'','/list-calendar')
+        setViewId(-1)
+    }
+
+    window.onpopstate = (e) => {
+        setViewId(e.state.id)
+    }
+
     const handleAdd = () => {
         window.location.assign('/create-calendar')
     }
 
     const handleDelete = (id) => () => {
         setIdToDelete(id);
-    }
-
-    const viewListClicked = (id) => () => {
-        setViewId(id);
     }
 
     let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
