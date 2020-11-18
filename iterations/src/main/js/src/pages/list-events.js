@@ -10,12 +10,15 @@ import {makeStyles} from "@material-ui/core/styles";
 import UploadTemplateAlert from "../components/uploadTemplateAlert";
 import Button from "@material-ui/core/Button";
 import getCookie from "../services/get-cookie";
+import Grid from "@material-ui/core/Grid";
+import Aggregate_calendar from "../components/aggregate-calendar";
 
 const useStyles = makeStyles(() => ({
     root: {
         '& > *': {
             margin: 30,
         },
+        overflowX: 'hidden',
     },
     center: {
         display: "flex",
@@ -45,6 +48,12 @@ const App = () =>  {
     const [events, setEvents] = useState([])
 
     const [idToDelete, setIdToDelete] = useState(-1)
+
+    const [calendars, setCalendars] = useState([])
+
+    const [eventTitle, setEventTitle] = useState(null)
+
+    const [id, setId] = useState(-1)
 
     useEffect(() => {
         fetch('/api/events', {
@@ -77,9 +86,32 @@ const App = () =>  {
     let eventNames = events.map(event => {return {id: event.id, content: event.title}})
 
 
-    let navToViewPage = (id) => () => {
-        window.location.assign('/view-event?id=' + id)
+    let updatePreview = (id) => () => {
+        setId(id)
     }
+
+    let navToViewPage = (id) => () => {
+        if (id > 0) {
+            window.location.assign('/view-event?id=' + id)
+        }
+    }
+
+
+    useEffect(() => {
+        if(id > 0) {
+            fetch('/api/aggregate?id=' + id, {
+                    method: 'GET',
+                    mode: 'cors'
+                }
+            ).then(res => {
+                return res.json()
+            }).then(data => {
+                setEventTitle(data.eventTitle)
+                setCalendars(data.calendars)
+            })
+        }
+    }, [id])
+
 
     return (
         <div style={{'paddingBottom': '100px'}}>
@@ -88,17 +120,36 @@ const App = () =>  {
                 <Typography variant="h4" className='headingTyp'>
                     Your Events
                 </Typography>
+
+                <Grid container spacing={3}>
+                    <Grid item xs={6}>
                 <Typography variant="h6" className='headingTyp'>
                     Private Events
                 </Typography>
-                <div className="divContents">
-                    <List>
-                        {eventNames.map(el => (
-                            <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={navToViewPage} />
-                        ))}
-                    </List>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Typography variant="h6" className='headingTyp'>
+                            Previewing: {eventTitle}
+                        </Typography>
+                    </Grid>
+                        <Grid item xs={6}>
 
-                </div>
+                            <div className="divContents">
+                            <List>
+                                {eventNames.map(el => (
+                                    <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={updatePreview} />
+                                ))}
+                            </List>
+
+                            </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
+                            <Button variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
+                        </Grid>
+
+
+                </Grid>
                 <div className={classes.center}>
                     <Fab color="primary" aria-label="add" onClick={handleAdd}>
                         <AddIcon />
