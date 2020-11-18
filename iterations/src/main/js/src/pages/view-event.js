@@ -254,7 +254,7 @@ const App = () => {
             </Grid>
             <Grid item xs={12}>
                 <p className={classes.title}>
-                    Share event: {window.location.href}
+                    Share event: {window.location.href} <button onClick={() => navigator.clipboard.writeText(window.location.href)}>Copy!</button>
                 </p>
             </Grid>
         </Grid>
