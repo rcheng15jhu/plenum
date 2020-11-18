@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         maxWidth: 752,
-        overflow: "scroll"
     },
     demo: {
         backgroundColor: theme.palette.background.paper,
