@@ -9,16 +9,11 @@ import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import theme from "../components/baseline-theme";
 import Header from "../components/header";
 import getCookie from "../services/get-cookie";
+import profileImage from '../resources/profile.png';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& > *': {
-            display: "flex",
-            flexDirection: "column"
-        },
-    },
-    margin: {
-        margin: theme.spacing(1),
+        flexGrow: 1
     },
     center: {
         display: "flex",
@@ -26,9 +21,9 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center"
     },
     contentDiv: {
+        width: '90%',
         margin: '10px auto',
         padding: '50px 50px',
-        width: '50%',
         border: '2px solid black',
         borderRadius: '10px',
     },
@@ -59,8 +54,8 @@ const App = () => {
             <Header />
             <Container className={classes.root}>
                 <div className={classes.contentDiv}>
-                    <div className={classes.margin}>
-                        <Grid container spacing={1} direction="column" justify="flex-start" alignItems="flex-start">
+                    <Grid container spacing={2} direction="row" justify="space-evenly" alignItems="center">
+                        <Grid container spacing={2} direction="column" justify="flex-start" alignItems="flex-start">
                             <Grid container direction="row">
                                 <Typography variant='h6'>
                                     Username:&nbsp;
@@ -79,14 +74,48 @@ const App = () => {
                             </Grid>
                             <Grid container direction="row">
                                 <Typography variant='h6'>
-                                    Affiliation:&nbsp;
+                                    Institution:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    Loremipsum University
+                                    Hardcoded University
+                                </Typography>
+                            </Grid>
+                            <Grid container direction="row">
+                                <Typography variant='h6'>
+                                    Title:&nbsp;
+                                </Typography>
+                                <Typography variant='h6' color='primary'>
+                                    Computer Science Major
                                 </Typography>
                             </Grid>
                         </Grid>
-                    </div>
+                        <Grid container spacing={2} direction="column" justify="flex-start" alignItems="flex-end">
+                            <Grid container>
+                                <Typography variant='h6'>
+                                    Description:&nbsp;
+                                </Typography>
+                                <Typography variant='h6' color='primary'>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Fusce iaculis pulvinar justo, accumsan feugiat massa faucibus vel.
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={2} direction="column" justify="flex-start" alignItems="flex-end">
+                            <Grid container>
+                                <img src = {profileImage}/>
+                            </Grid>
+                            <Grid container>
+                                <Button
+                                    href='/'
+                                    variant="contained"
+                                    color="secondary"
+                                    className={classes.button}
+                                >
+                                    Change Profile Picture
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </div>
 
                 <div className={classes.contentDiv}>
@@ -99,9 +128,6 @@ const App = () => {
                         >
                             View Calendars
                         </Button>
-                    </div>
-
-                    <div className={classes.center}>
                         <Button
                             href='/list-events'
                             variant="contained"
