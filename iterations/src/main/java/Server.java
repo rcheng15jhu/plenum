@@ -245,10 +245,10 @@ public class Server {
             Sql2o sql2o = getSql2o();
             String username = req.cookie("username");
             boolean filter = !"true".equals(req.queryParams("all"));
-            int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
             Sql2oEventDao eventDao = new Sql2oEventDao(sql2o);
             List<Event> events;
             if(filter) {
+                int userId = new Sql2oUserDao(sql2o).getUserFromName(username).getId();
                 events = new Sql2oConnectionDao(sql2o).listOneUser(userId).stream()
                         .map(Connection::getEventId)//.distinct()
                         .map(eventDao::getEventFromId)
