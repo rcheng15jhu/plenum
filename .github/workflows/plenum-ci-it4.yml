@@ -39,7 +39,7 @@ jobs:
         run: (cd ./iterations && ./gradlew build jar && mv ./build/libs/iterations-1.0-SNAPSHOT.jar .)
       - name: remove .env
         run: (cd ./iterations && rm -rf .env)
-      - name: Commit on the runner
-        run: git config user.email "runner@github.com"; git config user.name "Runner"; git add *; git commit -m "None"
-      - name: Deploy to Heroku
-        run: git checkout `git subtree split -P iterations`; git push -f origin HEAD:heroku-deploy
+#      - name: Commit on the runner
+#        run: git config user.email "runner@github.com"; git config user.name "Runner"; git add *; git commit -m "None"
+#      - name: Deploy to Heroku
+#        run: git checkout `git subtree split -P iterations`; git push -f origin HEAD:heroku-deploy
