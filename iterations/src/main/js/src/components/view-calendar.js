@@ -52,10 +52,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ViewCalendar = (props) => {
 
-    const [calendars, setCalendars] = useState([])
-
-    console.log(calendars)
-
     const [file, setFile] = useState({})
 
     const [editable, setEditable] = useState(false)
