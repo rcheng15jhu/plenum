@@ -91,9 +91,7 @@ const App = () =>  {
     }
 
     let navToViewPage = (id) => () => {
-        if (id > 0) {
             window.location.assign('/view-event?id=' + id)
-        }
     }
 
 
@@ -145,7 +143,11 @@ const App = () =>  {
                         </Grid>
                         <Grid item xs={6}>
                             <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
-                            <Button variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
+                            {id > 0?
+                                <Button variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
+                                :
+                                <div></div>
+                            }
                         </Grid>
 
 
