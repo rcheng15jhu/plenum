@@ -104,10 +104,14 @@ const App = () => {
         ).then(res => {
             return res.json()
         }).then(data => {
-            setCalOptions(data)
             if (data !== undefined && data.length != 0) {
+                setCalOptions(data)
                 setSelectedCal(data[0].title)
+            } else {
+                setCalOptions([])
             }
+        }).catch(reason => {
+            setCalOptions([])
         })
     }, [])
 
