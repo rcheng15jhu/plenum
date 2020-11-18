@@ -26,7 +26,11 @@ import {grey} from "@material-ui/core/colors";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        paddingLeft: theme.spacing(4)
+        paddingLeft: theme.spacing(4),
+        overflowX: 'hidden',
+        '& > *': {
+            overflowX: 'hidden',
+        }
     },
     details: {
         display: 'flex',
@@ -210,7 +214,7 @@ const App = () => {
     } 
 
     return (
-        <div>
+        <div style={{'overflowX': 'hidden'}}>
             <ThemeProvider theme={newTheme}>
 
             <Header></Header>

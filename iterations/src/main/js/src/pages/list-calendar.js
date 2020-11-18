@@ -6,7 +6,7 @@ import {Typography} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
-import {makeStyles, useTheme} from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ViewCalendar from "../components/view-calendar";
 import getCookie from "../services/get-cookie";
@@ -14,14 +14,22 @@ import getCookie from "../services/get-cookie";
 const useStyles = makeStyles(() => ({
     root: {
         '& > *': {
-            margin: 30,
+            overflowX: 'hidden'
         },
+        overflowX: 'hidden',
+        paddingBottom: '100px'
     },
     center: {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         width: '90%',
+        paddingBottom: '30px'
+    },
+    contents: {
+        '& > *': {
+            margin: '30px'
+        },
     },
 }))
 
@@ -82,11 +90,11 @@ const App = () => {
     let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
 
     return (
-        <div style={{'paddingBottom': '100px'}}>
+        <div className={classes.root}>
             <Header />
             <Grid container spacing={3}>
                 <Grid item xs={6}>
-                <div  className={classes.root}>
+                <div  className={classes.contents}>
                     <Typography variant="h4" className='headingTyp'>
                         Your Calendars
                     </Typography>
