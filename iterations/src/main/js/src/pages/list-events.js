@@ -47,14 +47,6 @@ const App = () =>  {
     const classes = useStyles();
     const [events, setEvents] = useState([])
 
-    const [idToDelete, setIdToDelete] = useState(-1)
-
-    const [calendars, setCalendars] = useState([])
-
-    const [eventTitle, setEventTitle] = useState(null)
-
-    const [id, setId] = useState(-1)
-
     useEffect(() => {
         fetch('/api/events', {
                 method: 'GET',
@@ -67,6 +59,26 @@ const App = () =>  {
             setEvents([...data])
         })
     }, [])
+
+    let getInitId = () => {
+        let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
+        if(isNaN(paramId)) {
+            window.history.replaceState({id: -1},'','/list-events')
+            return -1;
+        }
+        else {
+            window.history.replaceState({id: paramId},'','/list-events?id=' + paramId)
+            return paramId;
+        }
+    }
+
+    const [id, setId] = useState(getInitId)
+
+    const [idToDelete, setIdToDelete] = useState(-1)
+
+    const [calendars, setCalendars] = useState([])
+
+    const [eventTitle, setEventTitle] = useState(null)
 
     useEffect(() => {
         if(idToDelete > 0) {
@@ -87,7 +99,17 @@ const App = () =>  {
 
 
     let updatePreview = (id) => () => {
+        window.history.pushState({id: id},'','/list-events?id=' + id)
         setId(id)
+    }
+
+    let clearCalendarView = () => {
+        window.history.pushState({id: -1},'','/list-events')
+        setId(-1)
+    }
+
+    window.onpopstate = (e) => {
+        setId(e.state.id)
     }
 
     let navToViewPage = (id) => () => {
