@@ -35,7 +35,8 @@ public class Server {
             // create data source - update to use postgresql
             try {
                 Properties props = getDbUrl(System.getenv("DATABASE_URL"));
-                sql2o = new Sql2o(new HikariDataSource(new HikariConfig(props)));
+                //sql2o = new Sql2o(new HikariDataSource(new HikariConfig(props)));
+                sql2o = new Sql2o(props.getProperty("jdbcUrl"), props.getProperty("username"), props.getProperty("password"));
             } catch(URISyntaxException | Sql2oException e) {
                 e.printStackTrace();
             }
