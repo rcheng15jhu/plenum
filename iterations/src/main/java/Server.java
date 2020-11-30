@@ -478,13 +478,14 @@ public class Server {
                 Arrays.asList(
                           "/profile"
                         , "/create-calendar", "/list-calendar"
-                        , "/create-event", "/list-events", "/list-public-events"
+                        , "/create-event", "/list-events"
                 ),
                 Arrays.asList(
                         new StaticRoutes("/", "index").noRedirect(),
                         new StaticRoutes("", "index").noRedirect(),
                         new StaticRoutes("/login").noRedirect(),
-                        new StaticRoutes("/view-event").noRedirect()
+                        new StaticRoutes("/view-event").noRedirect(),
+                        new StaticRoutes("/list-public-events").noRedirect()
                 )
         );
 
