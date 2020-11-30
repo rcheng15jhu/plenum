@@ -6,6 +6,7 @@ import model.*;
 import model.Calendar;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
+import org.sql2o.quirks.PostgresQuirks;
 import persistence.Sql2oAvailabilityDao;
 import persistence.Sql2oConnectionDao;
 import persistence.Sql2oCalendarDao;
@@ -35,8 +36,8 @@ public class Server {
             // create data source - update to use postgresql
             try {
                 Properties props = getDbUrl(System.getenv("DATABASE_URL"));
-                //sql2o = new Sql2o(new HikariDataSource(new HikariConfig(props)));
-                sql2o = new Sql2o(props.getProperty("jdbcUrl"), props.getProperty("username"), props.getProperty("password"));
+                sql2o = new Sql2o(new HikariDataSource(new HikariConfig(props)), new PostgresQuirks());
+                //sql2o = new Sql2o(props.getProperty("jdbcUrl"), props.getProperty("username"), props.getProperty("password"));
             } catch(URISyntaxException | Sql2oException e) {
                 e.printStackTrace();
             }
