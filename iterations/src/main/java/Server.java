@@ -30,10 +30,6 @@ public class Server {
 
     private static Sql2o sql2o;
 
-    static {
-        getSql2o();
-    }
-
     private static Sql2o getSql2o() {
         if(sql2o == null) {
             // create data source - update to use postgresql
@@ -90,6 +86,8 @@ public class Server {
     public static void main(String[] args) {
         // set port number
         port(getHerokuAssignedPort());
+        
+        getSql2o();
 
         staticFiles.location("/public");
 
