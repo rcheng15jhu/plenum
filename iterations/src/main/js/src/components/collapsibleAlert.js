@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function UploadTemplateAlert(props) {
+export default function CollapsibleAlert(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
 

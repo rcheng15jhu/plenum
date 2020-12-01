@@ -78,7 +78,8 @@ export default function ButtonAppBar() {
                     <Typography variant="h6" className={classes.title}>
                         <Button variant='text' size='large' href="/list-calendar" color="inherit">
                             <HomeRoundedIcon style={{'marginRight': '5px'}} />
-                            Plenum </Button>
+                            Plenum
+                        </Button>
                     </Typography>
                     <Button href="/list-calendar" color="inherit">Calendars</Button>
                     <Button href="/list-events" color="inherit">Events</Button>

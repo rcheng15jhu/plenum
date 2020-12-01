@@ -7,7 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/core/styles";
-import UploadTemplateAlert from "../components/uploadTemplateAlert";
+import CollapsibleAlert from "../components/collapsibleAlert";
 import Button from "@material-ui/core/Button";
 import getCookie from "../services/get-cookie";
 import Grid from "@material-ui/core/Grid";
@@ -143,42 +143,36 @@ const App = () =>  {
 
                 <Grid container spacing={3}>
                     <Grid item xs={6}>
-                <Typography variant="h6" className='headingTyp'>
-                    Private Events
-                </Typography>
+                        <Typography variant="h6" className='headingTyp'>
+                            Private Events
+                        </Typography>
                     </Grid>
                     <Grid item xs={6}>
                         <Typography variant="h6" className='headingTyp'>
                             Previewing: {eventTitle}
                         </Typography>
                     </Grid>
-                        <Grid item xs={6}>
+                    <Grid item xs={6}>
+                        <List>
+                            {eventNames.map(el => (
+                                <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={updatePreview} />
+                            ))}
+                        </List>
+                        <div className={classes.center}>
+                            <Fab color="primary" aria-label="add" onClick={handleAdd}>
+                                <AddIcon />
+                            </Fab>
 
-                            <div className="divContents">
-                            <List>
-                                {eventNames.map(el => (
-                                    <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={updatePreview} />
-                                ))}
-                            </List>
-
-                                <div className={classes.center}>
-                                    <Fab color="primary" aria-label="add" onClick={handleAdd}>
-                                        <AddIcon />
-                                    </Fab>
-
-                                </div>
-                            </div>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
-                            {id > 0?
-                                <Button style={{'margin' : '30px 0 0 50px'}} variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
-                                :
-                                <div></div>
-                            }
-                        </Grid>
-
-
+                        </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
+                        {id > 0?
+                            <Button style={{'margin' : '30px 0 0 50px'}} variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
+                            :
+                            <div/>
+                        }
+                    </Grid>
                 </Grid>
                 <Typography variant="h6" className='headingTyp'>
                     Public Events

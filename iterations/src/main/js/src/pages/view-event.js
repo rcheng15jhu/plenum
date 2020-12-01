@@ -7,7 +7,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import UploadTemplateAlert from '../components/uploadTemplateAlert'
+import CollapsibleAlert from '../components/collapsibleAlert'
 import createAlert from "../services/create-alert";
 import getCookie from "../services/get-cookie";
 import Grid from "@material-ui/core/Grid";
@@ -187,12 +187,12 @@ const App = () => {
     function renderDropdown() {
         if (calOptions === null) {
             return null
-        } else if (calOptions.length == 0) {
-            return <UploadTemplateAlert msg={<a href='create-calendar'>Create a new calendar as template!</a>} severity={'error'} ></UploadTemplateAlert>
+        } else if (calOptions.length === 0) {
+            return <CollapsibleAlert msg={<a href='create-calendar'>Create a new calendar as template!</a>} severity={'error'} />
         } else {
             return (
                 <div>
-                    <List_menu options={calOptions.map(element => element.title)} onChange={handleMenuChange} ></List_menu>
+                    <List_menu options={calOptions.map(element => element.title)} onChange={handleMenuChange} />
 
 
                     {selectedCal ?

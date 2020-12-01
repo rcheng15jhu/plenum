@@ -8,14 +8,14 @@ const editable_cell = (props) => {
 
     let onAvailChange = () => undefined;
     if(props.onAvailChange !== undefined) {
-        onAvailChange = props.onAvailChange(props.day, props.time, avail);
+        onAvailChange = props.onAvailChange;
     }
     useEffect(() => {
         if(firstUpdate.current) {
             firstUpdate.current = false;
             return;
         }
-        onAvailChange()
+        onAvailChange(avail)
     }, [avail])
 
     function flipState() {

@@ -58,7 +58,7 @@ const calendar = (props) => {
                         {(() => {
                             if(props.editable !== undefined && props.editable === true)
                                 return keyList.map((key, j) =>
-                                    <EditableCell key={j} onAvailChange={props.onAvailChange} unavailable={key} time={i} day={j}/>
+                                    <EditableCell key={j} onAvailChange={props.onAvailChange(j, i)} unavailable={key} time={i} day={j}/>
                                 )
                             else
                                 return keyList.map((key, j) =>

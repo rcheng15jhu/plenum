@@ -1,8 +1,5 @@
 import React, {useState, useEffect} from "react";
-import ReactDOM from 'react-dom';
 import Calendar from "./calendar";
-import Viewable_list from "./viewable-list-item";
-import Header from "./header";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -102,7 +99,7 @@ const ViewCalendar = (props) => {
         setEditable(!editable);
     };
 
-    let onAvailChange = (date, qHour, state) => () => {
+    let onAvailChange = (date, qHour) => (state) => {
         fetch('/api/updateavailability?calendarId=' + props.id + "&date=" + date + "&qHour=" + qHour + "&state=" + (state ? 1 : 0), {
             method: 'POST',
             mode: 'cors'

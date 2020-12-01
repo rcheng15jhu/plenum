@@ -19,23 +19,21 @@ const App = () => {
     }
 
     return (
-        <div>
-            <div style={{'marginTop': '60px'}}>
-                <Typography variant='h3' align='center' style={{'margin': '20% 0 30px 0'}}>
-                    Welcome to Plenum!
-                </Typography>
-                <div style={{'display': "flex",
-                            'alignItems': "center",
-                            'justifyContent': "center",
-                            'width': '100%',
-                }}>
-                    <Button variant='contained' color='primary' onClick={handleLogin} style={{'margin': '0 10px'}}>
-                        Login
-                    </Button>
-                    <Button variant='contained' color='inherit' href='list-public-events'>
-                        View public events
-                    </Button>
-                </div>
+        <div style={{'marginTop': '60px'}}>
+            <Typography variant='h3' align='center' style={{'margin': '20% 0 30px 0'}}>
+                Welcome to Plenum!
+            </Typography>
+            <div style={{'display': "flex",
+                        'alignItems': "center",
+                        'justifyContent': "center",
+                        'width': '100%',
+            }}>
+                <Button variant='contained' color='primary' onClick={handleLogin} style={{'margin': '0 10px'}}>
+                    Login
+                </Button>
+                <Button variant='contained' color='inherit' href='list-public-events'>
+                    View public events
+                </Button>
             </div>
         </div>
     )

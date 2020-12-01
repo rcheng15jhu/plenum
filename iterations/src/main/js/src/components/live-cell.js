@@ -1,3 +1,4 @@
+//mark for deletion?
 import React, {useState} from "react";
 
 const live_cell = (props) => {
@@ -17,3 +18,4 @@ const live_cell = (props) => {
 };
 
 export default live_cell
+//mark for deletion?

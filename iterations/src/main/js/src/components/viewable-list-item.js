@@ -42,8 +42,7 @@ const viewable_list_item = (props) => {
                 divider={true}
                 button
                 onClick={props.clicked(props.id)}
-                className={`${props.id}`}
-                >
+            >
                 <ListItemAvatar>
                     <Avatar variant="rounded" className={classes.rounded}>
                         <DateRangeIcon />
