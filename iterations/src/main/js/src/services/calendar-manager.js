@@ -38,6 +38,7 @@ function downloadTemplate() {
     console.log("Test");
 }
 
+//This function is the one for uploading the calendar according to the calendar and title.
 function upload(title, content) {
     fetch("/api/addcalendar?title=" + title, {
         method: 'POST',
@@ -58,6 +59,7 @@ function upload(title, content) {
     });
 }
 
+//This function is to implement the process of uploading a calendar and alerts if the title is empty.
 function uploadTemplate() {
     let title = document.getElementById("title").value;
     if (title !== "") {
