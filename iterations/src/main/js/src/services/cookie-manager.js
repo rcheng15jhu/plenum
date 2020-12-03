@@ -1,3 +1,4 @@
+//This is to get the cookie and pass the name
 export function cookieManager(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -13,6 +14,7 @@ export function cookieManager(cname) {
     return "";
 }
 
+//This is to check if the cookie exists and pass the cookie to other functions.
 export function checkCookie() {
     if(cookieManager('username') === ""){
         window.location.assign('/')
