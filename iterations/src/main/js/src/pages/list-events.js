@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import {checkCookie} from "../services/cookie-manager";
 import Grid from "@material-ui/core/Grid";
 import Aggregate_calendar from "../components/aggregate-calendar";
+import {fetchAggregate} from "../services/event-manager";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -115,20 +116,7 @@ const App = () =>  {
     }
 
 
-    useEffect(() => {
-        if(id > 0) {
-            fetch('/api/aggregate?id=' + id, {
-                    method: 'GET',
-                    mode: 'cors'
-                }
-            ).then(res => {
-                return res.json()
-            }).then(data => {
-                setEventTitle(data.eventTitle)
-                setCalendars(data.calendars)
-            })
-        }
-    }, [id])
+    fetchAggregate(setEventTitle, setCalendars);
 
 
     return (

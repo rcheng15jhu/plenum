@@ -23,7 +23,7 @@ function upload(title) {
     });
 }
 
-function uploadEvent() {
+export function uploadEvent() {
     let title = document.getElementById("title").value;
     if (title !== "") {
         upload(title);
@@ -32,4 +32,15 @@ function uploadEvent() {
     }
 }
 
-export default uploadEvent
+export function fetchAggregate(setEventTitle, setCalendars) {
+    fetch('/api/aggregate?id=' + id, {
+            method: 'GET',
+            mode: 'cors'
+        }
+    ).then(res => {
+        return res.json()
+    }).then(data => {
+        setEventTitle(data.eventTitle)
+        setCalendars(data.calendars)
+    })
+}

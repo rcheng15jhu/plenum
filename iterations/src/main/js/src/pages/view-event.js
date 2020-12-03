@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom'
 import Aggregate_calendar from "../components/aggregate-calendar";
 import List_menu from '../components/list-menu'
 import Header from "../components/header";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CollapsibleAlert from '../components/collapsibleAlert'
 import createAlert from "../services/create-alert";
-import cookieManager from "../services/cookie-manager";
 import Grid from "@material-ui/core/Grid";
 import Calendar from "../components/calendar";
 import PublishIcon from '@material-ui/icons/Publish';
@@ -22,6 +21,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import {grey} from "@material-ui/core/colors";
+import {fetchAggregate} from "../services/event-manager";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -81,20 +81,8 @@ const App = () => {
     const [open, setOpen] = useState(false)
 
     const classes = useStyles();
-    const theme = useTheme();
 
-    useEffect(() => {
-        fetch('/api/aggregate?id=' + id, {
-            method: 'GET',
-            mode: 'cors'
-        }
-        ).then(res => {
-            return res.json()
-        }).then(data => {
-            setEventTitle(data.eventTitle)
-            setCalendars(data.calendars)
-        })
-    }, [])
+    fetchAggregate(setEventTitle, setCalendars);
 
     useEffect(() => {
         fetch('/api/calendar', {
