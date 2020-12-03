@@ -9,7 +9,7 @@ import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ViewCalendar from "../components/view-calendar";
-import getCookie from "../services/get-cookie";
+import {checkCookie} from "../services/cookie-manager";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -45,9 +45,7 @@ function fetchAPI(id) {
 
 const App = () => {
 
-    if(getCookie('username') === ""){
-        window.location.assign('/')
-    }
+    checkCookie();
 
     const classes = useStyles();
     const [calendars, setCalendars] = useState([])

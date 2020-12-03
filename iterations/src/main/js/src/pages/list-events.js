@@ -9,7 +9,7 @@ import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/core/styles";
 import CollapsibleAlert from "../components/collapsibleAlert";
 import Button from "@material-ui/core/Button";
-import getCookie from "../services/get-cookie";
+import {checkCookie} from "../services/cookie-manager";
 import Grid from "@material-ui/core/Grid";
 import Aggregate_calendar from "../components/aggregate-calendar";
 
@@ -40,9 +40,7 @@ function fetchAPI(id) {
 
 const App = () =>  {
 
-    if(getCookie('username') === ""){
-        window.location.assign('/')
-    }
+    checkCookie();
 
     const classes = useStyles();
     const [events, setEvents] = useState([])

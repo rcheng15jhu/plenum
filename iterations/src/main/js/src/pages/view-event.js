@@ -9,7 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CollapsibleAlert from '../components/collapsibleAlert'
 import createAlert from "../services/create-alert";
-import getCookie from "../services/get-cookie";
+import cookieManager from "../services/cookie-manager";
 import Grid from "@material-ui/core/Grid";
 import Calendar from "../components/calendar";
 import PublishIcon from '@material-ui/icons/Publish';

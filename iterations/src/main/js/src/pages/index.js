@@ -2,16 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import getCookie from "../services/get-cookie";
+import {cookieManager, checkCookie} from "../services/cookie-manager";
 
 const App = () => {
 
-    if(getCookie('username') !== ""){
-        window.location.assign('/list-calendar')
-    }
+    checkCookie();
 
     const handleLogin = () => {
-        if(getCookie('username') !== ""){
+        if(cookieManager('username') !== ""){
             window.location.assign('/list-calendar')
         } else {
             window.location.assign('/login')

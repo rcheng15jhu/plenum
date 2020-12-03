@@ -1,4 +1,4 @@
-export default function getCookie(cname) {
+export function cookieManager(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
     for(var i = 0; i < ca.length; i++) {
@@ -11,4 +11,10 @@ export default function getCookie(cname) {
         }
     }
     return "";
+}
+
+export function checkCookie() {
+    if(cookieManager('username') === ""){
+        window.location.assign('/')
+    }
 }

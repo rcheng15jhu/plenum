@@ -9,7 +9,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import Typography from "@material-ui/core/Typography";
 import newTheme from "../components/baseline-theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
-import getCookie from "../services/get-cookie";
+import {checkCookie} from "../services/cookie-manager";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,9 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
 
-    if(getCookie('username') === ""){
-        window.location.assign('/')
-    }
+    checkCookie();
 
     const classes = useStyles();
 

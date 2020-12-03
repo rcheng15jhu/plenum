@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import theme from "../components/baseline-theme";
 import Header from "../components/header";
-import getCookie from "../services/get-cookie";
+import {cookieManager, checkCookie} from "../services/cookie-manager";
 import profileImage from '../resources/profile.png';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,13 +40,11 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
 
-    if(getCookie('username') === ""){
-        window.location.assign('/')
-    }
+    checkCookie();
 
     const classes = useStyles();
 
-    const username = getCookie('username');
+    const username = cookieManager('username');
 
     return (
 
