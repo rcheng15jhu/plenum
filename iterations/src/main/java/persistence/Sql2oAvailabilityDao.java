@@ -9,6 +9,7 @@ import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class Sql2oAvailabilityDao implements AvailabilityDao {
@@ -20,25 +21,19 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
 
     @Override
     public int add(Availability a) throws DaoException {
-        try (Connection con = sql2o.open()) {
-            String query = "INSERT INTO Availabilities (calendarId, date, qHour)" +
-                    "VALUES (:calendarId, :date, :qHour)";
-            int id = (int) con.createQuery(query, true)
-                    .bind(a)
-                    .executeUpdate().getKey();
+        return Transaction.execute(sql2o, (con) -> {
+            String query = "INSERT INTO Availabilities (calendarId, date, qHour)"
+                    + "VALUES (:calendarId, :date, :qHour)";
+            int id = (int) con.createQuery(query, true).bind(a).executeUpdate().getKey();
             a.setId(id);
             return id;
-        }
-        catch (Sql2oException ex) {
-            ex.printStackTrace();
-            throw new DaoException();
-        }
+        });
     }
 
     public List<Integer> addBatch(Stream<Availability> as) {
-        try (Connection con = sql2o.open()) {
-            String query = "INSERT INTO Availabilities (calendarId, date, qHour)" +
-                    "VALUES (:calendarId, :date, :qHour)";
+        return Transaction.execute(sql2o, (con) -> {
+            String query = "INSERT INTO Availabilities (calendarId, date, qHour)"
+                    + "VALUES (:calendarId, :date, :qHour)";
 
             Query q = con.createQuery(query, true);
 
@@ -48,80 +43,52 @@ public class Sql2oAvailabilityDao implements AvailabilityDao {
 
             List<Integer> ids = q.executeBatch().getKeys(Integer.class);
             return ids;
-        }
-        catch (Sql2oException ex) {
-            ex.printStackTrace();
-            throw new DaoException();
-        }
+        });
     }
 
     @Override
     public List<Availability> listAll() throws DaoException {
-        String sql = "SELECT * FROM Availabilities";
-        try (Connection con = sql2o.open()) {
+        return Transaction.execute(sql2o, (con) -> {
+            String sql = "SELECT * FROM Availabilities";
             return con.createQuery(sql).executeAndFetch(Availability.class);
-        }
-        catch (Sql2oException ex) {
-            ex.printStackTrace();
-            throw new DaoException();
-        }
+        });
     }
 
     @Override
     public List<Availability> listAllInCal(Calendar cal) throws DaoException {
-        String sql = "SELECT * FROM Availabilities WHERE calendarId = :id";
-        try (Connection con = sql2o.open()) {
+        return Transaction.execute(sql2o, (con) -> {
+            String sql = "SELECT * FROM Availabilities WHERE calendarId = :id";
             return con.createQuery(sql).bind(cal).executeAndFetch(Availability.class);
-        }
-        catch (Sql2oException ex) {
-            System.err.println(ex);
-            throw new DaoException();
-        }
+        });
     }
 
     @Override
     public boolean delete(Availability a) throws DaoException {
-        try (Connection con = sql2o.open()) {
+        return Transaction.execute(sql2o, (con) -> {
             int id = a.getId();
-            if(id == 0) {
+            if (id == 0) {
                 String query = "DELETE FROM Availabilities WHERE qHour = :qHour AND date = :date AND calendarId =:calendarId";
-                con.createQuery(query)
-                        .bind(a)
-                        .executeUpdate();
+                con.createQuery(query).bind(a).executeUpdate();
                 return true;
-            }
-            else {
+            } else {
                 String query = "DELETE FROM Availabilities WHERE id = :id";
-                con.createQuery(query)
-                        .bind(a)
-                        .executeUpdate();
+                con.createQuery(query).bind(a).executeUpdate();
                 return true;
             }
-        }
-        catch (Sql2oException ex) {
-            ex.printStackTrace();
-            throw new DaoException();
-        }
+        });
     }
 
     public boolean updatecheck(Availability a) throws DaoException {
-        try (Connection con = sql2o.open()) {
-            String query = "SELECT * FROM Availabilities " +
-                    "WHERE date = :date " +
-                    "AND qHour = :qHour " +
-                    "AND calendarId = :calendarId";
+        return Transaction.execute(sql2o, (con) -> {
+            String query = "SELECT * FROM Availabilities " + "WHERE date = :date " + "AND qHour = :qHour "
+                    + "AND calendarId = :calendarId";
             List<Availability> list = con.createQuery(query).bind(a).executeAndFetch(Availability.class);
             if (list.size() == 1) {
                 a.setId(list.get(0).getId());
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        catch (Sql2oException ex) {
-            ex.printStackTrace();
-            throw new DaoException();
-        }
+        });
     }
 }
