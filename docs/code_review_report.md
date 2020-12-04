@@ -25,5 +25,5 @@
 - The DAO pattern implemented here complies with the Single Responsibility Principle, as each DAO is responsible only for persistence of its respective model class (Sql2oCalendarDao is responsible for persistence of Calendars, etc.). The pattern also complies with the Open-Closed Principle, as accomodating queries for a new model class is accomplished by creating a new DAO interface and implementation, rather than modifying an existing class. 
 - The reviewed code has an appropriate level of complexity and is readable. Because the DAO interfaces have a one-to-one correspondence with their implementations,the Interface segregation principle is satisfied by default.
 - Style is good, and variable naming is clear and thoughtful.
-- There were no tests, but they were implemented while refactoring.
-- There were no comments. but they were implemented while refactoring.
+- There are no tests, and should be implemented while refactoring.
+- There are no comments. and should be implemented while refactoring.
