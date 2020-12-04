@@ -3,7 +3,7 @@ import React from "react";
 import Cell from './cell'
 import EditableCell from './editable-cell'
 import {getTime, populateCalendar} from "../services/calendar-manager";
-import calendarTemplate from "./calendar-template";
+import CalendarTemplate from "./calendar-template";
 
 const calendar = (props) => {
     let template = props.file
@@ -30,8 +30,8 @@ const calendar = (props) => {
     }
 
     return (
-        calendarTemplate(
-            calendar.map((keyList, i) => (
+        <CalendarTemplate>
+            {calendar.map((keyList, i) => (
                 <tr key={i}>
                     <td style={{textAlign: 'right'}}>{getTime(i)}</td>
                     {(() => {
@@ -44,9 +44,8 @@ const calendar = (props) => {
                                 <Cell key={j} unavailable={key} time={i} day={j}/>
                             )
                     })()}
-                </tr>
-            ))
-        )
+                </tr>))}
+        </CalendarTemplate>
     )
 };
 

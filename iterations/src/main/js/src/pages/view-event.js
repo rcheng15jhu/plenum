@@ -82,7 +82,7 @@ const App = () => {
 
     const classes = useStyles();
 
-    fetchAggregate(setEventTitle, setCalendars);
+    fetchAggregate(id, setEventTitle, setCalendars);
 
     useEffect(() => {
         fetch('/api/calendar', {

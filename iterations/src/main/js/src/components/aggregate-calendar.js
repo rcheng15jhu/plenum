@@ -2,7 +2,7 @@ import React from "react";
 
 import Cell from './cell'
 import {getTime, populateCalendar} from "../services/calendar-manager";
-import calendarTemplate from "./calendar-template";
+import CalendarTemplate from "./calendar-template";
 
 const aggregate_calendar = (props) => {
     let agg = props.agg
@@ -64,8 +64,8 @@ const aggregate_calendar = (props) => {
     }
 
     return (
-        calendarTemplate(
-            calendar.map((rows, i) => (
+        <CalendarTemplate>
+            {calendar.map((rows, i) => (
                 <tr key={i}>
                     <td style={{ textAlign: 'right' }}>{getTime(i)}</td>
                     {rows.map((cell, j) => (
@@ -78,8 +78,8 @@ const aggregate_calendar = (props) => {
                         )
                     )}
                 </tr>
-            ))
-        )
+            ))}
+        </CalendarTemplate>
     )
 };
 
