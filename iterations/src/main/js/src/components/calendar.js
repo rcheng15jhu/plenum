@@ -2,6 +2,8 @@ import React from "react";
 
 import Cell from './cell'
 import EditableCell from './editable-cell'
+import getTime from "../services/calendar-manager";
+import calendarTemplate from "./calendar-template";
 
 const calendar = (props) => {
     let template = props.file
@@ -28,48 +30,24 @@ const calendar = (props) => {
         }
     }
 
-    const time = (val) => {
-        if (val === 0 || val === 6) {
-            return 12
-        }
-        return (val * 2) % 12
-    }
-
-    console.log(calendar)
     return (
-        <table>
-            <thead>
-            <tr>
-                <th/>
-                <th>Su</th>
-                <th>M</th>
-                <th>T</th>
-                <th>W</th>
-                <th>Th</th>
-                <th>F</th>
-                <th>S</th>
-            </tr>
-            </thead>
-            <tbody>
-            {
-                calendar.map((keyList, i) => (
-                    <tr key={i}>
-                        <td style={{textAlign: 'right'}}>{time(i)}</td>
-                        {(() => {
-                            if(props.editable !== undefined && props.editable === true)
-                                return keyList.map((key, j) =>
-                                    <EditableCell key={j} onAvailChange={props.onAvailChange(j, i)} unavailable={key} time={i} day={j}/>
-                                )
-                            else
-                                return keyList.map((key, j) =>
-                                    <Cell key={j} unavailable={key} time={i} day={j}/>
-                                )
-                        })()}
-                    </tr>
-                ))
-            }
-            </tbody>
-        </table>
+        calendarTemplate(
+            calendar.map((keyList, i) => (
+                <tr key={i}>
+                    <td style={{textAlign: 'right'}}>{getTime(i)}</td>
+                    {(() => {
+                        if(props.editable !== undefined && props.editable === true)
+                            return keyList.map((key, j) =>
+                                <EditableCell key={j} onAvailChange={props.onAvailChange(j, i)} unavailable={key} time={i} day={j}/>
+                            )
+                        else
+                            return keyList.map((key, j) =>
+                                <Cell key={j} unavailable={key} time={i} day={j}/>
+                            )
+                    })()}
+                </tr>
+            ))
+        )
     )
 };
 

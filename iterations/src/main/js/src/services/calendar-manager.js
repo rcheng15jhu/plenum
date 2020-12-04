@@ -60,7 +60,7 @@ function upload(title, content) {
 }
 
 //This function is to implement the process of uploading a calendar and alerts if the title is empty.
-function uploadTemplate() {
+export default function uploadTemplate() {
     let title = document.getElementById("title").value;
     if (title !== "") {
         upload(title, getObjToSave());
@@ -69,4 +69,11 @@ function uploadTemplate() {
     }
 }
 
-export default uploadTemplate
+// This function is used in calendar.js and aggregate-calendar.js.
+// It takes the time slot and returns the correct time to display
+export default function getTime(val) {
+    if (val === 0 || val === 6) {
+            return 12
+        }
+        return (val * 2) % 12
+}

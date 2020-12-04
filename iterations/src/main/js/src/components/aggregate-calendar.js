@@ -1,6 +1,8 @@
 import React from "react";
 
 import Cell from './cell'
+import getTime from "../services/calendar-manager";
+import calendarTemplate from "./calendar-template";
 
 const aggregate_calendar = (props) => {
     let agg = props.agg
@@ -60,47 +62,23 @@ const aggregate_calendar = (props) => {
         }
     }
 
-    const time = (val) => {
-        if (val === 0 || val === 6) {
-            return 12
-        }
-        return (val * 2) % 12
-    }
-
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th />
-                    <th>Su</th>
-                    <th>M</th>
-                    <th>T</th>
-                    <th>W</th>
-                    <th>Th</th>
-                    <th>F</th>
-                    <th>S</th>
+        calendarTemplate(
+            calendar.map((rows, i) => (
+                <tr key={i}>
+                    <td style={{ textAlign: 'right' }}>{getTime(i)}</td>
+                    {rows.map((cell, j) => (
+                            <Cell
+                                key={j}
+                                tooltip_id={'' + i + j}
+                                opacity={get_opacity_from_num_avail(calendar[i][j].num_avail)}
+                                users_avail={calendar[i][j].users_avail}
+                            />
+                        )
+                    )}
                 </tr>
-            </thead>
-            <tbody>
-                {
-                    calendar.map((rows, i) => (
-                        <tr key={i}>
-                            <td style={{ textAlign: 'right' }}>{time(i)}</td>
-                            {rows.map((cell, j) => (
-                                <Cell
-                                    key={j}
-                                    tooltip_id={'' + i + j}
-                                    opacity={get_opacity_from_num_avail(calendar[i][j].num_avail)}
-                                    users_avail={calendar[i][j].users_avail}
-                                />
-                                )
-                            )}
-                        </tr>
-                    ))
-                }
-            </tbody>
-        </table>
-        
+            ))
+        )
     )
 };
 
