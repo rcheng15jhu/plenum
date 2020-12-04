@@ -78,6 +78,8 @@ export function getTime(val) {
         return (val * 2) % 12
 }
 
+// This function is used in calendar.js and aggregate-calendar.js.
+// It makes 1D array into 2D
 export function populateCalendar(calendar){
     for (let i = 0; i < calendar.length; i++) {
         calendar[i] = new Array(7)
