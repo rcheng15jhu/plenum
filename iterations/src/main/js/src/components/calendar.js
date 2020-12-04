@@ -2,9 +2,8 @@ import React from "react";
 
 import Cell from './cell'
 import EditableCell from './editable-cell'
-import getTime from "../services/calendar-manager";
+import {getTime, populateCalendar} from "../services/calendar-manager";
 import calendarTemplate from "./calendar-template";
-import populateCalendar from "../services/calendar-manager";
 
 const calendar = (props) => {
     let template = props.file

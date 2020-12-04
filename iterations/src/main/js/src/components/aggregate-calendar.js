@@ -1,9 +1,8 @@
 import React from "react";
 
 import Cell from './cell'
-import getTime from "../services/calendar-manager";
+import {getTime, populateCalendar} from "../services/calendar-manager";
 import calendarTemplate from "./calendar-template";
-import populateCalendar from "../services/calendar-manager";
 
 const aggregate_calendar = (props) => {
     let agg = props.agg

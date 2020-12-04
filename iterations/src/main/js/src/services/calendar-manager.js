@@ -71,14 +71,14 @@ export default function uploadTemplate() {
 
 // This function is used in calendar.js and aggregate-calendar.js.
 // It takes the time slot and returns the correct time to display
-export default function getTime(val) {
+export function getTime(val) {
     if (val === 0 || val === 6) {
             return 12
         }
         return (val * 2) % 12
 }
 
-export default function populateCalendar(calendar){
+export function populateCalendar(calendar){
     for (let i = 0; i < calendar.length; i++) {
         calendar[i] = new Array(7)
     }
