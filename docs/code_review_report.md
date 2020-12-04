@@ -16,9 +16,13 @@
 -	Style is good. Indents and spaces are where they should be.
 
 ## Front-end: remaining pages and components (reviewed by Ricky)
- - No glaring design issues. Fixed a few instances of empty JSX tags being simplified with <x/> as opposed to <x></x>
+ - No glaring design issues here either.
+ - Fixed a few instances of empty JSX tags being simplified with <x/> as opposed to <x></x>
  - There were a few files that were seemingly not used on the front end. I went ahead and deleted these files.
- - 
+ - A few names were unclear and did not describe their function as actually used (for example, when an alert for uploading is used more broadly). These names were changed.
+ - The new React uses a functional coding style with few mutable states; React hooks were used extensively and archetypically to provide some mutable and persistent state when necessary, such as saving or reacting to a user event (click), and API calls
+ - Fixed a bug related to React effects, and javascript binding of variables. Surprised the old code didn't generated an error / issue sooner, but the old code was changed so that variables are captured at the proper time.
+ - There was inconsistent indentation in some locations, these were quickly fixed so it was very clear what layer of HTMl/JSX everything was on
 
 ## Server.java (reviewed by Everett)
 - Server.java follows the SOLID principles. It contains a single responsibility (to handle all server requests and responses). It is specifically designed to be open for extension but closed for modification. It is not extended, and does not extend any classes and thus avoids substitution problems. It does not implement any interfaces and thus avoids any interface-related problems. Although it does not use abstractions such as interfaces to aid in dependency inversion, Server.java keeps its inner workings enclosed and hidden in a way that allows it to be used without needing to know its aforementioned workings.
