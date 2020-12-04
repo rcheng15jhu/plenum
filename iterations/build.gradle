@@ -56,4 +56,4 @@ application {
 	mainClassName = javaMainClass
 }
 
-//task stage(dependsOn: ['clean'])
+task stage(dependsOn: ['clean'])
