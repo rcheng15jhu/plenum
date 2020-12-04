@@ -22,4 +22,8 @@
 
 ## Persistence and Model packages (reviewed by Tyler)
 - Every implementation of a DAO interface contains methods that perform CRUD operations. In every method across every implementation, a connection is opened in an identical try-with-resources statement, and any exceptions are caught in the catch clause. This is the DRY code smell, as the same code is repeated in several instances, contributing to bloat. To resolve the DRY issue, a static helper method (Transaction.execute()) which runs a Function wrapped within a try-with-resources statement. It does this by accepting a Function as a parameter, and the code block constituting the DAO query is passed via lambda statement into execute() which is run using the apply() method of Function in execute().
-
+- The DAO pattern implemented here complies with the Single Responsibility Principle, as each DAO is responsible only for persistence of its respective model class (Sql2oCalendarDao is responsible for persistence of Calendars, etc.). The pattern also complies with the Open-Closed Principle, as accomodating queries for a new model class is accomplished by creating a new DAO interface and implementation, rather than modifying an existing class. Because the DAO interfaces have a one-to-one correspondence with their implementations,the Interface segregation principle is satisfied by default. In addition, the implementation of the DAO pattern encourages high cohesion, as all methods in a respective DAO class are unified by the common purpose of querying for a particular model class.
+- The reviewed code has an appropriate level of complexity and is readable.
+- Style is good, and variable naming is clear and thoughtful.
+- There are no tests, and should be implemented while refactoring.
+- There are no comments. and should be implemented while refactoring.
