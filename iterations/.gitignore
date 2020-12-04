@@ -9,6 +9,9 @@ Plenum.db
 .env
 
 src/main/resources/public/static/
+/iterations-1.0-SNAPSHOT.jar
+
+
 
 .DS_Store
 
