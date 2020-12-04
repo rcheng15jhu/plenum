@@ -77,3 +77,10 @@ export default function getTime(val) {
         }
         return (val * 2) % 12
 }
+
+export default function populateCalendar(calendar){
+    for (let i = 0; i < calendar.length; i++) {
+        calendar[i] = new Array(7)
+    }
+    return calendar;
+}

@@ -4,15 +4,14 @@ import Cell from './cell'
 import EditableCell from './editable-cell'
 import getTime from "../services/calendar-manager";
 import calendarTemplate from "./calendar-template";
+import populateCalendar from "../services/calendar-manager";
 
 const calendar = (props) => {
     let template = props.file
 
     let calendar = new Array(12)
 
-    for (let i = 0; i < calendar.length; i++) {
-        calendar[i] = new Array(7)
-    }
+    calendar = populateCalendar(calendar);
 
     for (let i = 0; i < 12; i++) {
         for (let j = 0; j < 7; j++) {

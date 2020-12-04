@@ -3,15 +3,14 @@ import React from "react";
 import Cell from './cell'
 import getTime from "../services/calendar-manager";
 import calendarTemplate from "./calendar-template";
+import populateCalendar from "../services/calendar-manager";
 
 const aggregate_calendar = (props) => {
     let agg = props.agg
 
     let calendar = new Array(12)
 
-    for (let i = 0; i < calendar.length; i++) {
-        calendar[i] = new Array(7)
-    }
+    calendar = populateCalendar(calendar);
 
     for (let i = 0; i < 12; i++) {
         for (let j = 0; j < 7; j++) {
