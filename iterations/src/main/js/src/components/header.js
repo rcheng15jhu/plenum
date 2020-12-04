@@ -11,7 +11,6 @@ import {AccountCircle} from "@material-ui/icons";
 import theme from "./baseline-theme";
 import {ThemeProvider} from "@material-ui/styles";
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
-import cookieManager from "../services/cookie-manager";
 
 const useStyles = makeStyles((theme) => ({
     root: {

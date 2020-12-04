@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from 'react-dom'
-import Calendar from "../components/calendar";
 import Header from "../components/header";
 import {uploadEvent} from "../services/event-manager.js";
 import { makeStyles } from '@material-ui/core/styles';

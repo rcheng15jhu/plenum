@@ -51,7 +51,6 @@ const viewable_list_item = (props) => {
                 <ListItemText className={classes.title}
                     primary={`${props.content}`}
                 />
-                {/*{open ? <VisibilityIcon /> : <VisibilityOffIcon />}*/}
                 <ListItemSecondaryAction onClick={props.delete(props.id)}>
                     <IconButton edge="end" aria-label="delete">
                         <DeleteIcon />

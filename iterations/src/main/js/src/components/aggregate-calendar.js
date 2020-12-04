@@ -11,6 +11,7 @@ const aggregate_calendar = (props) => {
 
     calendar = populateCalendar(calendar);
 
+    //set up calendar data
     for (let i = 0; i < 12; i++) {
         for (let j = 0; j < 7; j++) {
             calendar[i][j] = {
@@ -22,6 +23,7 @@ const aggregate_calendar = (props) => {
     let users_in_event = Object.keys(agg)
     let num_users_in_event = users_in_event.length
 
+    //combine two calendar data
     for (const i in agg) {
         agg[i].dates.forEach(element => {
             element.times.forEach(function(time) {
@@ -31,6 +33,7 @@ const aggregate_calendar = (props) => {
         })
     }
 
+    //set up display layout
     function linspace(startValue, stopValue, cardinality) {
         let arr = [];
         let step = (stopValue - startValue) / (cardinality - 1);

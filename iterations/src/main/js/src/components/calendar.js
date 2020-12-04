@@ -12,14 +12,15 @@ const calendar = (props) => {
 
     calendar = populateCalendar(calendar);
 
+    //set up calendar
     for (let i = 0; i < 12; i++) {
         for (let j = 0; j < 7; j++) {
             calendar[i][j] = 'U'
         }
     }
 
+    //set up display layout
     if(template !== undefined && template.dates !== undefined) {
-        console.log("test")
         let dates = template.dates;
         for (let i = 0; i < dates.length; i++) {
             for (let j = 0; j < dates[i].times.length; j++) {
