@@ -6,8 +6,6 @@ import {cookieManager, checkCookie} from "../services/cookie-manager";
 
 const App = () => {
 
-    checkCookie();
-
     const handleLogin = () => {
         if(cookieManager('username') !== ""){
             window.location.assign('/list-calendar')
