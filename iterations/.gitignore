@@ -8,6 +8,8 @@ Plenum.db
 *misc.xml
 .env
 
+src/resources/public/static/
+
 .DS_Store
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider

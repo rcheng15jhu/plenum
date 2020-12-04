@@ -34,7 +34,7 @@ export function uploadEvent() {
     }
 }
 
-export function fetchAggregate(setEventTitle, setCalendars) {
+export function fetchAggregate(id, setEventTitle, setCalendars) {
     fetch('/api/aggregate?id=' + id, {
             method: 'GET',
             mode: 'cors'

@@ -115,8 +115,9 @@ const App = () =>  {
             window.location.assign('/view-event?id=' + id)
     }
 
-
-    fetchAggregate(setEventTitle, setCalendars);
+    useEffect(() => {
+        fetchAggregate(id, setEventTitle, setCalendars);
+    }, [id])
 
 
     return (
