@@ -8,7 +8,7 @@ const editable_cell = (props) => {
 
     let onAvailChange = () => undefined;
     if(props.onAvailChange !== undefined) {
-        onAvailChange = props.onAvailChange;
+        onAvailChange = props.onAvailChange(props.day, props.time);
     }
     useEffect(() => {
         if(firstUpdate.current) {
