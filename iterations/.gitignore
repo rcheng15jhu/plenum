@@ -8,7 +8,7 @@ Plenum.db
 *misc.xml
 .env
 
-src/resources/public/static/
+src/main/resources/public/static/
 
 .DS_Store
 
