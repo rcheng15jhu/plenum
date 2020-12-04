@@ -270,7 +270,7 @@ public class Server {
             int id = Integer.parseInt(req.queryParams("id"));
             Event event = new Event(id);
             try {
-                new Sql2oEventDao(getSql2o()).delete(e);
+                new Sql2oEventDao(getSql2o()).delete(event);
                 res.status(204);
             } catch (DaoException ex) {
                 res.status(404);
@@ -394,7 +394,7 @@ public class Server {
             int id = Integer.parseInt(req.queryParams("id"));
             User user = new User(id);
             try {
-                new Sql2oUserDao(getSql2o()).delete(u);
+                new Sql2oUserDao(getSql2o()).delete(user);
                 res.status(204);
             } catch (DaoException ex) {
                 res.status(404);
