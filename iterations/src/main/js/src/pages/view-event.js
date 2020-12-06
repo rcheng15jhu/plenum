@@ -23,6 +23,8 @@ import List from "@material-ui/core/List";
 import {grey} from "@material-ui/core/colors";
 import {fetchAggregate} from "../services/event-manager";
 import {cookieManager} from "../services/cookie-manager"
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -84,6 +86,8 @@ const App = () => {
     const [addedCal, setAddedCal] = useState({})
 
     const [agg, setAgg] = useState([])
+
+    const [ignoreToggle, setIgnoreToggle] = useState(false)
 
     const classes = useStyles();
 
@@ -147,14 +151,20 @@ const App = () => {
                 return res.json()
             }).then(data => {
                 setFile(data)
-                setAgg(calendars.filter(cal => cal.calendarTitle !== addedCal.calendarTitle).concat([data]))
+                if (ignoreToggle) {
+                    setAgg(calendars.filter(cal => cal.calendarTitle !== addedCal.calendarTitle))
+                } else {
+                    console.log('a')
+                    console.log(selectedCal)
+                    setAgg(calendars.filter(cal => cal.calendarTitle !== addedCal.calendarTitle).concat([data]))
+                }
             })
         }
         else {
             setFile({})
             setAgg(calendars)
         }
-    }, [selectedCal, calendars, calOptions])
+    }, [selectedCal, calendars, calOptions, ignoreToggle])
 
     let updateActive = (id) => () => {
         window.history.pushState({ id: id }, '', '/view-event?id=' + id)
@@ -198,6 +208,11 @@ const App = () => {
     const handleClickList = () => {
         setOpen(!open);
     };
+
+    const handleSwitchToggle = () => {
+        let temp = !ignoreToggle
+        setIgnoreToggle(temp)
+    }
     
     function renderDropdown() {
         if (calOptions === null) {
@@ -230,10 +245,10 @@ const App = () => {
 
     function renderAggregateCal() {
         return <Aggregate_calendar
+            key={agg}
             agg={agg}>
         </Aggregate_calendar>
     }
-
 
     return (
         <div style={{'overflowX': 'hidden'}}>
@@ -252,6 +267,14 @@ const App = () => {
                     </CardContent>
                     <Card>
                         {renderAggregateCal()}
+                        {selectedCal !== undefined ?
+                            <FormControlLabel
+                                control={<Switch onChange={handleSwitchToggle}/>}
+                                label="Hide own availability"                                
+                            />  
+                        :
+                            null
+                        }
                     </Card>
                 </div>
             </Card>
