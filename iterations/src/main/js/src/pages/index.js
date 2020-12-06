@@ -36,7 +36,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <img src={backgroundPhoto} className={classes.backgroundDiv} style={{zIndex:-1}}/>
             <div style={{'marginTop': '20%'}}>
-                <Typography variant='h3' align='center' style={{'margin':'20% 0 30px 0',zIndex:0}}>
+                <Typography variant='h3' align='center' style={{'margin':'20% 0 30px 0',zIndex:0,color:'#706070'}}>
                     Welcome to Plenum!
                 </Typography>
                 <div style={{'display': "flex",'alignItems': "center",'justifyContent': "center",'width': '100%',zIndex:1}}>
@@ -46,7 +46,7 @@ const App = () => {
                         </Button>
                         :
                         <Button variant='contained' color='primary' href='list-calendar'>
-                            Your calendar
+                            Your calendars
                         </Button>
                     }
                     <Button variant='contained' color='inherit' href='list-public-events'>
