@@ -50,6 +50,7 @@ const App = () => {
     const classes = useStyles();
     const [calendars, setCalendars] = useState([])
 
+    //Get all calendars from backend
     useEffect(() => {
         fetch('/api/calendars', {
                 method: 'GET',
@@ -63,6 +64,7 @@ const App = () => {
         })
     }, [])
 
+    //check whether an id for the calendar is specfied in the url and display accordingly
     let getInitId = () => {
         let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
         if(isNaN(paramId)) {
@@ -78,6 +80,7 @@ const App = () => {
     const [idToDelete, setIdToDelete] = useState(-1)
     const [viewId, setViewId] = useState(getInitId)
 
+    //For deleting a calendar
     useEffect(() => {
         if(idToDelete > 0) {
             fetchAPI(idToDelete)
@@ -85,20 +88,17 @@ const App = () => {
         }
     }, [idToDelete])
 
+    //obtain the id of the calendar the user clicks on
     const viewListClicked = (id) => () => {
         window.history.pushState({id: id},'','/list-calendar?id=' + id)
         setViewId(id);
-    }
-
-    let clearCalendarView = () => {
-        window.history.pushState({id: -1},'','/list-calendar')
-        setViewId(-1)
     }
 
     window.onpopstate = (e) => {
         setViewId(e.state.id)
     }
 
+    //for when user clicks add calendar button
     const handleAdd = () => {
         window.location.assign('/create-calendar')
     }
