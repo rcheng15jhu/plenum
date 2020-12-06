@@ -8,12 +8,12 @@ import CalendarTemplate from "./calendar-template";
 const calendar = (props) => {
     let template = props.file
 
-    let calendar = new Array(12)
+    let calendar = new Array(24 * 4)
 
     calendar = populateCalendar(calendar);
 
     //set up calendar
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 24 * 4; i++) {
         for (let j = 0; j < 7; j++) {
             calendar[i][j] = 'U'
         }
@@ -31,20 +31,30 @@ const calendar = (props) => {
 
     return (
         <CalendarTemplate>
-            {calendar.map((keyList, i) => (
-                <tr key={i}>
-                    <td style={{textAlign: 'right'}}>{getTime(i)}</td>
-                    {(() => {
-                        if(props.editable !== undefined && props.editable === true)
-                            return keyList.map((key, j) =>
-                                <EditableCell key={j} onAvailChange={props.onAvailChange} available={key} time={i} day={j}/>
-                            )
-                        else
-                            return keyList.map((key, j) =>
-                                <Cell key={j} available={key} time={i} day={j}/>
-                            )
-                    })()}
-                </tr>))}
+        {calendar.map((keyList, i) => (
+            <React.Fragment key={i}>
+            {(() => {
+                if(props.editable !== undefined && props.editable === true) {
+                    return keyList.map((key, j) =>
+                        <EditableCell
+                            key={j}
+                            onAvailChange={props.onAvailChange}
+                            available={key}
+                            time={i} day={j}
+                        />
+                    )
+                }
+                else {
+                    return keyList.map((key, j) =>
+                        <Cell key={j}
+                              available={key}
+                              time={i} day={j}
+                        />
+                    )
+                }
+            })()}
+            </React.Fragment>
+        ))}
         </CalendarTemplate>
     )
 };

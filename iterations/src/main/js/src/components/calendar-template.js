@@ -16,8 +16,8 @@ const calendarTemplate = (props) => (
             </tr>
         </thead>
         <tbody>
-        {props.children.map((row, i) => {
-            let moreStyles = {borderTop: '1px white solid'}
+        {React.Children.map(props.children, (row, i) => {
+            let moreStyles = {borderTop: '1px transparent solid'}
             if(i % 4 === 0) {
                 moreStyles = {borderTop: '1px black solid'}
             }
@@ -30,7 +30,7 @@ const calendarTemplate = (props) => (
                         ? <td style={{textAlign: 'right', verticalAlign: 'top'}} rowSpan={4}>{getTime(i)}</td>
                         : null
                     }
-                    {row.map(cell => React.cloneElement(cell, {moreStyles: moreStyles}))}
+                    {React.Children.map(row.props.children, cell => React.cloneElement(cell, {moreStyles: moreStyles}))}
                     <td style={{borderLeft: '1px black solid', width: '0px'}} />
                 </tr>
             )

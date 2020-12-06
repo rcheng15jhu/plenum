@@ -8,12 +8,12 @@ const aggregate_calendar = (props) => {
   
     let agg = props.agg
 
-    let calendar = new Array(12)
+    let calendar = new Array(24 * 4)
 
     calendar = populateCalendar(calendar);
 
     //set up calendar data
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 24 * 4; i++) {
         for (let j = 0; j < 7; j++) {
             calendar[i][j] = {
                 num_avail: 0,
@@ -67,18 +67,17 @@ const aggregate_calendar = (props) => {
     return (
         <CalendarTemplate>
             {calendar.map((rows, i) => (
-                <tr key={i}>
-                    <td style={{ textAlign: 'right' }}>{getTime(i)}</td>
-                    {rows.map((cell, j) => (
-                            <Cell
-                                key={j}
-                                tooltip_id={'' + i + j}
-                                opacity={get_opacity_from_num_avail(calendar[i][j].num_avail)}
-                                users_avail={calendar[i][j].users_avail}
-                            />
-                        )
-                    )}
-                </tr>
+                <React.Fragment key={i}>
+                    {rows.map((cell, j) => {
+                        return <Cell
+                            key={j}
+                            tooltip_id={'' + i + j}
+                            opacity={get_opacity_from_num_avail(calendar[i][j].num_avail)}
+                            users_avail={calendar[i][j].users_avail}
+                        />
+
+                    })}
+                </React.Fragment>
             ))}
         </CalendarTemplate>
     )

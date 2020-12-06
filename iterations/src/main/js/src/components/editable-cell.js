@@ -4,7 +4,16 @@ const editable_cell = (props) => {
     const [avail, setAvail] = useState(props.available === 'A')
     const firstUpdate = useRef(true);
 
-    let styles = {border: '1px solid black', width: '25px', height: '25px', textAlign: 'center', outline: 'none'}
+    let styles = {
+        borderLeft: '1px black solid',
+        width: '44px',
+        height: '9px',
+        textAlign: 'center',
+        outline: 'none',
+        borderCollapse: 'collapse'
+    }
+
+    Object.assign(styles, props.moreStyles === undefined ? {} : props.moreStyles)
 
     let onAvailChange = () => undefined;
     if(props.onAvailChange !== undefined) {
