@@ -29,7 +29,8 @@ const config = {
                 target: 'http://localhost:7000',
                 bypass: function (req, res, proxyOptions) {
                     console.log('url: ' + req.url)
-                    if (/api|.(jpg|png)/.test(req.url)) {
+                    if (/api/.test(req.url)) {
+                    //if (/api|.(jpg|png)/.test(req.url)) {
                     //if (req.url.indexOf('api') !== -1 || req.url.indexOf('jpg') !== -1 || req.url.indexOf('png') !== -1) {
                         return null;
                     }
