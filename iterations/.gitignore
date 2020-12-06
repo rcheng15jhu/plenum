@@ -5,6 +5,7 @@
 *build/
 Plenum.db
 *hs_err_pid*.log
+*replay_pid*.log
 *misc.xml
 .env
 

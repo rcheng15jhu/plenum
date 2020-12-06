@@ -471,6 +471,16 @@ public class Server {
         });
 
 
+        makeStaticRoutes(
+                Arrays.asList(
+                          "/login"
+                        , "/view-event", "/list-public-events"),
+                Arrays.asList(
+                        new StaticRoutes("/", "index"),
+                        new StaticRoutes("", "index")
+                ),
+                null
+        );
 
         makeStaticRoutes(
                 Arrays.asList(
@@ -478,13 +488,7 @@ public class Server {
                         , "/create-calendar", "/list-calendar"
                         , "/create-event", "/list-events"
                 ),
-                Arrays.asList(
-                        new StaticRoutes("/", "index").noRedirect(),
-                        new StaticRoutes("", "index").noRedirect(),
-                        new StaticRoutes("/login").noRedirect(),
-                        new StaticRoutes("/view-event").noRedirect(),
-                        new StaticRoutes("/list-public-events").noRedirect()
-                )
+                "/login"
         );
 
     }
@@ -492,40 +496,42 @@ public class Server {
     private static class StaticRoutes {
         public String routeName;
         public String fileName;
-        public boolean redirect;
 
         public StaticRoutes(String routeName) {
             this.routeName = routeName;
             this.fileName = routeName.substring(1);
-            redirect = true;
         }
 
         public StaticRoutes(String routeName, String fileName) {
             this.routeName = routeName;
             this.fileName = fileName;
-            redirect = true;
-        }
-
-        public StaticRoutes noRedirect() {
-            redirect = false;
-            return this;
         }
     }
 
+    public static void makeStaticRoutes(List<String> simpleRoutes, String redirectLocation) {
+        makeStaticRoutes(simpleRoutes, new ArrayList<>(), redirectLocation);
+    }
 
-
-    public static void makeStaticRoutes(List<String> simpleRoutes, List<StaticRoutes> otherRoutes) {
-        Stream.concat(simpleRoutes.parallelStream().map(StaticRoutes::new).sequential(), otherRoutes.stream())
-            .forEach(route -> get(route.routeName, (req, res) -> {
+    public static void makeStaticRoutes(List<String> simpleRoutes, List<StaticRoutes> otherRoutes, String redirectLocation) {
+        Stream<StaticRoutes> staticRoutesStream =  Stream.concat(simpleRoutes.parallelStream().map(StaticRoutes::new).sequential(), otherRoutes.stream());
+        if(redirectLocation == null) {
+            staticRoutesStream.forEach(route -> get(route.routeName, (req, res) -> {
                 res.status(200);
                 res.type("text/html");
-                if (route.redirect && req.cookie("username") == null) {
-                    res.redirect("/");
+                return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/" + route.fileName + ".html"));
+            }));
+        }
+        else {
+            staticRoutesStream.forEach(route -> get(route.routeName, (req, res) -> {
+                res.status(200);
+                res.type("text/html");
+                if (req.cookie("username") == null) {
+                    res.redirect(redirectLocation);
                     return "";
                 }
 
                 return IOUtils.toString(Spark.class.getResourceAsStream("/public/static/html/" + route.fileName + ".html"));
-            }
-        ));
+            }));
+        }
     }
 }
