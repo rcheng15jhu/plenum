@@ -11,6 +11,7 @@ import {AccountCircle} from "@material-ui/icons";
 import theme from "./baseline-theme";
 import {ThemeProvider} from "@material-ui/styles";
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
+import {cookieManager} from "../services/cookie-manager";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
 }));
+
+const username = cookieManager('username');
 
 export default function ButtonAppBar() {
 
@@ -80,18 +83,31 @@ export default function ButtonAppBar() {
                             Plenum
                         </Button>
                     </Typography>
-                    <Button href="/list-calendar" color="inherit">Calendars</Button>
-                    <Button href="/list-events" color="inherit">Events</Button>
-                    <IconButton
+                    {username != '' ?
+                        <Button href="/list-calendar" color="inherit">Calendars</Button>
+                        :
+                        <div/>
+                    }
+                    {username != '' ?
+                        <Button href = "/list-events" color="inherit">Events</Button>
+                        :
+                        <div/>
+                    }
+                    {username != '' ?
+
+                        <IconButton
                         edge="end"
                         aria-label="account of current user"
                         aria-controls={menuId}
                         aria-haspopup="true"
                         onClick={handleProfileMenuOpen}
                         color="inherit"
-                    >
-                        <AccountCircle />
-                    </IconButton>
+                        >
+                            <AccountCircle />
+                        </IconButton>
+                        :
+                        <Button href="/login" color="inherit">Login</Button>
+                    }
                 </Toolbar>
             </AppBar>
             {renderMenu}
