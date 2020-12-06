@@ -470,6 +470,30 @@ public class Server {
             return new Gson().toJson(avail.toString());
         });
 
+        //editprofile route; edit profile fields
+        post("/editprofile", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
+            String username = req.cookie("username");
+            String email = req.queryParams("email");
+            String affil = req.queryParams("affil");
+            String title = req.queryParams("title");
+            String description = req.queryParams("description");
+            User u = new Sql2oUserDao(getSql2o()).getUserFromName(username);
+            if (!email.equals(""))
+                new Sql2oUserDao(getSql2o()).setemail(u, email);
+            if (!affil.equals(""))
+                new Sql2oUserDao(getSql2o()).setaffil(u, affil);
+            if (!title.equals(""))
+                new Sql2oUserDao(getSql2o()).settitle(u, title);
+            if (!description.equals(""))
+                new Sql2oUserDao(getSql2o()).setdescription(u, description);
+
+            res.status(201);
+            res.type("application/json");
+            return new Gson().toJson(u.toString());
+        });
+
 
         makeStaticRoutes(
                 Arrays.asList(
