@@ -24,9 +24,15 @@ const App = () => {
                         'justifyContent': "center",
                         'width': '100%',
             }}>
-                <Button variant='contained' color='primary' onClick={handleLogin} style={{'margin': '0 10px'}}>
-                    Login
-                </Button>
+                {username != '' ?
+                    <Button variant='contained' color='primary' onClick={handleLogin} style={{'margin': '0 10px'}}>
+                        Login
+                    </Button>
+                    :
+                    <Button variant='contained' color='inherit' href='list-calendar'>
+                        Your calendar
+                    </Button>
+                }
                 <Button variant='contained' color='inherit' href='list-public-events'>
                     View public events
                 </Button>

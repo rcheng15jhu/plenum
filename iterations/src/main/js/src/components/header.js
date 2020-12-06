@@ -78,7 +78,7 @@ export default function ButtonAppBar() {
             <AppBar position="static" style={{"marginBottom": "30px"}}>
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        <Button variant='text' size='large' href="/list-calendar" color="inherit">
+                        <Button variant='text' size='large' href="/" color="inherit">
                             <HomeRoundedIcon style={{'marginRight': '5px'}} />
                             Plenum
                         </Button>
