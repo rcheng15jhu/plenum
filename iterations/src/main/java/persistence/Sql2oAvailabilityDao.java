@@ -3,13 +3,9 @@ package persistence;
 import exception.DaoException;
 import model.Availability;
 import model.Calendar;
-import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
-import org.sql2o.Sql2oException;
-
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class Sql2oAvailabilityDao implements AvailabilityDao {
