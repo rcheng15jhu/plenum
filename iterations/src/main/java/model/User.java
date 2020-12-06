@@ -8,6 +8,9 @@ public class User {
     private String salt;
     private String email;
     private String affil;
+    private String title;
+    private String description;
+    private String pic;
 
    public User(int id) {
         this.id = id;
@@ -27,6 +30,9 @@ public class User {
         this.salt = salt;
         this.email = "";
         this.affil = "";
+        this.title = "";
+        this.description = "";
+        this.pic = "";
     }
 
     public User(String name) {
@@ -68,4 +74,16 @@ public class User {
     public String getSalt() {
         return salt;
     }
+
+    public String getTitle() { return title; }
+
+    public void setTitle(String title) { this.title = title; }
+
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
+
+    public String getPic() { return pic; }
+
+    public void setPic(String pic) { this.pic = pic; }
 }
