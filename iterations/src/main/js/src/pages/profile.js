@@ -12,13 +12,10 @@ import {cookieManager, checkCookie} from "../services/cookie-manager";
 import profileImage from '../resources/profile.png';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1
-    },
     center: {
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
     contentDiv: {
         width: '90%',
@@ -26,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
         padding: '50px 50px',
         border: '2px solid black',
         borderRadius: '10px',
+    },
+    innerContent: {
+        width: '32%',
     },
     button: {
         marginTop: '30px',
@@ -47,14 +47,13 @@ const App = () => {
     const username = cookieManager('username');
 
     return (
-
         <ThemeProvider theme={theme}>
             <Header />
             <Container className={classes.root}>
                 <div className={classes.contentDiv}>
-                    <Grid container spacing={2} direction="row" justify="space-evenly" alignItems="center">
-                        <Grid container spacing={2} direction="column" justify="flex-start" alignItems="flex-start">
-                            <Grid container direction="row">
+                    <Grid container direction="row" justify="space-evenly" alignItems="center" display="flex">
+                        <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center">
+                            <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
                                     Username:&nbsp;
                                 </Typography>
@@ -62,7 +61,7 @@ const App = () => {
                                     {username}
                                 </Typography>
                             </Grid>
-                            <Grid container direction="row">
+                            <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
                                     Email:&nbsp;
                                 </Typography>
@@ -70,7 +69,7 @@ const App = () => {
                                     hardcoded@example.com
                                 </Typography>
                             </Grid>
-                            <Grid container direction="row">
+                            <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
                                     Institution:&nbsp;
                                 </Typography>
@@ -78,7 +77,7 @@ const App = () => {
                                     Hardcoded University
                                 </Typography>
                             </Grid>
-                            <Grid container direction="row">
+                            <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
                                     Title:&nbsp;
                                 </Typography>
@@ -87,31 +86,28 @@ const App = () => {
                                 </Typography>
                             </Grid>
                         </Grid>
-                        <Grid container spacing={2} direction="column" justify="flex-start" alignItems="flex-end">
-                            <Grid container>
+
+                        <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center" display="flex">
+                            <Grid container justify="flex-start">
                                 <Typography variant='h6'>
                                     Description:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Fusce iaculis pulvinar justo, accumsan feugiat massa faucibus vel.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce iaculis pulvinar justo, accumsan feugiat massa faucibus vel.
                                 </Typography>
                             </Grid>
                         </Grid>
-                        <Grid container spacing={2} direction="column" justify="flex-start" alignItems="flex-end">
-                            <Grid container>
-                                <img src = {profileImage}/>
-                            </Grid>
-                            <Grid container>
-                                <Button
-                                    href='/'
-                                    variant="contained"
-                                    color="secondary"
-                                    className={classes.button}
-                                >
-                                    Change Profile Picture
-                                </Button>
-                            </Grid>
+
+                        <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center">
+                            <img src = {profileImage}/>
+                            <Button
+                                href='/'
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                            >
+                                Profile Picture
+                            </Button>
                         </Grid>
                     </Grid>
                 </div>
@@ -126,6 +122,7 @@ const App = () => {
                         >
                             View Calendars
                         </Button>
+
                         <Button
                             href='/list-events'
                             variant="contained"

@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
+      <module name="iterations.main" target="1.8" />
+      <module name="iterations.test" target="1.8" />
       <module name="iterations_main" target="1.8" />
       <module name="iterations_test" target="1.8" />
       <module name="Quorum_main" target="13" />

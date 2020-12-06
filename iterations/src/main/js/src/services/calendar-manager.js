@@ -34,7 +34,7 @@ function getObjToSave() {
 }
 
 function downloadTemplate() {
-    download(getObjToSave());
+    download(arguments[0] === undefined ? getObjToSave() : arguments[0]);
     console.log("Test");
 }
 
@@ -63,7 +63,7 @@ function upload(title, content) {
 export default function uploadTemplate() {
     let title = document.getElementById("title").value;
     if (title !== "") {
-        upload(title, getObjToSave());
+        upload(title, arguments[0] === undefined ? getObjToSave() : arguments[0]);
     } else {
         createAlert("Calendar title required!", 'error');
     }

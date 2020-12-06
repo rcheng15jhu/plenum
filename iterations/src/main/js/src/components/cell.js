@@ -3,9 +3,22 @@ import ReactTooltip from "react-tooltip";
 
 
 const cell = (props) => {
-    let styles = { border: '1px solid black', width: '25px', height: '25px', textAlign: 'center', outline: 'none' }
+    let styles = {
+        border: '1px solid black',
+        width: '25px',
+        height: '25px',
+        textAlign: 'center',
+        outline: 'none',
+        borderCollapse: 'collapse'
+    }
 
-    if (props.unavailable === 'A') {
+    // ,
+    //         padding: '0px',
+    //         fontSize: '0px',
+    //         lineHeight: '0px',
+    //         borderCollapse: 'collapse'
+
+    if (props.available === 'A') {
         styles.backgroundColor = 'red'
     }
 
@@ -16,14 +29,13 @@ const cell = (props) => {
     let tooltip = (props.users_avail === undefined || !props.users_avail.length)
         ? null 
         : <ReactTooltip id={props.tooltip_id} place="top" effect="solid">
-            <ul style={{margin: '0', padding: '0'}}>
+            <ul style={{margin: '0', padding: '0', lineHeight: 'normal'}}>
                 {props.users_avail.map(element => <li key={element}>{element}</li>)}
             </ul>
         </ReactTooltip>
 
     return (
-        <td>
-            <button style={styles} className={"day" + props.day} value={props.time} data-tip data-for={props.tooltip_id} />
+        <td style={styles} data-tip data-for={props.tooltip_id} >
             {tooltip}
         </td>
     )

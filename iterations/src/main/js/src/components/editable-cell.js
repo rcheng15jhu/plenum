@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 
 const editable_cell = (props) => {
-    const [avail, setAvail] = useState(props.unavailable === 'A')
+    const [avail, setAvail] = useState(props.available === 'A')
     const firstUpdate = useRef(true);
 
     let styles = {border: '1px solid black', width: '25px', height: '25px', textAlign: 'center', outline: 'none'}
@@ -25,7 +25,7 @@ const editable_cell = (props) => {
     if (avail) {
         styles.backgroundColor = 'red'
     }
-    return <td><button onClick={flipState} style={styles} className={"day" + props.day} value={avail ? props.time : -1}/></td>
+    return <td onClick={flipState} style={styles} />
 };
 
 export default editable_cell
