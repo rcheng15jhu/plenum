@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/iterations.iml" filepath="$PROJECT_DIR$/.idea/iterations.iml" group="iterations" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/iterations.iml" filepath="$PROJECT_DIR$/.idea/iterations.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/iterations.main.iml" filepath="$PROJECT_DIR$/.idea/modules/iterations.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/iterations.test.iml" filepath="$PROJECT_DIR$/.idea/modules/iterations.test.iml" />
     </modules>
