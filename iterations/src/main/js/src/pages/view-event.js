@@ -22,6 +22,7 @@ import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import {grey} from "@material-ui/core/colors";
 import {fetchAggregate} from "../services/event-manager";
+import {cookieManager} from "../services/cookie-manager"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,7 +69,7 @@ const App = () => {
 
     const [id, setId] = useState(getInitId)
 
-    const [calendars, setCalendars] = useState({})
+    const [calendars, setCalendars] = useState([])
 
     const [calOptions, setCalOptions] = useState(null)
 
@@ -80,9 +81,35 @@ const App = () => {
 
     const [open, setOpen] = useState(false)
 
+    const [addedCal, setAddedCal] = useState({})
+
+    const [agg, setAgg] = useState([])
+
     const classes = useStyles();
 
-    fetchAggregate(id, setEventTitle, setCalendars);
+    useEffect(() => {
+        fetchAggregate(id, setEventTitle, setCalendars);
+    }, [])
+
+    useEffect(() => {
+        fetch('/api/aggregate?id=' + id, {
+            method: 'GET',
+            mode: 'cors'
+        }
+        ).then(res => {
+            return res.json()
+        }).then(data => {
+            return data.calendars
+        }).then(calendars => {
+            if (calendars !== undefined && calendars.length !== 0) {
+                return calendars.filter(cal => cal.userName === cookieManager('username'))[0]
+            }
+        }).then(cal => {
+            if (cal !== undefined) {
+                setAddedCal(cal)
+            } 
+        })
+    }, [])
 
     useEffect(() => {
         fetch('/api/calendar', {
@@ -92,21 +119,19 @@ const App = () => {
         ).then(res => {
             return res.json()
         }).then(data => {
-            if (data !== undefined && data.length != 0) {
+            if (data !== undefined && data.length !== 0) {
                 setCalOptions(data)
-                setSelectedCal(data[0].title)
+                setSelectedCal(addedCal.calendarTitle)
             } else {
                 setCalOptions([])
             }
         }).catch(reason => {
             setCalOptions([])
         })
-    }, [])
+    }, [addedCal])
 
     useEffect(() => {
-
-
-        if(calOptions) {
+        if(calOptions && selectedCal) {
             let calid = ""
             for (let i = 0; i < calOptions.length; i++) {
                 if (calOptions[i].title === selectedCal) {
@@ -122,12 +147,14 @@ const App = () => {
                 return res.json()
             }).then(data => {
                 setFile(data)
+                setAgg(calendars.filter(cal => cal.calendarTitle !== addedCal.calendarTitle).concat([data]))
             })
         }
         else {
             setFile({})
+            setAgg(calendars)
         }
-    }, [selectedCal])
+    }, [selectedCal, calendars, calOptions])
 
     let updateActive = (id) => () => {
         window.history.pushState({ id: id }, '', '/view-event?id=' + id)
@@ -180,7 +207,7 @@ const App = () => {
         } else {
             return (
                 <div>
-                    <List_menu options={calOptions.map(element => element.title)} onChange={handleMenuChange} />
+                    <List_menu options={calOptions.map(element => element.title)} onChange={handleMenuChange} initCal={addedCal} />
 
 
                     {selectedCal ?
@@ -201,6 +228,13 @@ const App = () => {
         }
     } 
 
+    function renderAggregateCal() {
+        return <Aggregate_calendar
+            agg={agg}>
+        </Aggregate_calendar>
+    }
+
+
     return (
         <div style={{'overflowX': 'hidden'}}>
             <ThemeProvider theme={newTheme}>
@@ -217,7 +251,7 @@ const App = () => {
                         </Typography>
                     </CardContent>
                     <Card>
-                        <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
+                        {renderAggregateCal()}
                     </Card>
                 </div>
             </Card>

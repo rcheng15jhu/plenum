@@ -5,6 +5,7 @@ import {getTime, populateCalendar} from "../services/calendar-manager";
 import CalendarTemplate from "./calendar-template";
 
 const aggregate_calendar = (props) => {
+  
     let agg = props.agg
 
     let calendar = new Array(12)

@@ -14,10 +14,11 @@ const useStyles = makeStyles((theme) => ({
 
 function ListMenu(props) {
     let options = props.options
+    let initCal = props.initCal
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [selectedIndex, setSelectedIndex] = React.useState(options.indexOf(initCal.calendarTitle));
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
