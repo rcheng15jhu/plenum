@@ -15,8 +15,6 @@ const useStyles = makeStyles((theme) => ({
         top: '0px',
         left:'0px',
         position: 'fixed',
-        border: '2px solid black',
-        backgroundRepeat: 'no-repeat',
     },
 }));
 
@@ -36,18 +34,18 @@ const App = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <img src={backgroundPhoto} className={classes.backgroundDiv}/>
+            <img src={backgroundPhoto} className={classes.backgroundDiv} style={{zIndex:-1}}/>
             <div style={{'marginTop': '20%'}}>
-                <Typography variant='h3' align='center' style={{'margin': '20% 0 30px 0'}}>
+                <Typography variant='h3' align='center' style={{'margin':'20% 0 30px 0',zIndex:0}}>
                     Welcome to Plenum!
                 </Typography>
-                <div style={{'display': "flex",'alignItems': "center",'justifyContent': "center",'width': '100%',}}>
+                <div style={{'display': "flex",'alignItems': "center",'justifyContent': "center",'width': '100%',zIndex:1}}>
                     {username === '' ?
                         <Button variant='contained' color='primary' onClick={handleLogin} style={{'margin': '0 10px'}}>
                             Login
                         </Button>
                         :
-                        <Button variant='contained' color='inherit' href='list-calendar'>
+                        <Button variant='contained' color='primary' href='list-calendar'>
                             Your calendar
                         </Button>
                     }
