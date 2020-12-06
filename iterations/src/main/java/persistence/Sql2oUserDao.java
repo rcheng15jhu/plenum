@@ -134,4 +134,60 @@ public class Sql2oUserDao implements UserDao{
             throw new DaoException();
         }
     }
+
+    public boolean setemail(User u, String email) {
+        try (Connection con = sql2o.open()) {
+            String query = "UPDATE Users SET email = :email WHERE name = :name";
+            con.createQuery(query)
+                    .addParameter("email", email)
+                    .addParameter("name", u.getName())
+                    .executeUpdate();
+            return true;
+        }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
+
+    public boolean setaffil(User u, String affil) {
+        try (Connection con = sql2o.open()) {
+            String query = "UPDATE Users SET affil = :affil WHERE name = :name";
+            con.createQuery(query)
+                    .addParameter("affil", affil)
+                    .addParameter("name", u.getName())
+                    .executeUpdate();
+            return true;
+        }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
+
+    public boolean settitle(User u, String title) {
+        try (Connection con = sql2o.open()) {
+            String query = "UPDATE Users SET title = :title WHERE name = :name";
+            con.createQuery(query)
+                    .addParameter("title", title)
+                    .addParameter("name", u.getName())
+                    .executeUpdate();
+            return true;
+        }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
+
+    public boolean setdescription(User u, String description) {
+        try (Connection con = sql2o.open()) {
+            String query = "UPDATE Users SET description = :description WHERE name = :name";
+            con.createQuery(query)
+                    .addParameter("description", description)
+                    .addParameter("name", u.getName())
+                    .executeUpdate();
+            return true;
+        }
+        catch (Sql2oException ex) {
+            throw new DaoException();
+        }
+    }
 }
