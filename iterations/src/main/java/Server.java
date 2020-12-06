@@ -49,9 +49,7 @@ public class Server {
                 con.createQuery(ConnectionsSchema).executeUpdate();
                 con.createQuery(AvailabilitiesSchema).executeUpdate();
                 con.commit();
-                System.out.println("Test.");
             } catch (Sql2oException e) {
-                System.out.println("Error.");
                 e.printStackTrace();
             }
         }
