@@ -154,6 +154,8 @@ const App = () => {
                 if (ignoreToggle) {
                     setAgg(calendars.filter(cal => cal.calendarTitle !== addedCal.calendarTitle))
                 } else {
+                    console.log('a')
+                    console.log(selectedCal)
                     setAgg(calendars.filter(cal => cal.calendarTitle !== addedCal.calendarTitle).concat([data]))
                 }
             })
@@ -162,7 +164,7 @@ const App = () => {
             setFile({})
             setAgg(calendars)
         }
-    }, [selectedCal, calendars, calOptions])
+    }, [selectedCal, calendars, calOptions, ignoreToggle])
 
     let updateActive = (id) => () => {
         window.history.pushState({ id: id }, '', '/view-event?id=' + id)
@@ -209,11 +211,6 @@ const App = () => {
 
     const handleSwitchToggle = () => {
         let temp = !ignoreToggle
-        if (temp) {
-            setAgg(calendars.filter(cal => cal.calendarTitle !== addedCal.calendarTitle))
-        } else {
-            setAgg(calendars.filter(cal => cal.calendarTitle !== addedCal.calendarTitle).concat([file]))
-        }
         setIgnoreToggle(temp)
     }
     
@@ -248,6 +245,7 @@ const App = () => {
 
     function renderAggregateCal() {
         return <Aggregate_calendar
+            key={agg}
             agg={agg}>
         </Aggregate_calendar>
     }
