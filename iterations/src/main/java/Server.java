@@ -508,7 +508,7 @@ public class Server {
 
         makeStaticRoutes(
                 Arrays.asList(
-                          "/profile"
+                          "/profile", "/change-password", "change-profile"
                         , "/create-calendar", "/list-calendar"
                         , "/create-event", "/list-events"
                 ),
