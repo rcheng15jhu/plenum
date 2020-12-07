@@ -8,6 +8,8 @@ of the application can be accessed at localhost:3000.
 
 A lot of work done in this iteration was code refactorization and overall cleaning of the code. Edit profile was added to allow for people to change their profile information. We increased the number of time slots so each slot represents 15 minutes instead of 2 hours. We added real time preview of selected calendar in view-event and calendar creation and modification in view-event.
 
+A new Dashboard page was added that allows the user to preview all their items at once, including their calendars, events, and the public events. This page is linked as the new home page. 
+
 The available routes in main are the root route which displays a simple message,
 - "api/calendars" which gets a list of calendars as a JSON file,
 - "api/calendar" which takes a calendar ID and gets the availabilities of the corresponding calendar,
