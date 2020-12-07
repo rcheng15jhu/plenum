@@ -10,6 +10,8 @@ import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ViewCalendar from "../components/view-calendar";
 import {checkCookie} from "../services/cookie-manager";
+import {getCalendars} from "../services/calendar-manager";
+import deleteId from "../services/delete-manager";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -50,19 +52,7 @@ const App = () => {
     const classes = useStyles();
     const [calendars, setCalendars] = useState([])
 
-    //Get all calendars from backend
-    useEffect(() => {
-        fetch('/api/calendars', {
-                method: 'GET',
-                mode: 'cors'
-            }
-        ).then(res => {
-            return res.json()
-        }).then(data => {
-            console.log(data)
-            setCalendars([...data])
-        })
-    }, [])
+    getCalendars(setCalendars);
 
     //check whether an id for the calendar is specfied in the url and display accordingly
     let getInitId = () => {
@@ -81,12 +71,7 @@ const App = () => {
     const [viewId, setViewId] = useState(getInitId)
 
     //For deleting a calendar
-    useEffect(() => {
-        if(idToDelete > 0) {
-            fetchAPI(idToDelete)
-            setIdToDelete(-1)
-        }
-    }, [idToDelete])
+    deleteId(idToDelete, fetchAPI, setIdToDelete);
 
     //obtain the id of the calendar the user clicks on
     const viewListClicked = (id) => () => {

@@ -510,7 +510,7 @@ public class Server {
                 Arrays.asList(
                           "/profile"
                         , "/create-calendar", "/list-calendar"
-                        , "/create-event", "/list-events"
+                        , "/create-event", "/list-events", "/dashboard"
                 ),
                 "/login"
         );

@@ -7,6 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/core/styles";
+import {getEvents} from "../services/event-manager";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -38,18 +39,7 @@ const App = () =>  {
 
     const [idToDelete, setIdToDelete] = useState(-1)
 
-    useEffect(() => {
-        fetch('/api/events?all=true', {
-                method: 'GET',
-                mode: 'cors'
-            }
-        ).then(res => {
-            return res.json()
-        }).then(data => {
-            console.log(data)
-            setEvents([...data])
-        })
-    }, [])
+    getEvents(setEvents, '?all=true')
 
     useEffect(() => {
         if(idToDelete > 0) {
