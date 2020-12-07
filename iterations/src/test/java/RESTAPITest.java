@@ -18,7 +18,7 @@ public class RESTAPITest {
     @BeforeClass
     public static void beforeClassTests() throws SQLException {
 
-        Sql2o sql2o = new Sql2o(URI,"","");
+        Sql2o sql2o = new Sql2o(URI, "", "");
         String sqlDropUsers = "DROP TABLE IF EXISTS Users";
         String sqlDropEvents = "DROP TABLE IF EXISTS Events";
         String sqlDropCalendars = "DROP TABLE IF EXISTS Calendars";
@@ -53,7 +53,6 @@ public class RESTAPITest {
         // Response response = client.newCall(request).execute();
         // assertEquals(201, response.code());
     }
-}
 
 /*
 +//    @Test
@@ -117,3 +116,6 @@ public class RESTAPITest {
 //    }
 }
  */
+
+
+}

@@ -21,6 +21,13 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", email='" + email + '\'' +
+                ", affil='" + affil + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", pic='" + pic + '\'' +
                 '}';
     }
 

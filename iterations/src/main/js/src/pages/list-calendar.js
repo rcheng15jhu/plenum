@@ -10,7 +10,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ViewCalendar from "../components/view-calendar";
 import {checkCookie} from "../services/cookie-manager";
-import {getCalendars} from "../services/calendar-manager";
+import {useGetCalendars} from "../services/calendar-manager";
 import useDeleteId from "../services/delete-manager";
 
 const useStyles = makeStyles(() => ({
@@ -52,7 +52,7 @@ const App = () => {
     const classes = useStyles();
     const [calendars, setCalendars] = useState([])
 
-    getCalendars(setCalendars);
+    useGetCalendars(setCalendars);
 
     //check whether an id for the calendar is specfied in the url and display accordingly
     let getInitId = () => {

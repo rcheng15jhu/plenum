@@ -8,7 +8,7 @@ import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import theme from "../components/baseline-theme";
 import Header from "../components/header";
 import {cookieManager, checkCookie} from "../services/cookie-manager";
-import {getCalendars} from "../services/calendar-manager";
+import {useGetCalendars} from "../services/calendar-manager";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import {getEvents} from "../services/event-manager";
@@ -46,7 +46,7 @@ const App = () => {
     const [events, setEvents] = useState([]);
     const [publicEvents, setPublicEvents] = useState([]);
 
-    getCalendars(setCalendars)
+    useGetCalendars(setCalendars)
 
     getEvents(setEvents)
 

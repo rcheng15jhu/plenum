@@ -86,7 +86,7 @@ export function populateCalendar(calendar){
 }
 
 //Get all calendars from backend
-export function getCalendars(setCalendars){
+export function useGetCalendars(setCalendars){
     useEffect(() => {
         fetch('/api/calendars', {
                 method: 'GET',
