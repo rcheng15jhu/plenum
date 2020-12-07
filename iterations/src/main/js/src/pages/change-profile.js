@@ -127,6 +127,7 @@ const App = () => {
             <Container className={classes.root}>
                 <div className={classes.contentDiv}>
                     <Typography component="h4" variant="h4" className={classes.title}>Change Profile</Typography>
+                    <Typography component="h6" variant="h6" className={classes.title}>Leave box empty to keep old information.</Typography>
                     <div className={classes.margin}>
                         <Grid container spacing={1} alignItems="flex-end">
                             <Grid item>
