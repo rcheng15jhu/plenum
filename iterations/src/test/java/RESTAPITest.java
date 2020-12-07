@@ -135,13 +135,40 @@ public class RESTAPITest {
                 .addPathSegment("getprofile")
                 .build();
         Request request = new Request.Builder()
-                .addHeader("username", username)
+                .addHeader("Cookie", "username=" + username)
                 .url(url)
                 .post(postBody)
                 .build();
         String responseString = client.newCall(request).execute().body().string();
         System.out.println(responseString);
         return new Gson().fromJson(responseString, User.class);
+    }
+
+    public int editProfile(
+            String username,
+            String email,
+            String affil,
+            String title,
+            String description
+    ) throws IOException {
+        RequestBody postBody = new FormBody.Builder().build();
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("localhost")
+                .port(7000)
+                .addPathSegment("api")
+                .addPathSegment("editprofile")
+                .addQueryParameter("email", email)
+                .addQueryParameter("affil", affil)
+                .addQueryParameter("title", title)
+                .addQueryParameter("description", description)
+                .build();
+        Request request = new Request.Builder()
+                .addHeader("Cookie", "username=" + username)
+                .url(url)
+                .post(postBody)
+                .build();
+        return client.newCall(request).execute().code();
     }
 
     @Test
@@ -176,10 +203,30 @@ public class RESTAPITest {
 
 
     @Test
-    public void testViewProfile() throws IOException {
+    public void testGetProfile() throws IOException {
         addUser(user1, user1);
-        User user = getProfile(user1);
-        System.out.println(user);
-        assertFalse(user == null);
+        User userObj1 = getProfile(user1);
+        assertNotNull(userObj1);
+        assertEquals("", userObj1.getEmail());
+        assertEquals("", userObj1.getAffil());
+        assertEquals("", userObj1.getTitle());
+        assertEquals("", userObj1.getDescription());
+        assertEquals("", userObj1.getPic());
+    }
+
+    @Test
+    public void testEditProfile() throws IOException {
+        addUser(user1, user1);
+        String email = "hi@gmail.com", affil = "JHU", title = "Sophomore", description = ":p";
+        int responseCode = editProfile(user1, email, affil, title, description);
+        assertEquals(201, responseCode);
+
+        User userObj1 = getProfile(user1);
+        assertNotNull(userObj1);
+        assertEquals(email, userObj1.getEmail());
+        assertEquals(affil, userObj1.getAffil());
+        assertEquals(title, userObj1.getTitle());
+        assertEquals(description, userObj1.getDescription());
+        assertEquals("", userObj1.getPic());
     }
 }
