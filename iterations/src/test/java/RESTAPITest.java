@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import model.User;
 import okhttp3.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -20,6 +21,9 @@ public class RESTAPITest {
     private static Connection conn;
     private static Statement st;
 
+    private String user1 = "12345678";
+    private String user2 = "abcdefgh";
+
     @BeforeClass
     public static void beforeClassTests() throws SQLException {
 
@@ -38,7 +42,7 @@ public class RESTAPITest {
 //        }
         //Server.main(null);
 
-        System.out.println("oh no");
+        //System.out.println("oh no");
 
         client = new OkHttpClient();
         gson = new Gson();
@@ -61,79 +65,121 @@ public class RESTAPITest {
 //
 //    }
 
-//    @Test
-//    public void testAddUser() throws IOException {
-//        RequestBody postBody = new FormBody.Builder()
-//                .add("name", "username123")
-//                .add("password", "123")
-//                .build();
-//        Request request = new Request.Builder()
-//                 .url("http://localhost:7000/api/adduser?name=username123&password=12345678")
-//                 .post(postBody)
-//                 .build();
-//         Response response = client.newCall(request).execute();
-//         assertEquals("", response.code());
-//    }
-//
-//    @Test
-//    public void testLogin() throws IOException {
-//        RequestBody postBodyAdd = new FormBody.Builder()
-//                .add("name", "username123")
-//                .add("password", "123")
-//                .build();
-//        Request requestAdd = new Request.Builder()
-//                .url("http://localhost:7000/api/adduser")
-//                .post(postBodyAdd)
-//                .build();
-//        client.newCall(requestAdd).execute();
-//
-//        RequestBody postBody = new FormBody.Builder()
-//                .add("name", "username123")
-//                .add("password", "123")
-//                .build();
-//        Request request = new Request.Builder()
-//                .url("http://localhost:7000/api/login")
-//                .post(postBody)
-//                .build();
-//        Response response = client.newCall(request).execute();
-//        assertEquals(201, response.code());
-//
-//        RequestBody postBody1 = new FormBody.Builder()
-//                .add("name", "username12")
-//                .add("password", "123")
-//                .build();
-//        Request request1 = new Request.Builder()
-//                .url("http://localhost:7000/api/login")
-//                .post(postBody1)
-//                .build();
-//        Response response1 = client.newCall(request1).execute();
-//        assertEquals(401, response1.code());
-//
-//        RequestBody postBody2 = new FormBody.Builder()
-//                .add("name", "username123")
-//                .add("password", "12345")
-//                .build();
-//        Request request2 = new Request.Builder()
-//                .url("http://localhost:7000/api/login")
-//                .post(postBody2)
-//                .build();
-//        Response response2 = client.newCall(request2).execute();
-//        assertEquals(401, response2.code());
-//    }
-//
-//
-//  @Test
-//  public void testViewProfile() throws IOException {
-//    RequestBody postBody = new FormBody.Builder()
-//            .build();
-//    String username = "aaaaaaaa";
-//    Request request = new Request.Builder()
-//            .url("http://localhost:7000/api/getprofile")
-//            .addHeader("username", username)
-//            .post(postBody)
-//            .build();
-//    Response response = client.newCall(request).execute();
-//    assertEquals(201, response.code());
-//    System.out.println(response);
-//  }
+    @Before
+    public void beforeEachTest() throws IOException {
+        delUser(user1, user1);
+        delUser(user2, user2);
+    }
+
+    public int addUser(String username, String password) throws IOException {
+        RequestBody postBody = new FormBody.Builder().build();
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("localhost")
+                .port(7000)
+                .addPathSegment("api")
+                .addPathSegment("adduser")
+                .addQueryParameter("username", username)
+                .addQueryParameter("password", password)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(postBody)
+                .build();
+        return client.newCall(request).execute().code();
+    }
+
+    public int delUser(String username, String password) throws IOException {
+        RequestBody postBody = new FormBody.Builder().build();
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("localhost")
+                .port(7000)
+                .addPathSegment("api")
+                .addPathSegment("deluser")
+                .addQueryParameter("username", username)
+                .addQueryParameter("password", password)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(postBody)
+                .build();
+        return client.newCall(request).execute().code();
+    }
+
+    public int login(String username, String password) throws IOException {
+        RequestBody postBody = new FormBody.Builder().build();
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("localhost")
+                .port(7000)
+                .addPathSegment("api")
+                .addPathSegment("login")
+                .addQueryParameter("username", username)
+                .addQueryParameter("password", password)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(postBody)
+                .build();
+        return client.newCall(request).execute().code();
+    }
+
+    public User getProfile(String username) throws IOException {
+        RequestBody postBody = new FormBody.Builder().build();
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("localhost")
+                .port(7000)
+                .addPathSegment("api")
+                .addPathSegment("getprofile")
+                .build();
+        Request request = new Request.Builder()
+                .addHeader("username", username)
+                .url(url)
+                .post(postBody)
+                .build();
+        String responseString = client.newCall(request).execute().body().string();
+        System.out.println(responseString);
+        return new Gson().fromJson(responseString, User.class);
+    }
+
+    @Test
+    public void testAddUser() throws IOException {
+        int responseCode = addUser(user1, user1);
+        assertEquals(200, responseCode);
+    }
+
+    @Test
+    public void testDelUser() throws IOException {
+        addUser(user1, user1);
+        int responseCode = delUser(user1, user1);
+        assertEquals(204, responseCode);
+    }
+
+    @Test
+    public void testLogin() throws IOException {
+        String username = "123455678";
+        int responseCode = login(user1, user1);
+        assertEquals(401, responseCode);
+        addUser(user1, user1);
+
+        responseCode = login(user1, user1);
+        assertEquals(200, responseCode);
+
+        responseCode = login(user2, user1);
+        assertEquals(401, responseCode);
+
+        responseCode = login(user1, user2);
+        assertEquals(401, responseCode);
+    }
+
+
+    @Test
+    public void testViewProfile() throws IOException {
+        addUser(user1, user1);
+        User user = getProfile(user1);
+        System.out.println(user);
+        assertFalse(user == null);
+    }
 }

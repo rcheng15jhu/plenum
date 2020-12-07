@@ -102,8 +102,8 @@ public class Server {
             Map<String, Object> model = new HashMap<>();
             String username = req.queryParams("username");
             String password = req.queryParams("password");
-            boolean correct = new Sql2oUserDao(getSql2o()).checkCred(username, password);
-            if (correct) {
+            User user = new Sql2oUserDao(getSql2o()).checkCred(username, password);
+            if (user != null) {
                 //res.cookie("username", username);
                 res.status(200);
             }
@@ -130,11 +130,27 @@ public class Server {
             String password = req.queryParams("password");
             String salt = Encryption.makeSalt();
             //res.cookie("username", username);
+            System.out.println(username);
             User user = new User(username, Encryption.sha2_hash(password, salt), salt);
             new Sql2oUserDao(getSql2o()).add(user);
             res.redirect("/");
             //don't return actual new user for security reasons
             //but return empty string nonetheless
+            return "";
+        });
+
+        post("/api/deluser", (req, res) -> {
+            String username = req.queryParams("username");
+            String password = req.queryParams("password");
+            Sql2oUserDao userDao = new Sql2oUserDao(getSql2o());
+            User user = userDao.checkCred(username, password);
+            if(user != null) {
+                userDao.delete(user);
+                res.status(204);
+            }
+            else {
+                res.status(404);
+            }
             return "";
         });
 
