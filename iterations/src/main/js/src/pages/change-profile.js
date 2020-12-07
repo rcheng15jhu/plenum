@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import theme from "../components/baseline-theme";
 import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
+import {checkCookie} from "../services/cookie-manager";
 import createAlert from "../services/create-alert";
 
 const useStyles = makeStyles((theme) => ({
@@ -98,6 +99,9 @@ function fetchAPI(values) {
 
 
 const App = () => {
+
+    checkCookie();
+
     const classes = useStyles();
     const [values, setValues] = React.useState({
         username: '',
@@ -176,22 +180,6 @@ const App = () => {
                                 <TextField name='password' type = 'password' onChange={handleChange} required label="required" />
                             </Grid>
                         </Grid>
-                    </div>
-
-                    <div className={classes.margin}>
-                        {opt.value === 'Sign-up' ?
-                            <div>
-                                <Grid item>
-                                    <Typography variant='h6'>
-                                        Confirm password:
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <TextField name='confirm' type = 'password' onChange={handleChange} required label="required" />
-                                </Grid>
-                            </div>
-                            : <div></div>
-                        }
                     </div>
 
                     <div className={classes.center}>
