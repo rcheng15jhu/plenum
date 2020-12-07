@@ -69,7 +69,7 @@ function fetchAddUserAPI(values) {
        } else if (data.status === 200) {
            createAlert(`Successfully signed up!`, 'success');
            document.cookie = "username=" + values.username.normalize() + "; path=/;";
-           window.location.assign('/list-calendar')
+           window.location.assign('/dashboard')
        }
    })
 }
