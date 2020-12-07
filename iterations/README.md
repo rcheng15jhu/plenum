@@ -2,7 +2,7 @@
 
 This package represents the fifth iteration of Plenum, a simple peer-scheduling application. In order to use this
 iteration of Plenum, the current deployed build of the project can be found in Heroku at
-http://damp-garden-37477.herokuapp.com/. Alternatively, to access the code in a dev environment, the main function of
+http://damp-spire-88649.herokuapp.com/. Alternatively, to access the code in a dev environment, the main function of
 Server.java can be ran, and npm start can be run in the src/main/js folder, and after server initialization, the frontend
 of the application can be accessed at localhost:3000. 
 

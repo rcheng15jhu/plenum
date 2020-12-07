@@ -47,38 +47,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function fetchChangeProfileAPI(values) {
-    if (values.email.length > 100) {
-        createAlert('Your email is too long!', 'error');
-        return;
-    } else if (values.affil.length > 100) {
-        createAlert('Your affiliation is too long!', 'error');
-        return;
-    } else if (values.title.length > 200) {
-        createAlert('Your title is too long!', 'error');
-        return;
-    } else if (values.email.length > 1000) {
-        createAlert('Your description is too long!', 'error');
-        return;
-    }
-
-    fetch('/api/editprofile?email=' + values.email.normalize() + '&affil=' + values.affil.normalize()
-            + '&title=' + values.title.normalize() + '&description=' + values.description.normalize(),
-        {
-           method: 'POST',
-           mode: 'cors'
-        }
-    ).then(data => {
-        console.log(data);
-        if (data.status === 201) {
-           createAlert(`Successfully changed profile!`, 'success');
-           window.location.assign('/profile')
-        } else {
-           createAlert(`Was not able to change profile.`, 'error');
-        }
-    })
-}
-
 const App = () => {
 
     checkCookie();
@@ -89,8 +57,54 @@ const App = () => {
         title: '',
         description: '',
     });
+
+    let fetchChangeProfileAPI = () => { 
+        if (values.email.length > 100) {
+            createAlert('Your email is too long!', 'error');
+            return;
+        } else if (values.affil.length > 100) {
+            createAlert('Your affiliation is too long!', 'error');
+            return;
+        } else if (values.title.length > 200) {
+            createAlert('Your title is too long!', 'error');
+            return;
+        } else if (values.email.length > 1000) {
+            createAlert('Your description is too long!', 'error');
+            return;
+        }
     
-    function fetchProfile() {
+        fetch('/api/editprofile?email=' + values.email.normalize() + '&affil=' + values.affil.normalize()
+                + '&title=' + values.title.normalize() + '&description=' + values.description.normalize(),
+            {
+               method: 'POST',
+               mode: 'cors'
+            }
+        ).then(data => {
+            console.log(data);
+            if (data.status === 201) {
+               createAlert(`Successfully changed profile!`, 'success');
+               window.location.assign('/profile')
+            } else {
+               createAlert(`Was not able to change profile.`, 'error');
+            }
+        })
+    }
+
+    const toggleChangeButtonState = () => {
+        fetchChangeProfileAPI(values);
+    };
+
+    const classes = useStyles();
+
+    const handleChange = (event) => {
+        setValues({
+            ...values,
+            [event.target.name]: event.target.value,
+        });
+    }
+
+    //Initialize data
+    /*React.useEffect(() => {
         fetch("/api/getprofile", {
                 method: 'POST',
                 mode: 'cors'
@@ -100,25 +114,9 @@ const App = () => {
         }).then(data => {
             setValues([data])
         })
-    }
-
-    fetchProfile();
-
-    const classes = useStyles();
-
-    const toggleChangeButtonState = () => {
-        fetchChangeProfileAPI(values);
-    };
-
-    const handleChange = (event) => {
-        setValues({
-            ...values,
-            [event.target.name]: event.target.value,
-        });
-    }
+    },[])*/
 
     return (
-
         <ThemeProvider theme={theme}>
             <Typography variant="h6" className={classes.home} id='content'>
                 <Button variant='contained' size='large' href="/profile" color="primary">

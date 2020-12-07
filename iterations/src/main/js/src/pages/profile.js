@@ -49,7 +49,8 @@ const App = () => {
         description: '',
     });
     
-    function fetchProfile() {
+    //Initialize data
+    React.useEffect(() => {
         fetch("/api/getprofile", {
                 method: 'POST',
                 mode: 'cors'
@@ -59,9 +60,7 @@ const App = () => {
         }).then(data => {
             setValues([data])
         })
-    }
-
-    fetchProfile();
+    },[])
 
     const classes = useStyles();
 
