@@ -1,9 +1,9 @@
 import createAlert from "./create-alert";
 
 //This function uploads events according to the title.
-function upload(title) {
+function upload(title, startTime, endTime) {
     fetch("/api/addevent?title=" + title +
-    "&startTime=1&endTime=9", //temporary
+    "&startTime=" + startTime + "&endTime=" + endTime, //temporary
     {
         method: 'POST',
         headers: {
@@ -27,8 +27,10 @@ function upload(title) {
 //This function implements the process of uploading events.
 export function uploadEvent() {
     let title = document.getElementById("title").value;
+    let startTime = document.getElementById("startTime").value;
+    let endTime = document.getElementById("endTime").value;
     if (title !== "") {
-        upload(title);
+        upload(title, startTime, endTime);
     } else {
         createAlert("Event title required!", 'error');
     }

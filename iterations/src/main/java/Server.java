@@ -38,7 +38,7 @@ public class Server {
                 Properties props = getDbUrl(System.getenv("DATABASE_URL"));
                 sql2o = new Sql2o(new HikariDataSource(new HikariConfig(props)), new PostgresQuirks());
                 //sql2o = new Sql2o(props.getProperty("jdbcUrl"), props.getProperty("username"), props.getProperty("password"));
-            } catch(URISyntaxException | Sql2oException e) {   
+            } catch(URISyntaxException | Sql2oException e) {
                 e.printStackTrace();
             }
 
@@ -195,7 +195,7 @@ public class Server {
                         AvailableDates availDates = AvailableDates.createFromAvailability(user.getName(), cal.getTitle(), availList);
                         availDatesList.add(availDates);
                 }
-                results = new Gson().toJson(new AggrAvail(event.getTitle(), availDatesList));
+                results = new Gson().toJson(new AggrAvail(event, availDatesList));
             }
             res.type("application/json");
             res.status(200);
@@ -498,7 +498,8 @@ public class Server {
         makeStaticRoutes(
                 Arrays.asList(
                           "/login"
-                        , "/view-event", "/list-public-events"),
+                        , "/view-event", "/list-public-events"
+                ),
                 Arrays.asList(
                         new StaticRoutes("/", "index"),
                         new StaticRoutes("", "index")
