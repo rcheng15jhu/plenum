@@ -93,4 +93,10 @@ public class User {
     public String getPic() { return pic; }
 
     public void setPic(String pic) { this.pic = pic; }
+
+    public User erasePrivate() {
+        this.password = null;
+        this.salt = null;
+        return this;
+    }
 }

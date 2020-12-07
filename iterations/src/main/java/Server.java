@@ -521,6 +521,7 @@ public class Server {
             User u = new Sql2oUserDao(getSql2o()).getUserFromName(username);
             res.status(201);
             res.type("application/json");
+            u.erasePrivate();
             System.out.println(u);
             return new Gson().toJson(u);
         });
