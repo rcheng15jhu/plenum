@@ -502,9 +502,10 @@ public class Server {
             if (req.cookie("username") == null)
                 res.redirect("/");
             String username = req.cookie("username");
+            User u = new Sql2oUserDao(getSql2o()).getUserFromName(username);
             res.status(201);
             res.type("application/json");
-            return new Gson().toJson(u.toString());
+            return new Gson().toJson(u);
         });
 
 
