@@ -78,6 +78,8 @@ const App = () =>  {
 
     const [eventTitle, setEventTitle] = useState(null)
 
+    const [eventTimeRange, setTimeRange] = useState([8, 5])
+
     useEffect(() => {
         if(idToDelete > 0) {
             fetchAPI(idToDelete)
@@ -115,7 +117,7 @@ const App = () =>  {
     }
 
     useEffect(() => {
-        fetchAggregate(id, setEventTitle, setCalendars);
+        fetchAggregate(id, setEventTitle, setCalendars, setTimeRange);
     }, [id])
 
 
@@ -152,7 +154,7 @@ const App = () =>  {
                         </div>
                     </Grid>
                     <Grid item xs={6}>
-                        <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
+                        <Aggregate_calendar agg={calendars} timeRange={eventTimeRange} />
                         {id > 0?
                             <Button style={{'margin' : '30px 0 0 50px'}} variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
                             :

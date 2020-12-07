@@ -73,11 +73,13 @@ const App = () => {
 
     const [calendars, setCalendars] = useState([])
 
+    const [eventTitle, setEventTitle] = useState(null)
+
+    const [eventTimeRange, setTimeRange] = useState([8, 5])
+
     const [calOptions, setCalOptions] = useState(null)
 
     const [selectedCal, setSelectedCal] = useState(null)
-
-    const [eventTitle, setEventTitle] = useState(null)
 
     const [file, setFile] = useState({})
 
@@ -92,7 +94,7 @@ const App = () => {
     const classes = useStyles();
 
     useEffect(() => {
-        fetchAggregate(id, setEventTitle, setCalendars);
+        fetchAggregate(id, setEventTitle, setCalendars, setTimeRange);
     }, [])
 
     useEffect(() => {
@@ -246,7 +248,7 @@ const App = () => {
     function renderAggregateCal() {
         return <Aggregate_calendar
             key={agg}
-            agg={agg}>
+            agg={agg} timeRange={eventTimeRange}>
         </Aggregate_calendar>
     }
 
