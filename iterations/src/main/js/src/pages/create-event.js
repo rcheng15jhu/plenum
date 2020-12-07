@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import ReactDOM from 'react-dom'
 import Header from "../components/header";
 import {uploadEvent} from "../services/event-manager.js";
@@ -39,11 +39,29 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
+const setTimeFromString = (setTime, initTime) => (event) => {
+    console.log(event.target.value)
+    let hour = parseInt(event.target.value.substring(0,2))
+    let minute = parseInt(event.target.value.substring(3,5))
+    setTime(isNaN(hour) ? initTime : hour)
+    setTime(hour)
+}
+
+const useTime = (initTime) => {
+    const [time, setTime] = useState(initTime)
+    const timeString = (time < 10 ? "0" : '') + time + ":00"
+    const isPM = time > 12
+    return [time, timeString, setTimeFromString(setTime, initTime, isPM)]
+}
+
 const App = () => {
 
     checkCookie();
 
     const classes = useStyles();
+
+    const [startTime, startTimeString, setStart] = useTime(8)
 
     return (
         <Container style={{'paddingBottom': '50px'}}>
@@ -55,6 +73,8 @@ const App = () => {
                     </Typography>
                     <form className={classes.root} noValidate autoComplete="off" className={classes.center}>
                         <TextField label="Event Title" variant="outlined" id="title"/>
+                        <TextField type="time" label="No Earlier Than" variant="outlined" id="startTime" value={startTimeString} onChange={setStart} />
+                        <TextField type="time" label="No Later Than" variant="outlined" id="endTime" defaultValue="17:00" step="3600" />
                     </form>
                     <ol>
                         <li>Give a title to your event above.</li>
