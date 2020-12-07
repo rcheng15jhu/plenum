@@ -125,7 +125,7 @@ const App = () => {
                         <Grid container spacing={1} alignItems="flex-end">
                             <Grid item>
                                 <Typography variant='h6'>
-                                    New Password:
+                                    New Password (8-40 chars):
                                 </Typography>
                             </Grid>
                             <Grid item>
