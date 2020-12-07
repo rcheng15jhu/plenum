@@ -57,7 +57,7 @@ const App = () => {
         ).then(res => {
             return res.json()
         }).then(data => {
-            setValues([...data])
+            setValues([data])
         })
     }
 
