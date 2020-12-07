@@ -48,6 +48,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function fetchChangeProfileAPI(values) {
+    if (values.email.length > 100) {
+        createAlert('Your email is too long!', 'error');
+        return;
+    } else if (values.affil.length > 100) {
+        createAlert('Your affiliation is too long!', 'error');
+        return;
+    } else if (values.title.length > 200) {
+        createAlert('Your title is too long!', 'error');
+        return;
+    } else if (values.email.length > 1000) {
+        createAlert('Your description is too long!', 'error');
+        return;
+    }
+
     fetch('/api/editprofile?email=' + values.email.normalize() + '&affil=' + values.affil.normalize()
             + '&title=' + values.title.normalize() + '&description=' + values.description.normalize(),
         {
@@ -105,7 +119,7 @@ const App = () => {
                         <Grid container spacing={1} alignItems="flex-end">
                             <Grid item>
                                 <Typography variant='h6'>
-                                    Email:
+                                    Email (100 chars max.):
                                 </Typography>
                             </Grid>
                             <Grid item>
@@ -117,7 +131,7 @@ const App = () => {
                         <Grid container spacing={1} alignItems="flex-end">
                             <Grid item>
                                 <Typography variant='h6'>
-                                    Affiliation:
+                                    Affiliation (100 chars max.):
                                 </Typography>
                             </Grid>
                             <Grid item>
@@ -129,7 +143,7 @@ const App = () => {
                         <Grid container spacing={1} alignItems="flex-end">
                             <Grid item>
                                 <Typography variant='h6'>
-                                    Title:
+                                    Title (200 chars max.):
                                 </Typography>
                             </Grid>
                             <Grid item>
@@ -141,7 +155,7 @@ const App = () => {
                         <Grid container spacing={1} alignItems="flex-end">
                             <Grid item>
                                 <Typography variant='h6'>
-                                    Description:
+                                    Description (1000 chars max.):
                                 </Typography>
                             </Grid>
                             <Grid item>
