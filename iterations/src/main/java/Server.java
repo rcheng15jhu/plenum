@@ -471,7 +471,7 @@ public class Server {
         });
 
         //editprofile route; edit profile fields
-        post("/editprofile", (req, res) -> {
+        post("/api/editprofile", (req, res) -> {
             if (req.cookie("username") == null)
                 res.redirect("/");
             String username = req.cookie("username");
