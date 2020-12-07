@@ -480,15 +480,18 @@ public class Server {
             String title = req.queryParams("title");
             String description = req.queryParams("description");
             User u = new Sql2oUserDao(getSql2o()).getUserFromName(username);
-            if (!email.equals(""))
+            if (!email.equals("")) {
                 new Sql2oUserDao(getSql2o()).setemail(u, email);
-            if (!affil.equals(""))
+            }
+            if (!affil.equals("")) {
                 new Sql2oUserDao(getSql2o()).setaffil(u, affil);
-            if (!title.equals(""))
+            }
+            if (!title.equals("")) {
                 new Sql2oUserDao(getSql2o()).settitle(u, title);
-            if (!description.equals(""))
+            }
+            if (!description.equals("")) {
                 new Sql2oUserDao(getSql2o()).setdescription(u, description);
-
+            }
             res.status(201);
             res.type("application/json");
             return new Gson().toJson(u.toString());

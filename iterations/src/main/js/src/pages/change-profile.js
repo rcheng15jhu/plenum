@@ -60,7 +60,7 @@ function fetchChangeProfileAPI(values) {
            createAlert(`Successfully changed profile!`, 'success');
            window.location.assign('/profile')
         } else {
-            createAlert(`Was not able to change profile.`, 'error');
+           createAlert(`Was not able to change profile.`, 'error');
         }
     })
 }
