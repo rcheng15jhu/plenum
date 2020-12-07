@@ -8,7 +8,7 @@ public class SqlSchema {
           " password      VARCHAR(48) NOT NULL," +
           " salt          VARCHAR(36) NOT NULL," +
           " email          VARCHAR(100) NOT NULL," +
-          " affil          VARCHAR(200) NOT NULL," +
+          " affil          VARCHAR(100) NOT NULL," +
           " title          VARCHAR(200) NOT NULL," +
           " description   VARCHAR(1000) NOT NULL," +
           " pic          VARCHAR(100) NOT NULL" +
