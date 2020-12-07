@@ -16,6 +16,7 @@ public class RESTAPITest {
     final static String URI = "jdbc:sqlite:./Plenum.db";
     static OkHttpClient client;
     static Gson gson;
+    private static Connection conn;
     private static Statement st;
 
     @BeforeClass
@@ -40,6 +41,8 @@ public class RESTAPITest {
 
         client = new OkHttpClient();
         gson = new Gson();
+        conn = DriverManager.getConnection(URI);
+        st = conn.createStatement();
     }
 
     @Before
@@ -54,7 +57,7 @@ public class RESTAPITest {
         String sq4 = "DROP TABLE IF EXISTS Calendars";
         st.execute(sq4);
 
-        
+
     }
 
     @Test
