@@ -38,9 +38,21 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+function fetchProfile() {
+    fetch("/api/getprofile", {
+            method: 'POST',
+            mode: 'cors'
+        }
+    ).then(data => {
+        createAlert(data, 'error');
+    })
+}
+
 const App = () => {
 
     checkCookie();
+
+    fetchProfile();
 
     const classes = useStyles();
 

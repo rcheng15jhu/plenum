@@ -497,6 +497,16 @@ public class Server {
             return new Gson().toJson(u.toString());
         });
 
+        //getprofile route; get profile fields
+        post("/api/getprofile", (req, res) -> {
+            if (req.cookie("username") == null)
+                res.redirect("/");
+            String username = req.cookie("username");
+            res.status(201);
+            res.type("application/json");
+            return new Gson().toJson(u.toString());
+        });
+
 
         makeStaticRoutes(
                 Arrays.asList(
