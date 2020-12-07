@@ -45,6 +45,10 @@ const App = () => {
     const classes = useStyles();
 
     const username = cookieManager('username');
+    const email = cookieManager('email');
+    const affil = cookieManager('affil');
+    const title = cookieManager('title');
+    const description = cookieManager('description');
 
     return (
         <ThemeProvider theme={theme}>
@@ -52,6 +56,18 @@ const App = () => {
             <Container className={classes.root}>
                 <div className={classes.contentDiv}>
                     <Grid container direction="row" justify="space-evenly" alignItems="center" display="flex">
+                        <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center">
+                            <img src = {profileImage}/>
+                            <Button
+                                href='/'
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                            >
+                                Change Profile Picture
+                            </Button>
+                        </Grid>
+
                         <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center">
                             <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
@@ -66,15 +82,15 @@ const App = () => {
                                     Email:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    hardcoded@example.com
+                                    {email}
                                 </Typography>
                             </Grid>
                             <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
-                                    Institution:&nbsp;
+                                    Affiliation:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    Hardcoded University
+                                    {affil}
                                 </Typography>
                             </Grid>
                             <Grid container direction="row" justify="flex-start" display="flex">
@@ -82,56 +98,38 @@ const App = () => {
                                     Title:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    Computer Science Major
+                                    {title}
                                 </Typography>
                             </Grid>
-                        </Grid>
-
-                        <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center" display="flex">
-                            <Grid container justify="flex-start">
-                                <Typography variant='h6'>
-                                    Description:&nbsp;
-                                </Typography>
-                                <Typography variant='h6' color='primary'>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce iaculis pulvinar justo, accumsan feugiat massa faucibus vel.
-                                </Typography>
-                            </Grid>
-                        </Grid>
-
-                        <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center">
-                            <img src = {profileImage}/>
                             <Button
-                                href='/'
+                                href='/change-password'
                                 variant="contained"
                                 color="secondary"
                                 className={classes.button}
                             >
-                                Profile Picture
+                                Change Password
+                            </Button>
+                        </Grid>
+
+                        <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center">
+                            <Grid container direction="row" justify="flex-start" display="flex">
+                                <Typography variant='h6'>
+                                    Description:&nbsp;
+                                </Typography>
+                                <Typography variant='h6' color='primary'>
+                                    {description}
+                                </Typography>
+                            </Grid>
+                            <Button
+                                href='/change-profile'
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                            >
+                                Edit Profile
                             </Button>
                         </Grid>
                     </Grid>
-                </div>
-
-                <div className={classes.contentDiv}>
-                    <div className={classes.center}>
-                        <Button
-                            href='/list-calendar'
-                            variant="contained"
-                            color="secondary"
-                            className={classes.button}
-                        >
-                            View Calendars
-                        </Button>
-
-                        <Button
-                            href='/list-events'
-                            variant="contained"
-                            color="secondary"
-                            className={classes.button}
-                        >
-                            View Events
-                        </Button>
-                    </div>
                 </div>
             </Container>
         </ThemeProvider>
