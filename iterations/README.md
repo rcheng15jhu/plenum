@@ -6,12 +6,7 @@ http://damp-garden-37477.herokuapp.com/. Alternatively, to access the code in a 
 Server.java can be ran, and npm start can be run in the src/main/js folder, and after server initialization, the frontend
 of the application can be accessed at localhost:3000. 
 
-Additionally, work was done with webpack and github actions to ease the development process, including shortening build
-times by building common chunks, manually deploying to heroku, and switching to postgresql on dev as well. UI was
-improved, merging the view and edit calendar pages, and previewing events from the list-events page. Additionally,
-calendars may now be successfully connected to events, and a live preview on the view-event page is in progress. A
-view public event page was also created to make it easier to see what events there are, and a easy copy button is on
-the view-event page to share the event with others, so that they may indicate their availability.
+A lot of work done in this iteration was code refactorization and overall cleaning of the code. Edit profile was added to allow for people to change their profile information. We increased the number of time slots so each slot represents 15 minutes instead of 2 hours. We added real time preview of selected calendar in view-event and calendar creation and modification in view-event.
 
 The available routes in main are the root route which displays a simple message,
 - "api/calendars" which gets a list of calendars as a JSON file,
@@ -35,3 +30,6 @@ The available routes in main are the root route which displays a simple message,
 - "api/updateconnection", which changes the connections depending on the given parameters,
 - "api/changepassword", which allows the user to change their password, and
 - "api/editprofile", which allows the user to change parts of their profile info.
+
+Small guide of each page:
+- 
