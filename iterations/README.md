@@ -1,12 +1,14 @@
 # Plenum
 
-This package represents the fourth iteration of Plenum, a simple peer-scheduling application. In order to use this
+This package represents the fifth iteration of Plenum, a simple peer-scheduling application. In order to use this
 iteration of Plenum, the current deployed build of the project can be found in Heroku at
 http://damp-garden-37477.herokuapp.com/. Alternatively, to access the code in a dev environment, the main function of
 Server.java can be ran, and npm start can be run in the src/main/js folder, and after server initialization, the frontend
 of the application can be accessed at localhost:3000. 
 
 A lot of work done in this iteration was code refactorization and overall cleaning of the code. Edit profile was added to allow for people to change their profile information. We increased the number of time slots so each slot represents 15 minutes instead of 2 hours. We added real time preview of selected calendar in view-event and calendar creation and modification in view-event.
+
+A new Dashboard page was added that allows the user to preview all their items at once, including their calendars, events, and the public events. This page is linked as the new home page. 
 
 The available routes in main are the root route which displays a simple message,
 - "api/calendars" which gets a list of calendars as a JSON file,
@@ -30,10 +32,12 @@ The available routes in main are the root route which displays a simple message,
 - "api/updateconnection", which changes the connections depending on the given parameters,
 - "api/changepassword", which allows the user to change their password, and
 - "api/editprofile", which allows the user to change parts of their profile info.
+- "api/getprofile", which allows the user to get each component of their profile info.
 
 Small guide of each page:
 - List-calendar, List-events: you can press the + button to add new calendars or events. On the right, you can see your selected calendar or event.
 ![Calendar_View](../docs/Calendar_View.PNG "Calendar View")
 - Each creation page for the calendar and event creation has instructions written on the page. When creating an event, you can select a calendar to go along with the event.
-![Calednar_Creation](Calendar_Creation.PNG "Calendar Creation")
+![Calendar_Creation](../docs/Calendar_Creation.PNG "Calendar Creation")
 - You can log out or view your profile page by clicking on the top right corner.
+![TopRight_PopUp](../docs/TopRight_PopUp.PNG "TopRight PopUp")
