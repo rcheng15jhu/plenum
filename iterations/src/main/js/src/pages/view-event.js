@@ -75,7 +75,7 @@ const App = () => {
 
     const [eventTitle, setEventTitle] = useState(null)
 
-    const [eventTimeRange, setTimeRange] = useState([8, 5])
+    const [eventTimeRange, setTimeRange] = useState([8, 17])
 
     const [calOptions, setCalOptions] = useState(null)
 

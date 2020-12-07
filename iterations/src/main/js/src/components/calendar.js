@@ -29,8 +29,8 @@ const calendar = (props) => {
         }
     }
 
-    const timeRange = props.timeRange === [0, 23] ? 0 : props.timeRange
-    calendar = calendar.slice(props.timeRange[0]*4, props.timeRange[1]*4)
+    const timeRange = props.timeRange === undefined ? [0, 24] : props.timeRange
+    calendar = calendar.slice(timeRange[0]*4, timeRange[1]*4)
 
     return (
         <CalendarTemplate startTime={timeRange[0]}>
