@@ -21,8 +21,8 @@ public class Sql2oUserDao implements UserDao{
     public int add(User user) throws DaoException {
         try (Connection con = sql2o.open()) {
             System.out.println("Inside add!");
-            String query = "INSERT INTO Users (name, password, salt)" +
-                    "VALUES (:name, :password, :salt)";
+            String query = "INSERT INTO Users (name, password, salt, email, affil, title, description, pic)" +
+                    "VALUES (:name, :password, :salt, '', '', '', '', '')";
             int id = (int) con.createQuery(query, true)
                     .bind(user)
                     .executeUpdate().getKey();

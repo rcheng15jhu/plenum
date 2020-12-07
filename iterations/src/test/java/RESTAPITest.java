@@ -2,6 +2,7 @@ import com.google.gson.Gson;
 import okhttp3.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -18,20 +19,20 @@ public class RESTAPITest {
     @BeforeClass
     public static void beforeClassTests() throws SQLException {
 
-        Sql2o sql2o = new Sql2o(URI, "", "");
-        String sqlDropUsers = "DROP TABLE IF EXISTS Users";
-        String sqlDropEvents = "DROP TABLE IF EXISTS Events";
-        String sqlDropCalendars = "DROP TABLE IF EXISTS Calendars";
-        String sqlDropConnections = "DROP TABLE IF EXISTS Connections";
-        String sqlDropAvailabilities = "DROP TABLE IF EXISTS Availabilities";
-        try (Connection con = sql2o.open()) {
-            con.createQuery(sqlDropUsers).executeUpdate();
-            con.createQuery(sqlDropEvents).executeUpdate();
-            con.createQuery(sqlDropCalendars).executeUpdate();
-            con.createQuery(sqlDropConnections).executeUpdate();
-            con.createQuery(sqlDropAvailabilities).executeUpdate();
-        }
-        Server.main(null);
+//        Sql2o sql2o = new Sql2o(URI, "", "");
+//        String sqlDropUsers = "DROP TABLE IF EXISTS Users";
+//        String sqlDropEvents = "DROP TABLE IF EXISTS Events";
+//        String sqlDropCalendars = "DROP TABLE IF EXISTS Calendars";
+//        String sqlDropConnections = "DROP TABLE IF EXISTS Connections";
+//        String sqlDropAvailabilities = "DROP TABLE IF EXISTS Availabilities";
+//        try (Connection con = sql2o.open()) {
+//            con.createQuery(sqlDropUsers).executeUpdate();
+//            con.createQuery(sqlDropEvents).executeUpdate();
+//            con.createQuery(sqlDropCalendars).executeUpdate();
+//            con.createQuery(sqlDropConnections).executeUpdate();
+//            con.createQuery(sqlDropAvailabilities).executeUpdate();
+//        }
+        //Server.main(null);
 
         System.out.println("oh no");
 
@@ -116,6 +117,20 @@ public class RESTAPITest {
 //    }
 }
  */
+
+    @Test
+    public void testViewProfile() throws IOException {
+         RequestBody postBody = new FormBody.Builder()
+                 .build();
+         Request request = new Request.Builder()
+                 .url("http://localhost:7000/api/getprofile")
+                 .addHeader("username", "aaaaaaaa")
+                 .post(postBody)
+                 .build();
+         Response response = client.newCall(request).execute();
+         assertEquals(201, response.code());
+        System.out.println(response);
+    }
 
 
 }
