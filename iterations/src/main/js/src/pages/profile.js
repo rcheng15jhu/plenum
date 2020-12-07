@@ -47,6 +47,8 @@ const App = () => {
     const username = cookieManager('username');
     const email = cookieManager('email');
     const affil = cookieManager('affil');
+    const title = cookieManager('title');
+    const description = cookieManager('description');
 
     return (
         <ThemeProvider theme={theme}>
