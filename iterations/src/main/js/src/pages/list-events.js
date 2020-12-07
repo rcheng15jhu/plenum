@@ -67,7 +67,7 @@ const App = () =>  {
     const [calendars, setCalendars] = useState([])
 
     const [eventTitle, setEventTitle] = useState(null)
-    const [eventTimeRange, setTimeRange] = useState([8, 5])
+    const [eventTimeRange, setTimeRange] = useState([8, 17])
 
     //For deleting an event
     useDeleteId(idToDelete, fetchAPI, setIdToDelete);

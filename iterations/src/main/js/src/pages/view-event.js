@@ -75,7 +75,7 @@ const App = () => {
 
     const [eventTitle, setEventTitle] = useState(null)
 
-    const [eventTimeRange, setTimeRange] = useState([8, 5])
+    const [eventTimeRange, setTimeRange] = useState([8, 17])
 
     const [calOptions, setCalOptions] = useState(null)
 
@@ -228,7 +228,7 @@ const App = () => {
 
 
                     {selectedCal ?
-                        <Calendar editable={0} onAvailChange={null} file={file}/>
+                        <Calendar editable={0} onAvailChange={null} file={file} timeRange={eventTimeRange}/>
                         :
                         <p>Choose a calendar to view.</p>
                     }

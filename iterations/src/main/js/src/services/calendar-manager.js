@@ -72,7 +72,8 @@ export default function uploadTemplate() {
 // This function is used in calendar.js and aggregate-calendar.js.
 // It takes the time slot and returns the correct time to display
 export function getTime(val) {
-    return (val / 4 + 11) % 12 + 1
+    let isAM = val < 12 * 4
+    return ((val / 4 + 11) % 12 + 1) + ' ' + (isAM ? 'am' : 'pm')
 }
 
 // This function is used in calendar.js and aggregate-calendar.js.
