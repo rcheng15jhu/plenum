@@ -32,4 +32,6 @@ The available routes in main are the root route which displays a simple message,
 - "api/editprofile", which allows the user to change parts of their profile info.
 
 Small guide of each page:
-- 
+- List-calendar, List-events: you can press the + button to add new calendars or events. On the right, you can see your selected calendar or event.
+- Each creation page for the calendar and event creation has instructions written on the page. When creating an event, you can select a calendar to go along with the event.
+- You can log out or view your profile page by clicking on the top right corner.
