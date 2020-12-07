@@ -44,6 +44,7 @@ dependencies {
     implementation 'org.xerial:sqlite-jdbc:3.32.3.2'
     compile 'io.github.cdimascio:dotenv-java:2.2.0'
     compile "com.zaxxer:HikariCP:3.4.5"
+    compile group: 'org.sql2o.extensions', name: 'sql2o-postgres', version: '1.6.0'
 }
 
 apply plugin : "java"

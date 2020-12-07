@@ -1,17 +1,19 @@
 import React from "react";
 
 import Cell from './cell'
+import {getTime, populateCalendar} from "../services/calendar-manager";
+import CalendarTemplate from "./calendar-template";
 
 const aggregate_calendar = (props) => {
+  
     let agg = props.agg
 
-    let calendar = new Array(12)
+    let calendar = new Array(24 * 4)
 
-    for (let i = 0; i < calendar.length; i++) {
-        calendar[i] = new Array(7)
-    }
+    calendar = populateCalendar(calendar);
 
-    for (let i = 0; i < 12; i++) {
+    //set up calendar data
+    for (let i = 0; i < 24 * 4; i++) {
         for (let j = 0; j < 7; j++) {
             calendar[i][j] = {
                 num_avail: 0,
@@ -22,6 +24,7 @@ const aggregate_calendar = (props) => {
     let users_in_event = Object.keys(agg)
     let num_users_in_event = users_in_event.length
 
+    //combine two calendar data
     for (const i in agg) {
         agg[i].dates.forEach(element => {
             element.times.forEach(function(time) {
@@ -31,6 +34,9 @@ const aggregate_calendar = (props) => {
         })
     }
 
+
+
+    //set up display layout
     function linspace(startValue, stopValue, cardinality) {
         let arr = [];
         let step = (stopValue - startValue) / (cardinality - 1);
@@ -60,47 +66,25 @@ const aggregate_calendar = (props) => {
         }
     }
 
-    const time = (val) => {
-        if (val === 0 || val === 6) {
-            return 12
-        }
-        return (val * 2) % 12
-    }
+    calendar = calendar.slice(props.timeRange[0]*4, props.timeRange[1]*4)
+    console.log(props.timeRange)
 
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th />
-                    <th>Su</th>
-                    <th>M</th>
-                    <th>T</th>
-                    <th>W</th>
-                    <th>Th</th>
-                    <th>F</th>
-                    <th>S</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    calendar.map((rows, i) => (
-                        <tr key={i}>
-                            <td style={{ textAlign: 'right' }}>{time(i)}</td>
-                            {rows.map((cell, j) => (
-                                <Cell
-                                    key={j}
-                                    tooltip_id={'' + i + j}
-                                    opacity={get_opacity_from_num_avail(calendar[i][j].num_avail)}
-                                    users_avail={calendar[i][j].users_avail}
-                                />
-                                )
-                            )}
-                        </tr>
-                    ))
-                }
-            </tbody>
-        </table>
-        
+        <CalendarTemplate startTime={props.timeRange[0]}>
+            {calendar.map((rows, i) => (
+                <React.Fragment key={i}>
+                    {rows.map((cell, j) => {
+                        return <Cell
+                            key={j}
+                            tooltip_id={'' + i + j}
+                            opacity={get_opacity_from_num_avail(calendar[i][j].num_avail)}
+                            users_avail={calendar[i][j].users_avail}
+                        />
+
+                    })}
+                </React.Fragment>
+            ))}
+        </CalendarTemplate>
     )
 };
 

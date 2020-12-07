@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useState} from "react";
 import ReactDOM from 'react-dom'
 import Calendar from "../components/calendar";
 import Header from "../components/header";
@@ -9,7 +9,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import Typography from "@material-ui/core/Typography";
 import newTheme from "../components/baseline-theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
-import getCookie from "../services/get-cookie";
+import {checkCookie} from "../services/cookie-manager";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,11 +42,44 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
 
-    if(getCookie('username') === ""){
-        window.location.assign('/')
-    }
+    checkCookie();
 
     const classes = useStyles();
+
+    const createObject = () => {
+        let objToSave = {};
+        objToSave.dates = [];
+        for(let i = 0; i < 7; i++) {
+            objToSave.dates.push({
+                date: i,
+                times: []
+            })
+        }
+        return objToSave
+    }
+
+
+    const [avails, setAvails] = useState(createObject)
+
+
+
+    const updateAvailability = (date, qHour) => (state) => {
+        setAvails(prevAvail => {
+            let times = prevAvail.dates[date].times
+            if(state) {
+                if (!times.includes(qHour)) {
+                    times.push(qHour)
+                }
+            }
+            else {
+                let index = times.indexOf(qHour)
+                if(index !== -1)  {
+                    times.splice(index, 1);
+                }
+            }
+            return prevAvail
+        })
+    }
 
     return (
         <Container style={{'paddingBottom': '50px'}}>
@@ -70,11 +103,11 @@ const App = () => {
                     </li>
                 </ol>
 
-                <Calendar editable={true} className={classes.center}/>
+                <Calendar editable={true} className={classes.center} onAvailChange={updateAvailability}/>
                 <Button
                     variant="contained"
                     color="secondary"
-                    onClick={uploadTemplate}
+                    onClick={() => uploadTemplate(avails)}
                     className={classes.button}
                     startIcon={<SaveIcon />}>
                     Upload Template!

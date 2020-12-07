@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom'
 import Aggregate_calendar from "../components/aggregate-calendar";
 import List_menu from '../components/list-menu'
 import Header from "../components/header";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import UploadTemplateAlert from '../components/uploadTemplateAlert'
+import CollapsibleAlert from '../components/collapsibleAlert'
 import createAlert from "../services/create-alert";
-import getCookie from "../services/get-cookie";
 import Grid from "@material-ui/core/Grid";
 import Calendar from "../components/calendar";
 import PublishIcon from '@material-ui/icons/Publish';
@@ -22,6 +21,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import {grey} from "@material-ui/core/colors";
+import {fetchAggregate} from "../services/event-manager";
+import {cookieManager} from "../services/cookie-manager"
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,20 +71,31 @@ const App = () => {
 
     const [id, setId] = useState(getInitId)
 
-    const [calendars, setCalendars] = useState({})
+    const [calendars, setCalendars] = useState([])
+
+    const [eventTitle, setEventTitle] = useState(null)
+
+    const [eventTimeRange, setTimeRange] = useState([8, 17])
 
     const [calOptions, setCalOptions] = useState(null)
 
     const [selectedCal, setSelectedCal] = useState(null)
 
-    const [eventTitle, setEventTitle] = useState(null)
-
     const [file, setFile] = useState({})
 
     const [open, setOpen] = useState(false)
 
+    const [addedCal, setAddedCal] = useState({})
+
+    const [agg, setAgg] = useState([])
+
+    const [ignoreToggle, setIgnoreToggle] = useState(false)
+
     const classes = useStyles();
-    const theme = useTheme();
+
+    useEffect(() => {
+        fetchAggregate(id, setEventTitle, setCalendars, setTimeRange);
+    }, [])
 
     useEffect(() => {
         fetch('/api/aggregate?id=' + id, {
@@ -91,8 +105,15 @@ const App = () => {
         ).then(res => {
             return res.json()
         }).then(data => {
-            setEventTitle(data.eventTitle)
-            setCalendars(data.calendars)
+            return data.calendars
+        }).then(calendars => {
+            if (calendars !== undefined && calendars.length !== 0) {
+                return calendars.filter(cal => cal.userName === cookieManager('username'))[0]
+            }
+        }).then(cal => {
+            if (cal !== undefined) {
+                setAddedCal(cal)
+            } 
         })
     }, [])
 
@@ -104,21 +125,19 @@ const App = () => {
         ).then(res => {
             return res.json()
         }).then(data => {
-            if (data !== undefined && data.length != 0) {
+            if (data !== undefined && data.length !== 0) {
                 setCalOptions(data)
-                setSelectedCal(data[0].title)
+                setSelectedCal(addedCal.calendarTitle)
             } else {
                 setCalOptions([])
             }
         }).catch(reason => {
             setCalOptions([])
         })
-    }, [])
+    }, [addedCal])
 
     useEffect(() => {
-
-
-        if(calOptions) {
+        if(calOptions && selectedCal) {
             let calid = ""
             for (let i = 0; i < calOptions.length; i++) {
                 if (calOptions[i].title === selectedCal) {
@@ -134,12 +153,20 @@ const App = () => {
                 return res.json()
             }).then(data => {
                 setFile(data)
+                if (ignoreToggle) {
+                    setAgg(calendars.filter(cal => cal.calendarTitle !== addedCal.calendarTitle))
+                } else {
+                    console.log('a')
+                    console.log(selectedCal)
+                    setAgg(calendars.filter(cal => cal.calendarTitle !== addedCal.calendarTitle).concat([data]))
+                }
             })
         }
         else {
             setFile({})
+            setAgg(calendars)
         }
-    }, [selectedCal])
+    }, [selectedCal, calendars, calOptions, ignoreToggle])
 
     let updateActive = (id) => () => {
         window.history.pushState({ id: id }, '', '/view-event?id=' + id)
@@ -183,20 +210,25 @@ const App = () => {
     const handleClickList = () => {
         setOpen(!open);
     };
+
+    const handleSwitchToggle = () => {
+        let temp = !ignoreToggle
+        setIgnoreToggle(temp)
+    }
     
     function renderDropdown() {
         if (calOptions === null) {
             return null
-        } else if (calOptions.length == 0) {
-            return <UploadTemplateAlert msg={<a href='create-calendar'>Create a new calendar as template!</a>} severity={'error'} ></UploadTemplateAlert>
+        } else if (calOptions.length === 0) {
+            return <CollapsibleAlert msg={<a href='create-calendar'>Create a new calendar as template!</a>} severity={'error'} />
         } else {
             return (
                 <div>
-                    <List_menu options={calOptions.map(element => element.title)} onChange={handleMenuChange} ></List_menu>
+                    <List_menu options={calOptions.map(element => element.title)} onChange={handleMenuChange} initCal={addedCal} />
 
 
                     {selectedCal ?
-                        <Calendar editable={0} onAvailChange={null} file={file}/>
+                        <Calendar editable={0} onAvailChange={null} file={file} timeRange={eventTimeRange}/>
                         :
                         <p>Choose a calendar to view.</p>
                     }
@@ -212,6 +244,13 @@ const App = () => {
             )
         }
     } 
+
+    function renderAggregateCal() {
+        return <Aggregate_calendar
+            key={agg}
+            agg={agg} timeRange={eventTimeRange}>
+        </Aggregate_calendar>
+    }
 
     return (
         <div style={{'overflowX': 'hidden'}}>
@@ -229,7 +268,15 @@ const App = () => {
                         </Typography>
                     </CardContent>
                     <Card>
-                        <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
+                        {renderAggregateCal()}
+                        {selectedCal !== undefined ?
+                            <FormControlLabel
+                                control={<Switch onChange={handleSwitchToggle}/>}
+                                label="Hide own availability"                                
+                            />  
+                        :
+                            null
+                        }
                     </Card>
                 </div>
             </Card>

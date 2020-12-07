@@ -1,8 +1,5 @@
 import React, {useState, useEffect} from "react";
-import ReactDOM from 'react-dom';
 import Calendar from "./calendar";
-import Viewable_list from "./viewable-list-item";
-import Header from "./header";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -55,7 +52,7 @@ const ViewCalendar = (props) => {
     const [file, setFile] = useState({})
 
     const [editable, setEditable] = useState(false)
-    const [value, setValue] = React.useState(0);
+    const [displayedFab, setDisplayedFab] = React.useState(0);
 
     const classes = useStyles();
     const theme = useTheme();
@@ -64,6 +61,7 @@ const ViewCalendar = (props) => {
         exit: theme.transitions.duration.leavingScreen,
     };
 
+    //Get calendar data with the specified ID from backend
     useEffect(() => {
         if(props.id > 0) {
             fetch('/api/calendar?id=' + props.id, {
@@ -97,12 +95,14 @@ const ViewCalendar = (props) => {
         },
     ];
 
+    //determines which floating button is displayed (with edit icon or with save icon)
     const handleChangeIndex = () => {
-        editable ? setValue(0) : setValue(1);
+        editable ? setDisplayedFab(0) : setDisplayedFab(1);
         setEditable(!editable);
     };
 
-    let onAvailChange = (date, qHour, state) => () => {
+    //send request to backend to update calendar availability when user makes changes in the front-end
+    let onAvailChange = (date, qHour) => (state) => {
         fetch('/api/updateavailability?calendarId=' + props.id + "&date=" + date + "&qHour=" + qHour + "&state=" + (state ? 1 : 0), {
             method: 'POST',
             mode: 'cors'
@@ -118,9 +118,6 @@ const ViewCalendar = (props) => {
                         <Typography component="h4" variant="h4" className={classes.title}>
                             Viewing {file.calendarTitle}
                         </Typography>
-                        {/*<Typography variant="subtitle1" color="textSecondary">*/}
-                        {/*    description*/}
-                        {/*</Typography>*/}
                     </CardContent>
                     <Card>
                         <Calendar editable={editable} onAvailChange={onAvailChange} file={file}/>
@@ -130,10 +127,10 @@ const ViewCalendar = (props) => {
                             {fabs.map((fab, index) => (
                                 <Zoom
                                     key={fab.color}
-                                    in={value === index}
+                                    in={displayedFab === index}
                                     timeout={transitionDuration}
                                     style={{
-                                        transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
+                                        transitionDelay: `${displayedFab === index ? transitionDuration.exit : 0}ms`,
                                     }}
                                     unmountOnExit
                                 >

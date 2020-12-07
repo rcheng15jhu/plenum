@@ -1,3 +1,7 @@
+/*
+Overrides default Material-UI Library colors used across pages.
+ */
+
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {teal, indigo} from "@material-ui/core/colors";
 

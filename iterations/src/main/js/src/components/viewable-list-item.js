@@ -42,8 +42,7 @@ const viewable_list_item = (props) => {
                 divider={true}
                 button
                 onClick={props.clicked(props.id)}
-                className={`${props.id}`}
-                >
+            >
                 <ListItemAvatar>
                     <Avatar variant="rounded" className={classes.rounded}>
                         <DateRangeIcon />
@@ -52,7 +51,6 @@ const viewable_list_item = (props) => {
                 <ListItemText className={classes.title}
                     primary={`${props.content}`}
                 />
-                {/*{open ? <VisibilityIcon /> : <VisibilityOffIcon />}*/}
                 <ListItemSecondaryAction onClick={props.delete(props.id)}>
                     <IconButton edge="end" aria-label="delete">
                         <DeleteIcon />

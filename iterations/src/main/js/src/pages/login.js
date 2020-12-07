@@ -48,10 +48,10 @@ const useStyles = makeStyles((theme) => ({
 
 function fetchAddUserAPI(values) {
     if (values.username.normalize() === '' || values.password.normalize() === '') {
-        createAlert('Username and password cannot be blank!', 'error');
+        createAlert('Username and password cannot be blank.', 'error');
         return;
-    } else if (values.password.length > 40) {
-        createAlert('Please limit your password to 40 characters.', 'error');
+    } else if (values.username.length < 8 || values.username.length > 40 || values.password.length < 8 || values.password.length > 40) {
+        createAlert('Please keep your username and password between 8 and 40 characters.', 'error');
         return;
     } else if (values.confirm.normalize() != values.password.normalize()) {
         createAlert('Confirm password is not equal to password!', 'error');
@@ -69,7 +69,7 @@ function fetchAddUserAPI(values) {
        } else if (data.status === 200) {
            createAlert(`Successfully signed up!`, 'success');
            document.cookie = "username=" + values.username.normalize() + "; path=/;";
-           window.location.assign('/list-calendar')
+           window.location.assign('/dashboard')
        }
    })
 }

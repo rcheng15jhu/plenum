@@ -7,11 +7,12 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/core/styles";
-import UploadTemplateAlert from "../components/uploadTemplateAlert";
 import Button from "@material-ui/core/Button";
-import getCookie from "../services/get-cookie";
+import {checkCookie} from "../services/cookie-manager";
 import Grid from "@material-ui/core/Grid";
 import Aggregate_calendar from "../components/aggregate-calendar";
+import {fetchAggregate, getEvents} from "../services/event-manager";
+import useDeleteId from "../services/delete-manager";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -40,25 +41,12 @@ function fetchAPI(id) {
 
 const App = () =>  {
 
-    if(getCookie('username') === ""){
-        window.location.assign('/')
-    }
+    checkCookie();
 
     const classes = useStyles();
     const [events, setEvents] = useState([])
 
-    useEffect(() => {
-        fetch('/api/events', {
-                method: 'GET',
-                mode: 'cors'
-            }
-        ).then(res => {
-            return res.json()
-        }).then(data => {
-            console.log(data)
-            setEvents([...data])
-        })
-    }, [])
+    getEvents(setEvents)
 
     let getInitId = () => {
         let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
@@ -79,13 +67,10 @@ const App = () =>  {
     const [calendars, setCalendars] = useState([])
 
     const [eventTitle, setEventTitle] = useState(null)
+    const [eventTimeRange, setTimeRange] = useState([8, 17])
 
-    useEffect(() => {
-        if(idToDelete > 0) {
-            fetchAPI(idToDelete)
-            setIdToDelete(-1)
-        }
-    }, [idToDelete])
+    //For deleting an event
+    useDeleteId(idToDelete, fetchAPI, setIdToDelete);
 
     const handleAdd = () => {
         window.location.assign('/create-event')
@@ -116,20 +101,8 @@ const App = () =>  {
             window.location.assign('/view-event?id=' + id)
     }
 
-
     useEffect(() => {
-        if(id > 0) {
-            fetch('/api/aggregate?id=' + id, {
-                    method: 'GET',
-                    mode: 'cors'
-                }
-            ).then(res => {
-                return res.json()
-            }).then(data => {
-                setEventTitle(data.eventTitle)
-                setCalendars(data.calendars)
-            })
-        }
+        fetchAggregate(id, setEventTitle, setCalendars, setTimeRange);
     }, [id])
 
 
@@ -143,42 +116,36 @@ const App = () =>  {
 
                 <Grid container spacing={3}>
                     <Grid item xs={6}>
-                <Typography variant="h6" className='headingTyp'>
-                    Private Events
-                </Typography>
+                        <Typography variant="h6" className='headingTyp'>
+                            Private Events
+                        </Typography>
                     </Grid>
                     <Grid item xs={6}>
                         <Typography variant="h6" className='headingTyp'>
                             Previewing: {eventTitle}
                         </Typography>
                     </Grid>
-                        <Grid item xs={6}>
+                    <Grid item xs={6}>
+                        <List>
+                            {eventNames.map(el => (
+                                <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={updatePreview} />
+                            ))}
+                        </List>
+                        <div className={classes.center}>
+                            <Fab color="primary" aria-label="add" onClick={handleAdd}>
+                                <AddIcon />
+                            </Fab>
 
-                            <div className="divContents">
-                            <List>
-                                {eventNames.map(el => (
-                                    <ViewableListItem delete={handleDelete} key={el.id} id={el.id} content={el.content} clicked={updatePreview} />
-                                ))}
-                            </List>
-
-                                <div className={classes.center}>
-                                    <Fab color="primary" aria-label="add" onClick={handleAdd}>
-                                        <AddIcon />
-                                    </Fab>
-
-                                </div>
-                            </div>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
-                            {id > 0?
-                                <Button style={{'margin' : '30px 0 0 50px'}} variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
-                                :
-                                <div></div>
-                            }
-                        </Grid>
-
-
+                        </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Aggregate_calendar agg={calendars} timeRange={eventTimeRange} />
+                        {id > 0?
+                            <Button style={{'margin' : '30px 0 0 50px'}} variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
+                            :
+                            <div/>
+                        }
+                    </Grid>
                 </Grid>
                 <Typography variant="h6" className='headingTyp'>
                     Public Events

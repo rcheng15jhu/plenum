@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import ReactDOM from 'react-dom'
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
@@ -8,17 +8,14 @@ import Button from "@material-ui/core/Button";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import theme from "../components/baseline-theme";
 import Header from "../components/header";
-import getCookie from "../services/get-cookie";
+import {cookieManager, checkCookie} from "../services/cookie-manager";
 import profileImage from '../resources/profile.png';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1
-    },
     center: {
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
     contentDiv: {
         width: '90%',
@@ -26,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
         padding: '50px 50px',
         border: '2px solid black',
         borderRadius: '10px',
+    },
+    innerContent: {
+        width: '32%',
     },
     button: {
         marginTop: '30px',
@@ -40,23 +40,53 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
 
-    if(getCookie('username') === ""){
-        window.location.assign('/')
+    checkCookie();
+
+    const [values, setValues] = React.useState({
+        email: '',
+        affil: '',
+        title: '',
+        description: '',
+    });
+    
+    function fetchProfile() {
+        fetch("/api/getprofile", {
+                method: 'POST',
+                mode: 'cors'
+            }
+        ).then(res => {
+            return res.json()
+        }).then(data => {
+            setValues([data])
+        })
     }
+
+    fetchProfile();
 
     const classes = useStyles();
 
-    const username = getCookie('username');
+    const username = cookieManager('username');
 
     return (
-
         <ThemeProvider theme={theme}>
             <Header />
             <Container className={classes.root}>
                 <div className={classes.contentDiv}>
-                    <Grid container spacing={2} direction="row" justify="space-evenly" alignItems="center">
-                        <Grid container spacing={2} direction="column" justify="flex-start" alignItems="flex-start">
-                            <Grid container direction="row">
+                    <Grid container direction="row" justify="space-evenly" alignItems="center" display="flex">
+                        <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center">
+                            <img src = {profileImage}/>
+                            <Button
+                                href='#top'
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                            >
+                                Change Profile Picture
+                            </Button>
+                        </Grid>
+
+                        <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center">
+                            <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
                                     Username:&nbsp;
                                 </Typography>
@@ -64,79 +94,59 @@ const App = () => {
                                     {username}
                                 </Typography>
                             </Grid>
-                            <Grid container direction="row">
+                            <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
                                     Email:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    hardcoded@example.com
+                                    {values.email}
                                 </Typography>
                             </Grid>
-                            <Grid container direction="row">
+                            <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
-                                    Institution:&nbsp;
+                                    Affiliation:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    Hardcoded University
+                                    {values.affil}
                                 </Typography>
                             </Grid>
-                            <Grid container direction="row">
+                            <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
                                     Title:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    Computer Science Major
+                                    {values.title}
                                 </Typography>
                             </Grid>
+                            <Button
+                                href='/change-password'
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                            >
+                                Change Password
+                            </Button>
                         </Grid>
-                        <Grid container spacing={2} direction="column" justify="flex-start" alignItems="flex-end">
-                            <Grid container>
+
+                        <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center">
+                            <Grid container direction="row" justify="flex-start" display="flex">
                                 <Typography variant='h6'>
                                     Description:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Fusce iaculis pulvinar justo, accumsan feugiat massa faucibus vel.
+                                    {values.description}
                                 </Typography>
                             </Grid>
-                        </Grid>
-                        <Grid container spacing={2} direction="column" justify="flex-start" alignItems="flex-end">
-                            <Grid container>
-                                <img src = {profileImage}/>
-                            </Grid>
-                            <Grid container>
-                                <Button
-                                    href='/'
-                                    variant="contained"
-                                    color="secondary"
-                                    className={classes.button}
-                                >
-                                    Change Profile Picture
-                                </Button>
-                            </Grid>
+                            <Button
+                                href='/change-profile'
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                            >
+                                Edit Profile
+                            </Button>
                         </Grid>
                     </Grid>
-                </div>
-
-                <div className={classes.contentDiv}>
-                    <div className={classes.center}>
-                        <Button
-                            href='/list-calendar'
-                            variant="contained"
-                            color="secondary"
-                            className={classes.button}
-                        >
-                            View Calendars
-                        </Button>
-                        <Button
-                            href='/list-events'
-                            variant="contained"
-                            color="secondary"
-                            className={classes.button}
-                        >
-                            View Events
-                        </Button>
-                    </div>
                 </div>
             </Container>
         </ThemeProvider>

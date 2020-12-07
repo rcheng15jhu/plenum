@@ -9,7 +9,9 @@ import List from "@material-ui/core/List";
 import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ViewCalendar from "../components/view-calendar";
-import getCookie from "../services/get-cookie";
+import {checkCookie} from "../services/cookie-manager";
+import {useGetCalendars} from "../services/calendar-manager";
+import useDeleteId from "../services/delete-manager";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -45,26 +47,14 @@ function fetchAPI(id) {
 
 const App = () => {
 
-    if(getCookie('username') === ""){
-        window.location.assign('/')
-    }
+    checkCookie();
 
     const classes = useStyles();
     const [calendars, setCalendars] = useState([])
 
-    useEffect(() => {
-        fetch('/api/calendars', {
-                method: 'GET',
-                mode: 'cors'
-            }
-        ).then(res => {
-            return res.json()
-        }).then(data => {
-            console.log(data)
-            setCalendars([...data])
-        })
-    }, [])
+    useGetCalendars(setCalendars);
 
+    //check whether an id for the calendar is specfied in the url and display accordingly
     let getInitId = () => {
         let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
         if(isNaN(paramId)) {
@@ -80,27 +70,20 @@ const App = () => {
     const [idToDelete, setIdToDelete] = useState(-1)
     const [viewId, setViewId] = useState(getInitId)
 
-    useEffect(() => {
-        if(idToDelete > 0) {
-            fetchAPI(idToDelete)
-            setIdToDelete(-1)
-        }
-    }, [idToDelete])
+    //For deleting a calendar
+    useDeleteId(idToDelete, fetchAPI, setIdToDelete);
 
+    //obtain the id of the calendar the user clicks on
     const viewListClicked = (id) => () => {
         window.history.pushState({id: id},'','/list-calendar?id=' + id)
         setViewId(id);
-    }
-
-    let clearCalendarView = () => {
-        window.history.pushState({id: -1},'','/list-calendar')
-        setViewId(-1)
     }
 
     window.onpopstate = (e) => {
         setViewId(e.state.id)
     }
 
+    //for when user clicks add calendar button
     const handleAdd = () => {
         window.location.assign('/create-calendar')
     }

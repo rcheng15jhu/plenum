@@ -5,8 +5,14 @@
 *build/
 Plenum.db
 *hs_err_pid*.log
+*replay_pid*.log
 *misc.xml
 .env
+
+src/main/resources/public/static/
+/iterations-1.0-SNAPSHOT.jar
+
+
 
 .DS_Store
 
