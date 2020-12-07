@@ -32,10 +32,10 @@ jobs:
         run: (cd ./iterations && ./gradlew build jar && mv ./build/libs/iterations-1.0-SNAPSHOT.jar .)
       - name: Commit on the runner
         run: git config user.email "runner@github.com"; git config user.name "Runner"; git add *; git commit -m "None"
-      - name: Deploy to Heroku
-        uses: AkhileshNS/heroku-deploy@v3.5.7
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY_QUORUM}}
-          heroku_app_name: "warm-ridge-98252"
-          heroku_email: "lee.hsinpei.melody@gmail.com"
-          appdir: "iterations/"
+#      - name: Deploy to Heroku
+#        uses: AkhileshNS/heroku-deploy@v3.5.7
+#        with:
+#          heroku_api_key: ${{secrets.HEROKU_API_KEY_QUORUM}}
+#          heroku_app_name: "warm-ridge-98252"
+#          heroku_email: "lee.hsinpei.melody@gmail.com"
+#          appdir: "iterations/"
