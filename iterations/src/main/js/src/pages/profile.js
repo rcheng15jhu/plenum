@@ -45,10 +45,12 @@ const App = () => {
     const classes = useStyles();
 
     const username = cookieManager('username');
-    const email = cookieManager('email');
-    const affil = cookieManager('affil');
-    const title = cookieManager('title');
-    const description = cookieManager('description');
+    const [values, setValues] = React.useState({
+        email: '',
+        affil: '',
+        title: '',
+        description: '',
+    });
 
     return (
         <ThemeProvider theme={theme}>
@@ -82,7 +84,7 @@ const App = () => {
                                     Email:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    {email}
+                                    {values.email}
                                 </Typography>
                             </Grid>
                             <Grid container direction="row" justify="flex-start" display="flex">
@@ -90,7 +92,7 @@ const App = () => {
                                     Affiliation:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    {affil}
+                                    {values.affil}
                                 </Typography>
                             </Grid>
                             <Grid container direction="row" justify="flex-start" display="flex">
@@ -98,7 +100,7 @@ const App = () => {
                                     Title:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    {title}
+                                    {values.title}
                                 </Typography>
                             </Grid>
                             <Button
@@ -117,7 +119,7 @@ const App = () => {
                                     Description:&nbsp;
                                 </Typography>
                                 <Typography variant='h6' color='primary'>
-                                    {description}
+                                    {values.description}
                                 </Typography>
                             </Grid>
                             <Button
