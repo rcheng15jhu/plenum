@@ -38,28 +38,28 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const [values, setValues] = React.useState({
-    email: '',
-    affil: '',
-    title: '',
-    description: '',
-});
-
-function fetchProfile() {
-    fetch("/api/getprofile", {
-            method: 'POST',
-            mode: 'cors'
-        }
-    ).then(res => {
-        return res.json()
-    }).then(data => {
-        setValues([...data])
-    })
-}
-
 const App = () => {
 
     checkCookie();
+
+    const [values, setValues] = React.useState({
+        email: '',
+        affil: '',
+        title: '',
+        description: '',
+    });
+    
+    function fetchProfile() {
+        fetch("/api/getprofile", {
+                method: 'POST',
+                mode: 'cors'
+            }
+        ).then(res => {
+            return res.json()
+        }).then(data => {
+            setValues([...data])
+        })
+    }
 
     fetchProfile();
 

@@ -79,18 +79,32 @@ function fetchChangeProfileAPI(values) {
     })
 }
 
-
 const App = () => {
 
     checkCookie();
 
-    const classes = useStyles();
     const [values, setValues] = React.useState({
         email: '',
         affil: '',
         title: '',
         description: '',
     });
+    
+    function fetchProfile() {
+        fetch("/api/getprofile", {
+                method: 'POST',
+                mode: 'cors'
+            }
+        ).then(res => {
+            return res.json()
+        }).then(data => {
+            setValues([...data])
+        })
+    }
+
+    fetchProfile();
+
+    const classes = useStyles();
 
     const toggleChangeButtonState = () => {
         fetchChangeProfileAPI(values);
