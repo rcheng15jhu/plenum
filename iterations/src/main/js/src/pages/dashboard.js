@@ -12,7 +12,9 @@ import {getCalendars} from "../services/calendar-manager";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import {getEvents} from "../services/event-manager";
-import {teal, indigo} from "@material-ui/core/colors";
+import {indigo} from "@material-ui/core/colors";
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     contentDiv: {
@@ -81,6 +83,10 @@ const App = () => {
                                     </ListItem>
                                 ))}
                             </List>
+                            <Button variant='contained' size='large' href="/list-calendar" color="secondary">
+                                <VisibilityIcon style={{'marginRight': '5px'}} />
+                                Manage Calendars
+                            </Button>
                         </Grid>
                         <Grid item xs={6}>
                             <Typography variant='h5'>
@@ -95,6 +101,10 @@ const App = () => {
                                     </ListItem>
                                 ))}
                             </List>
+                            <Button variant='contained' size='large' href="/list-events" color="secondary">
+                                <VisibilityIcon style={{'marginRight': '5px'}} />
+                                Manage Events
+                            </Button>
                         </Grid>
                         <Grid item xs={6}>
                             <Typography variant='h5'>
@@ -109,6 +119,10 @@ const App = () => {
                                     </ListItem>
                                 ))}
                             </List>
+                            <Button variant='contained' size='large' href="/list-pubic-events" color="secondary">
+                                <VisibilityIcon style={{'marginRight': '5px'}} />
+                                View Public Events
+                            </Button>
                         </Grid>
                     </Grid>
                 </div>
