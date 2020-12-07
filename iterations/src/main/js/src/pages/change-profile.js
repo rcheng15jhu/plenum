@@ -57,21 +57,8 @@ const App = () => {
         title: '',
         description: '',
     });
-    
-    React.useEffect(() => {
-        fetch("/api/getprofile", {
-                method: 'POST',
-                mode: 'cors'
-            }
-        ).then(res => {
-            return res.json()
-        }).then(data => {
-            setValues([data])
-        })
-    },[])
 
-    let fetchChangeProfileAPI = () => {
-        console.log('aaaaaaa');
+    let fetchChangeProfileAPI = () => { 
         if (values.email.length > 100) {
             createAlert('Your email is too long!', 'error');
             return;
@@ -103,11 +90,11 @@ const App = () => {
         })
     }
 
-    const classes = useStyles();
-
     const toggleChangeButtonState = () => {
         fetchChangeProfileAPI(values);
     };
+
+    const classes = useStyles();
 
     const handleChange = (event) => {
         setValues({
@@ -116,8 +103,19 @@ const App = () => {
         });
     }
 
-    return (
+    React.useEffect(() => {
+        fetch("/api/getprofile", {
+                method: 'POST',
+                mode: 'cors'
+            }
+        ).then(res => {
+            return res.json()
+        }).then(data => {
+            setValues([data])
+        })
+    },[])
 
+    return (
         <ThemeProvider theme={theme}>
             <Typography variant="h6" className={classes.home} id='content'>
                 <Button variant='contained' size='large' href="/profile" color="primary">
