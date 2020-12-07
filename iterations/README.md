@@ -1,6 +1,6 @@
 # Plenum
 
-This package represents the fourth iteration of Plenum, a simple peer-scheduling application. In order to use this
+This package represents the fifth iteration of Plenum, a simple peer-scheduling application. In order to use this
 iteration of Plenum, the current deployed build of the project can be found in Heroku at
 http://damp-garden-37477.herokuapp.com/. Alternatively, to access the code in a dev environment, the main function of
 Server.java can be ran, and npm start can be run in the src/main/js folder, and after server initialization, the frontend
@@ -32,6 +32,7 @@ The available routes in main are the root route which displays a simple message,
 - "api/updateconnection", which changes the connections depending on the given parameters,
 - "api/changepassword", which allows the user to change their password, and
 - "api/editprofile", which allows the user to change parts of their profile info.
+- "api/getprofile", which allows the user to get each component of their profile info.
 
 Small guide of each page:
 - List-calendar, List-events: you can press the + button to add new calendars or events. On the right, you can see your selected calendar or event.
