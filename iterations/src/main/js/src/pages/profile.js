@@ -121,7 +121,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Button
-                                href='#top'
+                                href='/change-profile'
                                 variant="contained"
                                 color="secondary"
                                 className={classes.button}

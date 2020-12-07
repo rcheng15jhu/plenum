@@ -54,7 +54,7 @@ function fetchChangePasswordAPI(values) {
     } else if (values.newpassword.length < 8 || values.newpassword.length > 40) {
         createAlert('Please keep your new password between 8 and 40 characters.', 'error');
         return;
-    } else if (values.confirm.normalize() != values.password.normalize()) {
+    } else if (values.confirm.normalize() != values.newpassword.normalize()) {
         createAlert('Confirm password is not equal to password!', 'error');
         return;
     }
@@ -85,8 +85,6 @@ const App = () => {
         newpassword: '',
         confirm: '',
     });
-
-    const state = { result: null };
 
     const toggleChangeButtonState = () => {
         fetchChangePasswordAPI(values);
@@ -127,7 +125,7 @@ const App = () => {
                         <Grid container spacing={1} alignItems="flex-end">
                             <Grid item>
                                 <Typography variant='h6'>
-                                    New Password:
+                                    New Password (8-40 chars):
                                 </Typography>
                             </Grid>
                             <Grid item>
