@@ -66,8 +66,11 @@ const aggregate_calendar = (props) => {
         }
     }
 
+    calendar = calendar.slice(props.timeRange[0]*4, props.timeRange[1]*4)
+    console.log(props.timeRange)
+
     return (
-        <CalendarTemplate>
+        <CalendarTemplate startTime={props.timeRange[0]}>
             {calendar.map((rows, i) => (
                 <React.Fragment key={i}>
                     {rows.map((cell, j) => {
