@@ -12,7 +12,7 @@ import {checkCookie} from "../services/cookie-manager";
 import Grid from "@material-ui/core/Grid";
 import Aggregate_calendar from "../components/aggregate-calendar";
 import {fetchAggregate, getEvents} from "../services/event-manager";
-import deleteId from "../services/delete-manager";
+import useDeleteId from "../services/delete-manager";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -67,9 +67,10 @@ const App = () =>  {
     const [calendars, setCalendars] = useState([])
 
     const [eventTitle, setEventTitle] = useState(null)
+    const [eventTimeRange, setTimeRange] = useState([8, 5])
 
     //For deleting an event
-    deleteId(idToDelete, fetchAPI, setIdToDelete);
+    useDeleteId(idToDelete, fetchAPI, setIdToDelete);
 
     const handleAdd = () => {
         window.location.assign('/create-event')
@@ -101,7 +102,7 @@ const App = () =>  {
     }
 
     useEffect(() => {
-        fetchAggregate(id, setEventTitle, setCalendars);
+        fetchAggregate(id, setEventTitle, setCalendars, setTimeRange);
     }, [id])
 
 
@@ -138,7 +139,7 @@ const App = () =>  {
                         </div>
                     </Grid>
                     <Grid item xs={6}>
-                        <Aggregate_calendar agg={calendars}> </Aggregate_calendar>
+                        <Aggregate_calendar agg={calendars} timeRange={eventTimeRange} />
                         {id > 0?
                             <Button style={{'margin' : '30px 0 0 50px'}} variant='contained' color='primary' onClick={navToViewPage(id)}>Go to Event</Button>
                             :

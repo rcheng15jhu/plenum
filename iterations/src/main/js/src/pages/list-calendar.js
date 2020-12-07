@@ -11,7 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import ViewCalendar from "../components/view-calendar";
 import {checkCookie} from "../services/cookie-manager";
 import {getCalendars} from "../services/calendar-manager";
-import deleteId from "../services/delete-manager";
+import useDeleteId from "../services/delete-manager";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -71,7 +71,7 @@ const App = () => {
     const [viewId, setViewId] = useState(getInitId)
 
     //For deleting a calendar
-    deleteId(idToDelete, fetchAPI, setIdToDelete);
+    useDeleteId(idToDelete, fetchAPI, setIdToDelete);
 
     //obtain the id of the calendar the user clicks on
     const viewListClicked = (id) => () => {

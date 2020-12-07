@@ -82,6 +82,7 @@ public class Sql2oUserDao implements UserDao{
                     .executeAndFetch(User.class).get(0);
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -94,6 +95,7 @@ public class Sql2oUserDao implements UserDao{
                     .executeAndFetch(User.class).get(0);
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -108,6 +110,7 @@ public class Sql2oUserDao implements UserDao{
             return true;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -126,11 +129,11 @@ public class Sql2oUserDao implements UserDao{
                         .executeUpdate();
                 return true;
             }
-
             else
                 return false;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -145,6 +148,7 @@ public class Sql2oUserDao implements UserDao{
             return true;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -159,6 +163,7 @@ public class Sql2oUserDao implements UserDao{
             return true;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -173,6 +178,7 @@ public class Sql2oUserDao implements UserDao{
             return true;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }
@@ -187,6 +193,7 @@ public class Sql2oUserDao implements UserDao{
             return true;
         }
         catch (Sql2oException ex) {
+            ex.printStackTrace();
             throw new DaoException();
         }
     }

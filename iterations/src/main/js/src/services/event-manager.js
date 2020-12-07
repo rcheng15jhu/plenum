@@ -37,7 +37,7 @@ export function uploadEvent() {
     }
 }
 
-export function fetchAggregate(id, setEventTitle, setCalendars) {
+export function fetchAggregate(id, setEventTitle, setCalendars, setTimeRange) {
     fetch('/api/aggregate?id=' + id, {
             method: 'GET',
             mode: 'cors'
@@ -47,6 +47,7 @@ export function fetchAggregate(id, setEventTitle, setCalendars) {
     }).then(data => {
         setEventTitle(data.eventTitle)
         setCalendars(data.calendars)
+        setTimeRange([data.startTime, data.endTime])
     })
 }
 

@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 
-export default function deleteId(idToDelete, fetchAPI, setIdToDelete){
+export default function useDeleteId(idToDelete, fetchAPI, setIdToDelete){
     useEffect(() => {
         if(idToDelete > 0) {
             fetchAPI(idToDelete)
