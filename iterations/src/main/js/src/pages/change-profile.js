@@ -47,52 +47,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function fetchAddUserAPI(values) {
-    if (values.username.normalize() === '' || values.password.normalize() === '') {
-        createAlert('Username and password cannot be blank.', 'error');
-        return;
-    } else if (values.username.length < 8 || values.username.length > 40 || values.password.length < 8 || values.password.length > 40) {
-        createAlert('Please keep your username and password between 8 and 40 characters.', 'error');
-        return;
-    } else if (values.confirm.normalize() != values.password.normalize()) {
-        createAlert('Confirm password is not equal to password!', 'error');
-        return;
-    }
-
-   fetch('/api/adduser?username=' + values.username.normalize() + '&password=' + values.password.normalize(), {
+function fetchChangeProfileAPI(values) {
+    fetch('/api/editprofile?email=' + values.email.normalize() + '&affil=' + values.affil.normalize()
+            + '&title=' + values.title.normalize() + '&description=' + values.description.normalize(),
+        {
            method: 'POST',
            mode: 'cors'
-       }
-   ).then(data => {
-       console.log(data);
-       if (data.status === 401 || data.status === 500) {
-           createAlert('Username taken!', 'error');
-       } else if (data.status === 200) {
-           createAlert(`Successfully signed up!`, 'success');
-           document.cookie = "username=" + values.username.normalize() + "; path=/;";
-           window.location.assign('/list-calendar')
-       }
-   })
-}
-
-function fetchAPI(values) {
-    if (values.username.normalize() === '' || values.password.normalize() === '') {
-        createAlert('Username and password cannot be blank!', 'error');
-        return;
-    }
-
-    fetch('/api/login?username=' + values.username.normalize() + '&password=' + values.password.normalize(), {
-            method: 'POST',
-            mode: 'cors'
         }
-    ).then(data => {
+   ).then(data => {
         console.log(data);
-        if (data.status === 401) {
-            createAlert('Incorrect login information!', 'error');
-        } else if (data.status === 200) {
-            createAlert(`Successfully logged in!`, 'success');
-            document.cookie = "username=" + values.username.normalize() + "; path=/;";
-            window.location.assign('/list-calendar')
+        if (data.status === 200) {
+           createAlert(`Successfully changed profile!`, 'success');
+           window.location.assign('/profile')
         }
     })
 }
@@ -104,30 +70,17 @@ const App = () => {
 
     const classes = useStyles();
     const [values, setValues] = React.useState({
-        username: '',
-        password: '',
-        confirm: '',
+        email: '',
+        affil: '',
+        title: '',
+        description: '',
     });
 
     const state = { result: null };
 
-    const toggleLoginButtonState = () => {
-        fetchAPI(values);
+    const toggleChangeButtonState = () => {
+        fetchChangeProfileAPI(values);
     };
-
-    const toggleSignupButtonState = () => {
-        fetchAddUserAPI(values);
-    };
-
-    const options = [
-        {
-            value: 'Login',
-            clicked: toggleLoginButtonState
-        },
-        {
-            value: 'Sign-up',
-            clicked: toggleSignupButtonState
-        }];
 
     const handleChange = (event) => {
         setValues({
@@ -140,32 +93,23 @@ const App = () => {
 
         <ThemeProvider theme={theme}>
             <Typography variant="h6" className={classes.home} id='content'>
-                <Button variant='contained' size='large' href="/" color="primary">
+                <Button variant='contained' size='large' href="/profile" color="primary">
                     <HomeRoundedIcon style={{'marginRight': '5px'}} />
-                    Plenum
+                    Back to Profile
                 </Button>
             </Typography>
             <Container className={classes.root}>
-                {options.map(opt => (
-                <div key={opt.value} className={classes.contentDiv}>
-                    {opt.value === 'Sign-up' ?
-                        <Typography variant='h5' color='secondary' className={classes.text}>
-                            Don't have an account?
-                        </Typography>
-                        :
-                        <div></div>}
-                    <Typography component="h4" variant="h4" className={classes.title}>
-                        {opt.value}
-                    </Typography>
+                <div className={classes.contentDiv}>
+                    <Typography component="h4" variant="h4" className={classes.title}>Change Password</Typography>
                     <div className={classes.margin}>
                         <Grid container spacing={1} alignItems="flex-end">
                             <Grid item>
                                 <Typography variant='h6'>
-                                    Username:
+                                    Email:
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='username' onChange={handleChange} required label="required" />
+                                <TextField name='email' type = 'text' onChange={handleChange} required label="required" />
                             </Grid>
                         </Grid>
                     </div>
@@ -173,11 +117,35 @@ const App = () => {
                         <Grid container spacing={1} alignItems="flex-end">
                             <Grid item>
                                 <Typography variant='h6'>
-                                    Password:
+                                    Affiliation:
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='password' type = 'password' onChange={handleChange} required label="required" />
+                                <TextField name='affil' type = 'text' onChange={handleChange} required label="required" />
+                            </Grid>
+                        </Grid>
+                    </div>
+                    <div className={classes.margin}>
+                        <Grid container spacing={1} alignItems="flex-end">
+                            <Grid item>
+                                <Typography variant='h6'>
+                                    Title:
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <TextField name='title' type = 'text' onChange={handleChange} required label="required" />
+                            </Grid>
+                        </Grid>
+                    </div>
+                    <div className={classes.margin}>
+                        <Grid container spacing={1} alignItems="flex-end">
+                            <Grid item>
+                                <Typography variant='h6'>
+                                    Description:
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <TextField name='description' type = 'text' onChange={handleChange} required label="required" />
                             </Grid>
                         </Grid>
                     </div>
@@ -187,14 +155,13 @@ const App = () => {
                             variant="contained"
                             color="secondary"
                             className={classes.button}
-                            onClick={opt.clicked}
+                            onClick={toggleChangeButtonState}
                             id={`${classes.button}button` }
                         >
-                            {opt.value}
+                            Change Profile
                         </Button>
                     </div>
                 </div>
-            ))}
             </Container>
         </ThemeProvider>
     )
