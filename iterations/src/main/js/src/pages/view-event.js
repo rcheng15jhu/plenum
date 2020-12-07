@@ -228,7 +228,7 @@ const App = () => {
 
 
                     {selectedCal ?
-                        <Calendar editable={0} onAvailChange={null} file={file}/>
+                        <Calendar editable={0} onAvailChange={null} file={file} timeRange={eventTimeRange}/>
                         :
                         <p>Choose a calendar to view.</p>
                     }

@@ -29,8 +29,11 @@ const calendar = (props) => {
         }
     }
 
+    const timeRange = props.timeRange === [0, 23] ? 0 : props.timeRange
+    calendar = calendar.slice(props.timeRange[0]*4, props.timeRange[1]*4)
+
     return (
-        <CalendarTemplate>
+        <CalendarTemplate startTime={timeRange[0]}>
         {calendar.map((keyList, i) => (
             <React.Fragment key={i}>
             {(() => {
