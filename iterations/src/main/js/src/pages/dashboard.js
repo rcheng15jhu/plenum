@@ -12,29 +12,23 @@ import {getCalendars} from "../services/calendar-manager";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import {getEvents} from "../services/event-manager";
+import {teal, indigo} from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
-    center: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    },
     contentDiv: {
         width: '90%',
         margin: '10px auto',
         padding: '50px 50px',
     },
-    innerContent: {
-        width: '32%',
-    },
     button: {
         marginTop: '30px',
     },
-    text: {
+    title: {
         marginBottom: '20px',
+        borderBottom: `5px solid ${indigo[600]}`,
     },
-    home: {
-        position: 'fixed',
+    subtitle: {
+        color: `${indigo[200]}`
     }
 }));
 
@@ -48,22 +42,31 @@ const App = () => {
 
     const [calendars, setCalendars] = useState([]);
     const [events, setEvents] = useState([]);
+    const [publicEvents, setPublicEvents] = useState([]);
 
     getCalendars(setCalendars)
 
     getEvents(setEvents)
 
+    getEvents(setPublicEvents, '?all=true')
+
     let calendarNames = calendars.map(calendar => {return {id: calendar.id, content: calendar.title}})
     let eventNames = events.map(event => {return {id: event.id, content: event.title}})
+    let publicEventNames = publicEvents.map(event => {return {id: event.id, content: event.title}})
 
     return (
         <ThemeProvider theme={theme}>
             <Header />
             <Container className={classes.root}>
                 <div className={classes.contentDiv}>
-                    <Typography variant='h3' color="primary">
-                        Hi, {username}!
-                    </Typography>
+                    <div className={classes.title}>
+                        <Typography variant='h3' color='secondary'>
+                            Hi, {username}!
+                        </Typography>
+                        <Typography variant='subtitle1' className={classes.subtitle}>
+                            Here is an overview of your items
+                        </Typography>
+                    </div>
                     <Grid container spacing={3}>
                         <Grid item xs={6}>
                             <Typography variant='h5'>
@@ -85,6 +88,20 @@ const App = () => {
                             </Typography>
                             <List>
                                 {eventNames.map(el => (
+                                    <ListItem>
+                                        <Typography variant='h6'>
+                                            {el.content}
+                                        </Typography>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography variant='h5'>
+                                Public Events
+                            </Typography>
+                            <List>
+                                {publicEventNames.map(el => (
                                     <ListItem>
                                         <Typography variant='h6'>
                                             {el.content}
