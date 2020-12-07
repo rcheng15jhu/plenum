@@ -9,6 +9,8 @@ import Typography from "@material-ui/core/Typography";
 import newTheme from "../components/baseline-theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import {checkCookie} from "../services/cookie-manager";
+import NativeSelect from "@material-ui/core/NativeSelect";
+import InputLabel from "@material-ui/core/InputLabel";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,7 +63,22 @@ const App = () => {
 
     const classes = useStyles();
 
-    const [startTime, startTimeString, setStart] = useTime(8)
+    const timeChoices = (() => {
+        let timeChoices = ['midnight']
+        for (let i = 1; i < 12; i++) {
+            timeChoices.push(i +' AM')
+        }
+        timeChoices.push('noon')
+        for (let i = 1; i < 12; i++) {
+            timeChoices.push(i +' PM')
+        }
+        return timeChoices
+    })()
+
+    const timeComponents = timeChoices.map((time, i) => (
+        <option value={i} key={time}>{time}</option>
+    ))
+
 
     return (
         <Container style={{'paddingBottom': '50px'}}>
@@ -73,11 +90,24 @@ const App = () => {
                     </Typography>
                     <form className={classes.root} noValidate autoComplete="off" className={classes.center}>
                         <TextField label="Event Title" variant="outlined" id="title"/>
-                        <TextField type="time" label="No Earlier Than" variant="outlined" id="startTime" value={startTimeString} onChange={setStart} />
-                        <TextField type="time" label="No Later Than" variant="outlined" id="endTime" defaultValue="17:00" step="3600" />
+                        <InputLabel htmlFor="uncontrolled-native">No Earlier Than</InputLabel>
+                        <NativeSelect
+                            inputProps={{name: "startTime", id: 'startTime'}}
+                            variant="outlined" defaultValue="8" id="startTime"
+                        >
+                            {timeComponents}
+                        </NativeSelect>
+                        <InputLabel htmlFor="uncontrolled-native">No Later Than</InputLabel>
+                        <NativeSelect
+                            inputProps={{name: "endTime", id: 'endTime'}}
+                            variant="outlined" defaultValue="17" id="endTime"
+                        >
+                            {timeComponents}
+                        </NativeSelect>
                     </form>
                     <ol>
                         <li>Give a title to your event above.</li>
+                        <li>Choose a time range that your event will most likely be between.</li>
                         <li>
                             When you are done, click on "Publish Event!" button at the bottom of the page.
                         </li>
