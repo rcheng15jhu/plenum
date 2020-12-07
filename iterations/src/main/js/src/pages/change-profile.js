@@ -98,7 +98,7 @@ const App = () => {
         ).then(res => {
             return res.json()
         }).then(data => {
-            setValues([...data])
+            setValues([data])
         })
     }
 
@@ -137,7 +137,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='email' onChange={handleChange} />
+                                <TextField name='email' value={values.email} onChange={handleChange} />
                             </Grid>
                         </Grid>
                     </div>
@@ -149,7 +149,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='affil' onChange={handleChange} />
+                                <TextField name='affil' value={values.affil} onChange={handleChange} />
                             </Grid>
                         </Grid>
                     </div>
@@ -161,7 +161,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='title' onChange={handleChange} />
+                                <TextField name='title' value={values.title} onChange={handleChange} />
                             </Grid>
                         </Grid>
                     </div>
@@ -173,7 +173,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='description' onChange={handleChange} />
+                                <TextField name='description' value={values.description} size='medium' onChange={handleChange} />
                             </Grid>
                         </Grid>
                     </div>
