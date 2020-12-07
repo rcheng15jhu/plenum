@@ -49,6 +49,7 @@ const App = () => {
         description: '',
     });
     
+    //Initialize data
     React.useEffect(() => {
         fetch("/api/getprofile", {
                 method: 'POST',

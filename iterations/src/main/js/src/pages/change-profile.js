@@ -103,7 +103,8 @@ const App = () => {
         });
     }
 
-    React.useEffect(() => {
+    //Initialize data
+    /*React.useEffect(() => {
         fetch("/api/getprofile", {
                 method: 'POST',
                 mode: 'cors'
@@ -113,7 +114,7 @@ const App = () => {
         }).then(data => {
             setValues([data])
         })
-    },[])
+    },[])*/
 
     return (
         <ThemeProvider theme={theme}>
