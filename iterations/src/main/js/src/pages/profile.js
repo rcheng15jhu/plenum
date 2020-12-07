@@ -38,13 +38,22 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const [values, setValues] = React.useState({
+    email: '',
+    affil: '',
+    title: '',
+    description: '',
+});
+
 function fetchProfile() {
     fetch("/api/getprofile", {
             method: 'POST',
             mode: 'cors'
         }
-    ).then(data => {
-        createAlert(data, 'error');
+    ).then(res => {
+        return res.json()
+    }).then(data => {
+        setValues([...data])
     })
 }
 
@@ -57,12 +66,6 @@ const App = () => {
     const classes = useStyles();
 
     const username = cookieManager('username');
-    const [values, setValues] = React.useState({
-        email: '',
-        affil: '',
-        title: '',
-        description: '',
-    });
 
     return (
         <ThemeProvider theme={theme}>
