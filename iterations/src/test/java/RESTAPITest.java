@@ -45,28 +45,16 @@ public class RESTAPITest {
     @Before
     public void beforeEachTest() throws SQLException {
         //Create new tables for each test
-        String sql = "DROP TABLE IF EXISTS Authors";
+        String sql = "DROP TABLE IF EXISTS User";
         st.execute(sql);
-        String sq2 = "DROP TABLE IF EXISTS Books";
+        String sq2 = "DROP TABLE IF EXISTS Events";
         st.execute(sq2);
-
-        String sql3 = "CREATE TABLE IF NOT EXISTS Authors (id INTEGER PRIMARY KEY, name VARCHAR(100) NOT NULL UNIQUE," +
-                " numOfBooks INTEGER, nationality VARCHAR(30));";
-        st.execute(sql3);
-
-        String sq4 = "CREATE TABLE IF NOT EXISTS Books (" +
-                " id        INTEGER PRIMARY KEY," +
-                " title     VARCHAR(100) NOT NULL," +
-                " isbn      VARCHAR(100) NOT NULL UNIQUE," +
-                " publisher VARCHAR(100)," +
-                " year      INTEGER," +
-                " authorId  INTEGER NOT NULL," +
-                " FOREIGN KEY(authorId)" +
-                " REFERENCES Authors (id)" +
-                "   ON UPDATE CASCADE" +
-                "   ON DELETE CASCADE" +
-                ");";
+        String sq3 = "DROP TABLE IF EXISTS Availabilities";
+        st.execute(sq3);
+        String sq4 = "DROP TABLE IF EXISTS Calendars";
         st.execute(sq4);
+
+        
     }
 
     @Test
