@@ -76,8 +76,6 @@ const App = () => {
         description: '',
     });
 
-    const state = { result: null };
-
     const toggleChangeButtonState = () => {
         fetchChangeProfileAPI(values);
     };
@@ -100,7 +98,7 @@ const App = () => {
             </Typography>
             <Container className={classes.root}>
                 <div className={classes.contentDiv}>
-                    <Typography component="h4" variant="h4" className={classes.title}>Change Password</Typography>
+                    <Typography component="h4" variant="h4" className={classes.title}>Change Profile</Typography>
                     <div className={classes.margin}>
                         <Grid container spacing={1} alignItems="flex-end">
                             <Grid item>
@@ -109,7 +107,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='email' type = 'text' onChange={handleChange} required label="required" />
+                                <TextField name='email' onChange={handleChange} />
                             </Grid>
                         </Grid>
                     </div>
@@ -121,7 +119,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='affil' type = 'text' onChange={handleChange} required label="required" />
+                                <TextField name='affil' onChange={handleChange} />
                             </Grid>
                         </Grid>
                     </div>
@@ -133,7 +131,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='title' type = 'text' onChange={handleChange} required label="required" />
+                                <TextField name='title' onChange={handleChange} />
                             </Grid>
                         </Grid>
                     </div>
@@ -145,7 +143,7 @@ const App = () => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField name='description' type = 'text' onChange={handleChange} required label="required" />
+                                <TextField name='description' onChange={handleChange} />
                             </Grid>
                         </Grid>
                     </div>

@@ -86,8 +86,6 @@ const App = () => {
         confirm: '',
     });
 
-    const state = { result: null };
-
     const toggleChangeButtonState = () => {
         fetchChangePasswordAPI(values);
     };
