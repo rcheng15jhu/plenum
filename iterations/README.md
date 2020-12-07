@@ -41,3 +41,5 @@ Small guide of each page:
 ![Calendar_Creation](../docs/Calendar_Creation.PNG "Calendar Creation")
 - You can log out or view your profile page by clicking on the top right corner.
 ![TopRight_PopUp](../docs/TopRight_PopUp.PNG "TopRight PopUp")
+- You can also see our dashboard by clicking the home button at the top left!
+![dashboard](../docs/dashboard.PNG "dashboard")
