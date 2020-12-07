@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import createAlert from "./create-alert";
 
 function download(content) {
@@ -82,4 +82,20 @@ export function populateCalendar(calendar){
         calendar[i] = new Array(7)
     }
     return calendar;
+}
+
+//Get all calendars from backend
+export function getCalendars(setCalendars){
+    useEffect(() => {
+        fetch('/api/calendars', {
+                method: 'GET',
+                mode: 'cors'
+            }
+        ).then(res => {
+            return res.json()
+        }).then(data => {
+            console.log(data)
+            setCalendars([...data])
+        })
+    }, [])
 }

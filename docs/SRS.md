@@ -163,7 +163,7 @@ and user stories were combined. https://piazza.com/class/kd13q8ukge2e1?cid=71_f1
 
 ![Login](Login.PNG "Login")
 ![Calendar_View](Calendar_View.PNG "Calendar View")
-![Calednar_Creation](Calendar_Creation.PNG "Calednar Creation")
+![Calednar_Creation](Calendar_Creation.PNG "Calendar Creation")
 ![Event_Creation](Event_Creation.PNG "Event Creation")
 ![Event_View](Event_View.PNG "Event View")
 ![Profile](Profile.PNG "Profile")

@@ -59,6 +59,8 @@ function fetchChangeProfileAPI(values) {
         if (data.status === 201) {
            createAlert(`Successfully changed profile!`, 'success');
            window.location.assign('/profile')
+        } else {
+            createAlert(`Was not able to change profile.`, 'error');
         }
     })
 }

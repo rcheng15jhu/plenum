@@ -11,7 +11,8 @@ import Button from "@material-ui/core/Button";
 import {checkCookie} from "../services/cookie-manager";
 import Grid from "@material-ui/core/Grid";
 import Aggregate_calendar from "../components/aggregate-calendar";
-import {fetchAggregate} from "../services/event-manager";
+import {fetchAggregate, getEvents} from "../services/event-manager";
+import useDeleteId from "../services/delete-manager";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -45,18 +46,7 @@ const App = () =>  {
     const classes = useStyles();
     const [events, setEvents] = useState([])
 
-    useEffect(() => {
-        fetch('/api/events', {
-                method: 'GET',
-                mode: 'cors'
-            }
-        ).then(res => {
-            return res.json()
-        }).then(data => {
-            console.log(data)
-            setEvents([...data])
-        })
-    }, [])
+    getEvents(setEvents)
 
     let getInitId = () => {
         let paramId = parseInt(new URLSearchParams(document.location.search.substring(1)).get("id"));
@@ -77,15 +67,10 @@ const App = () =>  {
     const [calendars, setCalendars] = useState([])
 
     const [eventTitle, setEventTitle] = useState(null)
-
     const [eventTimeRange, setTimeRange] = useState([8, 5])
 
-    useEffect(() => {
-        if(idToDelete > 0) {
-            fetchAPI(idToDelete)
-            setIdToDelete(-1)
-        }
-    }, [idToDelete])
+    //For deleting an event
+    useDeleteId(idToDelete, fetchAPI, setIdToDelete);
 
     const handleAdd = () => {
         window.location.assign('/create-event')

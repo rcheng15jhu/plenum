@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import ReactDOM from 'react-dom'
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
@@ -59,7 +59,7 @@ const App = () => {
                         <Grid className={classes.innerContent} container direction="column" justify="flex-start" alignItems="center">
                             <img src = {profileImage}/>
                             <Button
-                                href='/'
+                                href='#top'
                                 variant="contained"
                                 color="secondary"
                                 className={classes.button}

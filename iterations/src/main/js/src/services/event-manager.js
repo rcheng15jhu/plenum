@@ -1,4 +1,5 @@
 import createAlert from "./create-alert";
+import {useEffect} from "react";
 
 //This function uploads events according to the title.
 function upload(title, startTime, endTime) {
@@ -48,4 +49,20 @@ export function fetchAggregate(id, setEventTitle, setCalendars, setTimeRange) {
         setCalendars(data.calendars)
         setTimeRange([data.startTime, data.endTime])
     })
+}
+
+export function getEvents(setEvents, param=''){
+    const request = `/api/events${param}`
+    useEffect(() => {
+        fetch(request, {
+                method: 'GET',
+                mode: 'cors'
+            }
+        ).then(res => {
+            return res.json()
+        }).then(data => {
+            console.log(data)
+            setEvents([...data])
+        })
+    }, [])
 }
