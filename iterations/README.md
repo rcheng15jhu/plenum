@@ -38,5 +38,6 @@ Small guide of each page:
 - List-calendar, List-events: you can press the + button to add new calendars or events. On the right, you can see your selected calendar or event.
 ![Calendar_View](../docs/Calendar_View.PNG "Calendar View")
 - Each creation page for the calendar and event creation has instructions written on the page. When creating an event, you can select a calendar to go along with the event.
-![Calednar_Creation](Calendar_Creation.PNG "Calendar Creation")
+![Calendar_Creation](Calendar_Creation.PNG "Calendar Creation")
 - You can log out or view your profile page by clicking on the top right corner.
+![TopRight PopUp](TopRight PopUp.PNG "TopRight PopUp")
