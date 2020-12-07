@@ -339,7 +339,7 @@ public class Server {
                 res.redirect("/");
             String username = req.cookie("username");
             String password = req.queryParams("password");
-            String newpassword = req.queryParams("new password");
+            String newpassword = req.queryParams("newpassword");
             boolean pcheck = new Sql2oUserDao(getSql2o()).passwordcheck(username, password, newpassword);
             if (pcheck) {
                 res.status(200);

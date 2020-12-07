@@ -54,7 +54,7 @@ function fetchChangePasswordAPI(values) {
     } else if (values.newpassword.length < 8 || values.newpassword.length > 40) {
         createAlert('Please keep your new password between 8 and 40 characters.', 'error');
         return;
-    } else if (values.confirm.normalize() != values.password.normalize()) {
+    } else if (values.confirm.normalize() != values.newpassword.normalize()) {
         createAlert('Confirm password is not equal to password!', 'error');
         return;
     }
