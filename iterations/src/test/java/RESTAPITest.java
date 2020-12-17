@@ -40,7 +40,7 @@ public class RESTAPITest {
 //            con.createQuery(sqlDropConnections).executeUpdate();
 //            con.createQuery(sqlDropAvailabilities).executeUpdate();
 //        }
-        //Server.main(null);
+        Server.main(null);
 
         //System.out.println("oh no");
 
