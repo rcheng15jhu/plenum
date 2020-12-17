@@ -119,7 +119,7 @@ const App = () => {
                                     </ListItem>
                                 ))}
                             </List>
-                            <Button variant='contained' size='large' href="/list-pubic-events" color="secondary">
+                            <Button variant='contained' size='large' href="/list-public-events" color="secondary">
                                 <VisibilityIcon style={{'marginRight': '5px'}} />
                                 View Public Events
                             </Button>
