@@ -207,6 +207,29 @@ const App = () => {
         })
     }
 
+    function removeConnection() {
+        let a = ""
+        for (let i = 0; i < calOptions.length; i++) {
+            if (calOptions[i].title === addedCal.calendarTitle) {
+                a = calOptions[i].id
+            }
+        }
+        console.log(a)
+        console.log(id)
+        fetch("/api/delconnection?eventId=" + id +
+        "&calendarId=" + a,
+        {
+            method: 'POST',
+        }).then(data => {
+            if (data.status !== 204) {
+                createAlert('An error occurred while removing calendar!', 'error');
+            } else {
+                createAlert("Calendar removed successfully!", 'success');
+                window.location.assign('/view-event?id=' + id);
+            }
+        })
+    }
+
     const handleClickList = () => {
         setOpen(!open);
     };
@@ -214,6 +237,10 @@ const App = () => {
     const handleSwitchToggle = () => {
         let temp = !ignoreToggle
         setIgnoreToggle(temp)
+    }
+
+    const handleClickRemove = () => {
+        removeConnection()
     }
     
     function renderDropdown() {
@@ -274,6 +301,14 @@ const App = () => {
                                 control={<Switch onChange={handleSwitchToggle}/>}
                                 label="Hide own availability"                                
                             />  
+                        :
+                            null
+                        }
+                        {
+                            Object.keys(addedCal).length !== 0 ?
+                            <Button variant="contained" color="primary" onClick={handleClickRemove}>
+                                Remove availability from event
+                            </Button>
                         :
                             null
                         }
