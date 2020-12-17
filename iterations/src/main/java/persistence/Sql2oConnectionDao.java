@@ -72,7 +72,7 @@ public class Sql2oConnectionDao implements ConnectionDao {
     @Override
     public boolean delete(Connection conn) throws DaoException{
         try (org.sql2o.Connection con = sql2o.open()) {
-            String query = "DELETE FROM Connections WHERE id = :id";
+            String query = "DELETE FROM Connections WHERE eventId = :eventId AND calendarId = :calendarId";
             con.createQuery(query)
                     .bind(conn)
                     .executeUpdate();

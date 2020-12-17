@@ -321,7 +321,7 @@ public class Server {
             return new Gson().toJson(conn.toString());
         });
 
-        //delonnection route; inserts a new event
+        //delonnection route; deletes a connection
         post("/api/delconnection", (req, res) -> {
             Sql2o sql2o = getSql2o();
             String username = req.cookie("username");
