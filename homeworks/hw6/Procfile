@@ -1,1 +1,0 @@
-web: pwd; ls; java -Dserver.port=$PORT -jar MyBooksApp-1.0-SNAPSHOT.jar

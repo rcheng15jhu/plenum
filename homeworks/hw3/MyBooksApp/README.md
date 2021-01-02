@@ -1,5 +1,0 @@
-# MyBooksApp
-
-The main functionality of this package is the persistent storage of authors and books through the use of SQL databases in conjunction with client-server architecture supported by RESTful API endpoints. In addition to the main functionality as mentioned before, this package also includes various tests for the implementations devised.
-
-The main assumptions made in the implementation of this package are that the SQL server assigns IDs to new entries in an empty table starting from id = 1, and incrementing by one, and that the server automatically sends a 500 html status code if there is an exception or error on the server side when executing a route (other status codes are manually set in Server.java). Additionally, the main changes in code from the prior homework/iteration of this package are to be found in src/main/java/Server.java and src/test/java/RESTAPITest.java.

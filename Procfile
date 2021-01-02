@@ -1,1 +1,1 @@
-web: java -jar build/libs/MyBooksApp-1.0-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -jar iterations-1.0-SNAPSHOT.jar

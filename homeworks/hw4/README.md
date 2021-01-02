@@ -1,5 +1,0 @@
-# MyBooksApp
-
-The main functionality of this package is the persistent storage of authors and books through the use of SQL databases in conjunction with client-server architecture supported by RESTful API endpoints. The state of, and functionality for, storage of the aforementioned authors and books is visually represented and assisted by a graphical HTML frontend, which uses cookies to maintain minor local storage of user information and preferences.
-
-In addition to the previous assumptions made, we assume that input is nonmalformed, with malformed input returning a 500 (internal server error) status code handled by SparkJava (as an example, inputting a non-numerical string into the year field for addbook returns a 500 status code.) Additionally, the main changes in code from the prior homework/iteration of this package are to be found in java/Server.java (addition of routes, username and color handling), java/persistence/Sql2oAuthorDao.java (addition of a helper function), and resources/public/templates/books.vm and resources/public/templates/addbooks.vm (created to support functionality of book management route.)
