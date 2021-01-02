@@ -38,10 +38,10 @@ The available routes in main are the root route which displays a simple message,
 
 Small guide of each page:
 - List-calendar, List-events: you can press the + button to add new calendars or events. On the right, you can see your selected calendar or event.
-![Calendar_View](../docs/Calendar_View.PNG "Calendar View")
+![Calendar_View](docs/Calendar_View.PNG "Calendar View")
 - Each creation page for the calendar and event creation has instructions written on the page. When creating an event, you can select a calendar to go along with the event.
-![Calendar_Creation](../docs/Calendar_Creation.PNG "Calendar Creation")
+![Calendar_Creation](docs/Calendar_Creation.PNG "Calendar Creation")
 - You can log out or view your profile page by clicking on the top right corner.
-![TopRight_PopUp](../docs/TopRight_PopUp.PNG "TopRight PopUp")
+![TopRight_PopUp](docs/TopRight_PopUp.PNG "TopRight PopUp")
 - You can also see our dashboard by clicking the home button at the top left!
-![dashboard](../docs/dashboard.PNG "dashboard")
+![dashboard](docs/dashboard.PNG "dashboard")
