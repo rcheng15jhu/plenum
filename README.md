@@ -1,5 +1,7 @@
 # Plenum
 
+**NOTE: This is a mirror of the repository used to develop Plenum, a project for CS421 at Johns Hopkins University. It constituted a colloboration between the following individuals: [exu6jh](https://github.com/exu6jh), [leezionf](https://github.com/leezionf), [rcheng15jhu](https://github.com/rcheng15jhu), [melodyhplee](https://github.com/melodyhplee), and myself**
+
 This package represents the fifth iteration of Plenum, a simple peer-scheduling application. In order to use this
 iteration of Plenum, the current deployed build of the project can be found in Heroku at
 http://damp-spire-88649.herokuapp.com/. Alternatively, to access the code in a dev environment, the main function of
